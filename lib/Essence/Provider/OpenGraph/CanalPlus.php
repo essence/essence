@@ -2,7 +2,7 @@
 
 /**
  *	@author Félix Girault <felix.girault@gmail.com>
- *	@license MIT
+ *	@license FreeBSD License (http://opensource.org/licenses/BSD-2-Clause)
  */
 
 namespace Essence\Provider\OpenGraph;
@@ -10,13 +10,15 @@ namespace Essence\Provider\OpenGraph;
 
 
 /**
+ *	Canal+ Provider (http://www.canalplus.fr).
  *
+ *	@package Essence.Provider.OpenGraph
  */
 
 class CanalPlus extends \Essence\Provider\OpenGraph {
 
 	/**
-	 *
+	 *	Constructor.
 	 */
 
 	public function __construct( ) {

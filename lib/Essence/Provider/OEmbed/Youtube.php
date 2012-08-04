@@ -2,7 +2,7 @@
 
 /**
  *	@author Félix Girault <felix.girault@gmail.com>
- *	@license MIT
+ *	@license FreeBSD License (http://opensource.org/licenses/BSD-2-Clause)
  */
 
 namespace Essence\Provider\OEmbed;
@@ -10,13 +10,15 @@ namespace Essence\Provider\OEmbed;
 
 
 /**
+ *	Youtube Provider (http://www.youtube.com).
  *
+ *	@package Essence.Provider.OEmbed
  */
 
 class Youtube extends \Essence\Provider\OEmbed {
 
 	/**
-	 *
+	 *	Constructor.
 	 */
 
 	public function __construct( ) {
@@ -30,14 +32,17 @@ class Youtube extends \Essence\Provider\OEmbed {
 
 
 	/**
-	 *	Refactors urls like these :
-	 *		- http://www.youtube.com/v/eatk8J8PwW4
-	 *		- http://www.youtube.com/watch?v=eatk8J8PwW4&noise=noise
-	 *		- http://wwW.youtube.com/embed/eatk8J8PwW4
-	 *		- http://youtu.be/eatk8J8PwW4
+	 *	Refactors URLs like these :
+	 *		- http://www.youtube.com/v/oHg5SJYRHA0
+	 *		- http://www.youtube.com/watch?v=oHg5SJYRHA0&noise=noise
+	 *		- http://wwW.youtube.com/embed/oHg5SJYRHA0
+	 *		- http://youtu.be/oHg5SJYRHA0
 	 *
 	 *	in such form :
-	 *		- http://www.youtube.com/watch?v=eatk8J8PwW4
+	 *		- http://www.youtube.com/watch?v=oHg5SJYRHA0
+	 *
+	 *	@param string $url URL to refactor.
+	 *	@return string Refactored URL.
 	 */
 
 	protected function _prepare( $url ) {

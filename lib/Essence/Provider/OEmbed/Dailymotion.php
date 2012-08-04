@@ -2,7 +2,7 @@
 
 /**
  *	@author Félix Girault <felix.girault@gmail.com>
- *	@license MIT
+ *	@license FreeBSD License (http://opensource.org/licenses/BSD-2-Clause)
  */
 
 namespace Essence\Provider\OEmbed;
@@ -10,13 +10,15 @@ namespace Essence\Provider\OEmbed;
 
 
 /**
+ *	Dailymotion Provider (http://www.dailymotion.com).
  *
+ *	@package Essence.Provider.OEmbed
  */
 
 class Dailymotion extends \Essence\Provider\OEmbed {
 
 	/**
-	 *
+	 *	Constructor.
 	 */
 
 	public function __construct( ) {
@@ -30,17 +32,32 @@ class Dailymotion extends \Essence\Provider\OEmbed {
 
 
 	/**
-	 *	
+	 *	Fetches embed information from the given URL.
+	 *
+	 *	@param string $url URL to fetch informations from.
+	 *	@return \Essence\Embed Embed informations.
 	 */
 
 	protected function _fetch( $url ) {
 
-		$data = parent::_fetch( $url );
+		$Embed = parent::_fetch( $url );
 
-		if ( is_array( $data ) && isset( $data['thumbnail_url'])) {
-			$data['thumbnail_url'] = str_replace( 'jpeg_preview_large', 'jpeg_preview_source', $data['thumbnail_url']);
+		// we're getting the larger possible thumbnail, instead of the default
+		// one given by dailymotion
+
+		if ( $Embed !== null ) {
+			if ( $Embed->has( 'thumbnailUrl' )) {
+				$Embed->set(
+					'thumbnailUrl',
+					str_replace(
+						'jpeg_preview_large',
+						'jpeg_preview_source',
+						$Embed->get( 'thumbnailUrl' )
+					)
+				);
+			}
 		}
 
-		return $data;
+		return $Embed;
 	}
 }

@@ -2,7 +2,7 @@
 
 /**
  *	@author Félix Girault <felix.girault@gmail.com>
- *	@license MIT
+ *	@license FreeBSD License (http://opensource.org/licenses/BSD-2-Clause)
  */
 
 namespace Essence;
@@ -11,167 +11,214 @@ namespace Essence;
 
 /**
  *	Stores informations about an embed response.
- *	This structure is useful to ensure that any response from any provider
- *	follows the same schema.
+ *	This class is useful to ensure that any response from any provider will
+ *	follow the same conventions.
  *
- *	@package Embed
+ *	@package Essence
  */
 
 class Embed {
 
 	/**
-	 *	Standard keys to identify embed data.
-	 *	They are gathered from OEmbed and the Open Graph protocol.
+	 *	A constant representing all properties.
+	 *
+	 *	@see Embed::get( )
+	 *	@var string
 	 */
 
-	public $_allowedKeys = array(
+	const all = 'all';
+
+
+
+	/**
+	 *	Embed data, indexed by property name. Providers must try to fill these 
+	 *	properties with appropriate data before adding their own, to
+	 *	ensure consistency accross the API.
+	 *
+	 *	These default properties are gathered from the OEmbed and OpenGraph
+	 *	protocols, and provide all the basic informations needed to embed a
+	 *	media.
+	 *
+	 *	@var array
+	 */
+
+	protected $_data = array(
 
 		// OEmbed type 
 		// OG type
-		'type',
+		'type' => '',
 
 		// OEmbed version
-		'version',	
+		'version' => '',	
 
 		// OEmbed title
 		// OG title
-		'title',		
+		'title' => '',		
 
 		// Sometimes provided in OEmbed (i.e. Vimeo)
 		// OG description
-		'description',		
+		'description' => '',		
 
 		// OEmbed author_name
-		'authorName',		
+		'authorName' => '',		
 
 		// OEmbed author_url
-		'authorUrl',		
+		'authorUrl' => '',		
 
 		// OEmbed provider_name 
 		// OG site_name
-		'providerName',	
+		'providerName' => '',	
 
 		// OEmbed provider_url
-		'providerUrl',		
+		'providerUrl' => '',		
 
 		// OEmbed cache_age
-		'cacheAge',		
+		'cacheAge' => '',		
 
 		// OEmbed thumbnail_url
 		// OG image
 		// OG image:url
-		'thumbnailUrl',	
+		'thumbnailUrl' => '',	
 
 		// OEmbed thumbnail_width
-		'thumbnailWidth',	
+		'thumbnailWidth' => '',	
 
 		// OEmbed thumbnail_height
-		'thumbnailHeight',	
+		'thumbnailHeight' => '',	
 
 		// OEmbed html
-		'html',	
+		'html' => '',	
 
 		// OEmbed width 
 		// OG image:width 
 		// OG video:width
-		'width',			
+		'width' => '',			
 
 		// OEmbed height 
 		// OG image:height 
 		// OG video:height
-		'height',		
+		'height' => '',		
 
 		// OEmbed url 
 		// OG url
-		'url',	
+		'url' => '',	
 
+		/*
 		// OG image:secure_url
 		// OG video:secure_url
 		// OG audio:secure_url
-		'secureUrl',	
+		'secureUrl' => '',	
 		
 		// OG image:type
 		// OG video:type
 		// OG audio:type
-		'mime',			
+		'mime' => '',			
 
 		// OG locale
-		'locale',			
+		'locale' => '',			
 
 		// OG locale:alternate
-		'localeAlternate'
+		'localeAlternate' => ''
+		*/
 	);
 
 
 
 	/**
-	 *	
+	 *	Constructs an Embed from the given dataset.
+	 *	If the property names in the dataset doesn't match the standard one,
+	 *	the $correspondances array can be used to specify a reindexation
+	 *	schema.
+	 *
+	 *	@see Embed::$_data
+	 *	@see Embed::_reindex( )
+	 *	@param array $data An array of embed informations.
+	 *	@param array $correspondances An array of index correspondances.
 	 */
 
-	public $_data = array( );
+	public function __construct( array $data, array $correspondances = array( )) {
+
+		if ( !empty( $correspondances )) {
+			$data = $this->_reindex( $data, $correspondances );
+		}
+
+		$this->_data = array_merge( $this->_data, $data );
+	}
 
 
 
 	/**
-	 *	Constructs a Representation from the given dataset.
-	 *	Keys referencing the data must match the ones from the allowed keys.
-	 *
-	 *	@see Representation::$_allowedKeys
-	 *	@param array $data An array of embed informations.
+	 *	Reindexes a set of data, according to the given correspondances.
+	 *	
+	 *	@param array $data The set of data to be reindexed.
+	 *	@param array $correspondances An array of index correspondances of the
+	 *		form `array( 'currentIndex' => 'newIndex' )`.
 	 */
 
-	public function __construct( array $data ) {
+	protected function _reindex( array $data, array $correspondances ) {
+		
+		$result = $data;
 
-		foreach ( $this->_allowedKeys as $key ) {
-			if ( isset( $data[ $key ])) {
-				$this->_data = $data[ $key ];
+		foreach ( $correspondances as $from => $to ) {
+			if ( isset( $data[ $from ])) {
+				$result[ $to ] = $data[ $from ];
 			}
 		}
+
+		return $result;
 	}
 
 
 
 	/**
-	 *	Returns if there is any data for the given key.
+	 *	Returns if there is any value for the given property.
 	 *
-	 *	@param string $key Key.
-	 *	@param boolean True if the key is set, otherwise false.
+	 *	@param string $property Property name.
+	 *	@param boolean True if the property exists, otherwise false.
 	 */
 
-	public function __isset( $key ) {
+	public function has( $property ) {
 
-		return isset( $this->_data[ $key ]);
+		return (
+			isset( $this->_data[ $property ])
+			&& !empty( $this->_data[ $property ])
+		);
 	}
 
 
 
 	/**
-	 *	Returns the value of the given key.
+	 *	Returns the value of the given property. 
 	 *
-	 *	@param string $key Key.
-	 *	@param string Value.
+	 *	@param string $property Property name, or Embed::all to retrieve all
+	 *		the properties.
+	 *	@return mixed False if the property doesn't exists. Otherwise, the
+	 *		property value, or an array of all properties if all properties
+	 *		were requested.
 	 */
 
-	public function __get( $key ) {
+	public function get( $property = Embed::all ) {
 
-		return isset( $this->_data[ $key ])
-			? $this->_data[ $key ]
-			: '';
-	}
-
-
-
-	/**
-	 *	Sets a value for the given key.
-	 *
-	 *	@param string $key Key.
-	 *	@param string Value.
-	 */
-
-	public function __set( $key ) {
-
-		if ( in_array( $this->_allowedKeys[ $key ])) {
-			$this->_data[ $key ] = $value;
+		if ( $property === Embed::all ) {
+			return $this->_data;
+		} else {
+			return $this->has( $property )
+				? $this->_data[ $property ]
+				: false;
 		}
+	}
+
+
+
+	/**
+	 *	Sets the value of the given property.
+	 *
+	 *	@param string $property Property name.
+	 *	@param string New value.
+	 */
+
+	public function set( $property, $value ) {
+
+		$this->_data[ $property ] = $value;
 	}
 }

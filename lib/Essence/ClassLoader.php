@@ -2,7 +2,7 @@
 
 /**
  *	@author Félix Girault <felix.girault@gmail.com>
- *	@license MIT
+ *	@license FreeBSD License (http://opensource.org/licenses/BSD-2-Clause)
  */
 
 namespace Essence;
@@ -10,7 +10,9 @@ namespace Essence;
 
 
 /**
+ *	A simple PSR-0 compliant class loader.
  *
+ *	@package Essence
  */
 
 class ClassLoader {

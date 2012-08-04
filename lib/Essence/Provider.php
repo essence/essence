@@ -2,7 +2,7 @@
 
 /**
  *	@author Félix Girault <felix.girault@gmail.com>
- *	@license MIT
+ *	@license FreeBSD License (http://opensource.org/licenses/BSD-2-Clause)
  */
 
 namespace Essence;
@@ -10,24 +10,42 @@ namespace Essence;
 
 
 /**
+ *	Base class for a Provider.
  *
+ *	@package Essence
  */
 
 abstract class Provider {
 
 	/**
+	 *	A regular expression that doesn't match anything.
 	 *
+	 *	@var string 
 	 */
 
-	protected $_pattern = '#(?=a)b#';	// matches nothing by default
+	const nothing = '#(?=a)b#';
 
 
 
 	/**
+	 *	A regular expression used to determine if an URL can be handled by the
+	 *	provider.
 	 *
+	 *	@var string
 	 */
 
-	public function __construct( $pattern ) {
+	protected $_pattern = '';
+
+
+
+	/**
+	 *	Constructs the Provider with a regular expression to match the URLs 
+	 *	it can handle.
+	 *
+	 *	@param string $pattern The regular expression.
+	 */
+
+	public function __construct( $pattern = Provider::nothing ) {
 
 		$this->_pattern = $pattern;
 	}
@@ -35,7 +53,9 @@ abstract class Provider {
 
 
 	/**
+	 *	Tells if the provider can fetch embed informations from the given URL.
 	 *
+	 *	@param string $url URL to fetch informations from.
 	 */
 
 	public function canFetch( $url ) {
@@ -46,7 +66,10 @@ abstract class Provider {
 
 
 	/**
+	 *	Fetches embed information from the given URL.
 	 *
+	 *	@param string $url URL to fetch informations from.
+	 *	@return \Essence\Embed Embed informations.
 	 */
 
 	public final function fetch( $url ) {
@@ -64,8 +87,11 @@ abstract class Provider {
 
 
 	/**
-	 *	Prepares an Url before fetching its contents. This method can be used
-	 *	in subclasses to 
+	 *	Prepares an URL before fetching its contents. This method can be 
+	 *	overloaded in subclasses to do some preprocessing.
+	 *
+	 *	@param string $url URL to prepare.
+	 *	@return string Prepared URL.
 	 */
 
 	protected function _prepare( $url ) {
@@ -76,12 +102,12 @@ abstract class Provider {
 
 
 	/**
+	 *	Does the actual fetching of informations.
 	 *
+	 *	@param string $url URL to fetch informations from.
+	 *	@return \Essence\Embed Embed informations.
 	 */
 
-	protected function _fetch( $url ) {
-		
-		return array( );
-	}
+	abstract protected function _fetch( $url );
 
 }
