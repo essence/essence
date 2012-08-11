@@ -39,16 +39,23 @@ class OpenGraph extends \Essence\Provider {
 
 	protected function _fetch( $url ) {
 
-		$html = file_get_contents( $url );
+		$metas = get_meta_tags( $url );
+		$og = array( );
 
-		if ( $html === false ) {
-			return array( );
+		foreach ( $metas as $meta ) {
+			if ( strpos( $meta, 'og:' ) !== false ) {
+				$og[] = substr( $meta, 3 );
+			}
 		}
 
-		$data = $this->_extract( $html );
+		if ( empty( $og )) {
+			throw new \Essence\Exception(
+				'Unable to extract OpenGraph informations from ' . $url . '.'
+			);
+		}
 
 		return new \Essence\Embed(
-			$data,
+			$og,
 			array(
 				'site_name' => 'providerName',
 				'image' => 'thumbnailUrl',
@@ -59,40 +66,5 @@ class OpenGraph extends \Essence\Provider {
 				'video:width' => 'height'
 			)
 		);
-	}
-
-
-
-	/**
-	 *	Extracts OpenGraph meta properties from a HTML document.
-	 *
-	 *	@param string $html HTML document.
-	 *	@return array OpenGraph properties.
-	 */
-
-	protected function _extract( $html ) {
-
-		$properties = array( );
-
-		// we're trying to reduce the size of the html to parse
-
-		if ( preg_match( '#<head[^>]*>(?P<head>.*)</head>#i', $html, $matches )) {
-			$html = $matches['head'];
-		}
-
-		$count = preg_match_all(
-			'#<meta[^>]*property="og:(?P<property>[^"]+)"[^>]*content="(?P<content>[^"]+)"#i',
-			$html,
-			$matches,
-			PREG_SET_ORDER
-		);
-
-		if ( $count ) {
-			foreach ( $matches as $match ) {
-				$properties[ $match['property']] = $match['content'];
-			}
-		}
-
-		return $properties;
 	}
 }

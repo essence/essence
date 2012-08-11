@@ -25,7 +25,8 @@ class Vimeo extends \Essence\Provider\OEmbed {
 
 		parent::__construct(
 			'#vimeo\.com#i',
-			'http://vimeo.com/api/oembed.json?url=%s'
+			'http://vimeo.com/api/oembed.json?url=%s',
+			'json'
 		);
 	}
 

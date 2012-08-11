@@ -61,7 +61,7 @@ class Gatherer {
 	 *	Configures the Gatherer to query the given providers.
 	 *	Throws an exception if a Provider couldn't be found.
 	 *
-	 *	@see ProviderCollection::load( )
+	 *	@see \Essence\ProviderCollection::load( )
 	 *	@param array $providers An array of provider class names, relative to
 	 *		the 'Provider' folder.
 	 *	@throws \Essence\Exception 

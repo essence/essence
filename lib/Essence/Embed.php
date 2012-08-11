@@ -101,25 +101,7 @@ class Embed {
 
 		// OEmbed url 
 		// OG url
-		'url' => '',	
-
-		/*
-		// OG image:secure_url
-		// OG video:secure_url
-		// OG audio:secure_url
-		'secureUrl' => '',	
-		
-		// OG image:type
-		// OG video:type
-		// OG audio:type
-		'mime' => '',			
-
-		// OG locale
-		'locale' => '',			
-
-		// OG locale:alternate
-		'localeAlternate' => ''
-		*/
+		'url' => ''
 	);
 
 

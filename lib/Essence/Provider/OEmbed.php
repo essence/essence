@@ -19,6 +19,16 @@ namespace Essence\Provider;
 class OEmbed extends \Essence\Provider {
 
 	/**
+	 *	The expected response format.
+	 *
+	 *	@param string
+	 */
+
+	protected $_format = '';
+
+
+
+	/**
 	 *	The OEmbed endpoint.
 	 *
 	 *	@param string
@@ -32,15 +42,17 @@ class OEmbed extends \Essence\Provider {
 	 *	Constructs the OEmbed provider with a regular expression to match the
 	 *	URLs it can handle, and an OEmbed JSON endpoint.
 	 *
-	 *	@param string $pattern 
-	 *	@param string $jsonEndpoint The OEmbed JSON endpoint to query.
+	 *	@param string $pattern A regular expression to match URLs.
+	 *	@param string $endpoint The OEmbed endpoint url.
+	 *	@param string $format The expected response format.
 	 */
 
-	public function __construct( $pattern, $jsonEndpoint ) {
+	public function __construct( $pattern, $endpoint, $format = '' ) {
 
 		parent::__construct( $pattern );
 
 		$this->_endpoint = $endpoint;
+		$this->_format = $format;
 	}
 
 
@@ -54,19 +66,32 @@ class OEmbed extends \Essence\Provider {
 
 	protected function _prepare( $url ) {
 
-		$questionMark = strpos( $url, '?' );
-
-		if ( $questionMark === false ) {
-			$sharp = strpos( $url, '#' );
-
-			if ( $sharp !== false ) {
-				$url = substr( $url, 0, $sharp );
-			}
-		} else {
-			$url = substr( $url, 0, $questionMark );
+		if ( !$this->_strip( $url, '?' )) {
+			$this->_strip( $url, '#' );
 		}
 
 		return $url;
+	}
+
+
+
+	/**
+	 *	Strips the end of a string after a delimiter.
+	 *
+	 *	@param string $string The string to strip.
+	 *	@param string $delimiter The delimiter from which to strip the string.
+	 *	@return boolean True if the string was modified, otherwise false.
+	 */
+
+	protected function _strip( &$string, $delimiter ) {
+
+		$position = strpos( $string, $delimiter );
+
+		if ( $position !== false ) {
+			$string = substr( $string, 0, $position );
+		}
+
+		return ( $position !== false );
 	}
 
 
@@ -81,7 +106,71 @@ class OEmbed extends \Essence\Provider {
 	protected function _fetch( $url ) {
 
 		$endpoint = sprintf( $this->_endpoint, urlencode( $url ));
+		$response = file_get_contents( $endpoint );
 
-		return json_decode( file_get_contents( $endpoint ), true );
+		if ( $response === false ) {
+			throw new \Essence\Exception(
+				'Unable to get a response from ' . $endpoint . '.'
+			);
+		}
+
+		switch ( $this->_format ) {
+			case 'json':
+				$data = $this->_parseJson( $response );
+				break;
+
+			case 'xml':
+				$data = $this->_parseXml( $response );
+				break;
+
+			default:
+				$data = array( );
+				break;
+		}
+
+		return new \Essence\Embed( $data );
+	}
+
+
+
+	/**
+	 *	Parses a JSON response and returns an array of data.
+	 *
+	 *	@param string $json JSON document.
+	 *	@return array Data.
+	 */
+
+	protected function _parseJson( $json ) {
+
+		$data = json_decode( $json, true );
+
+		if ( $data === null ) {
+			throw new \Essence\Exception(
+				'Unable to parse json response: ' . json_last_error( ) . '.'
+			);
+		}
+
+		return $data;
+	}
+
+
+
+	/**
+	 *	Parses an XML response and returns an array of data.
+	 *	
+	 *	@param string $xml XML document.
+	 *	@return array Data.
+	 */
+
+	protected function _parseXml( $xml ) {
+
+		$data = array( );
+		$it = new \SimpleXmlIterator( $xml, null );
+
+		foreach( $it as $key => $value ) {
+			$data[ $key ] = strval( $value );
+		}
+
+		return $data;
 	}
 }

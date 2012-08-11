@@ -70,7 +70,7 @@ class ClassLoader {
 
 	public function load( $className ) {
 
-		$path = $this->_basePath . str_replace( '\\', DIRECTORY_SEPARATOR , ltrim( $className )) . '.php';
+		$path = $this->_basePath . str_replace( '\\', DIRECTORY_SEPARATOR, ltrim( $className )) . '.php';
 
 		if ( file_exists( $path )) {
 			require_once $path;

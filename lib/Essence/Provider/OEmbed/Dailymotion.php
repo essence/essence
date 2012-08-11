@@ -25,7 +25,8 @@ class Dailymotion extends \Essence\Provider\OEmbed {
 
 		parent::__construct(
 			'#dailymotion\.com#i',
-			'http://www.dailymotion.com/services/oembed?format=json&url=%s'
+			'http://www.dailymotion.com/services/oembed?format=json&url=%s',
+			'json'
 		);
 	}
 
@@ -45,17 +46,15 @@ class Dailymotion extends \Essence\Provider\OEmbed {
 		// we're getting the larger possible thumbnail, instead of the default
 		// one given by dailymotion
 
-		if ( $Embed !== null ) {
-			if ( $Embed->has( 'thumbnailUrl' )) {
-				$Embed->set(
-					'thumbnailUrl',
-					str_replace(
-						'jpeg_preview_large',
-						'jpeg_preview_source',
-						$Embed->get( 'thumbnailUrl' )
-					)
-				);
-			}
+		if ( $Embed->has( 'thumbnailUrl' )) {
+			$Embed->set(
+				'thumbnailUrl',
+				str_replace(
+					'jpeg_preview_large',
+					'jpeg_preview_source',
+					$Embed->get( 'thumbnailUrl' )
+				)
+			);
 		}
 
 		return $Embed;

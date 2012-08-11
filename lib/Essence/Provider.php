@@ -69,7 +69,8 @@ abstract class Provider {
 	 *	Fetches embed information from the given URL.
 	 *
 	 *	@param string $url URL to fetch informations from.
-	 *	@return \Essence\Embed Embed informations.
+	 *	@return \Essence\Embed|null Embed informations, or null if nothing
+	 *		could be fetched.
 	 */
 
 	public final function fetch( $url ) {
@@ -106,6 +107,7 @@ abstract class Provider {
 	 *
 	 *	@param string $url URL to fetch informations from.
 	 *	@return \Essence\Embed Embed informations.
+	 *	@throws \Essence\Exception 
 	 */
 
 	abstract protected function _fetch( $url );
