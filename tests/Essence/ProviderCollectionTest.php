@@ -7,7 +7,9 @@
 
 namespace Essence;
 
-require_once dirname( dirname( __FILE__ )) . DIRECTORY_SEPARATOR . 'bootstrap.php';
+if ( !defined( 'ESSENCE_BOOTSTRAPPED')) {
+	require_once dirname( dirname( __FILE__ )) . DIRECTORY_SEPARATOR . 'bootstrap.php';
+}
 
 
 
@@ -21,7 +23,7 @@ class ProviderCollectionTest extends \PHPUnit_Framework_TestCase {
 	 *
 	 */
 
-	public function testConstruct( ) {
+	public function testLoad( ) {
 
 
 	}

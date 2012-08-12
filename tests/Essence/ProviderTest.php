@@ -7,7 +7,27 @@
 
 namespace Essence;
 
-require_once dirname( dirname( __FILE__ )) . DIRECTORY_SEPARATOR . 'bootstrap.php';
+if ( !defined( 'ESSENCE_BOOTSTRAPPED')) {
+	require_once dirname( dirname( __FILE__ )) . DIRECTORY_SEPARATOR . 'bootstrap.php';
+}
+
+
+
+/**
+ *
+ */
+
+class ConcreteProvider extends Provider {
+
+	/**
+	 *
+	 */
+
+	protected function _fetch( $url ) {
+
+		return new Embed( array( 'title' => 'Title' ));
+	}	
+}
 
 
 
@@ -23,9 +43,30 @@ class ProviderTest extends \PHPUnit_Framework_TestCase {
 
 	public function testCanFetch( ) {
 
-		$Provider = new Provider( '#[a-z]+#i' );
+		$Provider = new ConcreteProvider( '#[a-z]+#i' );
 
 		$this->assertTrue( $Provider->canFetch( 'abc' ));
 		$this->assertFalse( $Provider->canFetch( '123' ));		
+	}
+
+
+
+	/**
+	 *
+	 */
+
+	public function testFetch( ) {
+
+		$Provider = new ConcreteProvider( Provider::anything );
+
+		$this->assertEquals(
+			new Embed(
+				array(
+					'title' => 'Title',
+					'url' => 'http://foo.bar'
+				)
+			),
+			$Provider->fetch( '  http://foo.bar  ' )
+		);
 	}
 }

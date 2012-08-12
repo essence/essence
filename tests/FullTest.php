@@ -24,7 +24,8 @@ class FullTest {
 	public static function suite( ) {
 
 		self::_output( 'Searching for test cases in ' . ESSENCE_TEST_ROOT . '...' );
-
+		self::_output( '' );
+		
 		$tests = self::_tests( );
 		$Suite = new PHPUnit_Framework_TestSuite( );
 
