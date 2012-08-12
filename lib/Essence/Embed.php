@@ -193,14 +193,22 @@ class Embed {
 
 
 	/**
-	 *	Sets the value of the given property.
+	 *	Sets the value of one or many properties.
 	 *
-	 *	@param string $property Property name.
-	 *	@param string New value.
+	 *	@param string|array $property Property name, or an array of the form
+	 *		array( 'property' => 'value' ).
+	 *	@param string|null New value, or nothing if the first parameter is an
+	 *		array.
 	 */
 
-	public function set( $property, $value ) {
+	public function set( $property, $value = null ) {
 
-		$this->_data[ $property ] = $value;
+		if ( !is_array( $property )) {
+			$property = array( $property => $value );
+		}
+
+		foreach ( $property as $key => $value ) {
+			$this->_data[ $key ] = $value;
+		}
 	}
 }

@@ -15,15 +15,14 @@ namespace Essence\Provider\OpenGraph;
  *	@package Essence.Provider.OpenGraph
  */
 
-class Ted extends \Essence\Provider\OpenGraph
-{
+class Ted extends \Essence\Provider\OpenGraph {
+
 	/**
 	 *	Constructor.
 	 */
 
-	public function __construct( )
-	{
+	public function __construct( ) {
+
 		parent::__construct( '#ted\.com#i' );
 	}
-
 }

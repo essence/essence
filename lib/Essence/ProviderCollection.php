@@ -83,14 +83,14 @@ class ProviderCollection {
 	 *	Searches for the provider of the given url.
 	 *
 	 *	@param string $url An url which may be embedded.
-	 *	@return mixed The url provider if any, otherwise null.
+	 *	@return \Essence\Provider|null The url provider if any, otherwise null.
 	 */
 
 	public function provider( $url ) {
 
-		foreach ( $this->_providers as $provider ) {
-			if ( $provider->canFetch( $url )) {
-				return $provider;
+		foreach ( $this->_providers as $Provider ) {
+			if ( $Provider->canFetch( $url )) {
+				return $Provider;
 			}
 		}
 

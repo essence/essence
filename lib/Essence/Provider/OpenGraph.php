@@ -16,7 +16,7 @@ namespace Essence\Provider;
  *	@package Essence.Provider
  */
 
-class OpenGraph extends \Essence\Provider {
+abstract class OpenGraph extends \Essence\Provider {
 
 	/**
 	 *	Constructs the OpenGraph provider with a regular expression to match

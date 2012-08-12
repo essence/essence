@@ -28,6 +28,16 @@ abstract class Provider {
 
 
 	/**
+	 *	A regular expression that matches anything.
+	 *
+	 *	@var string 
+	 */
+
+	const anything = '#.*#';
+
+
+
+	/**
 	 *	A regular expression used to determine if an URL can be handled by the
 	 *	provider.
 	 *
@@ -60,7 +70,7 @@ abstract class Provider {
 
 	public function canFetch( $url ) {
 
-		return preg_match( $this->_pattern, $url );
+		return ( boolean ) preg_match( $this->_pattern, $url );
 	}
 
 
@@ -75,14 +85,14 @@ abstract class Provider {
 
 	public final function fetch( $url ) {
 
-		$url = $this->_prepare( trim( $url ));
-		$data = $this->_fetch( $url );
+		$url = $this->_prepare( $url );
+		$Embed = $this->_fetch( $url );
 
-		if ( is_array( $data ) && !isset( $data['url'])) {
-			$data['url'] = $url;
+		if ( !$Embed->has( 'url' )) {
+			$Embed->set( 'url', $url );
 		}
 
-		return $data;
+		return $Embed;
 	}
 
 
@@ -97,7 +107,7 @@ abstract class Provider {
 
 	protected function _prepare( $url ) {
 
-		return $url;
+		return trim( $url );
 	}
 
 

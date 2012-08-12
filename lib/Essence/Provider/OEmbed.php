@@ -16,7 +16,7 @@ namespace Essence\Provider;
  *	@package Essence.Provider
  */
 
-class OEmbed extends \Essence\Provider {
+abstract class OEmbed extends \Essence\Provider {
 
 	/**
 	 *	The expected response format.
@@ -66,6 +66,8 @@ class OEmbed extends \Essence\Provider {
 
 	protected function _prepare( $url ) {
 
+		$url = parent::_prepare( $url );
+
 		if ( !$this->_strip( $url, '?' )) {
 			$this->_strip( $url, '#' );
 		}
@@ -106,7 +108,7 @@ class OEmbed extends \Essence\Provider {
 	protected function _fetch( $url ) {
 
 		$endpoint = sprintf( $this->_endpoint, urlencode( $url ));
-		$response = file_get_contents( $endpoint );
+		$response = \Essence\Http::get( $endpoint );
 
 		if ( $response === false ) {
 			throw new \Essence\Exception(

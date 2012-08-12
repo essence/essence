@@ -23,7 +23,7 @@ class Generic extends \Essence\Provider\OEmbed {
 
 	public function __construct( ) {
 
-		parent::__construct( '#.*#', '', '' );
+		parent::__construct( Provider::anything, '', '' );
 	}
 
 
@@ -37,7 +37,7 @@ class Generic extends \Essence\Provider\OEmbed {
 
 	protected function _fetch( $url ) {
 
-		$html = file_get_contents( $url );
+		$html = \Essence\Http::get( $url );
 
 		if ( $html === false ) {
 			return;

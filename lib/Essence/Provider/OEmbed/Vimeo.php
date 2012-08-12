@@ -45,6 +45,8 @@ class Vimeo extends \Essence\Provider\OEmbed {
 
 	protected function _prepare( $url ) {
 
+		$url = parent::_prepare( $url );
+
 		if ( preg_match( "#player\.vimeo\.com/video/([0-9]+)#i", $url, $matches )) {
 			return 'http://www.vimeo.com/' . $matches[ 1 ];
 		}

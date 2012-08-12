@@ -94,7 +94,7 @@ class Gatherer {
 
 		// fetching the page
 
-		$html = file_get_contents( $url );
+		$html = Http::get( $url );
 
 		if ( $html === false ) {
 			return array( );
