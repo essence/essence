@@ -39,19 +39,33 @@ abstract class OpenGraph extends \Essence\Provider {
 
 	protected function _fetch( $url ) {
 
-		$metas = get_meta_tags( $url );
-		$og = array( );
+		$html = \Essence\Http::get( $url );
+		$limit = stripos( $html, '</head>' );
 
-		foreach ( $metas as $meta ) {
-			if ( strpos( $meta, 'og:' ) !== false ) {
-				$og[] = substr( $meta, 3 );
-			}
+		if ( $limit !== false ) {
+			$html = substr( $html, 0, $limit );
 		}
 
-		if ( empty( $og )) {
+		$result = preg_match_all( 
+			'#<meta[^>]+' .
+				'property=["\']og:(?P<property>[^"\']+)[^>]+' .
+				'content=["\'](?P<content>[^"\']+)[^>]+' .
+			'#i',
+			$html, 
+			$matches,
+			PREG_SET_ORDER
+		);
+
+		if ( !$result ) {
 			throw new \Essence\Exception(
-				'Unable to extract OpenGraph informations from ' . $url . '.'
+				'Unable to extract OpenGraph informations.'
 			);
+		}
+
+		$og = array( );
+
+		foreach ( $matches as $match ) {
+			$og[ $match['property']] = $match['content'];
 		}
 
 		return new \Essence\Embed(

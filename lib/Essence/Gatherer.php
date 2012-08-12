@@ -94,16 +94,16 @@ class Gatherer {
 
 		// fetching the page
 
-		$html = Http::get( $url );
-
-		if ( $html === false ) {
+		try {
+			$html = Http::get( $url );
+		} catch ( Exception $e ) {
 			return array( );
 		}
 
 		// extraction of possible urls
 
 		$result = preg_match_all(
-			'#<(a|iframe|embed)[^>]+(href|src)="(?P<source>[^"]+)"#i',
+			'#<(a|iframe|embed)[^>]+(href|src)=("|\')(?P<source>[^"\']+)#i',
 			$html,
 			$matches
 		);

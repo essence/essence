@@ -108,15 +108,25 @@ abstract class OEmbed extends \Essence\Provider {
 	protected function _fetch( $url ) {
 
 		$endpoint = sprintf( $this->_endpoint, urlencode( $url ));
+
+		return $this->_fetchEndpoint( $endpoint, $this->_format );
+	}
+
+
+
+	/**
+	 *	Fetches embed information from the given endpoint.
+	 *
+	 *	@param string $endpoint Endpoint to fetch informations from.
+	 *	@param string $format Response format.
+	 *	@return \Essence\Embed Embed informations.
+	 */
+
+	protected function _fetchEndpoint( $endpoint, $format ) {
+
 		$response = \Essence\Http::get( $endpoint );
 
-		if ( $response === false ) {
-			throw new \Essence\Exception(
-				'Unable to get a response from ' . $endpoint . '.'
-			);
-		}
-
-		switch ( $this->_format ) {
+		switch ( $format ) {
 			case 'json':
 				$data = $this->_parseJson( $response );
 				break;

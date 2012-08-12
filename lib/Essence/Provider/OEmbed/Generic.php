@@ -23,7 +23,7 @@ class Generic extends \Essence\Provider\OEmbed {
 
 	public function __construct( ) {
 
-		parent::__construct( Provider::anything, '', '' );
+		parent::__construct( \Essence\Provider::anything, '', '' );
 	}
 
 
@@ -38,23 +38,31 @@ class Generic extends \Essence\Provider\OEmbed {
 	protected function _fetch( $url ) {
 
 		$html = \Essence\Http::get( $url );
-
-		if ( $html === false ) {
-			return;
-		}
-
 		$limit = stripos( $html, '</head>' );
+
 		if ( $limit !== false ) {
 			$html = substr( $html, 0, $limit );
 		}
 
-		preg_match_all( 
-			'#<link[^/]*rel="alternate"[^/]*type="application/(?P<format>json|xml)\\+oembed"[^/]*href="(?P<url>[^"]*)"[^/]*/>#i', 
-			$url, 
+		$result = preg_match_all( 
+			'#<link(' .
+				'[^>]*type=["\']([^"\']+(?P<format>json|xml)\\+oembed)' .
+				'|' .
+				'[^>]*href=["\'](?P<url>[^"\']+)' .
+			')+#i',
+			$html, 
 			$matches,
 			PREG_SET_ORDER
 		);
 
-		// processing
+		if ( $result ) {
+			foreach ( $matches as $match ) {
+				if ( !empty( $match['url']) && !empty( $match['format'])) {
+					return $this->_fetchEndpoint( $match['url'], $match['format']);
+				}
+			}
+		}
+
+		throw new \Essence\Exception( 'Unable to find any endpoint.' );
 	}
 }
