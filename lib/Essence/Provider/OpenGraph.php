@@ -75,9 +75,9 @@ abstract class OpenGraph extends \Essence\Provider {
 				'image' => 'thumbnailUrl',
 				'image:url' => 'thumbnailUrl',	
 				'image:width' => 'width',
-				'image:width' => 'height',
+				'image:height' => 'height',
 				'video:width' => 'width',
-				'video:width' => 'height'
+				'video:height' => 'height'
 			)
 		);
 	}
