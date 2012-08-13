@@ -5,7 +5,7 @@
  *	@license FreeBSD License (http://opensource.org/licenses/BSD-2-Clause)
  */
 
-namespace Essence;
+namespace Essence\Provider;
 
 if ( !defined( 'ESSENCE_BOOTSTRAPPED')) {
 	require_once dirname( dirname( dirname( __FILE__ ))) . DIRECTORY_SEPARATOR . 'bootstrap.php';
@@ -17,7 +17,7 @@ if ( !defined( 'ESSENCE_BOOTSTRAPPED')) {
  *
  */
 
-class ConcreteOEmbed extends \Provider\OEmbed {
+class ConcreteOEmbed extends \Essence\Provider\OEmbed {
 
 }
 
@@ -35,8 +35,6 @@ class OEmbedTest extends \PHPUnit_Framework_TestCase {
 
 	public function testFetch( ) {
 
-		$OEmbed = new ConcreteOEmbed( Provider::anything, 'json?url=%s', 'json' );
-
-		
+		$OEmbed = new ConcreteOEmbed( \Essence\Provider::anything, 'json?url=%s', 'json' );
 	}
 }
