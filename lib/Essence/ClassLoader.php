@@ -35,7 +35,7 @@ class ClassLoader {
 
 	public function __construct( $basePath = '' ) {
 
-		$this->_basePath = $basePath;
+		$this->_basePath = rtrim( $basePath, DIRECTORY_SEPARATOR );
 	}
 
 
@@ -52,17 +52,6 @@ class ClassLoader {
 
 
 	/**
-	 *	Unregisters this class loader from the SPL autoloader stack.
-	 */
-
-	public function unregister( ) {
-
-		spl_autoload_unregister( array( $this, 'load' ));
-	}
-
-
-
-	/**
 	 *  Loads the given class or interface.
 	 *
 	 *  @param string $className Name of the class to load.
@@ -70,7 +59,10 @@ class ClassLoader {
 
 	public function load( $className ) {
 
-		$path = $this->_basePath . str_replace( '\\', DIRECTORY_SEPARATOR, ltrim( $className )) . '.php';
+		$path = $this->_basePath
+			. DIRECTORY_SEPARATOR
+			. str_replace( '\\', DIRECTORY_SEPARATOR, $className )
+			. '.php';
 
 		if ( file_exists( $path )) {
 			require_once $path;

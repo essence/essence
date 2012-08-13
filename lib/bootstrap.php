@@ -17,7 +17,7 @@ require_once
  */
 
 if ( !defined( 'ESSENCE_ROOT' )) {
-	define( 'ESSENCE_ROOT', dirname( __FILE__ ) . DIRECTORY_SEPARATOR );
+	define( 'ESSENCE_ROOT', dirname( __FILE__ ));
 }
 
 

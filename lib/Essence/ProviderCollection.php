@@ -48,6 +48,8 @@ class ProviderCollection {
 
 	public function load( array $providers ) {
 
+		$this->_providers = array( );
+
 		foreach ( $providers as $provider ) {
 			$className = $this->_baseNamespace . str_replace( '/', '\\', $provider );
 
@@ -58,7 +60,7 @@ class ProviderCollection {
 					);
 				}
 
-				$this->_providers[ $className ] = new $className( );
+				$this->_providers[] = new $className( );
 			}
 		}
 	}
@@ -80,20 +82,40 @@ class ProviderCollection {
 
 
 	/**
-	 *	Searches for the provider of the given url.
+	 *	Searches for a provider of the given url, and returns its index.
 	 *
 	 *	@param string $url An url which may be embedded.
-	 *	@return \Essence\Provider|null The url provider if any, otherwise null.
+	 *	@param integer $offset The search will start from this offset.
+	 *	@return \Essence\Provider|false The url provider index if any,
+	 *		otherwise false.
 	 */
 
-	public function provider( $url ) {
+	public function providerIndex( $url, $offset = 0 ) {
 
-		foreach ( $this->_providers as $Provider ) {
-			if ( $Provider->canFetch( $url )) {
-				return $Provider;
+		if ( !empty( $this->_providers )) {
+			for ( $i = $offset; $i < count( $this->_providers ); $i++ ) {
+				if ( $this->_providers[ $i ]->canFetch( $url )) {
+					return $i;
+				}
 			}
 		}
 
-		return null;
+		return false;
+	}
+
+
+
+	/**
+	 *	Returns the provider at the given index.
+	 *
+	 *	@param integer $index The index of the provider.
+	 *	@return \Essence\Provider|null The url provider if any, otherwise null.
+	 */
+
+	public function provider( $index ) {
+
+		return isset( $this->_providers[ $index ])
+			? $this->_providers[ $index ]
+			: null;
 	}
 }

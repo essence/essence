@@ -40,44 +40,39 @@ abstract class OpenGraph extends \Essence\Provider {
 	protected function _fetch( $url ) {
 
 		$html = \Essence\Http::get( $url );
-		$limit = stripos( $html, '</head>' );
-
-		if ( $limit !== false ) {
-			$html = substr( $html, 0, $limit );
-		}
-
-		$result = preg_match_all( 
-			'#<meta[^>]+' .
-				'property=["\']og:(?P<property>[^"\']+)[^>]+' .
-				'content=["\'](?P<content>[^"\']+)[^>]+' .
-			'#i',
-			$html, 
-			$matches,
-			PREG_SET_ORDER
+		$attributes = \Essence\Html::extractAttributes(
+			$html,
+			array(
+				'meta' => array(
+					'property' => '#^og:.+#i',
+					'content'
+				)
+			)
 		);
-
-		if ( !$result ) {
-			throw new \Essence\Exception(
-				'Unable to extract OpenGraph informations.'
-			);
-		}
 
 		$og = array( );
 
-		foreach ( $matches as $match ) {
-			$og[ $match['property']] = $match['content'];
+		foreach ( $attributes['meta'] as $attribute ) {
+			$og[ $attribute['property']] = $attribute['content'];
 		}
 
 		return new \Essence\Embed(
 			$og,
 			array(
-				'site_name' => 'providerName',
-				'image' => 'thumbnailUrl',
-				'image:url' => 'thumbnailUrl',	
-				'image:width' => 'width',
-				'image:height' => 'height',
-				'video:width' => 'width',
-				'video:height' => 'height'
+				'og:type' => 'type',
+				'og:title' => 'title',	
+				'og:description' => 'description',	
+				'og:site_name' => 'providerName',
+				'og:title' => 'title',
+				'og:description' => 'description',
+				'og:site_name' => 'providerName',
+				'og:image' => 'thumbnailUrl',
+				'og:image:url' => 'thumbnailUrl',	
+				'og:image:width' => 'width',
+				'og:image:height' => 'height',
+				'og:video:width' => 'width',
+				'og:video:height' => 'height',
+				'og:url' => 'url'
 			)
 		);
 	}

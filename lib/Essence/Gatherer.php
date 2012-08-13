@@ -131,11 +131,25 @@ class Gatherer {
 	public function fetch( $url ) {
 
 		$_this = self::_instance( );
-		$provider = $_this->_ProviderCollection->provider( $url );
 
-		return ( $provider === null )
-			? null
-			: $provider->fetch( $url );
+		$index = $_this->_ProviderCollection->providerIndex( $url );
+		$Embed = null;
+
+		while ( $index !== false ) {
+			$Provider = $_this->_ProviderCollection->provider( $index );
+
+			try {
+				$Embed = $Provider->fetch( $url );
+			} catch ( Exception $e ) {
+
+			}
+
+			$index = ( $Embed === null )
+				? $_this->_ProviderCollection->providerIndex( $url, $index )
+				: false;
+		}
+
+		return $Embed;
 	}
 
 
