@@ -20,6 +20,10 @@ if ( !defined( 'ESSENCE_ROOT' )) {
 	define( 'ESSENCE_ROOT', dirname( __FILE__ ));
 }
 
+if ( !defined( 'ESSENCE_BOOTSTRAPED' )) {
+	define( 'ESSENCE_BOOTSTRAPED', true );
+}
+
 
 
 /**

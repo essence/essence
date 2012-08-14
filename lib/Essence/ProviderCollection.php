@@ -16,16 +16,6 @@ namespace Essence;
  */
 
 class ProviderCollection {
-	
-	/**
-	 *	The base namespace for a Provider.
-	 *
-	 *	@var string
-	 */
-
-	protected $_baseNamespace = '\\Essence\\Provider\\';
-
-
 
 	/**
 	 *	A list of providers.
@@ -51,17 +41,16 @@ class ProviderCollection {
 		$this->_providers = array( );
 
 		foreach ( $providers as $provider ) {
-			$className = $this->_baseNamespace . str_replace( '/', '\\', $provider );
+			$className = '\\Essence\\Provider\\'
+				. str_replace( '/', '\\', $provider );
 
-			if ( !isset( $this->_providers[ $className ])) {
-				if ( !class_exists( $className )) {
-					throw new \Essence\Exception(
-						"Unable to find a provider named '$className'."
-					);
-				}
-
-				$this->_providers[] = new $className( );
+			if ( !class_exists( $className )) {
+				throw new \Essence\Exception(
+					"Unable to find a provider named '$provider'."
+				);
 			}
+
+			$this->_providers[] = new $className( );
 		}
 	}
 
@@ -76,7 +65,7 @@ class ProviderCollection {
 
 	public function hasProvider( $url ) {
 
-		return ( $this->provider( $url ) !== null );
+		return ( $this->providerIndex( $url ) !== false );
 	}
 
 

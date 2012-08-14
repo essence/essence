@@ -19,6 +19,26 @@ namespace Essence\Provider;
 abstract class OEmbed extends \Essence\Provider {
 
 	/**
+	 *	JSON response format.
+	 *
+	 *	@var string
+	 */
+
+	const json = 'json';
+
+
+
+	/**
+	 *	XML response format.
+	 *
+	 *	@var string
+	 */
+
+	const xml = 'xml';
+
+
+
+	/**
 	 *	The expected response format.
 	 *
 	 *	@param string
@@ -40,14 +60,14 @@ abstract class OEmbed extends \Essence\Provider {
 
 	/**
 	 *	Constructs the OEmbed provider with a regular expression to match the
-	 *	URLs it can handle, and an OEmbed JSON endpoint.
+	 *	URLs it can handle, and an OEmbed endpoint.
 	 *
 	 *	@param string $pattern A regular expression to match URLs.
-	 *	@param string $endpoint The OEmbed endpoint url.
+	 *	@param string $endpoint The OEmbed endpoint URL.
 	 *	@param string $format The expected response format.
 	 */
 
-	public function __construct( $pattern, $endpoint, $format = '' ) {
+	public function __construct( $pattern, $endpoint, $format ) {
 
 		parent::__construct( $pattern );
 
@@ -58,7 +78,7 @@ abstract class OEmbed extends \Essence\Provider {
 
 
 	/**
-	 *	Strips arguments and anchors from the given url.
+	 *	Strips arguments and anchors from the given URL.
 	 *
 	 *	@param string $url Url to prepare.
 	 *	@return string Prepared url.
@@ -127,17 +147,16 @@ abstract class OEmbed extends \Essence\Provider {
 		$response = \Essence\Http::get( $endpoint );
 
 		switch ( $format ) {
-			case 'json':
+			case OEmbed::json:
 				$data = $this->_parseJson( $response );
 				break;
 
-			case 'xml':
+			case OEmbed::xml:
 				$data = $this->_parseXml( $response );
 				break;
 
 			default:
-				$data = array( );
-				break;
+				throw new \Essence\Exception( 'Unsupported format.' );
 		}
 
 		return new \Essence\Embed( $data );
@@ -158,7 +177,7 @@ abstract class OEmbed extends \Essence\Provider {
 
 		if ( $data === null ) {
 			throw new \Essence\Exception(
-				'Unable to parse json response: ' . json_last_error( ) . '.'
+				'Error parsing json response: ' . json_last_error( ) . '.'
 			);
 		}
 
@@ -175,6 +194,8 @@ abstract class OEmbed extends \Essence\Provider {
 	 */
 
 	protected function _parseXml( $xml ) {
+
+		libxml_use_internal_errors( true );
 
 		$data = array( );
 		$it = new \SimpleXmlIterator( $xml, null );

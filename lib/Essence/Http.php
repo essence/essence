@@ -39,13 +39,17 @@ class Http {
 
 
 /**
+ *	An HTTP related exception.
  *
+ *	@package Essence
  */
 
 class HttpException extends Exception {
 
 	/**
+	 *	HTTP code.
 	 *
+	 *	@var int
 	 */
 
 	protected $_code = 0;
@@ -53,7 +57,9 @@ class HttpException extends Exception {
 
 
 	/**
+	 *	Messages corresponding to HTTP codes.
 	 *
+	 *	@var array
 	 */
 
 	protected $_messages = array(
@@ -63,7 +69,9 @@ class HttpException extends Exception {
 
 
 	/**
+	 *	Constructs the exception with the given HTTP code.
 	 *
+	 *	@param int $code HTTP code.
 	 */
 
 	public function __construct( $code ) {
