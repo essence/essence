@@ -25,6 +25,19 @@ class HttpTest extends \PHPUnit_Framework_TestCase {
 
 	public function testGet( ) {
 
-		
+		Http::get( 'file://' . __FILE__ );
+	}
+
+
+
+	/**
+	 *
+	 */
+
+	public function testGetUnreachable( ) {
+
+		$this->setExpectedException( '\\Essence\\HttpException' );
+
+		Http::get( 'file://' . __FILE__ . '.unreachable' );
 	}
 }

@@ -1,0 +1,4 @@
+#!/bin/bash
+
+phpunit --colors --coverage-html ./Coverage AllTests
+xdg-open ./Coverage/index.html &

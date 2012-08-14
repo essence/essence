@@ -23,7 +23,7 @@ class HtmlTest extends \PHPUnit_Framework_TestCase {
 	 *
 	 */
 
-	public $html = <<<HTML
+	public $html = <<<'HTML'
 		<meta name="description" content="Description." />
 		<meta name="ns:custom" content="Custom namespace." />
 

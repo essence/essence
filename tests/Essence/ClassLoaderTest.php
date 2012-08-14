@@ -11,8 +11,6 @@ if ( !defined( 'ESSENCE_BOOTSTRAPPED' )) {
 	require_once dirname( dirname( __FILE__ )) . DIRECTORY_SEPARATOR . 'bootstrap.php';
 }
 
-use org\bovigo\vfs\vfsStream;
-
 
 
 /**
@@ -20,14 +18,6 @@ use org\bovigo\vfs\vfsStream;
  */
 
 class ClassLoaderTest extends \PHPUnit_Framework_TestCase {
-
-	/**
-	 *
-	 */
-
-	public $vfs = null;
-
-
 
 	/**
 	 *
@@ -43,20 +33,7 @@ class ClassLoaderTest extends \PHPUnit_Framework_TestCase {
 
 	public function setUp( ) {
 
-		$this->vfs = vfsStream::setup(
-			'root',
-			null,
-			array(
-				'Package' => array(
-					'Foo.php' => 'class Foo { }',
-					'Sushi' => array(
-						'Bar.php' => 'class Bar { }'
-					)
-				)
-			)
-		);
-
-		$this->ClassLoader = new ClassLoader( vfsStream::url( 'root' ));
+		$this->ClassLoader = new ClassLoader( ESSENCE_TEST_ROOT . 'Resource' );
 	}
 
 
@@ -80,12 +57,25 @@ class ClassLoaderTest extends \PHPUnit_Framework_TestCase {
 
 
 	/**
-	 *	@see https://github.com/mikey179/vfsStream/issues/22
+	 *
 	 */
 
 	public function testLoad( ) {
 
-		$this->assertTrue( class_exists( '\Package\Foo', true ));
-		$this->assertTrue( class_exists( '\Package\Sushi\Bar', true ));
+		$this->ClassLoader->register( );
+
+		$this->assertTrue( class_exists( '\\Essence\\Provider\\Foo' ));
+		$this->assertTrue( class_exists( '\\Essence\\Provider\\Sushi\\Bar' ));
+	}
+
+
+
+	/**
+	 *
+	 */
+
+	public function testLoadUndefined( ) {
+
+		$this->assertFalse( class_exists( '\\Essence\\Provider\\Undefined' ));
 	}
 }
