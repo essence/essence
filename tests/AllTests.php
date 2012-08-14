@@ -13,7 +13,7 @@ require_once dirname( __FILE__ ) . DIRECTORY_SEPARATOR . 'bootstrap.php';
  *	Lists and executes all test cases located in subdirectories.
  */
 
-class FullTest {
+class AllTests {
 
 	/**
 	 *	Constructs and returns a test suite covering all available tests cases.
@@ -23,7 +23,7 @@ class FullTest {
 
 	public static function suite( ) {
 
-		self::_output( 'Searching for test cases in ' . ESSENCE_TEST_ROOT . '...' );
+		self::_output( 'Searching for test cases...' );
 		self::_output( '' );
 		
 		$tests = self::_tests( );
