@@ -56,6 +56,10 @@ abstract class OpenGraph extends \Essence\Provider {
 			$og[ $attribute['property']] = $attribute['content'];
 		}
 
+		if ( empty( $og )) {
+			throw new \Essence\Exception( 'Unable to extract OpenGraph data.' );
+		}
+
 		return new \Essence\Embed(
 			$og,
 			array(

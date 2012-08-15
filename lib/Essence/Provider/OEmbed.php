@@ -59,6 +59,23 @@ abstract class OEmbed extends \Essence\Provider {
 
 
 	/**
+	 *	JSON error messages.
+	 *
+	 *	@var array
+	 */
+
+	protected $_jsonErrors = array(
+		JSON_ERROR_NONE => 'no error',
+		JSON_ERROR_DEPTH => 'depth error',
+		JSON_ERROR_STATE_MISMATCH => 'state mismatch error',
+		JSON_ERROR_CTRL_CHAR => 'control character error',
+		JSON_ERROR_SYNTAX => 'syntax error',
+		JSON_ERROR_UTF8 => 'UTF-8 error'
+	);
+
+
+
+	/**
 	 *	Constructs the OEmbed provider with a regular expression to match the
 	 *	URLs it can handle, and an OEmbed endpoint.
 	 *
@@ -159,7 +176,19 @@ abstract class OEmbed extends \Essence\Provider {
 				throw new \Essence\Exception( 'Unsupported format.' );
 		}
 
-		return new \Essence\Embed( $data );
+		return new \Essence\Embed(
+			$data,
+			array(
+				'author_name' => 'authorName',
+				'author_url' => 'authorUrl',	
+				'provider_name' => 'providerName',	
+				'provider_url' => 'providerUrl',
+				'cache_age' => 'cacheAge',
+				'thumbnail_url' => 'thumbnailUrl',
+				'thumbnail_width' => 'thumbnailWidth',
+				'thumbnail_height' => 'thumbnailHeight',
+			)
+		);
 	}
 
 
@@ -177,7 +206,9 @@ abstract class OEmbed extends \Essence\Provider {
 
 		if ( $data === null ) {
 			throw new \Essence\Exception(
-				'Error parsing json response: ' . json_last_error( ) . '.'
+				'Error parsing JSON response: '
+				. $this->_jsonErrors[ json_last_error( )]
+				. '.'
 			);
 		}
 
