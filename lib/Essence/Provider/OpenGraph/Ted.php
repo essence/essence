@@ -23,6 +23,6 @@ class Ted extends \Essence\Provider\OpenGraph {
 
 	public function __construct( ) {
 
-		parent::__construct( '#ted\.com#i' );
+		parent::__construct( '#ted\\.com/talks#i' );
 	}
 }

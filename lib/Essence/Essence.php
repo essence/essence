@@ -15,7 +15,7 @@ namespace Essence;
  *	@package Essence
  */
 
-class Gatherer {
+class Essence {
 
 	/**
 	 *	A collection of providers to query.	
@@ -39,9 +39,9 @@ class Gatherer {
 
 
 	/**
-	 *	Returns a singleton instance of Gatherer.
+	 *	Returns a singleton instance of Essence.
 	 *	
-	 *	@return \Embed\Gatherer Singleton instance.
+	 *	@return \Embed\Essence Singleton instance.
 	 */
 
 	protected static function _instance( ) {
@@ -58,7 +58,7 @@ class Gatherer {
 
 
 	/**
-	 *	Configures the Gatherer to query the given providers.
+	 *	Configures the Essence to query the given providers.
 	 *	Throws an exception if a Provider couldn't be found.
 	 *
 	 *	@see \Essence\ProviderCollection::load( )

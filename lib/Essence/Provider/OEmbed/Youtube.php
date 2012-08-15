@@ -34,9 +34,9 @@ class Youtube extends \Essence\Provider\OEmbed {
 
 	/**
 	 *	Refactors URLs like these :
-	 *		- http://www.youtube.com/v/oHg5SJYRHA0
 	 *		- http://www.youtube.com/watch?v=oHg5SJYRHA0&noise=noise
-	 *		- http://wwW.youtube.com/embed/oHg5SJYRHA0
+	 *		- http://www.youtube.com/v/oHg5SJYRHA0
+	 *		- http://www.youtube.com/embed/oHg5SJYRHA0
 	 *		- http://youtu.be/oHg5SJYRHA0
 	 *
 	 *	in such form :
@@ -47,6 +47,8 @@ class Youtube extends \Essence\Provider\OEmbed {
 	 */
 
 	protected function _prepare( $url ) {
+
+		$url = \Essence\Provider::_prepare( $url );
 
 		if ( preg_match( "#(v=|v/|embed/|youtu\.be/)([a-z0-9_-]+)#i", $url, $matches )) {
 			return 'http://www.youtube.com/watch?v=' . $matches[ 2 ];

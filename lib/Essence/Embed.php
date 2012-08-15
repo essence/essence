@@ -153,6 +153,39 @@ class Embed {
 
 
 	/**
+	 *
+	 */
+
+	public function __isset( $property ) {
+
+		return $this->has( $property );
+	}
+
+
+
+	/**
+	 *
+	 */
+
+	public function __get( $property ) {
+
+		return $this->get( $property );
+	}
+
+
+
+	/**
+	 *
+	 */
+
+	public function __set( $property, $value ) {
+
+		return $this->set( $property, $value );
+	}
+
+
+
+	/**
 	 *	Returns if there is any value for the given property.
 	 *
 	 *	@param string $property Property name.
@@ -174,7 +207,7 @@ class Embed {
 	 *
 	 *	@param string $property Property name, or Embed::all to retrieve all
 	 *		the properties.
-	 *	@return mixed False if the property doesn't exists. Otherwise, the
+	 *	@return mixed Null if the property doesn't exists. Otherwise, the
 	 *		property value, or an array of all properties if all properties
 	 *		were requested.
 	 */
@@ -186,7 +219,7 @@ class Embed {
 		} else {
 			return $this->has( $property )
 				? $this->_data[ $property ]
-				: false;
+				: null;
 		}
 	}
 
