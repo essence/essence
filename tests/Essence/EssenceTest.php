@@ -14,10 +14,10 @@ if ( !defined( 'ESSENCE_BOOTSTRAPPED' )) {
 
 
 /**
- *	Test case for Gatherer.
+ *	Test case for Essence.
  */
 
-class GathererTest extends \PHPUnit_Framework_TestCase {
+class EssenceTest extends \PHPUnit_Framework_TestCase {
 
 	/**
 	 *
@@ -25,6 +25,6 @@ class GathererTest extends \PHPUnit_Framework_TestCase {
 
 	public function testConstruct( ) {
 
-
+		
 	}
 }

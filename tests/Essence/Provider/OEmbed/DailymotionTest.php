@@ -16,7 +16,7 @@ if ( !defined( 'ESSENCE_BOOTSTRAPPED')) {
 
 
 /**
- *	Test case for OpenGraph.
+ *	Test case for Dailymotion.
  */
 
 class DailymotionTest extends \PHPUnit_Framework_TestCase {
@@ -25,11 +25,34 @@ class DailymotionTest extends \PHPUnit_Framework_TestCase {
 	 *
 	 */
 
+	public $Dailymotion = null;
+
+
+
+	/**
+	 *
+	 */
+
+	public function setUp( ) {
+
+		$this->Dailymotion = new Dailymotion( );
+
+		$Reflection = new \ReflectionClass( '\\Essence\\Provider\\OEmbed\\Dailymotion' );
+
+		$property = $Reflection->getProperty( '_endpoint' );
+		$property->setAccessible( true );
+		$property->setValue( $this->Dailymotion, 'file://' . ESSENCE_TEST_HTTP . '%s.json' );
+	}
+
+
+
+	/**
+	 *
+	 */
+
 	public function testCanFetch( ) {
 
-		$Dailymotion = new Dailymotion( );
-
-		$this->assertTrue( $Dailymotion->canFetch( 'http://www.dailymotion.com/video/xlyy09_very-bad-blagues-le-premier-p-tit-dej_fun' ));
+		$this->assertTrue( $this->Dailymotion->canFetch( 'http://www.dailymotion.com/video/xlyy09_very-bad-blagues-le-premier-p-tit-dej_fun' ));
 	}
 
 
@@ -40,9 +63,7 @@ class DailymotionTest extends \PHPUnit_Framework_TestCase {
 
 	public function testCantFetch( ) {
 
-		$Dailymotion = new Dailymotion( );
-
-		$this->assertFalse( $Dailymotion->canFetch( 'http://www.youtube.com/watch?v=HgKXN_Uw2ME' ));
+		$this->assertFalse( $this->Dailymotion->canFetch( 'http://www.youtube.com/watch?v=HgKXN_Uw2ME' ));
 	}
 
 
@@ -53,14 +74,7 @@ class DailymotionTest extends \PHPUnit_Framework_TestCase {
 
 	public function testFetch( ) {
 
-		$Reflection = new \ReflectionClass( '\\Essence\\Provider\\OEmbed\\Dailymotion' );
-		$Dailymotion = new Dailymotion( );
-
-		$property = $Reflection->getProperty( '_endpoint' );
-		$property->setAccessible( true );
-		$property->setValue( $Dailymotion, 'file://' . ESSENCE_TEST_HTTP . '%s.json' );
-
-		$Embed = $Dailymotion->fetch( 'dailymotion' );
+		$Embed = $this->Dailymotion->fetch( 'dailymotion' );
 
 		$this->assertEquals(
 			'http://static2.dmcdn.net/static/video/537/532/235735:jpeg_preview_source.jpg?20110928233928',

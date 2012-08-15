@@ -157,7 +157,7 @@ class EmbedTest extends \PHPUnit_Framework_TestCase {
 
 	public function testGetUnknown( ) {
 
-		$this->assertFalse( $this->Embed->get( 'unknown' ));
+		$this->assertNull( $this->Embed->get( 'unknown' ));
 	}
 
 
