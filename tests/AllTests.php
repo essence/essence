@@ -22,17 +22,14 @@ class AllTests {
 	 */
 
 	public static function suite( ) {
-
-		self::_output( 'Searching for test cases...' );
-		self::_output( '' );
 		
 		$tests = self::_tests( );
 		$Suite = new PHPUnit_Framework_TestSuite( );
 
 		if ( empty( $tests )) {
-			self::_output( 'No case found.' );
+			self::_output( 'No test case found.' );
 		} else {
-			self::_output( 'Found ' . count( $tests ) . ' cases :' );
+			self::_output( 'Found ' . count( $tests ) . ' test cases :' );
 
 			foreach ( $tests as $test ) {
 				self::_output( '- ' . $test );

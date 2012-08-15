@@ -43,9 +43,21 @@ class ProviderTest extends \PHPUnit_Framework_TestCase {
 
 	public function testCanFetch( ) {
 
-		$Provider = new ConcreteProvider( '#[a-z]+#i' );
+		$Provider = new ConcreteProvider( '#[a-z]+#' );
 
-		$this->assertTrue( $Provider->canFetch( 'abc' ));
+		$this->assertTrue( $Provider->canFetch( 'abc' ));	
+	}
+
+
+
+	/**
+	 *
+	 */
+
+	public function testCantFetch( ) {
+
+		$Provider = new ConcreteProvider( '#[a-z]+#' );
+
 		$this->assertFalse( $Provider->canFetch( '123' ));		
 	}
 

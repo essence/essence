@@ -11,11 +11,6 @@ if ( !defined( 'ESSENCE_BOOTSTRAPPED')) {
 	require_once dirname( dirname( dirname( __FILE__ ))) . DIRECTORY_SEPARATOR . 'bootstrap.php';
 }
 
-define(
-	'OEMBED_RESPONSES',
-	ESSENCE_TEST_ROOT . 'Resource' . DIRECTORY_SEPARATOR . 'Http' . DIRECTORY_SEPARATOR
-);
-
 
 
 /**
@@ -32,7 +27,7 @@ class OEmbedTest extends \PHPUnit_Framework_TestCase {
 
 		$OEmbed = new ConcreteOEmbed(
 			OEmbed::anything,
-			'file://' . OEMBED_RESPONSES . '%s.json',
+			'file://' . ESSENCE_TEST_HTTP . '%s.json',
 			OEmbed::json
 		);
 
@@ -56,7 +51,7 @@ class OEmbedTest extends \PHPUnit_Framework_TestCase {
 
 		$OEmbed = new ConcreteOEmbed(
 			OEmbed::anything,
-			'file://' . OEMBED_RESPONSES . '%s.json',
+			'file://' . ESSENCE_TEST_HTTP . '%s.json',
 			OEmbed::json
 		);
 
@@ -75,7 +70,7 @@ class OEmbedTest extends \PHPUnit_Framework_TestCase {
 
 		$OEmbed = new ConcreteOEmbed(
 			OEmbed::anything,
-			'file://' . OEMBED_RESPONSES . '%s.json',
+			'file://' . ESSENCE_TEST_HTTP . '%s.json',
 			OEmbed::json
 		);
 
@@ -92,7 +87,7 @@ class OEmbedTest extends \PHPUnit_Framework_TestCase {
 
 		$OEmbed = new ConcreteOEmbed(
 			OEmbed::anything,
-			'file://' . OEMBED_RESPONSES . '%s.xml',
+			'file://' . ESSENCE_TEST_HTTP . '%s.xml',
 			OEmbed::xml
 		);
 
@@ -109,7 +104,7 @@ class OEmbedTest extends \PHPUnit_Framework_TestCase {
 
 		$OEmbed = new ConcreteOEmbed(
 			OEmbed::anything,
-			'file://' . OEMBED_RESPONSES . '%s.xml',
+			'file://' . ESSENCE_TEST_HTTP . '%s.xml',
 			OEmbed::xml
 		);
 
@@ -134,7 +129,7 @@ class OEmbedTest extends \PHPUnit_Framework_TestCase {
 
 		$OEmbed = new ConcreteOEmbed(
 			OEmbed::anything,
-			'file://' . OEMBED_RESPONSES . '%s.json',
+			'file://' . ESSENCE_TEST_HTTP . '%s.json',
 			'unsupported'
 		);
 
