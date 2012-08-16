@@ -37,7 +37,6 @@ Then, just do what you have to do !
 <article>
 	<header>
 		<h1><?php echo $Embed->title; ?></h1>
-
 		<p>By <?php echo $Embed->authorName; ?></p>
 	</header>
 
