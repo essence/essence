@@ -39,9 +39,8 @@ abstract class OpenGraph extends \Essence\Provider {
 
 	protected function _fetch( $url ) {
 
-		$html = \Essence\Http::get( $url );
 		$attributes = \Essence\Html::extractAttributes(
-			$html,
+			\Essence\Http::get( $url ),
 			array(
 				'meta' => array(
 					'property' => '#^og:.+#i',
@@ -52,8 +51,8 @@ abstract class OpenGraph extends \Essence\Provider {
 
 		$og = array( );
 
-		foreach ( $attributes['meta'] as $attribute ) {
-			$og[ $attribute['property']] = $attribute['content'];
+		foreach ( $attributes['meta'] as $meta ) {
+			$og[ $meta['property']] = $meta['content'];
 		}
 
 		if ( empty( $og )) {

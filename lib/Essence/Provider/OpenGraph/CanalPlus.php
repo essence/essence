@@ -23,6 +23,6 @@ class CanalPlus extends \Essence\Provider\OpenGraph {
 
 	public function __construct( ) {
 
-		parent::__construct( '#canalplus\.fr.*vid=[0-9]+#i' );
+		parent::__construct( '#canalplus\.fr#i' );
 	}
 }

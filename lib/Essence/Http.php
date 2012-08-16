@@ -29,7 +29,7 @@ class Http {
 		$html = @file_get_contents( $url );
 
 		if ( $html === false ) {
-			throw new HttpException( 404 );
+			throw new HttpException( 404, $url );
 		}
 
 		return $html;
@@ -74,12 +74,12 @@ class HttpException extends Exception {
 	 *	@param int $code HTTP code.
 	 */
 
-	public function __construct( $code ) {
+	public function __construct( $code, $url ) {
 
 		$message = isset( $this->_messages[ $code ])
 			? $this->_messages[ $code ]
 			: '';
 
-		parent::__construct( $message );
+		parent::__construct( "$message: $url." );
 	}
 }

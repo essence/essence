@@ -37,20 +37,20 @@ class Generic extends \Essence\Provider\OEmbed {
 
 	protected function _fetch( $url ) {
 
-		$html = \Essence\Http::get( $url );
 		$attributes = \Essence\Html::extractAttributes(
-			$html,
+			\Essence\Http::get( $url ),
 			array(
 				'link' => array(
-					'type' => '#oembed$#i',
+					'rel' => '#alternate#i',
+					'type',
 					'href'
 				)
 			)
 		);
 
-		foreach ( $attributes as $attribute ) {
-			if ( preg_match( '#json|xml#i', $attribute['type'], $matches )) {
-				return $this->_fetchEndpoint( $attribute['href'], $format );
+		foreach ( $attributes['link'] as $link ) {
+			if ( preg_match( '#json|xml#i', $link['type'], $matches )) {
+				return $this->_fetchEndpoint( $link['href'], $format );
 			}
 		}
 

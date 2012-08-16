@@ -18,12 +18,32 @@ namespace Essence;
 class Essence {
 
 	/**
+	 *	Singleton instance of Essence.
+	 *
+	 *	@var \Essence\Essence
+	 */
+
+	protected static $_Instance = null;
+
+
+
+	/**
 	 *	A collection of providers to query.	
 	 *
 	 *	@var \Essence\ProviderCollection
 	 */
 
 	protected $_ProviderCollection = null;
+
+
+
+	/**
+	 *	An array of catched exceptions.
+	 *
+	 *	@var array
+	 */
+
+	protected $_errors = array( );
 
 
 
@@ -46,13 +66,11 @@ class Essence {
 
 	protected static function _instance( ) {
 
-		static $Instance = null;
-
-		if ( $Instance === null ) {
-			$Instance = new self( );
+		if ( self::$_Instance === null ) {
+			self::$_Instance = new self( );
 		}
 
-		return $Instance;
+		return self::$_Instance;
 	}
 
 
@@ -82,7 +100,7 @@ class Essence {
 	 *	@param string $url The Url to extract.
 	 */
 
-	public function extract( $url ) {
+	public static function extract( $url ) {
 
 		$_this = self::_instance( );
 
@@ -92,31 +110,59 @@ class Essence {
 			return array( $url );
 		}
 
-		// fetching the page
-
 		try {
-			$html = Http::get( $url );
-		} catch ( Exception $e ) {
+			$allUrls = $this->_extractUrls( $url );
+		} catch ( Exception $exception ) {
+			$_this->_log( $exception );
 			return array( );
 		}
 
-		// extraction of possible urls
-
-		$result = preg_match_all(
-			'#<(a|iframe|embed)[^>]+(href|src)=("|\')(?P<source>[^"\']+)#i',
-			$html,
-			$matches
-		);
-
 		$urls = array( );
 
-		foreach ( $matches['source'] as $source ) {
-			if ( $this->_ProviderCollection->hasProvider( $source )) {
-				$urls[] = $source;
+		foreach ( $allUrls as $url ) {
+			if ( $this->_ProviderCollection->hasProvider( $url )) {
+				$urls[] = $url;
 			}
 		}
 
 		return array_values( array_unique( $urls )); // array_values reindexes the array
+	}
+
+
+
+	/**
+	 *	Extracts URLs from a web page.
+	 *	
+	 *	@param string $url The web page to extract URLs from.
+	 *	@return array Extracted URLs.
+	 */
+
+	protected static function _extractUrls( $url ) {
+
+		$attributes = Html::extractAttributes(
+			Http::get( $url ),
+			array(
+				'a' => array( 'href' ),
+				'embed' => array( 'src' ),
+				'iframe' => array( 'src' )
+			)
+		);
+
+		$urls = array( );
+
+		foreach ( $attributes['a'] as $a ) {
+			$urls[] = $a['href'];
+		}
+
+		foreach ( $attributes['embed'] as $embed ) {
+			$urls[] = $embed['src'];
+		}
+
+		foreach ( $attributes['iframe'] as $iframe ) {
+			$urls[] = $iframe['src'];
+		}
+
+		return $urls;
 	}
 
 
@@ -128,7 +174,7 @@ class Essence {
 	 *	@return \Essence\Embed Embed informations.
 	 */
 
-	public function fetch( $url ) {
+	public static function fetch( $url ) {
 
 		$_this = self::_instance( );
 
@@ -137,11 +183,12 @@ class Essence {
 
 		while ( $index !== false ) {
 			$Provider = $_this->_ProviderCollection->provider( $index );
+			$Embed = null;
 
 			try {
 				$Embed = $Provider->fetch( $url );
-			} catch ( Exception $e ) {
-
+			} catch ( Exception $exception ) {
+				$_this->_log( $exception );
 			}
 
 			$index = ( $Embed === null )
@@ -161,7 +208,7 @@ class Essence {
 	 *	@return array An array of embed informations, indexed by URL.
 	 */
 
-	public function fetchAll( array $urls ) {
+	public static function fetchAll( array $urls ) {
 		
 		$infos = array( );
 
@@ -174,5 +221,53 @@ class Essence {
 		}
 
 		return $infos;
+	}
+
+
+
+	/**
+	 *	Returns all errors that occured.	
+	 *
+	 *	@return array All errors.
+	 */
+
+	public static function errors( ) {
+
+		$_this = self::_instance( );
+
+		return $_this->_errors;
+	}
+
+
+
+	/**
+	 *	Returns the last error that occured.
+	 *
+	 *	@return \Essence\Exception|null The last exception, or null if there is
+	 *		no errors.
+	 */
+
+	public static function lastError( ) {
+
+		$_this = self::_instance( );
+
+		if ( empty( $_this->errors )) {
+			return false;
+		}
+
+		return $_this->_errors[ count( $_this->_errors - 1 )];
+	}
+
+
+
+	/**
+	 *	Logs an exception.
+	 *
+	 *	@param \Essence\Exception $exception The exception to log.
+	 */
+
+	protected function _log( Exception $exception ) {
+
+		$this->_errors[] = $exception;
 	}
 }
