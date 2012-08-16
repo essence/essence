@@ -25,7 +25,38 @@ class CanalPlusTest extends \PHPUnit_Framework_TestCase {
 	 *
 	 */
 
-	public function test( ) {
+	public $CanalPlus = null;
 
+
+
+	/**
+	 *
+	 */
+
+	public function setUp( ) {
+
+		$this->CanalPlus = new CanalPlus( );
+	}
+
+
+
+	/**
+	 *
+	 */
+
+	public function testCanFetch( ) {
+
+		$this->assertTrue( $this->CanalPlus->canFetch( 'http://www.canalplus.fr/c-divertissement/pid1787-c-groland.html' ));
+	}
+
+
+
+	/**
+	 *
+	 */
+
+	public function testCantFetch( ) {
+
+		$this->assertFalse( $this->CanalPlus->canFetch( 'http://www.unsupported.com' ));
 	}
 }

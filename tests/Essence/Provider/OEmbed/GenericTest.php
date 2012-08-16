@@ -25,7 +25,33 @@ class GenericTest extends \PHPUnit_Framework_TestCase {
 	 *
 	 */
 
-	public function test( ) {
+	public $Generic = null;
+
+
+
+	/**
+	 *
+	 */
+
+	public function setUp( ) {
+
+		$this->Generic = new Generic( );
+
+		$Reflection = new \ReflectionClass( '\\Essence\\Provider\\OEmbed\\Generic' );
+
+		$Property = $Reflection->getProperty( '_endpoint' );
+		$Property->setAccessible( true );
+		$Property->setValue( $this->Generic, 'file://' . ESSENCE_TEST_HTTP . '%s.json' );
+	}
+
+
+
+	/**
+	 *
+	 */
+
+	public function testFetch( ) {
+
 
 	}
 }

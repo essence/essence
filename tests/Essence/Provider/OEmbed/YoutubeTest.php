@@ -39,9 +39,9 @@ class YoutubeTest extends \PHPUnit_Framework_TestCase {
 
 		$Reflection = new \ReflectionClass( '\\Essence\\Provider\\OEmbed\\Youtube' );
 
-		$property = $Reflection->getProperty( '_endpoint' );
-		$property->setAccessible( true );
-		$property->setValue( $this->Youtube, 'file://' . ESSENCE_TEST_HTTP . '%s.json' );
+		$Property = $Reflection->getProperty( '_endpoint' );
+		$Property->setAccessible( true );
+		$Property->setValue( $this->Youtube, 'file://' . ESSENCE_TEST_HTTP . '%s.json' );
 	}
 
 

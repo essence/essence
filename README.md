@@ -12,7 +12,7 @@ Using the main class of the library, you can retrieve embed informations in just
 ```php
 <?php
 
-// First, let's tell Essence what providers you want to use
+// First, tell Essence which providers you want to use
 
 Essence\Essence::configure(
 	'OEmbed/Youtube',
@@ -24,14 +24,14 @@ Essence\Essence::configure(
 
 $Embed = Essence\Essence::fetch( 'http://www.youtube.com/watch?v=oHg5SJYRHA0' );
 
-if ( $Embed !== null ) {
-	// That's all, $Embed contains all the informations gathered from the URL !
+if ( $Embed ) {
+	// That's all, you're good to go !
 }
 
 ?>
 ```
 
-Then, just do what you have to do !
+Then, just do anything you want with the data:
 
 ```php
 <article>
@@ -44,5 +44,4 @@ Then, just do what you have to do !
 		<?php echo $Embed->html; ?>
 	</div>
 </article>
-?>
 ```

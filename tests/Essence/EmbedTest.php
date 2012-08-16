@@ -118,6 +118,44 @@ class EmbedTest extends \PHPUnit_Framework_TestCase {
 	 *
 	 */
 
+	public function testMagicIsset( ) {
+
+		$this->assertTrue( isset( $this->Embed->title ));
+		$this->assertFalse( isset( $this->Embed->unknown ));
+	}
+
+
+
+	/**
+	 *
+	 */
+
+	public function testMagicGet( ) {
+
+		$this->assertEquals(
+			$this->customProperties['title'],
+			$this->Embed->title
+		);
+	}
+
+
+
+	/**
+	 *
+	 */
+
+	public function testMagicSet( ) {
+
+		$this->Embed->foo = 'bar';
+		$this->assertEquals( 'bar', $this->Embed->get( 'foo' ));
+	}
+
+
+
+	/**
+	 *
+	 */
+
 	public function testHas( ) {
 
 		$this->assertTrue( $this->Embed->has( 'title' ));

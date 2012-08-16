@@ -39,9 +39,9 @@ class DailymotionTest extends \PHPUnit_Framework_TestCase {
 
 		$Reflection = new \ReflectionClass( '\\Essence\\Provider\\OEmbed\\Dailymotion' );
 
-		$property = $Reflection->getProperty( '_endpoint' );
-		$property->setAccessible( true );
-		$property->setValue( $this->Dailymotion, 'file://' . ESSENCE_TEST_HTTP . '%s.json' );
+		$Property = $Reflection->getProperty( '_endpoint' );
+		$Property->setAccessible( true );
+		$Property->setValue( $this->Dailymotion, 'file://' . ESSENCE_TEST_HTTP . '%s.json' );
 	}
 
 
@@ -74,7 +74,7 @@ class DailymotionTest extends \PHPUnit_Framework_TestCase {
 
 	public function testFetch( ) {
 
-		$Embed = $this->Dailymotion->fetch( 'dailymotion' );
+		$Embed = $this->Dailymotion->fetch( 'http://www.dailymotion.com/video/x51w7_peter-et-steven_fun' );
 
 		$this->assertEquals(
 			'http://static2.dmcdn.net/static/video/537/532/235735:jpeg_preview_source.jpg?20110928233928',

@@ -30,9 +30,9 @@ class VimeoTest extends \PHPUnit_Framework_TestCase {
 		$Vimeo = new Vimeo( );
 		$Reflection = new \ReflectionClass( '\\Essence\\Provider\\OEmbed\\Youtube' );
 
-		$property = $Reflection->getProperty( '_endpoint' );
-		$property->setAccessible( true );
-		$property->setValue( $Vimeo, 'file://' . ESSENCE_TEST_HTTP . '%s.json' );
+		$Property = $Reflection->getProperty( '_endpoint' );
+		$Property->setAccessible( true );
+		$Property->setValue( $Vimeo, 'file://' . ESSENCE_TEST_HTTP . '%s.json' );
 	
 		$Embed = $Vimeo->fetch( 'http://player.vimeo.com/video/20830433' );
 
