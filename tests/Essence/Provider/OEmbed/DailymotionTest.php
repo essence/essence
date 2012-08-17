@@ -78,7 +78,7 @@ class DailymotionTest extends \PHPUnit_Framework_TestCase {
 
 		$this->assertEquals(
 			'http://static2.dmcdn.net/static/video/537/532/235735:jpeg_preview_source.jpg?20110928233928',
-			$Embed->get( 'thumbnailUrl' )
+			$Embed->thumbnailUrl
 		);
 	}
 }

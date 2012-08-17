@@ -111,7 +111,7 @@ class YoutubeTest extends \PHPUnit_Framework_TestCase {
 		
 		$this->assertEquals(
 			'http://www.youtube.com/watch?v=oHg5SJYRHA0',
-			$Embed->get( 'url' )
+			$Embed->url
 		);
 	}
 
@@ -127,7 +127,7 @@ class YoutubeTest extends \PHPUnit_Framework_TestCase {
 		
 		$this->assertEquals(
 			'http://www.youtube.com/watch?v=oHg5SJYRHA0',
-			$Embed->get( 'url' )
+			$Embed->url
 		);
 	}
 
@@ -143,7 +143,7 @@ class YoutubeTest extends \PHPUnit_Framework_TestCase {
 		
 		$this->assertEquals(
 			'http://www.youtube.com/watch?v=oHg5SJYRHA0',
-			$Embed->get( 'url' )
+			$Embed->url
 		);
 	}
 
@@ -159,7 +159,7 @@ class YoutubeTest extends \PHPUnit_Framework_TestCase {
 		
 		$this->assertEquals(
 			'http://www.youtube.com/watch?v=oHg5SJYRHA0',
-			$Embed->get( 'url' )
+			$Embed->url
 		);
 	}
 }

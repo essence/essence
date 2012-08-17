@@ -36,6 +36,6 @@ class VimeoTest extends \PHPUnit_Framework_TestCase {
 	
 		$Embed = $Vimeo->fetch( 'http://player.vimeo.com/video/20830433' );
 
-		$this->assertEquals( 'http://www.vimeo.com/20830433', $Embed->get( 'url' ));
+		$this->assertEquals( 'http://www.vimeo.com/20830433', $Embed->url );
 	}
 }

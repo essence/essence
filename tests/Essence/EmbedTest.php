@@ -23,29 +23,13 @@ class EmbedTest extends \PHPUnit_Framework_TestCase {
 	 *
 	 */
 
-	public $baseProperties = array( );
-
-
-
-	/**
-	 *
-	 */
-
-	public $customProperties = array(
+	public $properties = array(
 		'title' => 'Title',
 		'description' => 'Description.',
 		'width' => 800,
 		'height' => 600,
 		'custom' => 'Custom property'
 	);
-
-
-
-	/**
-	 *
-	 */
-
-	public $expectedProperties = array( );
 
 
 
@@ -64,15 +48,8 @@ class EmbedTest extends \PHPUnit_Framework_TestCase {
 	public function setUp( ) {
 
 		$Reflection = new \ReflectionClass( '\Essence\Embed' );
-		$defaults = $Reflection->getDefaultProperties( );
-
-		$this->baseProperties = $defaults['_data'];
-		$this->expectedProperties = array_merge(
-			$this->baseProperties,
-			$this->customProperties
-		);
 		
-		$this->Embed = new Embed( $this->customProperties );
+		$this->Embed = new Embed( $this->properties );
 	}
 
 
@@ -83,13 +60,23 @@ class EmbedTest extends \PHPUnit_Framework_TestCase {
 
 	public function testConstruct( ) {
 
-		$Reflection = new \ReflectionClass( '\Essence\Embed' );
-		$property = $Reflection->getProperty( '_data' );
-		$property->setAccessible( true );
+		$this->assertEquals(
+			$this->properties['title'],
+			$this->Embed->title
+		);
+	}
+
+
+
+	/**
+	 *
+	 */
+
+	public function testConstructCustom( ) {
 
 		$this->assertEquals(
-			$this->expectedProperties,
-			$property->getValue( $this->Embed )
+			$this->properties['custom'],
+			$this->Embed->custom
 		);
 	}
 
@@ -102,13 +89,13 @@ class EmbedTest extends \PHPUnit_Framework_TestCase {
 	public function testReindex( ) {
 
 		$Embed = new Embed(
-			$this->customProperties,
+			$this->properties,
 			array( 'title' => 'title2' )
 		);
 		
 		$this->assertEquals(
-			$this->customProperties['title'],
-			$Embed->get( 'title2' )
+			$this->properties['title'],
+			$Embed->title2
 		);
 	}
 
@@ -120,7 +107,7 @@ class EmbedTest extends \PHPUnit_Framework_TestCase {
 
 	public function testMagicIsset( ) {
 
-		$this->assertTrue( isset( $this->Embed->title ));
+		$this->assertTrue( isset( $this->Embed->custom ));
 		$this->assertFalse( isset( $this->Embed->unknown ));
 	}
 
@@ -133,8 +120,8 @@ class EmbedTest extends \PHPUnit_Framework_TestCase {
 	public function testMagicGet( ) {
 
 		$this->assertEquals(
-			$this->customProperties['title'],
-			$this->Embed->title
+			$this->properties['custom'],
+			$this->Embed->custom
 		);
 	}
 
@@ -147,7 +134,7 @@ class EmbedTest extends \PHPUnit_Framework_TestCase {
 	public function testMagicSet( ) {
 
 		$this->Embed->foo = 'bar';
-		$this->assertEquals( 'bar', $this->Embed->get( 'foo' ));
+		$this->assertEquals( 'bar', $this->Embed->foo );
 	}
 
 
@@ -156,10 +143,10 @@ class EmbedTest extends \PHPUnit_Framework_TestCase {
 	 *
 	 */
 
-	public function testHas( ) {
+	public function testHasCustomProperty( ) {
 
-		$this->assertTrue( $this->Embed->has( 'title' ));
-		$this->assertFalse( $this->Embed->has( 'unknown' ));
+		$this->assertTrue( $this->Embed->hasCustomProperty( 'custom' ));
+		$this->assertFalse( $this->Embed->hasCustomProperty( 'unknown' ));
 	}
 
 
@@ -168,11 +155,11 @@ class EmbedTest extends \PHPUnit_Framework_TestCase {
 	 *
 	 */
 
-	public function testGet( ) {
+	public function testGetCustomProperty( ) {
 
 		$this->assertEquals(
-			$this->customProperties['title'],
-			$this->Embed->get( 'title' )
+			$this->properties['custom'],
+			$this->Embed->getCustomProperty( 'custom' )
 		);
 	}
 
@@ -182,9 +169,9 @@ class EmbedTest extends \PHPUnit_Framework_TestCase {
 	 *
 	 */
 
-	public function testGetAll( ) {
+	public function testGetUnknownCustomProperty( ) {
 
-		$this->assertEquals( $this->expectedProperties, $this->Embed->get( ));
+		$this->assertNull( $this->Embed->getCustomProperty( 'unknown' ));
 	}
 
 
@@ -193,32 +180,9 @@ class EmbedTest extends \PHPUnit_Framework_TestCase {
 	 *
 	 */
 
-	public function testGetUnknown( ) {
+	public function testSetCustomProperty( ) {
 
-		$this->assertNull( $this->Embed->get( 'unknown' ));
-	}
-
-
-
-	/**
-	 *
-	 */
-
-	public function testSet( ) {
-
-		$this->Embed->set( 'foo', 'bar' );
-		$this->assertEquals( 'bar', $this->Embed->get( 'foo' ));
-	}
-
-
-
-	/**
-	 *
-	 */
-
-	public function testSetMultiple( ) {
-
-		$this->Embed->set( array( 'bar' => 'foo' ));
-		$this->assertEquals( 'foo', $this->Embed->get( 'bar' ));
+		$this->Embed->setCustomProperty( 'foo', 'bar' );
+		$this->assertEquals( 'bar', $this->Embed->foo );
 	}
 }

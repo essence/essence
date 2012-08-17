@@ -46,14 +46,11 @@ class Dailymotion extends \Essence\Provider\OEmbed {
 		// we're getting the larger possible thumbnail, instead of the default
 		// one given by dailymotion
 
-		if ( $Embed->has( 'thumbnailUrl' )) {
-			$Embed->set(
-				'thumbnailUrl',
-				str_replace(
-					'jpeg_preview_large',
-					'jpeg_preview_source',
-					$Embed->get( 'thumbnailUrl' )
-				)
+		if ( !empty( $Embed->thumbnailUrl )) {
+			$Embed->thumbnailUrl = str_replace(
+				'jpeg_preview_large',
+				'jpeg_preview_source',
+				$Embed->thumbnailUrl
 			);
 		}
 

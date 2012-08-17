@@ -20,17 +20,6 @@ namespace Essence;
 class Embed {
 
 	/**
-	 *	A constant representing all properties.
-	 *
-	 *	@see Embed::get( )
-	 *	@var string
-	 */
-
-	const all = 'all';
-
-
-
-	/**
 	 *	Embed data, indexed by property name. Providers must try to fill these 
 	 *	properties with appropriate data before adding their own, to
 	 *	ensure consistency accross the API.
@@ -42,67 +31,146 @@ class Embed {
 	 *	@var array
 	 */
 
-	protected $_data = array(
+	protected $_properties = array( );
 
-		// OEmbed type 
-		// OG type
-		'type' => '',
 
-		// OEmbed version
-		'version' => '',	
 
-		// OEmbed title
-		// OG title
-		'title' => '',		
+	/**
+	 *	OEmbed type 
+	 *	OG type
+	 */
 
-		// Sometimes provided in OEmbed (i.e. Vimeo)
-		// OG description
-		'description' => '',		
+	public $type = '';
 
-		// OEmbed author_name
-		'authorName' => '',		
 
-		// OEmbed author_url
-		'authorUrl' => '',		
 
-		// OEmbed provider_name 
-		// OG site_name
-		'providerName' => '',	
+	/**
+	 *	OEmbed version
+	 */
 
-		// OEmbed provider_url
-		'providerUrl' => '',		
+	public $version = '';
 
-		// OEmbed cache_age
-		'cacheAge' => '',		
 
-		// OEmbed thumbnail_url
-		// OG image
-		// OG image:url
-		'thumbnailUrl' => '',	
 
-		// OEmbed thumbnail_width
-		'thumbnailWidth' => '',	
+	/**
+	 *	OEmbed title
+	 *	OG title
+	 */
 
-		// OEmbed thumbnail_height
-		'thumbnailHeight' => '',	
+	public $title = '';
 
-		// OEmbed html
-		'html' => '',	
 
-		// OEmbed width 
-		// OG image:width 
-		// OG video:width
-		'width' => '',			
 
-		// OEmbed height 
-		// OG image:height 
-		// OG video:height
-		'height' => '',		
+	/**
+	 *	Sometimes provided in OEmbed (i.e. Vimeo)
+	 *	OG description
+	 */
 
-		// OEmbed url 
-		// OG url
-		'url' => ''
-	);
+	public $description = '';
+
+
+
+	/**
+	 *	OEmbed author_name
+	 */
+
+	public $authorName = '';
+
+
+
+	/**
+	 *	OEmbed author_url
+	 */
+
+	public $authorUrl = '';
+
+
+
+	/**
+	 *	OEmbed provider_name 
+	 *	OG site_name
+	 */
+
+	public $providerName = '';	
+
+
+
+	/**
+	 *	OEmbed provider_url
+	 */
+
+	public $providerUrl = '';		
+
+
+
+	/**
+	 *	OEmbed cache_age
+	 */
+
+	public $cacheAge = '';		
+
+
+
+	/**
+	 *	OEmbed thumbnail_url
+	 *	OG image
+	 *	OG image:url
+	 */
+
+	public $thumbnailUrl = '';	
+
+
+
+	/**
+	 *	OEmbed thumbnail_width
+	 */
+
+	public $thumbnailWidth = '';	
+
+
+
+	/**
+	 *	OEmbed thumbnail_height
+	 */
+
+	public $thumbnailHeight = '';	
+
+
+
+	/**
+	 *	OEmbed html
+	 */
+
+	public $html = '';	
+
+
+
+	/**
+	 *	OEmbed width 
+	 *	OG image:width 
+	 *	OG video:width
+	 */
+
+	public $width = '';			
+
+
+
+	/**
+	 *	OEmbed height 
+	 *	OG image:height 
+	 *	OG video:height
+	 */
+
+	public $height = '';		
+
+
+
+	/**
+	 *	OEmbed url 
+	 *	OG url
+	 */
+
+	public $url = '';
 
 
 
@@ -114,36 +182,42 @@ class Embed {
 	 *
 	 *	@see Embed::$_data
 	 *	@see Embed::_reindex( )
-	 *	@param array $data An array of embed informations.
+	 *	@param array $properties An array of embed informations.
 	 *	@param array $correspondances An array of index correspondances.
 	 */
 
-	public function __construct( array $data, array $correspondances = array( )) {
+	public function __construct( array $properties, array $correspondances = array( )) {
 
 		if ( !empty( $correspondances )) {
-			$data = $this->_reindex( $data, $correspondances );
+			$properties = $this->_reindex( $properties, $correspondances );
 		}
 
-		$this->_data = array_merge( $this->_data, $data );
+		foreach ( $properties as $property => $value ) {
+			if ( isset( $this->{$property})) {
+				$this->{$property} = $value;
+			} else {
+				$this->_properties[ $property ] = $value;
+			}
+		}
 	}
 
 
 
 	/**
-	 *	Reindexes a set of data, according to the given correspondances.
+	 *	Reindexes a set of properties, according to the given correspondances.
 	 *	
-	 *	@param array $data The set of data to be reindexed.
+	 *	@param array $properties The set of properties to be reindexed.
 	 *	@param array $correspondances An array of index correspondances of the
 	 *		form `array( 'currentIndex' => 'newIndex' )`.
 	 */
 
-	protected function _reindex( array $data, array $correspondances ) {
+	protected function _reindex( array $properties, array $correspondances ) {
 		
-		$result = $data;
+		$result = $properties;
 
 		foreach ( $correspondances as $from => $to ) {
-			if ( isset( $data[ $from ])) {
-				$result[ $to ] = $data[ $from ];
+			if ( isset( $properties[ $from ])) {
+				$result[ $to ] = $properties[ $from ];
 			}
 		}
 
@@ -158,7 +232,7 @@ class Embed {
 
 	public function __isset( $property ) {
 
-		return $this->has( $property );
+		return $this->hasCustomProperty( $property );
 	}
 
 
@@ -169,7 +243,7 @@ class Embed {
 
 	public function __get( $property ) {
 
-		return $this->get( $property );
+		return $this->getCustomProperty( $property );
 	}
 
 
@@ -180,7 +254,7 @@ class Embed {
 
 	public function __set( $property, $value ) {
 
-		return $this->set( $property, $value );
+		return $this->setCustomProperty( $property, $value );
 	}
 
 
@@ -192,12 +266,9 @@ class Embed {
 	 *	@param boolean True if the property exists, otherwise false.
 	 */
 
-	public function has( $property ) {
+	public function hasCustomProperty( $property ) {
 
-		return (
-			isset( $this->_data[ $property ])
-			&& !empty( $this->_data[ $property ])
-		);
+		return isset( $this->_properties[ $property ]);
 	}
 
 
@@ -205,22 +276,15 @@ class Embed {
 	/**
 	 *	Returns the value of the given property. 
 	 *
-	 *	@param string $property Property name, or Embed::all to retrieve all
-	 *		the properties.
-	 *	@return mixed Null if the property doesn't exists. Otherwise, the
-	 *		property value, or an array of all properties if all properties
-	 *		were requested.
+	 *	@param string $property Property name.
+	 *	@return mixed The property value, or null if the property doesn't exists.
 	 */
 
-	public function get( $property = Embed::all ) {
+	public function getCustomProperty( $property ) {
 
-		if ( $property === Embed::all ) {
-			return $this->_data;
-		} else {
-			return $this->has( $property )
-				? $this->_data[ $property ]
-				: null;
-		}
+		return $this->hasCustomProperty( $property )
+			? $this->_properties[ $property ]
+			: null;
 	}
 
 
@@ -228,20 +292,12 @@ class Embed {
 	/**
 	 *	Sets the value of one or many properties.
 	 *
-	 *	@param string|array $property Property name, or an array of the form
-	 *		array( 'property' => 'value' ).
-	 *	@param string|null New value, or nothing if the first parameter is an
-	 *		array.
+	 *	@param string $property Property name.
+	 *	@param string $value New value.
 	 */
 
-	public function set( $property, $value = null ) {
+	public function setCustomProperty( $property, $value ) {
 
-		if ( !is_array( $property )) {
-			$property = array( $property => $value );
-		}
-
-		foreach ( $property as $key => $value ) {
-			$this->_data[ $key ] = $value;
-		}
+		$this->_properties[ $property ] = $value;
 	}
 }

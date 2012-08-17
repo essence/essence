@@ -32,13 +32,13 @@ class OEmbedTest extends \PHPUnit_Framework_TestCase {
 		);
 
 		$Embed = $OEmbed->fetch( 'valid#anchor' );
-		$this->assertEquals( 'valid', $Embed->get( 'url' ));
+		$this->assertEquals( 'valid', $Embed->url );
 
 		$Embed = $OEmbed->fetch( 'valid?argument=value' );
-		$this->assertEquals( 'valid', $Embed->get( 'url' ));
+		$this->assertEquals( 'valid', $Embed->url );
 
 		$Embed = $OEmbed->fetch( 'valid?argument=value#anchor' );
-		$this->assertEquals( 'valid', $Embed->get( 'url' ));
+		$this->assertEquals( 'valid', $Embed->url );
 	}
 
 

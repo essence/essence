@@ -88,8 +88,8 @@ abstract class Provider {
 		$url = $this->_prepare( $url );
 		$Embed = $this->_fetch( $url );
 
-		if ( !$Embed->has( 'url' )) {
-			$Embed->set( 'url', $url );
+		if ( empty( $Embed->url )) {
+			$Embed->url = $url;
 		}
 
 		return $Embed;
