@@ -25,16 +25,44 @@ class VimeoTest extends \PHPUnit_Framework_TestCase {
 	 *
 	 */
 
-	public function testPrepare( ) {
+	public $Vimeo = null;
 
-		$Vimeo = new Vimeo( );
+
+
+	/**
+	 *
+	 */
+
+	public function setUp( ) {
+
+		$this->Vimeo = new Vimeo( );
 		$Reflection = new \ReflectionClass( '\\Essence\\Provider\\OEmbed\\Youtube' );
 
 		$Property = $Reflection->getProperty( '_endpoint' );
 		$Property->setAccessible( true );
-		$Property->setValue( $Vimeo, 'file://' . ESSENCE_TEST_HTTP . '%s.json' );
-	
-		$Embed = $Vimeo->fetch( 'http://player.vimeo.com/video/20830433' );
+		$Property->setValue( $this->Vimeo, 'file://' . ESSENCE_TEST_HTTP . '%s.json' );
+	}
+
+
+
+	/**
+	 *
+	 */
+
+	public function testPrepare( ) {
+
+		$Embed = $this->Vimeo->fetch( 'http://player.vimeo.com/video/20830433' );
+
+		$this->assertEquals( 'http://www.vimeo.com/20830433', $Embed->url );
+	}
+
+	/**
+	 *
+	 */
+
+	public function testPrepareAlreadyPrepared( ) {
+
+		$Embed = $this->Vimeo->fetch( 'http://www.vimeo.com/20830433' );
 
 		$this->assertEquals( 'http://www.vimeo.com/20830433', $Embed->url );
 	}

@@ -41,7 +41,7 @@ class GenericTest extends \PHPUnit_Framework_TestCase {
 
 		$Property = $Reflection->getProperty( '_endpoint' );
 		$Property->setAccessible( true );
-		$Property->setValue( $this->Generic, 'file://' . ESSENCE_TEST_HTTP . '%s.json' );
+		$Property->setValue( $this->Generic, 'file://' . ESSENCE_TEST_HTTP . '%s.html' );
 	}
 
 
@@ -52,6 +52,21 @@ class GenericTest extends \PHPUnit_Framework_TestCase {
 
 	public function testFetch( ) {
 
+		$this->assertNotNull( 
+			$this->Generic->fetch( 'file://' . ESSENCE_TEST_HTTP . 'valid.html' )
+		);
+	}
 
+
+
+	/**
+	 *
+	 */
+
+	public function testFetchUnfetchable( ) {
+
+		$this->setExpectedException( '\\Essence\\Exception' );
+		
+		$this->Generic->fetch( 'file://' . ESSENCE_TEST_HTTP . 'invalid.html' );
 	}
 }

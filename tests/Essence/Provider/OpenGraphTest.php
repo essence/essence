@@ -23,12 +23,29 @@ class OpenGraphTest extends \PHPUnit_Framework_TestCase {
 	 *
 	 */
 
+	public $OpenGraph = null;
+
+
+
+	/**
+	 *
+	 */
+
+	public function setUp( ) {
+
+		$this->OpenGraph = new ConcreteOpenGraph( OpenGraph::anything );
+	}
+
+
+
+	/**
+	 *
+	 */
+
 	public function testFetch( ) {
 
-		$OpenGraph = new ConcreteOpenGraph( OpenGraph::anything );
-
 		$this->assertNotNull(
-			$OpenGraph->fetch( 'file://' . ESSENCE_TEST_HTTP . 'valid.html' )
+			$this->OpenGraph->fetch( 'file://' . ESSENCE_TEST_HTTP . 'valid.html' )
 		);
 	}
 
@@ -42,8 +59,7 @@ class OpenGraphTest extends \PHPUnit_Framework_TestCase {
 
 		$this->setExpectedException( '\\Essence\\Exception' );
 
-		$OpenGraph = new ConcreteOpenGraph( OpenGraph::anything );
-		$OpenGraph->fetch( 'file://' . ESSENCE_TEST_HTTP . 'invalid.html' );
+		$this->OpenGraph->fetch( 'file://' . ESSENCE_TEST_HTTP . 'invalid.html' );
 	}
 }
 

@@ -162,4 +162,20 @@ class YoutubeTest extends \PHPUnit_Framework_TestCase {
 			$Embed->url
 		);
 	}
+
+
+
+	/**
+	 *
+	 */
+
+	public function testPrepareAlreadyPrepared( ) {
+
+		$Embed = $this->Youtube->fetch( 'http://www.youtube.com/watch?v=oHg5SJYRHA0' );
+		
+		$this->assertEquals(
+			'http://www.youtube.com/watch?v=oHg5SJYRHA0',
+			$Embed->url
+		);
+	}
 }
