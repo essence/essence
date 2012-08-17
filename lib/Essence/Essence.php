@@ -111,21 +111,21 @@ class Essence {
 		}
 
 		try {
-			$allUrls = $this->_extractUrls( $url );
+			$urls = self::_extractUrls( $url );
 		} catch ( Exception $exception ) {
 			$_this->_log( $exception );
 			return array( );
 		}
 
-		$urls = array( );
+		$fetchable = array( );
 
-		foreach ( $allUrls as $url ) {
-			if ( $this->_ProviderCollection->hasProvider( $url )) {
-				$urls[] = $url;
+		foreach ( $urls as $url ) {
+			if ( $_this->_ProviderCollection->hasProvider( $url )) {
+				$fetchable[] = $url;
 			}
 		}
 
-		return array_values( array_unique( $urls )); // array_values reindexes the array
+		return array_values( array_unique( $fetchable )); // array_values reindexes the array
 	}
 
 
@@ -209,15 +209,11 @@ class Essence {
 	 */
 
 	public static function fetchAll( array $urls ) {
-		
+	
 		$infos = array( );
 
 		foreach ( $urls as $url ) {
-			$data = $this->fetch( $url );
-
-			if ( $data ) {
-				$infos[ $url ] = $data;
-			}
+			$infos[ $url ] = self::fetch( $url );
 		}
 
 		return $infos;
@@ -251,11 +247,11 @@ class Essence {
 
 		$_this = self::_instance( );
 
-		if ( empty( $_this->errors )) {
+		if ( empty( $_this->_errors )) {
 			return false;
 		}
 
-		return $_this->_errors[ count( $_this->_errors - 1 )];
+		return $_this->_errors[ count( $_this->_errors ) - 1 ];
 	}
 
 

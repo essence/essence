@@ -50,7 +50,7 @@ class Generic extends \Essence\Provider\OEmbed {
 
 		foreach ( $attributes['link'] as $link ) {
 			if ( preg_match( '#json|xml#i', $link['type'], $matches )) {
-				return $this->_fetchEndpoint( $link['href'], $format );
+				return $this->_fetchEndpoint( $link['href'], array_shift( $matches ));
 			}
 		}
 
