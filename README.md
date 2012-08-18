@@ -12,7 +12,9 @@ Using the main class of the library, you can retrieve embed informations in just
 ```php
 <?php
 
-// First, tell Essence which providers you want to use
+// First, configure Essence with the providers you want to use
+
+require_once 'path/to/essence/bootstrap.php';
 
 Essence\Essence::configure(
 	'OEmbed/Youtube',
