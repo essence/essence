@@ -31,22 +31,6 @@ class EssenceTest extends \PHPUnit_Framework_TestCase {
 	 *
 	 */
 
-	public function setUp( ) {
-
-		$Collection = $this->getMock( '\\Essence\\ProviderCollection' );
-		$Collection->expects( $this->any( ))
-			->method( 'doSomething' )
-			->will( $this->returnValue( 'foo' ));
-
-		TestableEssence::stub( $Collection );
-	}
-
-
-
-	/**
-	 *
-	 */
-
 	public function testConfigure( ) {
 
 		$Collection = $this->getMock( '\\Essence\\ProviderCollection', array( 'load' ));
