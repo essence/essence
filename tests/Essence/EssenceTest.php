@@ -23,14 +23,6 @@ class EssenceTest extends \PHPUnit_Framework_TestCase {
 	 *
 	 */
 
-	public $Essence = null;
-
-
-
-	/**
-	 *
-	 */
-
 	public function testConfigure( ) {
 
 		$Collection = $this->getMock( '\\Essence\\ProviderCollection', array( 'load' ));
