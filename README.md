@@ -97,7 +97,7 @@ Advanced usage
 The Essence class provides some useful utility function to ensure you will get some informations.
 
 First, the extract( ) method lets you extract embeddable URLs from a web page.
-For example, say you want to get the URL of all videos in a blog post.
+For example, say you want to get the URL of all videos in a blog post:
 
 ```php
 <?php
@@ -118,12 +118,12 @@ $urls = Essence\Essence::extract( 'http://www.blog.com/article' );
 ?>
 ```
 
-Now that you've got those URLs, there is a good chance you want to embed them.
+Now that you've got those URLs, there is a good chance you want to embed them:
 
 ```php
 <?php
 
-$embeds = Essence\Essence::fetchAll( $url );
+$embeds = Essence\Essence::fetchAll( $urls );
 
 /**
  *	$embeds contains an array of Embed objects indexed by URL:
@@ -141,8 +141,7 @@ Error handling
 --------------
 
 By default, Essence does all the dirty stuff for you by catching all internal exceptions, so you just have to test if an Embed object is valid.
-But, in case you want more informations about an error, Essence keeps exceptions warm, and lets you access all of them.
-
+But, in case you want more informations about an error, Essence keeps exceptions warm, and lets you access all of them:
 ```php
 <?php
 
