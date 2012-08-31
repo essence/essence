@@ -82,7 +82,7 @@ Don't worry, all these "non-standard" properties can also be stored in a Media o
 ```php
 <?php
 
-if ( $Media->hasCustomProperty( 'a_custom_property' )) {
+if ( !$Media->hasCustomProperty( 'a_custom_property' )) {
 	$Media->setCustomProperty( 'a_custom_property', 'value' );
 }
 
