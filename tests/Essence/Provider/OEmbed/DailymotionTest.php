@@ -50,9 +50,9 @@ class DailymotionTest extends \PHPUnit_Framework_TestCase {
 	 *
 	 */
 
-	public function testCanFetch( ) {
+	public function testCanEmbed( ) {
 
-		$this->assertTrue( $this->Dailymotion->canFetch( 'http://www.dailymotion.com/video/xlyy09_very-bad-blagues-le-premier-p-tit-dej_fun' ));
+		$this->assertTrue( $this->Dailymotion->canEmbed( 'http://www.dailymotion.com/video/xlyy09_very-bad-blagues-le-premier-p-tit-dej_fun' ));
 	}
 
 
@@ -61,9 +61,9 @@ class DailymotionTest extends \PHPUnit_Framework_TestCase {
 	 *
 	 */
 
-	public function testCantFetch( ) {
+	public function testCantEmbed( ) {
 
-		$this->assertFalse( $this->Dailymotion->canFetch( 'http://www.youtube.com/watch?v=HgKXN_Uw2ME' ));
+		$this->assertFalse( $this->Dailymotion->canEmbed( 'http://www.youtube.com/watch?v=HgKXN_Uw2ME' ));
 	}
 
 
@@ -72,13 +72,13 @@ class DailymotionTest extends \PHPUnit_Framework_TestCase {
 	 *
 	 */
 
-	public function testFetch( ) {
+	public function testEmbed( ) {
 
-		$Embed = $this->Dailymotion->fetch( 'http://www.dailymotion.com/video/x51w7_peter-et-steven_fun' );
+		$Media = $this->Dailymotion->embed( 'http://www.dailymotion.com/video/x51w7_peter-et-steven_fun' );
 
 		$this->assertEquals(
 			'http://static2.dmcdn.net/static/video/537/532/235735:jpeg_preview_source.jpg?20110928233928',
-			$Embed->thumbnailUrl
+			$Media->thumbnailUrl
 		);
 	}
 }

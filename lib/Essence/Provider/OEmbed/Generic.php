@@ -32,10 +32,10 @@ class Generic extends \Essence\Provider\OEmbed {
 	 *	Fetches embed information from the given URL.
 	 *
 	 *	@param string $url URL to fetch informations from.
-	 *	@return \Essence\Embed Embed informations.
+	 *	@return \Essence\Media Embed informations.
 	 */
 
-	protected function _fetch( $url ) {
+	protected function _embed( $url ) {
 
 		$attributes = \Essence\Html::extractAttributes(
 			\Essence\Http::get( $url ),
@@ -50,7 +50,7 @@ class Generic extends \Essence\Provider\OEmbed {
 
 		foreach ( $attributes['link'] as $link ) {
 			if ( preg_match( '#json|xml#i', $link['type'], $matches )) {
-				return $this->_fetchEndpoint( $link['href'], array_shift( $matches ));
+				return $this->_embedEndpoint( $link['href'], array_shift( $matches ));
 			}
 		}
 

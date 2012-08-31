@@ -50,10 +50,10 @@ class GenericTest extends \PHPUnit_Framework_TestCase {
 	 *
 	 */
 
-	public function testFetch( ) {
+	public function testEmbed( ) {
 
 		$this->assertNotNull( 
-			$this->Generic->fetch( 'file://' . ESSENCE_TEST_HTTP . 'valid.html' )
+			$this->Generic->embed( 'file://' . ESSENCE_TEST_HTTP . 'valid.html' )
 		);
 	}
 
@@ -63,10 +63,10 @@ class GenericTest extends \PHPUnit_Framework_TestCase {
 	 *
 	 */
 
-	public function testFetchUnfetchable( ) {
+	public function testEmbedUnembeddable( ) {
 
 		$this->setExpectedException( '\\Essence\\Exception' );
 		
-		$this->Generic->fetch( 'file://' . ESSENCE_TEST_HTTP . 'invalid.html' );
+		$this->Generic->embed( 'file://' . ESSENCE_TEST_HTTP . 'invalid.html' );
 	}
 }

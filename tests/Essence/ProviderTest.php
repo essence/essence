@@ -23,9 +23,9 @@ class ConcreteProvider extends Provider {
 	 *
 	 */
 
-	protected function _fetch( $url ) {
+	protected function _embed( $url ) {
 
-		return new Embed( array( 'title' => 'Title' ));
+		return new Media( array( 'title' => 'Title' ));
 	}	
 }
 
@@ -41,11 +41,11 @@ class ProviderTest extends \PHPUnit_Framework_TestCase {
 	 *
 	 */
 
-	public function testCanFetch( ) {
+	public function testCanEmbed( ) {
 
 		$Provider = new ConcreteProvider( '#[a-z]+#' );
 
-		$this->assertTrue( $Provider->canFetch( 'abc' ));	
+		$this->assertTrue( $Provider->canEmbed( 'abc' ));	
 	}
 
 
@@ -54,11 +54,11 @@ class ProviderTest extends \PHPUnit_Framework_TestCase {
 	 *
 	 */
 
-	public function testCantFetch( ) {
+	public function testCantEmbed( ) {
 
 		$Provider = new ConcreteProvider( '#[a-z]+#' );
 
-		$this->assertFalse( $Provider->canFetch( '123' ));		
+		$this->assertFalse( $Provider->canEmbed( '123' ));		
 	}
 
 
@@ -67,18 +67,18 @@ class ProviderTest extends \PHPUnit_Framework_TestCase {
 	 *
 	 */
 
-	public function testFetch( ) {
+	public function testEmbed( ) {
 
 		$Provider = new ConcreteProvider( Provider::anything );
 
 		$this->assertEquals(
-			new Embed(
+			new Media(
 				array(
 					'title' => 'Title',
 					'url' => 'http://foo.bar'
 				)
 			),
-			$Provider->fetch( '  http://foo.bar  ' )
+			$Provider->embed( '  http://foo.bar  ' )
 		);
 	}
 }

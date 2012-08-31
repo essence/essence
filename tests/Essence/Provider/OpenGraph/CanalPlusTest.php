@@ -44,9 +44,9 @@ class CanalPlusTest extends \PHPUnit_Framework_TestCase {
 	 *
 	 */
 
-	public function testCanFetch( ) {
+	public function testCanEmbed( ) {
 
-		$this->assertTrue( $this->CanalPlus->canFetch( 'http://www.canalplus.fr/c-divertissement/pid1787-c-groland.html' ));
+		$this->assertTrue( $this->CanalPlus->canEmbed( 'http://www.canalplus.fr/c-divertissement/pid1787-c-groland.html' ));
 	}
 
 
@@ -55,8 +55,8 @@ class CanalPlusTest extends \PHPUnit_Framework_TestCase {
 	 *
 	 */
 
-	public function testCantFetch( ) {
+	public function testCantEmbed( ) {
 
-		$this->assertFalse( $this->CanalPlus->canFetch( 'http://www.unsupported.com' ));
+		$this->assertFalse( $this->CanalPlus->canEmbed( 'http://www.unsupported.com' ));
 	}
 }

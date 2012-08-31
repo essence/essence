@@ -25,7 +25,7 @@ class Bar extends \Essence\Provider {
 	 *
 	 */
 
-	protected function _fetch( $url ) {
+	protected function _embed( $url ) {
 
 	}
 }

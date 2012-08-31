@@ -51,9 +51,9 @@ class VimeoTest extends \PHPUnit_Framework_TestCase {
 
 	public function testPrepare( ) {
 
-		$Embed = $this->Vimeo->fetch( 'http://player.vimeo.com/video/20830433' );
+		$Media = $this->Vimeo->embed( 'http://player.vimeo.com/video/20830433' );
 
-		$this->assertEquals( 'http://www.vimeo.com/20830433', $Embed->url );
+		$this->assertEquals( 'http://www.vimeo.com/20830433', $Media->url );
 	}
 
 	/**
@@ -62,8 +62,8 @@ class VimeoTest extends \PHPUnit_Framework_TestCase {
 
 	public function testPrepareAlreadyPrepared( ) {
 
-		$Embed = $this->Vimeo->fetch( 'http://www.vimeo.com/20830433' );
+		$Media = $this->Vimeo->embed( 'http://www.vimeo.com/20830433' );
 
-		$this->assertEquals( 'http://www.vimeo.com/20830433', $Embed->url );
+		$this->assertEquals( 'http://www.vimeo.com/20830433', $Media->url );
 	}
 }

@@ -44,9 +44,9 @@ class TedTest extends \PHPUnit_Framework_TestCase {
 	 *
 	 */
 
-	public function testCanFetch( ) {
+	public function testCanEmbed( ) {
 
-		$this->assertTrue( $this->Ted->canFetch( 'http://www.ted.com/talks/reggie_watts_disorients_you_in_the_most_entertaining_way.html' ));
+		$this->assertTrue( $this->Ted->canEmbed( 'http://www.ted.com/talks/reggie_watts_disorients_you_in_the_most_entertaining_way.html' ));
 	}
 
 
@@ -55,8 +55,8 @@ class TedTest extends \PHPUnit_Framework_TestCase {
 	 *
 	 */
 
-	public function testCantFetch( ) {
+	public function testCantEmbed( ) {
 
-		$this->assertFalse( $this->Ted->canFetch( 'http://www.unsupported.com' ));
+		$this->assertFalse( $this->Ted->canEmbed( 'http://www.unsupported.com' ));
 	}
 }

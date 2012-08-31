@@ -25,12 +25,12 @@ class GenericTest extends \PHPUnit_Framework_TestCase {
 	 *
 	 */
 
-	public function testFetch( ) {
+	public function testEmbed( ) {
 
 		$Generic = new Generic( );
 
 		$this->assertNotNull(
-			$Generic->fetch( 'file://' . ESSENCE_TEST_HTTP . 'valid.html' )
+			$Generic->embed( 'file://' . ESSENCE_TEST_HTTP . 'valid.html' )
 		);
 	}
 }

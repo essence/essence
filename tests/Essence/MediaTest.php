@@ -14,10 +14,10 @@ if ( !defined( 'ESSENCE_BOOTSTRAPPED' )) {
 
 
 /**
- *	Test case for Embed.
+ *	Test case for Media.
  */
 
-class EmbedTest extends \PHPUnit_Framework_TestCase {
+class MediaTest extends \PHPUnit_Framework_TestCase {
 
 	/**
 	 *
@@ -37,7 +37,7 @@ class EmbedTest extends \PHPUnit_Framework_TestCase {
 	 *
 	 */
 
-	public $Embed = null;
+	public $Media = null;
 
 
 
@@ -47,9 +47,9 @@ class EmbedTest extends \PHPUnit_Framework_TestCase {
 
 	public function setUp( ) {
 
-		$Reflection = new \ReflectionClass( '\Essence\Embed' );
+		$Reflection = new \ReflectionClass( '\Essence\Media' );
 		
-		$this->Embed = new Embed( $this->properties );
+		$this->Media = new Media( $this->properties );
 	}
 
 
@@ -62,7 +62,7 @@ class EmbedTest extends \PHPUnit_Framework_TestCase {
 
 		$this->assertEquals(
 			$this->properties['title'],
-			$this->Embed->title
+			$this->Media->title
 		);
 	}
 
@@ -76,7 +76,7 @@ class EmbedTest extends \PHPUnit_Framework_TestCase {
 
 		$this->assertEquals(
 			$this->properties['custom'],
-			$this->Embed->custom
+			$this->Media->custom
 		);
 	}
 
@@ -88,14 +88,14 @@ class EmbedTest extends \PHPUnit_Framework_TestCase {
 
 	public function testReindex( ) {
 
-		$Embed = new Embed(
+		$Media = new Media(
 			$this->properties,
 			array( 'title' => 'title2' )
 		);
 		
 		$this->assertEquals(
 			$this->properties['title'],
-			$Embed->title2
+			$Media->title2
 		);
 	}
 
@@ -107,8 +107,8 @@ class EmbedTest extends \PHPUnit_Framework_TestCase {
 
 	public function testMagicIsset( ) {
 
-		$this->assertTrue( isset( $this->Embed->custom ));
-		$this->assertFalse( isset( $this->Embed->unknown ));
+		$this->assertTrue( isset( $this->Media->custom ));
+		$this->assertFalse( isset( $this->Media->unknown ));
 	}
 
 
@@ -121,7 +121,7 @@ class EmbedTest extends \PHPUnit_Framework_TestCase {
 
 		$this->assertEquals(
 			$this->properties['custom'],
-			$this->Embed->custom
+			$this->Media->custom
 		);
 	}
 
@@ -133,8 +133,8 @@ class EmbedTest extends \PHPUnit_Framework_TestCase {
 
 	public function testMagicSet( ) {
 
-		$this->Embed->foo = 'bar';
-		$this->assertEquals( 'bar', $this->Embed->foo );
+		$this->Media->foo = 'bar';
+		$this->assertEquals( 'bar', $this->Media->foo );
 	}
 
 
@@ -145,8 +145,22 @@ class EmbedTest extends \PHPUnit_Framework_TestCase {
 
 	public function testHasCustomProperty( ) {
 
-		$this->assertTrue( $this->Embed->hasCustomProperty( 'custom' ));
-		$this->assertFalse( $this->Embed->hasCustomProperty( 'unknown' ));
+		$this->assertTrue( $this->Media->hasCustomProperty( 'custom' ));
+		$this->assertFalse( $this->Media->hasCustomProperty( 'unknown' ));
+	}
+
+
+
+	/**
+	 *
+	 */
+
+	public function testGetCustomProperties( ) {
+
+		/*$this->assertEquals(
+			$this->properties,
+			$this->Media->getCustomProperties( )
+		);*/
 	}
 
 
@@ -159,7 +173,7 @@ class EmbedTest extends \PHPUnit_Framework_TestCase {
 
 		$this->assertEquals(
 			$this->properties['custom'],
-			$this->Embed->getCustomProperty( 'custom' )
+			$this->Media->getCustomProperty( 'custom' )
 		);
 	}
 
@@ -171,7 +185,7 @@ class EmbedTest extends \PHPUnit_Framework_TestCase {
 
 	public function testGetUnknownCustomProperty( ) {
 
-		$this->assertNull( $this->Embed->getCustomProperty( 'unknown' ));
+		$this->assertNull( $this->Media->getCustomProperty( 'unknown' ));
 	}
 
 
@@ -182,7 +196,7 @@ class EmbedTest extends \PHPUnit_Framework_TestCase {
 
 	public function testSetCustomProperty( ) {
 
-		$this->Embed->setCustomProperty( 'foo', 'bar' );
-		$this->assertEquals( 'bar', $this->Embed->foo );
+		$this->Media->setCustomProperty( 'foo', 'bar' );
+		$this->assertEquals( 'bar', $this->Media->foo );
 	}
 }

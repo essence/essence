@@ -17,7 +17,7 @@ namespace Essence;
  *	@package Essence
  */
 
-class Embed {
+class Media {
 
 	/**
 	 *	Embed data, indexed by property name. Providers must try to fill these 
@@ -175,13 +175,13 @@ class Embed {
 
 
 	/**
-	 *	Constructs an Embed from the given dataset.
+	 *	Constructs a Media from the given dataset.
 	 *	If the property names in the dataset doesn't match the standard one,
 	 *	the $correspondances array can be used to specify a reindexation
 	 *	schema.
 	 *
-	 *	@see Embed::$_data
-	 *	@see Embed::_reindex( )
+	 *	@see Media::$_data
+	 *	@see Media::_reindex( )
 	 *	@param array $properties An array of embed informations.
 	 *	@param array $correspondances An array of index correspondances.
 	 */
@@ -269,6 +269,19 @@ class Embed {
 	public function hasCustomProperty( $property ) {
 
 		return isset( $this->_properties[ $property ]);
+	}
+
+
+
+	/**
+	 *	Returns all the custom property. 
+	 *
+	 *	@return array Custom properties.
+	 */
+
+	public function getCustomProperties( ) {
+
+		return $this->_properties;
 	}
 
 

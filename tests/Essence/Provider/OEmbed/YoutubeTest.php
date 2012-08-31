@@ -50,9 +50,9 @@ class YoutubeTest extends \PHPUnit_Framework_TestCase {
 	 *
 	 */
 
-	public function testCanFetch( ) {
+	public function testCanEmbed( ) {
 
-		$this->assertTrue( $this->Youtube->canFetch( 'http://www.youtube.com/watch?v=oHg5SJYRHA0&noise=noise' ));
+		$this->assertTrue( $this->Youtube->canEmbed( 'http://www.youtube.com/watch?v=oHg5SJYRHA0&noise=noise' ));
 	}
 
 
@@ -61,9 +61,9 @@ class YoutubeTest extends \PHPUnit_Framework_TestCase {
 	 *
 	 */
 
-	public function testCanFetchOldSchool( ) {
+	public function testCanEmbedOldSchool( ) {
 
-		$this->assertTrue( $this->Youtube->canFetch( 'http://www.youtube.com/v/oHg5SJYRHA0' ));
+		$this->assertTrue( $this->Youtube->canEmbed( 'http://www.youtube.com/v/oHg5SJYRHA0' ));
 	}
 
 
@@ -72,9 +72,9 @@ class YoutubeTest extends \PHPUnit_Framework_TestCase {
 	 *
 	 */
 
-	public function testCanFetchEmbed( ) {
+	public function testCanEmbedEmbed( ) {
 
-		$this->assertTrue( $this->Youtube->canFetch( 'http://www.youtube.com/embed/oHg5SJYRHA0' ));
+		$this->assertTrue( $this->Youtube->canEmbed( 'http://www.youtube.com/embed/oHg5SJYRHA0' ));
 	}
 
 
@@ -83,9 +83,9 @@ class YoutubeTest extends \PHPUnit_Framework_TestCase {
 	 *
 	 */
 
-	public function testCanFetchShortened( ) {
+	public function testCanEmbedShortened( ) {
 
-		$this->assertTrue( $this->Youtube->canFetch( 'http://youtu.be/oHg5SJYRHA0' ));
+		$this->assertTrue( $this->Youtube->canEmbed( 'http://youtu.be/oHg5SJYRHA0' ));
 	}
 
 
@@ -94,9 +94,9 @@ class YoutubeTest extends \PHPUnit_Framework_TestCase {
 	 *
 	 */
 
-	public function testCantFetch( ) {
+	public function testCantEmbed( ) {
 
-		$this->assertFalse( $this->Youtube->canFetch( 'http://www.unsupported.com' ));
+		$this->assertFalse( $this->Youtube->canEmbed( 'http://www.unsupported.com' ));
 	}
 
 
@@ -107,11 +107,11 @@ class YoutubeTest extends \PHPUnit_Framework_TestCase {
 
 	public function testPrepare( ) {
 
-		$Embed = $this->Youtube->fetch( 'http://www.youtube.com/watch?v=oHg5SJYRHA0&noise=noise' );
+		$Media = $this->Youtube->embed( 'http://www.youtube.com/watch?v=oHg5SJYRHA0&noise=noise' );
 		
 		$this->assertEquals(
 			'http://www.youtube.com/watch?v=oHg5SJYRHA0',
-			$Embed->url
+			$Media->url
 		);
 	}
 
@@ -123,11 +123,11 @@ class YoutubeTest extends \PHPUnit_Framework_TestCase {
 
 	public function testPrepareOldSchool( ) {
 
-		$Embed = $this->Youtube->fetch( 'http://www.youtube.com/v/oHg5SJYRHA0' );
+		$Media = $this->Youtube->embed( 'http://www.youtube.com/v/oHg5SJYRHA0' );
 		
 		$this->assertEquals(
 			'http://www.youtube.com/watch?v=oHg5SJYRHA0',
-			$Embed->url
+			$Media->url
 		);
 	}
 
@@ -139,11 +139,11 @@ class YoutubeTest extends \PHPUnit_Framework_TestCase {
 
 	public function testPrepareEmbed( ) {
 
-		$Embed = $this->Youtube->fetch( 'http://www.youtube.com/embed/oHg5SJYRHA0' );
+		$Media = $this->Youtube->embed( 'http://www.youtube.com/embed/oHg5SJYRHA0' );
 		
 		$this->assertEquals(
 			'http://www.youtube.com/watch?v=oHg5SJYRHA0',
-			$Embed->url
+			$Media->url
 		);
 	}
 
@@ -155,11 +155,11 @@ class YoutubeTest extends \PHPUnit_Framework_TestCase {
 
 	public function testPrepareShortened( ) {
 
-		$Embed = $this->Youtube->fetch( 'http://youtu.be/oHg5SJYRHA0' );
+		$Media = $this->Youtube->embed( 'http://youtu.be/oHg5SJYRHA0' );
 		
 		$this->assertEquals(
 			'http://www.youtube.com/watch?v=oHg5SJYRHA0',
-			$Embed->url
+			$Media->url
 		);
 	}
 
@@ -171,11 +171,11 @@ class YoutubeTest extends \PHPUnit_Framework_TestCase {
 
 	public function testPrepareAlreadyPrepared( ) {
 
-		$Embed = $this->Youtube->fetch( 'http://www.youtube.com/watch?v=oHg5SJYRHA0' );
+		$Media = $this->Youtube->embed( 'http://www.youtube.com/watch?v=oHg5SJYRHA0' );
 		
 		$this->assertEquals(
 			'http://www.youtube.com/watch?v=oHg5SJYRHA0',
-			$Embed->url
+			$Media->url
 		);
 	}
 }

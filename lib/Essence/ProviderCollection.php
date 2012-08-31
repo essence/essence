@@ -83,7 +83,7 @@ class ProviderCollection {
 
 		if ( !empty( $this->_providers )) {
 			for ( $i = $offset; $i < count( $this->_providers ); $i++ ) {
-				if ( $this->_providers[ $i ]->canFetch( $url )) {
+				if ( $this->_providers[ $i ]->canEmbed( $url )) {
 					return $i;
 				}
 			}

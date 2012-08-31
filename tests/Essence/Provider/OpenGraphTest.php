@@ -42,10 +42,10 @@ class OpenGraphTest extends \PHPUnit_Framework_TestCase {
 	 *
 	 */
 
-	public function testFetch( ) {
+	public function testEmbed( ) {
 
 		$this->assertNotNull(
-			$this->OpenGraph->fetch( 'file://' . ESSENCE_TEST_HTTP . 'valid.html' )
+			$this->OpenGraph->embed( 'file://' . ESSENCE_TEST_HTTP . 'valid.html' )
 		);
 	}
 
@@ -55,11 +55,11 @@ class OpenGraphTest extends \PHPUnit_Framework_TestCase {
 	 *
 	 */
 
-	public function testFetchInvalid( ) {
+	public function testEmbedInvalid( ) {
 
 		$this->setExpectedException( '\\Essence\\Exception' );
 
-		$this->OpenGraph->fetch( 'file://' . ESSENCE_TEST_HTTP . 'invalid.html' );
+		$this->OpenGraph->embed( 'file://' . ESSENCE_TEST_HTTP . 'invalid.html' );
 	}
 }
 

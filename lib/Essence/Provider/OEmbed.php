@@ -139,14 +139,14 @@ abstract class OEmbed extends \Essence\Provider {
 	 *	Fetches embed information from the given URL.
 	 *
 	 *	@param string $url URL to fetch informations from.
-	 *	@return \Essence\Embed Embed informations.
+	 *	@return \Essence\Media Embed informations.
 	 */
 
-	protected function _fetch( $url ) {
+	protected function _embed( $url ) {
 
 		$endpoint = sprintf( $this->_endpoint, urlencode( $url ));
 
-		return $this->_fetchEndpoint( $endpoint, $this->_format );
+		return $this->_embedEndpoint( $endpoint, $this->_format );
 	}
 
 
@@ -156,10 +156,10 @@ abstract class OEmbed extends \Essence\Provider {
 	 *
 	 *	@param string $endpoint Endpoint to fetch informations from.
 	 *	@param string $format Response format.
-	 *	@return \Essence\Embed Embed informations.
+	 *	@return \Essence\Media Embed informations.
 	 */
 
-	protected function _fetchEndpoint( $endpoint, $format ) {
+	protected function _embedEndpoint( $endpoint, $format ) {
 
 		$response = \Essence\Http::get( $endpoint );
 
@@ -176,7 +176,7 @@ abstract class OEmbed extends \Essence\Provider {
 				throw new \Essence\Exception( 'Unsupported format.' );
 		}
 
-		return new \Essence\Embed(
+		return new \Essence\Media(
 			$data,
 			array(
 				'author_name' => 'authorName',

@@ -34,10 +34,10 @@ abstract class OpenGraph extends \Essence\Provider {
 	 *	Fetches embed information from the given URL.
 	 *
 	 *	@param string $url URL to fetch informations from.
-	 *	@return \Essence\Embed Embed informations.
+	 *	@return \Essence\Media Embed informations.
 	 */
 
-	protected function _fetch( $url ) {
+	protected function _embed( $url ) {
 
 		$attributes = \Essence\Html::extractAttributes(
 			\Essence\Http::get( $url ),
@@ -59,7 +59,7 @@ abstract class OpenGraph extends \Essence\Provider {
 			throw new \Essence\Exception( 'Unable to extract OpenGraph data.' );
 		}
 
-		return new \Essence\Embed(
+		return new \Essence\Media(
 			$og,
 			array(
 				'og:type' => 'type',

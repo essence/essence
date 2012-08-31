@@ -61,7 +61,7 @@ class Essence {
 	/**
 	 *	Returns a singleton instance of Essence.
 	 *	
-	 *	@return \Embed\Essence Singleton instance.
+	 *	@return \Media\Essence Singleton instance.
 	 */
 
 	protected static function _instance( ) {
@@ -76,7 +76,7 @@ class Essence {
 
 
 	/**
-	 *	Configures the Essence to query the given providers.
+	 *	Configures Essence to query the given providers.
 	 *	Throws an exception if a Provider couldn't be found.
 	 *
 	 *	@see \Essence\ProviderCollection::load( )
@@ -171,32 +171,32 @@ class Essence {
 	 *	Fetches embed informations from the given URL.
 	 *
 	 *	@param string $url URL to fetch informations from.
-	 *	@return \Essence\Embed Embed informations.
+	 *	@return \Essence\Media Embed informations.
 	 */
 
-	public static function fetch( $url ) {
+	public static function embed( $url ) {
 
 		$_this = self::_instance( );
 
 		$index = $_this->_ProviderCollection->providerIndex( $url );
-		$Embed = null;
+		$Media = null;
 
 		while ( $index !== false ) {
 			$Provider = $_this->_ProviderCollection->provider( $index );
-			$Embed = null;
+			$Media = null;
 
 			try {
-				$Embed = $Provider->fetch( $url );
+				$Media = $Provider->embed( $url );
 			} catch ( Exception $exception ) {
 				$_this->_log( $exception );
 			}
 
-			$index = ( $Embed === null )
+			$index = ( $Media === null )
 				? $_this->_ProviderCollection->providerIndex( $url, $index )
 				: false;
 		}
 
-		return $Embed;
+		return $Media;
 	}
 
 
@@ -208,12 +208,12 @@ class Essence {
 	 *	@return array An array of embed informations, indexed by URL.
 	 */
 
-	public static function fetchAll( array $urls ) {
+	public static function embedAll( array $urls ) {
 	
 		$infos = array( );
 
 		foreach ( $urls as $url ) {
-			$infos[ $url ] = self::fetch( $url );
+			$infos[ $url ] = self::embed( $url );
 		}
 
 		return $infos;

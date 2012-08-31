@@ -68,7 +68,7 @@ abstract class Provider {
 	 *	@param string $url URL to fetch informations from.
 	 */
 
-	public function canFetch( $url ) {
+	public function canEmbed( $url ) {
 
 		return ( boolean ) preg_match( $this->_pattern, $url );
 	}
@@ -79,20 +79,20 @@ abstract class Provider {
 	 *	Fetches embed information from the given URL.
 	 *
 	 *	@param string $url URL to fetch informations from.
-	 *	@return \Essence\Embed|null Embed informations, or null if nothing
+	 *	@return \Essence\Media|null Embed informations, or null if nothing
 	 *		could be fetched.
 	 */
 
-	public final function fetch( $url ) {
+	public final function embed( $url ) {
 
 		$url = $this->_prepare( $url );
-		$Embed = $this->_fetch( $url );
+		$Media = $this->_embed( $url );
 
-		if ( empty( $Embed->url )) {
-			$Embed->url = $url;
+		if ( empty( $Media->url )) {
+			$Media->url = $url;
 		}
 
-		return $Embed;
+		return $Media;
 	}
 
 
@@ -116,10 +116,10 @@ abstract class Provider {
 	 *	Does the actual fetching of informations.
 	 *
 	 *	@param string $url URL to fetch informations from.
-	 *	@return \Essence\Embed Embed informations.
+	 *	@return \Essence\Media Embed informations.
 	 *	@throws \Essence\Exception 
 	 */
 
-	abstract protected function _fetch( $url );
+	abstract protected function _embed( $url );
 
 }

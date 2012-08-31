@@ -36,24 +36,24 @@ class Dailymotion extends \Essence\Provider\OEmbed {
 	 *	Fetches embed information from the given URL.
 	 *
 	 *	@param string $url URL to fetch informations from.
-	 *	@return \Essence\Embed Embed informations.
+	 *	@return \Essence\Media Embed informations.
 	 */
 
-	protected function _fetch( $url ) {
+	protected function _embed( $url ) {
 
-		$Embed = parent::_fetch( $url );
+		$Media = parent::_embed( $url );
 
 		// we're getting the larger possible thumbnail, instead of the default
 		// one given by dailymotion
 
-		if ( !empty( $Embed->thumbnailUrl )) {
-			$Embed->thumbnailUrl = str_replace(
+		if ( !empty( $Media->thumbnailUrl )) {
+			$Media->thumbnailUrl = str_replace(
 				'jpeg_preview_large',
 				'jpeg_preview_source',
-				$Embed->thumbnailUrl
+				$Media->thumbnailUrl
 			);
 		}
 
-		return $Embed;
+		return $Media;
 	}
 }

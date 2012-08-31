@@ -89,7 +89,7 @@ class EssenceTest extends \PHPUnit_Framework_TestCase {
 	 *
 	 */
 
-	public function testExtractFetchable( ) {
+	public function testExtractEmbeddable( ) {
 
 		$Collection = $this->getMock( '\\Essence\\ProviderCollection', array( 'hasProvider' ));
 		$Collection->expects( $this->any( ))
@@ -108,7 +108,7 @@ class EssenceTest extends \PHPUnit_Framework_TestCase {
 	 *
 	 */
 
-	public function testFetch( ) {
+	public function testEmbed( ) {
 
 		$Collection = $this->getMock(
 			'\\Essence\\ProviderCollection',
@@ -124,7 +124,7 @@ class EssenceTest extends \PHPUnit_Framework_TestCase {
 			->will( $this->returnValue( new TestableProvider( )));
 
 		TestableEssence::stub( $Collection );
-		$this->assertNotNull( TestableEssence::fetch( 'http://www.foo.com/bar' ));
+		$this->assertNotNull( TestableEssence::embed( 'http://www.foo.com/bar' ));
 	}
 
 
@@ -133,7 +133,7 @@ class EssenceTest extends \PHPUnit_Framework_TestCase {
 	 *
 	 */
 
-	public function testFetchAll( ) {
+	public function testEmbedAll( ) {
 
 		$Collection = $this->getMock(
 			'\\Essence\\ProviderCollection',
@@ -151,10 +151,10 @@ class EssenceTest extends \PHPUnit_Framework_TestCase {
 		TestableEssence::stub( $Collection );
 		$this->assertEquals(
 			array(
-				'one' => new Embed( array( 'url' => 'one' )),
-				'two' => new Embed( array( 'url' => 'two' ))
+				'one' => new Media( array( 'url' => 'one' )),
+				'two' => new Media( array( 'url' => 'two' ))
 			),
-			TestableEssence::fetchAll( array( 'one', 'two' ))
+			TestableEssence::embedAll( array( 'one', 'two' ))
 		);
 	}
 
@@ -276,8 +276,8 @@ class TestableProvider extends Provider {
 	 *
 	 */
 
-	protected function _fetch( $url ) {
+	protected function _embed( $url ) {
 
-		return new Embed( array( ));
+		return new Media( array( ));
 	}
 }

@@ -31,14 +31,14 @@ class OEmbedTest extends \PHPUnit_Framework_TestCase {
 			OEmbed::json
 		);
 
-		$Embed = $OEmbed->fetch( 'valid#anchor' );
-		$this->assertEquals( 'valid', $Embed->url );
+		$Media = $OEmbed->embed( 'valid#anchor' );
+		$this->assertEquals( 'valid', $Media->url );
 
-		$Embed = $OEmbed->fetch( 'valid?argument=value' );
-		$this->assertEquals( 'valid', $Embed->url );
+		$Media = $OEmbed->embed( 'valid?argument=value' );
+		$this->assertEquals( 'valid', $Media->url );
 
-		$Embed = $OEmbed->fetch( 'valid?argument=value#anchor' );
-		$this->assertEquals( 'valid', $Embed->url );
+		$Media = $OEmbed->embed( 'valid?argument=value#anchor' );
+		$this->assertEquals( 'valid', $Media->url );
 	}
 
 
@@ -47,7 +47,7 @@ class OEmbedTest extends \PHPUnit_Framework_TestCase {
 	 *
 	 */
 
-	public function testFetchJson( ) {
+	public function testEmbedJson( ) {
 
 		$OEmbed = new ConcreteOEmbed(
 			OEmbed::anything,
@@ -55,7 +55,7 @@ class OEmbedTest extends \PHPUnit_Framework_TestCase {
 			OEmbed::json
 		);
 
-		$this->assertNotNull( $OEmbed->fetch( 'valid' ));
+		$this->assertNotNull( $OEmbed->embed( 'valid' ));
 	}
 
 
@@ -64,7 +64,7 @@ class OEmbedTest extends \PHPUnit_Framework_TestCase {
 	 *
 	 */
 
-	public function testFetchInvalidJson( ) {
+	public function testEmbedInvalidJson( ) {
 
 		$this->setExpectedException( '\\Essence\\Exception' );
 
@@ -74,7 +74,7 @@ class OEmbedTest extends \PHPUnit_Framework_TestCase {
 			OEmbed::json
 		);
 
-		$OEmbed->fetch( 'invalid' );
+		$OEmbed->embed( 'invalid' );
 	}
 
 
@@ -83,7 +83,7 @@ class OEmbedTest extends \PHPUnit_Framework_TestCase {
 	 *
 	 */
 
-	public function testFetchXml( ) {
+	public function testEmbedXml( ) {
 
 		$OEmbed = new ConcreteOEmbed(
 			OEmbed::anything,
@@ -91,7 +91,7 @@ class OEmbedTest extends \PHPUnit_Framework_TestCase {
 			OEmbed::xml
 		);
 
-		$this->assertNotNull( $OEmbed->fetch( 'valid' ));
+		$this->assertNotNull( $OEmbed->embed( 'valid' ));
 	}
 
 
@@ -100,7 +100,7 @@ class OEmbedTest extends \PHPUnit_Framework_TestCase {
 	 *
 	 */
 
-	public function testFetchInvalidXml( ) {
+	public function testEmbedInvalidXml( ) {
 
 		$OEmbed = new ConcreteOEmbed(
 			OEmbed::anything,
@@ -109,7 +109,7 @@ class OEmbedTest extends \PHPUnit_Framework_TestCase {
 		);
 
 		try {
-			$OEmbed->fetch( 'invalid' );
+			$OEmbed->embed( 'invalid' );
 		} catch ( \Exception $e ) {
 			return;
 		}
@@ -123,7 +123,7 @@ class OEmbedTest extends \PHPUnit_Framework_TestCase {
 	 *
 	 */
 
-	public function testFetchUnsupportedFormat( ) {
+	public function testEmbedUnsupportedFormat( ) {
 
 		$this->setExpectedException( '\\Essence\\Exception' );
 
@@ -133,7 +133,7 @@ class OEmbedTest extends \PHPUnit_Framework_TestCase {
 			'unsupported'
 		);
 
-		$OEmbed->fetch( 'valid' );
+		$OEmbed->embed( 'valid' );
 	}
 }
 
