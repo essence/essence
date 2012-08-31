@@ -24,9 +24,9 @@ Essence\Essence::configure(
 
 // Then, ask for informations about an URL
 
-$Embed = Essence\Essence::fetch( 'http://www.youtube.com/watch?v=oHg5SJYRHA0' );
+$Media = Essence\Essence::embed( 'http://www.youtube.com/watch?v=oHg5SJYRHA0' );
 
-if ( $Embed ) {
+if ( $Media ) {
 	// That's all, you're good to go !
 }
 
@@ -38,12 +38,12 @@ Then, just do anything you want with the data:
 ```php
 <article>
 	<header>
-		<h1><?php echo $Embed->title; ?></h1>
-		<p>By <?php echo $Embed->authorName; ?></p>
+		<h1><?php echo $Media->title; ?></h1>
+		<p>By <?php echo $Media->authorName; ?></p>
 	</header>
 
 	<div class="player">
-		<?php echo $Embed->html; ?>
+		<?php echo $Media->html; ?>
 	</div>
 </article>
 ```
@@ -51,8 +51,8 @@ Then, just do anything you want with the data:
 What you get
 ------------
 
-With Essence, you will mainly interact with Embed objects.
-Embed is a simple container for all the informations that are fetched from an URL.
+With Essence, you will mainly interact with Media objects.
+Media is a simple container for all the informations that are fetched from an URL.
 
 Here is the default properties it provides:
 
@@ -77,16 +77,16 @@ These properties were gathered from the OEmbed and OpenGraph specifications, and
 Therefore, based on such standards, these properties are a solid starting point.
 
 However, some providers could also provide some other properties that you want to get.
-Don't worry, all these "non-standard" properties can also be stored in a Embed object.
+Don't worry, all these "non-standard" properties can also be stored in a Media object.
 
 ```php
 <?php
 
-if ( $Embed->hasCustomProperty( 'a_custom_property' )) {
-	$Embed->setCustomProperty( 'a_custom_property', 'value' );
+if ( $Media->hasCustomProperty( 'a_custom_property' )) {
+	$Media->setCustomProperty( 'a_custom_property', 'value' );
 }
 
-$value = $Embed->getCustomProperty( 'a_custom_property' );
+$value = $Media->getCustomProperty( 'a_custom_property' );
 
 ?>
 ```
@@ -123,14 +123,14 @@ Now that you've got those URLs, there is a good chance you want to embed them:
 ```php
 <?php
 
-$embeds = Essence\Essence::fetchAll( $urls );
+$medias = Essence\Essence::embedAll( $urls );
 
 /**
- *	$embeds contains an array of Embed objects indexed by URL:
+ *	$medias contains an array of Media objects indexed by URL:
  *	
  *	array(
- *		'http://www.youtube.com/watch?v=123456' => Embed( )
- *		'http://www.dailymotion.com/video/a1b2c_lolcat-fun' => Embed( )
+ *		'http://www.youtube.com/watch?v=123456' => Media( ... )
+ *		'http://www.dailymotion.com/video/a1b2c_lolcat-fun' => Media( ... )
  *	)
  */
  
@@ -140,16 +140,17 @@ $embeds = Essence\Essence::fetchAll( $urls );
 Error handling
 --------------
 
-By default, Essence does all the dirty stuff for you by catching all internal exceptions, so you just have to test if an Embed object is valid.
+By default, Essence does all the dirty stuff for you by catching all internal exceptions, so you just have to test if an Media object is valid.
 But, in case you want more informations about an error, Essence keeps exceptions warm, and lets you access all of them:
+
 ```php
 <?php
 
 // Essence configuration
 
-$Embed = Essence\Essence::fetch( 'http://www.youtube.com/watch?v=oHg5SJYRHA0' );
+$Media = Essence\Essence::embed( 'http://www.youtube.com/watch?v=oHg5SJYRHA0' );
 
-if ( !$Embed ) {
+if ( !$Media ) {
 	$Exception = Essence\Essence::lastError( );
 	echo 'That\'s why you should never trust a camel: ', $Exception->getMessage( );
 }
