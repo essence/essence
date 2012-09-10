@@ -28,12 +28,12 @@ class Html {
 	public static function extractAttributes( $html, array $options ) {
 
 		$Document = @\DOMDocument::loadHTML( $html );
-		
+
 		if ( $Document === false ) {
 			throw new Exception( 'Unable to load HTML document.' );
 		}
 
-		$options = self::_format( $options, array( ));		
+		$options = self::_format( $options, array( ));
 		$data = array( );
 
 		foreach ( $options as $tagName => $requiredAttributes ) {
@@ -71,7 +71,7 @@ class Html {
 	 *	@return array Extracted attributes.
 	 */
 
-	protected function _extractAttributesFromTag( \DOMElement $Tag, array $requiredAttributes ) {
+	protected static function _extractAttributesFromTag( \DOMElement $Tag, array $requiredAttributes ) {
 
 		$attributes = array( );
 		$length = $Tag->attributes->length;
@@ -114,7 +114,7 @@ class Html {
 	 *	@return array The formatted array.
 	 */
 
-	protected function _format( array $array, $default ) {
+	protected static function _format( array $array, $default ) {
 
 		$formatted = array( );
 

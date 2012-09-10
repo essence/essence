@@ -48,7 +48,7 @@ class MediaTest extends \PHPUnit_Framework_TestCase {
 	public function setUp( ) {
 
 		$Reflection = new \ReflectionClass( '\Essence\Media' );
-		
+
 		$this->Media = new Media( $this->properties );
 	}
 
@@ -92,7 +92,7 @@ class MediaTest extends \PHPUnit_Framework_TestCase {
 			$this->properties,
 			array( 'title' => 'title2' )
 		);
-		
+
 		$this->assertEquals(
 			$this->properties['title'],
 			$Media->title2
@@ -105,9 +105,19 @@ class MediaTest extends \PHPUnit_Framework_TestCase {
 	 *
 	 */
 
-	public function testMagicIsset( ) {
+	public function testMagicIsSet( ) {
 
 		$this->assertTrue( isset( $this->Media->custom ));
+	}
+
+
+
+	/**
+	 *
+	 */
+
+	public function testMagicIsntSet( ) {
+
 		$this->assertFalse( isset( $this->Media->unknown ));
 	}
 
@@ -146,6 +156,16 @@ class MediaTest extends \PHPUnit_Framework_TestCase {
 	public function testHasCustomProperty( ) {
 
 		$this->assertTrue( $this->Media->hasCustomProperty( 'custom' ));
+	}
+
+
+
+	/**
+	 *
+	 */
+
+	public function testHasntCustomProperty( ) {
+
 		$this->assertFalse( $this->Media->hasCustomProperty( 'unknown' ));
 	}
 
@@ -157,10 +177,12 @@ class MediaTest extends \PHPUnit_Framework_TestCase {
 
 	public function testGetCustomProperties( ) {
 
-		/*$this->assertEquals(
-			$this->properties,
+		$this->assertEquals(
+			array(
+				'custom' => $this->properties['custom']
+			),
 			$this->Media->getCustomProperties( )
-		);*/
+		);
 	}
 
 

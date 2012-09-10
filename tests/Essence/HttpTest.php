@@ -25,7 +25,7 @@ class HttpTest extends \PHPUnit_Framework_TestCase {
 
 	public function testGet( ) {
 
-		Http::get( 'file://' . __FILE__ );
+		$this->assertNotEmpty( Http::get( 'file://' . __FILE__ ));
 	}
 
 

@@ -33,7 +33,7 @@ class ProviderCollection {
 	 *
 	 *	@param array $providers An array of provider class names, relative to
 	 *		the 'Provider' folder.
-	 *	@throws \Essence\Exception 
+	 *	@throws \Essence\Exception
 	 */
 
 	public function load( array $providers ) {
@@ -41,8 +41,7 @@ class ProviderCollection {
 		$this->_providers = array( );
 
 		foreach ( $providers as $provider ) {
-			$className = '\\Essence\\Provider\\'
-				. str_replace( '/', '\\', $provider );
+			$className = '\\Essence\\Provider\\' . str_replace( '/', '\\', $provider );
 
 			if ( !class_exists( $className )) {
 				throw new \Essence\Exception(
