@@ -5,9 +5,9 @@
  *	@license FreeBSD License (http://opensource.org/licenses/BSD-2-Clause)
  */
 
-require_once 
+require_once
 	dirname( dirname( __FILE__ ))
-	. DIRECTORY_SEPARATOR . 'lib' 
+	. DIRECTORY_SEPARATOR . 'lib'
 	. DIRECTORY_SEPARATOR . 'bootstrap.php';
 
 
@@ -35,5 +35,5 @@ if ( !defined( 'ESSENCE_TEST_HTTP')) {
  *	Autoload
  */
 
-$ClassLoader = new \Essence\ClassLoader( ESSENCE_TEST_ROOT );
+$ClassLoader = new Essence\ClassLoader( ESSENCE_TEST_ROOT );
 $ClassLoader->register( );

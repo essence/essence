@@ -3,6 +3,8 @@ Essence
 
 Essence is a simple PHP library to extract embed informations from websites.
 
+[![Build Status](https://secure.travis-ci.org/felixgirault/essence.png)](http://travis-ci.org/felixgirault/essence)
+
 Example
 -------
 
@@ -72,7 +74,7 @@ Here is the default properties it provides:
 * html
 * width
 * height
- 
+
 These properties were gathered from the OEmbed and OpenGraph specifications, and merged together in a united interface.
 Therefore, based on such standards, these properties are a solid starting point.
 
@@ -108,7 +110,7 @@ $urls = Essence\Essence::extract( 'http://www.blog.com/article' );
 
 /**
  *	$urls now contains all URLs that can be extracted by Essence:
- *	
+ *
  *	array(
  *		'http://www.youtube.com/watch?v=123456'
  *		'http://www.dailymotion.com/video/a1b2c_lolcat-fun'
@@ -127,13 +129,13 @@ $medias = Essence\Essence::embedAll( $urls );
 
 /**
  *	$medias contains an array of Media objects indexed by URL:
- *	
+ *
  *	array(
  *		'http://www.youtube.com/watch?v=123456' => Media( ... )
  *		'http://www.dailymotion.com/video/a1b2c_lolcat-fun' => Media( ... )
  *	)
  */
- 
+
 ?>
 ```
 
