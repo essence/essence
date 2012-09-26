@@ -171,10 +171,12 @@ class Essence {
 	 *	Fetches embed informations from the given URL.
 	 *
 	 *	@param string $url URL to fetch informations from.
+	 *	@param int $maxwidth add maxwidth param to the request(optional)
+	 *	@param int $maxheight add maxheight param to the request(optional)
 	 *	@return \Essence\Media Embed informations.
 	 */
 
-	public static function embed( $url ) {
+	public static function embed( $url, $maxwidth = NULL, $maxheight = NULL ) {
 
 		$_this = self::_instance( );
 
@@ -186,7 +188,7 @@ class Essence {
 			$Media = null;
 
 			try {
-				$Media = $Provider->embed( $url );
+				$Media = $Provider->embed( $url, $maxwidth, $maxheight );
 			} catch ( Exception $exception ) {
 				$_this->_log( $exception );
 			}
@@ -209,7 +211,7 @@ class Essence {
 	 */
 
 	public static function embedAll( array $urls ) {
-	
+
 		$infos = array( );
 
 		foreach ( $urls as $url ) {
