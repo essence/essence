@@ -79,14 +79,16 @@ abstract class Provider {
 	 *	Fetches embed information from the given URL.
 	 *
 	 *	@param string $url URL to fetch informations from.
+	 *	@param int $maxwidth add maxwidth param to the request(optional)
+	 *	@param int $maxheight add maxheight param to the request(optional)
 	 *	@return \Essence\Media|null Embed informations, or null if nothing
 	 *		could be fetched.
 	 */
 
-	public final function embed( $url ) {
+	public final function embed( $url, $maxwidth = NULL, $maxheight = NULL ) {
 
 		$url = $this->_prepare( $url );
-		$Media = $this->_embed( $url );
+		$Media = $this->_embed( $url, $maxwidth, $maxheight );
 
 		if ( empty( $Media->url )) {
 			$Media->url = $url;
@@ -116,10 +118,12 @@ abstract class Provider {
 	 *	Does the actual fetching of informations.
 	 *
 	 *	@param string $url URL to fetch informations from.
+	 *	@param int $maxwidth add maxwidth param to the request(optional)
+	 *	@param int $maxheight add maxheight param to the request(optional)
 	 *	@return \Essence\Media Embed informations.
-	 *	@throws \Essence\Exception 
+	 *	@throws \Essence\Exception
 	 */
 
-	abstract protected function _embed( $url );
+	abstract protected function _embed( $url, $maxwidth = NULL, $maxheight = NULL );
 
 }

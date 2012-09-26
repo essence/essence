@@ -139,13 +139,19 @@ abstract class OEmbed extends \Essence\Provider {
 	 *	Fetches embed information from the given URL.
 	 *
 	 *	@param string $url URL to fetch informations from.
+	 *	@param int $maxwidth add maxwidth param to the request(optional)
+	 *	@param int $maxheight add maxheight param to the request(optional)
 	 *	@return \Essence\Media Embed informations.
 	 */
 
-	protected function _embed( $url ) {
-
+	protected function _embed( $url, $maxwidth = NULL, $maxheight = NULL ) {
 		$endpoint = sprintf( $this->_endpoint, urlencode( $url ));
-
+		if ($maxwidth && (int)$maxwidth > 10) {
+			$endpoint .= '&maxwidth=' . (int)$maxwidth;
+		}
+		if ($maxheight && (int)$maxheight > 10) {
+			$endpoint .= '&maxheight=' . (int)$maxheight;
+		}
 		return $this->_embedEndpoint( $endpoint, $this->_format );
 	}
 
