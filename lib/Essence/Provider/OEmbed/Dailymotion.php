@@ -10,7 +10,7 @@ namespace Essence\Provider\OEmbed;
 
 
 /**
- *	Dailymotion Provider (http://www.dailymotion.com).
+ *	Dailymotion provider (http://www.dailymotion.com).
  *
  *	@package Essence.Provider.OEmbed
  */
@@ -26,7 +26,7 @@ class Dailymotion extends \Essence\Provider\OEmbed {
 		parent::__construct(
 			'#dailymotion\.com#i',
 			'http://www.dailymotion.com/services/oembed?format=json&url=%s',
-			'json'
+			self::json
 		);
 	}
 

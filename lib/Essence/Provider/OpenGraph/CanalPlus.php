@@ -10,7 +10,7 @@ namespace Essence\Provider\OpenGraph;
 
 
 /**
- *	Canal+ Provider (http://www.canalplus.fr).
+ *	Canal+ provider (http://www.canalplus.fr).
  *
  *	@package Essence.Provider.OpenGraph
  */

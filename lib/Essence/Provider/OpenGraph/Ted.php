@@ -10,7 +10,7 @@ namespace Essence\Provider\OpenGraph;
 
 
 /**
- *	TED Provider (http://www.ted.com).
+ *	TED provider (http://www.ted.com).
  *
  *	@package Essence.Provider.OpenGraph
  */

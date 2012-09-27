@@ -23,7 +23,7 @@ class Generic extends \Essence\Provider\OEmbed {
 
 	public function __construct( ) {
 
-		parent::__construct( \Essence\Provider::anything, '', '' );
+		parent::__construct( self::anything, '', '' );
 	}
 
 

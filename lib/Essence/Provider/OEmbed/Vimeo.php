@@ -10,7 +10,7 @@ namespace Essence\Provider\OEmbed;
 
 
 /**
- *	Vimeo Provider (http://vimeo.com).
+ *	Vimeo provider (http://vimeo.com).
  *
  *	@package Essence.Provider.OEmbed
  */
@@ -26,7 +26,7 @@ class Vimeo extends \Essence\Provider\OEmbed {
 		parent::__construct(
 			'#vimeo\.com#i',
 			'http://vimeo.com/api/oembed.json?url=%s',
-			'json'
+			self::json
 		);
 	}
 

@@ -10,7 +10,7 @@ namespace Essence\Provider\OEmbed;
 
 
 /**
- *	Youtube Provider (http://www.youtube.com).
+ *	Youtube provider (http://www.youtube.com).
  *
  *	@package Essence.Provider.OEmbed
  */
@@ -26,7 +26,7 @@ class Youtube extends \Essence\Provider\OEmbed {
 		parent::__construct(
 			'#youtube\.com|youtu\.be#i',
 			'http://www.youtube.com/oembed?format=json&url=%s',
-			'json'
+			self::json
 		);
 	}
 

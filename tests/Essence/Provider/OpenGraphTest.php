@@ -14,6 +14,16 @@ if ( !defined( 'ESSENCE_BOOTSTRAPPED')) {
 
 
 /**
+ *
+ */
+
+class ConcreteOpenGraph extends \Essence\Provider\OpenGraph {
+
+}
+
+
+
+/**
  *	Test case for OpenGraph.
  */
 
@@ -62,14 +72,4 @@ class OpenGraphTest extends \PHPUnit_Framework_TestCase {
 		$this->OpenGraph->embed( 'file://' . ESSENCE_TEST_HTTP . 'invalid.html' );
 	}
 	*/
-}
-
-
-
-/**
- *
- */
-
-class ConcreteOpenGraph extends \Essence\Provider\OpenGraph {
-
 }
