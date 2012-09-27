@@ -28,7 +28,7 @@ class Essence {
 
 
 	/**
-	 *	A collection of providers to query.	
+	 *	A collection of providers to query.
 	 *
 	 *	@var \Essence\ProviderCollection
 	 */
@@ -60,8 +60,8 @@ class Essence {
 
 	/**
 	 *	Returns a singleton instance of Essence.
-	 *	
-	 *	@return \Media\Essence Singleton instance.
+	 *
+	 *	@return \Essence\Essence Singleton instance.
 	 */
 
 	protected static function _instance( ) {
@@ -82,7 +82,7 @@ class Essence {
 	 *	@see \Essence\ProviderCollection::load( )
 	 *	@param array $providers An array of provider class names, relative to
 	 *		the 'Provider' folder.
-	 *	@throws \Essence\Exception 
+	 *	@throws \Essence\Exception
 	 */
 
 	public static function configure( array $providers ) {
@@ -132,7 +132,7 @@ class Essence {
 
 	/**
 	 *	Extracts URLs from a web page.
-	 *	
+	 *
 	 *	@param string $url The web page to extract URLs from.
 	 *	@return array Extracted URLs.
 	 */
@@ -170,11 +170,17 @@ class Essence {
 	/**
 	 *	Fetches embed informations from the given URL.
 	 *
+	 *	Thanks to Peter Niederlag (https://github.com/t3dev) for his request
+	 *	(https://github.com/felixgirault/essence/pull/1).
+	 *	This method now supports an array of options that can be interpreted
+	 *	at will by the providers.
+	 *
 	 *	@param string $url URL to fetch informations from.
+	 *	@param array $options Custom options to be interpreted by a provider.
 	 *	@return \Essence\Media Embed informations.
 	 */
 
-	public static function embed( $url ) {
+	public static function embed( $url, array $options = array( )) {
 
 		$_this = self::_instance( );
 
@@ -186,7 +192,7 @@ class Essence {
 			$Media = null;
 
 			try {
-				$Media = $Provider->embed( $url );
+				$Media = $Provider->embed( $url, $options );
 			} catch ( Exception $exception ) {
 				$_this->_log( $exception );
 			}
@@ -205,15 +211,16 @@ class Essence {
 	 *	Fetches embed informations from the given URLs.
 	 *
 	 *	@param array $urls An array of URLs to fetch informations from.
+	 *	@param array $options Custom options to be interpreted by a provider.
 	 *	@return array An array of embed informations, indexed by URL.
 	 */
 
-	public static function embedAll( array $urls ) {
-	
+	public static function embedAll( array $urls, array $options = array( )) {
+
 		$infos = array( );
 
 		foreach ( $urls as $url ) {
-			$infos[ $url ] = self::embed( $url );
+			$infos[ $url ] = self::embed( $url, $options );
 		}
 
 		return $infos;
@@ -222,7 +229,7 @@ class Essence {
 
 
 	/**
-	 *	Returns all errors that occured.	
+	 *	Returns all errors that occured.
 	 *
 	 *	@return array All errors.
 	 */

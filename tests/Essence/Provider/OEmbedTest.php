@@ -14,6 +14,25 @@ if ( !defined( 'ESSENCE_BOOTSTRAPPED')) {
 
 
 /**
+ *
+ */
+
+class ConcreteOEmbed extends \Essence\Provider\OEmbed {
+
+	/**
+	 *
+	 */
+
+	public function completeEndpoint( $endpoint, $options ) {
+
+		$this->_options = $options;
+		return $this->_completeEndpoint( $endpoint );
+	}
+}
+
+
+
+/**
  *	Test case for OEmbed.
  */
 
@@ -39,6 +58,47 @@ class OEmbedTest extends \PHPUnit_Framework_TestCase {
 
 		$Media = $OEmbed->embed( 'valid?argument=value#anchor' );
 		$this->assertEquals( 'valid', $Media->url );
+	}
+
+
+
+	/**
+	 *
+	 */
+
+	public function testCompleteEndpoint( ) {
+
+		$OEmbed = new ConcreteOEmbed( '', '', '' );
+
+		$this->assertEquals(
+			'url?maxwidth=120&maxheight=60',
+			$OEmbed->completeEndpoint(
+				'url',
+				array(
+					'maxwidth' => 120,
+					'maxheight' => 60
+				)
+			)
+		);
+
+		$this->assertEquals(
+			'url?maxwidth=120',
+			$OEmbed->completeEndpoint(
+				'url',
+				array(
+					'maxwidth' => 120,
+					'unsupported' => 'unsupported'
+				)
+			)
+		);
+
+		$this->assertEquals(
+			'url?param=value&maxwidth=120',
+			$OEmbed->completeEndpoint(
+				'url?param=value',
+				array( 'maxwidth' => 120 )
+			)
+		);
 	}
 
 
@@ -135,14 +195,4 @@ class OEmbedTest extends \PHPUnit_Framework_TestCase {
 
 		$OEmbed->embed( 'valid' );
 	}
-}
-
-
-
-/**
- *
- */
-
-class ConcreteOEmbed extends \Essence\Provider\OEmbed {
-
 }

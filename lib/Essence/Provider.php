@@ -20,7 +20,7 @@ abstract class Provider {
 	/**
 	 *	A regular expression that doesn't match anything.
 	 *
-	 *	@var string 
+	 *	@var string
 	 */
 
 	const nothing = '#(?=a)b#';
@@ -30,7 +30,7 @@ abstract class Provider {
 	/**
 	 *	A regular expression that matches anything.
 	 *
-	 *	@var string 
+	 *	@var string
 	 */
 
 	const anything = '#.*#';
@@ -49,7 +49,17 @@ abstract class Provider {
 
 
 	/**
-	 *	Constructs the Provider with a regular expression to match the URLs 
+	 *	Options passed to embed( ) and to be used by _prepare( ) and _embed( ).
+	 *
+	 *	@var array
+	 */
+
+	protected $_options = array( );
+
+
+
+	/**
+	 *	Constructs the Provider with a regular expression to match the URLs
 	 *	it can handle.
 	 *
 	 *	@param string $pattern The regular expression.
@@ -79,11 +89,14 @@ abstract class Provider {
 	 *	Fetches embed information from the given URL.
 	 *
 	 *	@param string $url URL to fetch informations from.
+	 *	@param array $options Custom options to be interpreted by the provider.
 	 *	@return \Essence\Media|null Embed informations, or null if nothing
 	 *		could be fetched.
 	 */
 
-	public final function embed( $url ) {
+	public final function embed( $url, array $options = array( )) {
+
+		$this->_options = $options;
 
 		$url = $this->_prepare( $url );
 		$Media = $this->_embed( $url );
@@ -98,7 +111,7 @@ abstract class Provider {
 
 
 	/**
-	 *	Prepares an URL before fetching its contents. This method can be 
+	 *	Prepares an URL before fetching its contents. This method can be
 	 *	overloaded in subclasses to do some preprocessing.
 	 *
 	 *	@param string $url URL to prepare.
@@ -117,7 +130,7 @@ abstract class Provider {
 	 *
 	 *	@param string $url URL to fetch informations from.
 	 *	@return \Essence\Media Embed informations.
-	 *	@throws \Essence\Exception 
+	 *	@throws \Essence\Exception
 	 */
 
 	abstract protected function _embed( $url );

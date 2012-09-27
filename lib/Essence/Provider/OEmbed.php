@@ -161,14 +161,14 @@ abstract class OEmbed extends \Essence\Provider {
 
 	protected function _embedEndpoint( $endpoint, $format ) {
 
-		$response = \Essence\Http::get( $endpoint );
+		$response = \Essence\Http::get( $this->_completeEndpoint( $endpoint ));
 
 		switch ( $format ) {
-			case OEmbed::json:
+			case self::json:
 				$data = $this->_parseJson( $response );
 				break;
 
-			case OEmbed::xml:
+			case self::xml:
 				$data = $this->_parseXml( $response );
 				break;
 
@@ -180,8 +180,8 @@ abstract class OEmbed extends \Essence\Provider {
 			$data,
 			array(
 				'author_name' => 'authorName',
-				'author_url' => 'authorUrl',	
-				'provider_name' => 'providerName',	
+				'author_url' => 'authorUrl',
+				'provider_name' => 'providerName',
 				'provider_url' => 'providerUrl',
 				'cache_age' => 'cacheAge',
 				'thumbnail_url' => 'thumbnailUrl',
@@ -189,6 +189,35 @@ abstract class OEmbed extends \Essence\Provider {
 				'thumbnail_height' => 'thumbnailHeight',
 			)
 		);
+	}
+
+
+
+	/**
+	 *	If some options were specified, append them to the endpoint URL.
+	 *
+	 *	@param string $endpoint Endpoint URL.
+	 *	@return string Completed endpoint URL.
+	 */
+
+	protected function _completeEndpoint( $endpoint ) {
+
+		if ( !empty( $this->_options )) {
+			$params = array_intersect_key(
+				$this->_options,
+				array(
+					'maxwidth' => '',
+					'maxheight' => ''
+				)
+			);
+
+			if ( !empty( $params )) {
+				$endpoint .= ( strpos( $endpoint, '?' ) === false ) ? '?' : '&';
+				$endpoint .= http_build_query( $params );
+			}
+		}
+
+		return $endpoint;
 	}
 
 
@@ -219,7 +248,7 @@ abstract class OEmbed extends \Essence\Provider {
 
 	/**
 	 *	Parses an XML response and returns an array of data.
-	 *	
+	 *
 	 *	@param string $xml XML document.
 	 *	@return array Data.
 	 */
