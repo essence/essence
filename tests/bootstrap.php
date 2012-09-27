@@ -37,3 +37,11 @@ if ( !defined( 'ESSENCE_TEST_HTTP')) {
 
 $ClassLoader = new Essence\ClassLoader( ESSENCE_TEST_ROOT );
 $ClassLoader->register( );
+
+
+
+/**
+ *	Disable cURL to facilitate testing.
+ */
+
+Essence\Http::$curl = false;

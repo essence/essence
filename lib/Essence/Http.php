@@ -18,68 +18,144 @@ namespace Essence;
 class Http {
 
 	/**
-	 *	Returns the contents of an URL.
+	 *	CURL timeout, must be set before any method call, for example in the
+	 *	bootstrap.
+	 *	Set this variable to false to use file_get_contents( ) API instead of
+	 *	cURL.
 	 *
-	 *	@param string $url The URL fo fetch content from.
-	 *	@return string|false The read contents, or false if anything went wrong.
+	 *	@var integer
 	 */
-	
-	public static function get( $url ) {
 
-		$html = @file_get_contents( $url );
+	public static $curl = 10;
 
-		if ( $html === false ) {
-			throw new HttpException( 404, $url );
+
+
+	/**
+	 *	Singleton instance of Http.
+	 *
+	 *	@var \Essence\Http
+	 */
+
+	protected static $_Instance = null;
+
+
+
+	/**
+	 *	CURL handle.
+	 *
+	 *	@var Dunno LOL
+	 */
+
+	protected $_curl = null;
+
+
+
+	/**
+	 *	Initializes cURL if needed.
+	 */
+
+	protected function __construct( ) {
+
+		if ( self::$curl ) {
+			$this->_curl = curl_init( );
+
+			curl_setopt( $this->_curl, CURLOPT_HEADER, false );
+			curl_setopt( $this->_curl, CURLOPT_RETURNTRANSFER, true );
+			curl_setopt( $this->_curl, CURLOPT_CONNECTTIMEOUT, self::$curl );
+		}
+	}
+
+
+
+	/**
+	 *	Closes cURL if needed.
+	 */
+
+	public function __destruct( ) {
+
+		if ( $this->_curl ) {
+			curl_close( $this->_curl );
+		}
+	}
+
+
+
+	/**
+	 *	Returns a singleton instance of Http.
+	 *
+	 *	@return \Essence\Http Singleton instance.
+	 */
+
+	protected static function _instance( ) {
+
+		if ( self::$_Instance === null ) {
+			self::$_Instance = new self( );
 		}
 
-		return $html;
+		return self::$_Instance;
 	}
-}
-
-
-
-/**
- *	An HTTP related exception.
- *
- *	@package Essence
- */
-
-class HttpException extends Exception {
-
-	/**
-	 *	HTTP code.
-	 *
-	 *	@var int
-	 */
-
-	protected $_code = 0;
 
 
 
 	/**
-	 *	Messages corresponding to HTTP codes.
+	 *	Retrieves contents from the given URL.
 	 *
-	 *	@var array
+	 *	@param string $url The URL fo fetch contents from.
+	 *	@return string The fetched contents.
 	 */
 
-	protected $_messages = array(
-		404 => 'Not Found'
-	);
+	public static function get( $url ) {
+
+		$_this = self::_instance( );
+
+		return $_this->_curl
+			? $_this->_curlGet( $url )
+			: $_this->_simpleGet( $url );
+	}
 
 
 
 	/**
-	 *	Constructs the exception with the given HTTP code.
+	 *	Retrieves contents through file_get_contents( ).
 	 *
-	 *	@param int $code HTTP code.
+	 *	@param string $url The URL fo fetch contents from.
+	 *	@return string The fetched contents.
 	 */
 
-	public function __construct( $code, $url ) {
+	protected function _simpleGet( $url ) {
 
-		$message = isset( $this->_messages[ $code ])
-			? $this->_messages[ $code ]
-			: '';
+		$contents = @file_get_contents( $url );
 
-		parent::__construct( "$message: $url." );
+		if ( $contents === false ) {
+			// let's assume the file doesn't exists
+			throw new Exception\Http( 404, $url );
+		}
+
+		return $contents;
+	}
+
+
+
+	/**
+	 *	Retrieves contents through cURL.
+	 *
+	 *	@param string $url The URL fo fetch contents from.
+	 *	@return string The fetched contents.
+	 */
+
+	protected function _curlGet( $url ) {
+
+		curl_setopt( $this->_curl, CURLOPT_URL, $url );
+
+		$contents = curl_exec( $this->_curl );
+
+		if ( $contents === false ) {
+			throw new Exception\Http(
+				curl_getinfo( $this->_curl, CURLINFO_HTTP_CODE ),
+				$url
+			);
+		}
+
+		return $contents;
 	}
 }
