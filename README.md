@@ -139,6 +139,36 @@ $medias = Essence\Essence::embedAll( $urls );
 ?>
 ```
 
+Thanks to [Peter Niederlag](https://github.com/t3dev "t3dev on github"), it is now possible to pass some options to the providers.
+
+For example, OEmbed providers accepts the `maxwidth` and `maxheight` parameters, as specified in the OEmbed spec.
+Other providers will just ignore the options they don't handle.
+
+```php
+<?php
+
+$Media = Essence\Essence::embed(
+	'http://www.youtube.com/watch?v=abcdef',
+	array(
+		'maxwidth' => 800,
+		'maxheight' => 600
+	)
+);
+
+$medias = Essence\Essence::embedAll(
+	array(
+		'http://www.youtube.com/watch?v=abcdef',
+		'http://www.youtube.com/watch?v=123456'
+	),
+	array(
+		'maxwidth' => 800,
+		'maxheight' => 600
+	)
+);
+
+?>
+```
+
 Error handling
 --------------
 
