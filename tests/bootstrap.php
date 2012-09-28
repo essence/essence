@@ -5,6 +5,8 @@
  *	@license FreeBSD License (http://opensource.org/licenses/BSD-2-Clause)
  */
 
+namespace fg\Essence;
+
 require_once
 	dirname( dirname( __FILE__ ))
 	. DIRECTORY_SEPARATOR . 'lib'
@@ -16,17 +18,16 @@ require_once
  *	Definitions
  */
 
-if ( !defined( 'ESSENCE_TEST_ROOT')) {
-	define( 'ESSENCE_TEST_ROOT', dirname( __FILE__ ) . DIRECTORY_SEPARATOR );
+if ( !defined( 'ESSENCE_TEST' )) {
+	define( 'ESSENCE_TEST', dirname( __FILE__ ) . DIRECTORY_SEPARATOR );
 }
 
-if ( !defined( 'ESSENCE_TEST_HTTP')) {
-	define(
-		'ESSENCE_TEST_HTTP',
-		ESSENCE_TEST_ROOT . 'Resource'
-		. DIRECTORY_SEPARATOR . 'Http'
-		. DIRECTORY_SEPARATOR
-	);
+if ( !defined( 'ESSENCE_RESOURCES' )) {
+	define( 'ESSENCE_RESOURCES', ESSENCE_TEST . 'resources' . DIRECTORY_SEPARATOR );
+}
+
+if ( !defined( 'ESSENCE_HTTP' )) {
+	define( 'ESSENCE_HTTP', ESSENCE_RESOURCES . 'http' . DIRECTORY_SEPARATOR );
 }
 
 
@@ -35,7 +36,7 @@ if ( !defined( 'ESSENCE_TEST_HTTP')) {
  *	Autoload
  */
 
-$ClassLoader = new Essence\ClassLoader( ESSENCE_TEST_ROOT );
+$ClassLoader = new ClassLoader( ESSENCE_TEST );
 $ClassLoader->register( );
 
 
@@ -44,4 +45,4 @@ $ClassLoader->register( );
  *	Disable cURL to facilitate testing.
  */
 
-Essence\Http::$curl = false;
+Http::$curl = false;
