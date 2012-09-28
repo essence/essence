@@ -1,4 +1,0 @@
-#!/bin/bash
-
-phpunit --colors --coverage-html ./Coverage Essence/
-xdg-open ./Coverage/index.html &
