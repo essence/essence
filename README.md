@@ -1,7 +1,7 @@
 Essence
 =======
 
-Essence is a simple PHP library to extract embed informations from websites.
+Essence is a simple PHP library to extract media informations from websites.
 
 [![Build Status](https://secure.travis-ci.org/felixgirault/essence.png)](http://travis-ci.org/felixgirault/essence)
 
@@ -9,24 +9,27 @@ Example
 -------
 
 Essence is designed to be really easy to use.
-Using the main class of the library, you can retrieve embed informations in just those few lines:
+Using the main class of the library, you can retrieve informations in just those few lines:
 
 ```php
 <?php
 
+require_once 'path/to/essence/bootstrap.php';
+use fg\Essence;
+
 // First, configure Essence with the providers you want to use
 
-require_once 'path/to/essence/bootstrap.php';
-
-Essence\Essence::configure(
-	'OEmbed/Youtube',
-	'OEmbed/Dailymotion',
-	'OpenGraph/Ted'
+Essence::configure(
+	array(
+		'OEmbed/Youtube',
+		'OEmbed/Dailymotion',
+		'OpenGraph/Ted'
+	)
 );
 
 // Then, ask for informations about an URL
 
-$Media = Essence\Essence::embed( 'http://www.youtube.com/watch?v=oHg5SJYRHA0' );
+$Media = Essence::embed( 'http://www.youtube.com/watch?v=39e3KYAmXK4' );
 
 if ( $Media ) {
 	// That's all, you're good to go !
@@ -106,7 +109,7 @@ For example, say you want to get the URL of all videos in a blog post:
 
 // Don't forget to configure Essence first !
 
-$urls = Essence\Essence::extract( 'http://www.blog.com/article' );
+$urls = Essence::extract( 'http://www.blog.com/article' );
 
 /**
  *	$urls now contains all URLs that can be extracted by Essence:
@@ -125,7 +128,7 @@ Now that you've got those URLs, there is a good chance you want to embed them:
 ```php
 <?php
 
-$medias = Essence\Essence::embedAll( $urls );
+$medias = Essence::embedAll( $urls );
 
 /**
  *	$medias contains an array of Media objects indexed by URL:
@@ -147,7 +150,7 @@ Other providers will just ignore the options they don't handle.
 ```php
 <?php
 
-$Media = Essence\Essence::embed(
+$Media = Essence::embed(
 	'http://www.youtube.com/watch?v=abcdef',
 	array(
 		'maxwidth' => 800,
@@ -155,7 +158,7 @@ $Media = Essence\Essence::embed(
 	)
 );
 
-$medias = Essence\Essence::embedAll(
+$medias = Essence::embedAll(
 	array(
 		'http://www.youtube.com/watch?v=abcdef',
 		'http://www.youtube.com/watch?v=123456'
@@ -180,7 +183,7 @@ But, in case you want more informations about an error, Essence keeps exceptions
 
 // Essence configuration
 
-$Media = Essence\Essence::embed( 'http://www.youtube.com/watch?v=oHg5SJYRHA0' );
+$Media = Essence::embed( 'http://www.youtube.com/watch?v=oHg5SJYRHA0' );
 
 if ( !$Media ) {
 	$Exception = Essence\Essence::lastError( );
