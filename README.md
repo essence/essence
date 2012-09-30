@@ -15,7 +15,8 @@ Using the main class of the library, you can retrieve informations in just those
 <?php
 
 require_once 'path/to/essence/bootstrap.php';
-use fg\Essence;
+
+use fg\Essence\Essence;
 
 // First, configure Essence with the providers you want to use
 
