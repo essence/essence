@@ -8,8 +8,7 @@
 namespace fg\Essence;
 
 if ( !defined( 'ESSENCE_BOOTSTRAPPED' )) {
-	require_once
-		dirname( dirname( dirname( __FILE__ )))
+	require_once dirname( dirname( dirname( __FILE__ )))
 		. DIRECTORY_SEPARATOR . 'bootstrap.php';
 }
 
@@ -35,10 +34,23 @@ class ProviderCollectionTest extends \PHPUnit_Framework_TestCase {
 
 	public function setUp( ) {
 
-		$ClassLoader = new ClassLoader( ESSENCE_TEST . 'Resource' );
-		$ClassLoader->register( );
-
 		$this->Collection = new ProviderCollection( );
+
+		$ClassLoader = new ClassLoader( ESSENCE_RESOURCES );
+		$ClassLoader->register( );
+	}
+
+
+
+	/**
+	 *
+	 */
+
+	public function testLoadAll( ) {
+
+		$this->Collection->load( );
+
+		$this->assertAttributeNotEmpty( '_providers', $this->Collection );
 	}
 
 
@@ -49,7 +61,9 @@ class ProviderCollectionTest extends \PHPUnit_Framework_TestCase {
 
 	public function testLoad( ) {
 
-		$this->Collection->load( array( 'Foo', 'Sushi/Bar' ));
+		$this->Collection->load( array( 'Foo' ));
+
+		$this->assertTrue( $this->Collection->hasProvider( 'foo' ));
 	}
 
 
@@ -73,9 +87,7 @@ class ProviderCollectionTest extends \PHPUnit_Framework_TestCase {
 
 	public function testHasProvider( ) {
 
-		$this->Collection->load( array( 'Foo' ));
-
-		$this->assertTrue( $this->Collection->hasProvider( 'foo' ));
+		$this->assertTrue( $this->Collection->hasProvider( 'bar' ));
 	}
 
 
@@ -84,48 +96,15 @@ class ProviderCollectionTest extends \PHPUnit_Framework_TestCase {
 	 *
 	 */
 
-	public function testProviderIndex( ) {
+	public function testProviders( ) {
 
-		$this->Collection->load( array( 'Foo', 'Sushi/Bar' ));
+		$this->Collection->load( array( 'Sushi/Bar' ));
 
-		$this->assertEquals( 1, $this->Collection->providerIndex( 'bar' ));
-	}
-
-
-
-	/**
-	 *
-	 */
-
-	public function testProviderIndexNotFound( ) {
-
-		$this->assertFalse( $this->Collection->providerIndex( '' ));
-	}
-
-
-
-	/**
-	 *
-	 */
-
-	public function testProvider( ) {
-
-		$this->Collection->load( array( 'Foo', 'Sushi/Bar' ));
-
-		$this->assertEquals(
-			new \fg\Essence\Provider\Sushi\Bar( ),
-			$this->Collection->provider( 1 )
+		$this->assertTrue(
+			in_array(
+				new \fg\Essence\Provider\Sushi\Bar( ),
+				$this->Collection->providers( 'bar' )
+			)
 		);
-	}
-
-
-
-	/**
-	 *
-	 */
-
-	public function testProviderNotFound( ) {
-
-		$this->assertNull( $this->Collection->provider( -1 ));
 	}
 }

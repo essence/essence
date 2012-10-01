@@ -12,7 +12,7 @@ namespace fg\Essence;
 /**
  *	Handles HTML related operations.
  *
- *	@package Essence
+ *	@package fg.Essence
  */
 
 class Html {
@@ -38,8 +38,8 @@ class Html {
 
 		foreach ( $options as $tagName => $requiredAttributes ) {
 			$data[ $tagName ] = array( );
-
 			$requiredAttributes = self::_format( $requiredAttributes, '' );
+
 			$tags = $Document->getElementsByTagName( $tagName );
 
 			if ( $tags->length > 0 ) {
@@ -51,7 +51,7 @@ class Html {
 						);
 
 						if ( !empty( $attributes )) {
-							$data[ $tagName ][] = $attributes;
+							$data[ $tagName ][ ] = $attributes;
 						}
 					}
 				}
@@ -106,19 +106,23 @@ class Html {
 
 
 	/**
-	 *	Formats the given array for safer later use. Every element that is
-	 *	numerically indexed becomes a key, given $default as value.
+	 *	Formats the given attributes for safer later use. Every element that
+	 *	is numerically indexed becomes a key, given $default as value.
 	 *
-	 *	@param array $array The array to format.
+	 *	@param array $attributes The array to format.
 	 *	@param string $default Default value.
 	 *	@return array The formatted array.
 	 */
 
-	protected static function _format( array $array, $default ) {
+	protected static function _format( $attributes, $default ) {
+
+		if ( is_string( $attributes )) {
+			return array( $attributes => $default );
+		}
 
 		$formatted = array( );
 
-		foreach ( $array as $key => $value ) {
+		foreach ( $attributes as $key => $value ) {
 			if ( is_numeric( $key )) {
 				$key = $value;
 				$value = $default;

@@ -8,8 +8,7 @@
 namespace fg\Essence;
 
 if ( !defined( 'ESSENCE_BOOTSTRAPPED' )) {
-	require_once
-		dirname( dirname( dirname( __FILE__ )))
+	require_once dirname( dirname( dirname( __FILE__ )))
 		. DIRECTORY_SEPARATOR . 'bootstrap.php';
 }
 
@@ -19,203 +18,15 @@ if ( !defined( 'ESSENCE_BOOTSTRAPPED' )) {
  *	Test case for Essence.
  */
 
-class EssenceTest extends \PHPUnit_Framework_TestCase {
-
-	/**
-	 *
-	 */
-
-	public function testConfigure( ) {
-
-		$Collection = $this->getMock( '\\fg\\Essence\\ProviderCollection', array( 'load' ));
-		$Collection->expects( $this->any( ))
-			->method( 'load' )
-			->with( $this->equalTo( array( 'Provider' )));
-
-		TestableEssence::stub( $Collection );
-		TestableEssence::configure( array( 'Provider' ));
-	}
-
-
-
-	/**
-	 *
-	 */
-
-	public function testExtract( ) {
-
-		$Collection = $this->getMock( '\\fg\\Essence\\ProviderCollection', array( 'hasProvider' ));
-		$Collection->expects( $this->any( ))
-			->method( 'hasProvider' )
-			->will( $this->onConsecutiveCalls( false, true, false, true, true, true ));
-
-		TestableEssence::stub( $Collection );
-
-		$this->assertEquals(
-			array(
-				'http://www.foo.com',
-				'http://www.embed.com',
-				'http://www.iframe.com'
-			),
-			TestableEssence::extract( 'file://' . ESSENCE_HTTP . 'valid.html' )
-		);
-	}
-
-
-
-	/**
-	 *
-	 */
-
-	public function testExtractEmbeddable( ) {
-
-		$Collection = $this->getMock( '\\fg\\Essence\\ProviderCollection', array( 'hasProvider' ));
-		$Collection->expects( $this->any( ))
-			->method( 'hasProvider' )
-			->will( $this->returnValue( true ));
-
-		TestableEssence::stub( $Collection );
-
-		$url = 'file://' . ESSENCE_HTTP . 'valid.html';
-		$this->assertEquals( array( $url ), TestableEssence::extract( $url ));
-	}
-
-
-
-	/**
-	 *
-	 */
-
-	public function testEmbed( ) {
-
-		$Collection = $this->getMock(
-			'\\fg\\Essence\\ProviderCollection',
-			array( 'providerIndex', 'provider' )
-		);
-
-		$Collection->expects( $this->any( ))
-			->method( 'providerIndex' )
-			->will( $this->onConsecutiveCalls( 0, 2 ));
-
-		$Collection->expects( $this->any( ))
-			->method( 'provider' )
-			->will( $this->returnValue( new TestableProvider( )));
-
-		TestableEssence::stub( $Collection );
-		$this->assertNotNull( TestableEssence::embed( 'http://www.foo.com/bar' ));
-	}
-
-
-
-	/**
-	 *
-	 */
-
-	public function testEmbedAll( ) {
-
-		$Collection = $this->getMock(
-			'\\fg\\Essence\\ProviderCollection',
-			array( 'providerIndex', 'provider' )
-		);
-
-		$Collection->expects( $this->any( ))
-			->method( 'providerIndex' )
-			->will( $this->returnValue( 0 ));
-
-		$Collection->expects( $this->any( ))
-			->method( 'provider' )
-			->will( $this->returnValue( new TestableProvider( )));
-
-		TestableEssence::stub( $Collection );
-		$this->assertEquals(
-			array(
-				'one' => new Media( array( 'url' => 'one' )),
-				'two' => new Media( array( 'url' => 'two' ))
-			),
-			TestableEssence::embedAll( array( 'one', 'two' ))
-		);
-	}
-
-
-
-	/**
-	 *
-	 */
-
-	public function testErrors( ) {
-
-		TestableEssence::log( new Exception( 'one' ));
-		TestableEssence::log( new Exception( 'two' ));
-
-		$this->assertEquals(
-			array(
-				new Exception( 'one' ),
-				new Exception( 'two' )
-			),
-			TestableEssence::errors( )
-		);
-	}
-
-
-
-	/**
-	 *
-	 */
-
-	public function testLastError( ) {
-
-		TestableEssence::log( new Exception( 'one' ));
-		TestableEssence::log( new Exception( 'two' ));
-
-		$this->assertEquals( new Exception( 'two' ), TestableEssence::lastError( ));
-	}
-
-
-
-	/**
-	 *
-	 */
-
-	public function testLastErrorEmpty( ) {
-
-		$this->assertFalse( TestableEssence::lastError( ));
-	}
-
-
-
-	/**
-	 *
-	 */
-
-	public function tearDown( ) {
-
-		TestableEssence::kill( );
-	}
-}
-
-
-
-/**
- *
- */
-
 class TestableEssence extends Essence {
 
 	/**
 	 *
 	 */
 
-	protected function __construct( ) { }
+	public function setCollection( ProviderCollection $Collection ) {
 
-
-
-	/**
-	 *
-	 */
-
-	public static function kill( ) {
-
-		self::$_Instance = null;
+		$this->_Collection = $Collection;
 	}
 
 
@@ -224,21 +35,9 @@ class TestableEssence extends Essence {
 	 *
 	 */
 
-	public static function stub( $ProviderCollection ) {
+	public function log( Exception $Exception ) {
 
-		$_this = self::_instance( );
-		$_this->_ProviderCollection = $ProviderCollection;
-	}
-
-
-
-	/**
-	 *
-	 */
-
-	public static function log( Exception $exception ) {
-		$_this = self::_instance( );
-		$_this->_log( $exception );
+		$this->_log( $Exception );
 	}
 }
 
@@ -257,5 +56,169 @@ class TestableProvider extends Provider {
 	protected function _embed( $url ) {
 
 		return new Media( array( ));
+	}
+}
+
+
+
+/**
+ *	Test case for Essence.
+ */
+
+class EssenceTest extends \PHPUnit_Framework_TestCase {
+
+	/**
+	 *
+	 */
+
+	public $Collection = null;
+
+
+
+	/**
+	 *
+	 */
+
+	public $Essence = null;
+
+
+
+	/**
+	 *
+	 */
+
+	public function setUp( ) {
+
+		$this->Collection = $this->getMock( '\\fg\\Essence\\ProviderCollection' );
+
+		$this->Essence = new TestableEssence( );
+		$this->Essence->setCollection( $this->Collection );
+	}
+
+
+
+	/**
+	 *
+	 */
+
+	public function testExtract( ) {
+
+		$this->Collection->expects( $this->any( ))
+			->method( 'hasProvider' )
+			->will( $this->onConsecutiveCalls( false, true, false, true, true, true ));
+
+		$this->assertEquals(
+			array(
+				'http://www.foo.com',
+				'http://www.embed.com',
+				'http://www.iframe.com'
+			),
+			$this->Essence->extract( 'file://' . ESSENCE_HTTP . 'valid.html' )
+		);
+	}
+
+
+
+	/**
+	 *
+	 */
+
+	public function testExtractEmbeddable( ) {
+
+		$this->Collection->expects( $this->any( ))
+			->method( 'hasProvider' )
+			->will( $this->returnValue( true ));
+
+		$url = 'file://' . ESSENCE_HTTP . 'valid.html';
+		$this->assertEquals( array( $url ), $this->Essence->extract( $url ));
+	}
+
+
+
+	/**
+	 *
+	 */
+
+	public function testEmbed( ) {
+
+		$this->Collection->expects( $this->any( ))
+			->method( 'providerIndex' )
+			->will( $this->onConsecutiveCalls( 0, 2 ));
+
+		$this->Collection->expects( $this->any( ))
+			->method( 'providers' )
+			->will( $this->returnValue( array( new TestableProvider( ))));
+
+		$this->assertNotNull( $this->Essence->embed( 'http://www.foo.com/bar' ));
+	}
+
+
+
+	/**
+	 *
+	 */
+
+	public function testEmbedAll( ) {
+
+		$this->Collection->expects( $this->any( ))
+			->method( 'providerIndex' )
+			->will( $this->returnValue( 0 ));
+
+		$this->Collection->expects( $this->any( ))
+			->method( 'providers' )
+			->will( $this->returnValue( array( new TestableProvider( ))));
+
+		$this->assertEquals(
+			array(
+				'one' => new Media( array( 'url' => 'one' )),
+				'two' => new Media( array( 'url' => 'two' ))
+			),
+			$this->Essence->embedAll( array( 'one', 'two' ))
+		);
+	}
+
+
+
+	/**
+	 *
+	 */
+
+	public function testErrors( ) {
+
+		$this->Essence->log( new Exception( 'one' ));
+		$this->Essence->log( new Exception( 'two' ));
+
+		$this->assertEquals(
+			array(
+				new Exception( 'one' ),
+				new Exception( 'two' )
+			),
+			$this->Essence->errors( )
+		);
+	}
+
+
+
+	/**
+	 *
+	 */
+
+	public function testLastError( ) {
+
+		$this->Essence->log( new Exception( 'one' ));
+		$this->Essence->log( new Exception( 'two' ));
+
+		$this->assertEquals( new Exception( 'two' ), $this->Essence->lastError( ));
+	}
+
+
+
+	/**
+	 *
+	 */
+
+	public function testLastErrorEmpty( ) {
+
+		$this->assertNull( $this->Essence->lastError( ));
 	}
 }

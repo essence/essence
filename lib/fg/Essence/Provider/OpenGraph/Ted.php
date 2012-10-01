@@ -12,7 +12,7 @@ namespace fg\Essence\Provider\OpenGraph;
 /**
  *	TED provider (http://www.ted.com).
  *
- *	@package Essence.Provider.OpenGraph
+ *	@package fg.Essence.Provider.OpenGraph
  */
 
 class Ted extends \fg\Essence\Provider\OpenGraph {

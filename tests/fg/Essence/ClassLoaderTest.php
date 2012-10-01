@@ -8,8 +8,7 @@
 namespace fg\Essence;
 
 if ( !defined( 'ESSENCE_BOOTSTRAPPED' )) {
-	require_once
-		dirname( dirname( dirname( __FILE__ )))
+	require_once dirname( dirname( dirname( __FILE__ )))
 		. DIRECTORY_SEPARATOR . 'bootstrap.php';
 }
 
@@ -36,6 +35,7 @@ class ClassLoaderTest extends \PHPUnit_Framework_TestCase {
 	public function setUp( ) {
 
 		$this->ClassLoader = new ClassLoader( ESSENCE_RESOURCES );
+		$this->ClassLoader->register( );
 	}
 
 
@@ -45,8 +45,6 @@ class ClassLoaderTest extends \PHPUnit_Framework_TestCase {
 	 */
 
 	public function testRegister( ) {
-
-		$this->ClassLoader->register( );
 
 		$this->assertTrue(
 			in_array(
@@ -63,8 +61,6 @@ class ClassLoaderTest extends \PHPUnit_Framework_TestCase {
 	 */
 
 	public function testLoad( ) {
-
-		$this->ClassLoader->register( );
 
 		$this->assertTrue( class_exists( '\\fg\\Essence\\Provider\\Foo' ));
 		$this->assertTrue( class_exists( '\\fg\\Essence\\Provider\\Sushi\\Bar' ));

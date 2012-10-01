@@ -12,7 +12,7 @@ namespace fg\Essence\Provider\OEmbed;
 /**
  *	Vimeo provider (http://vimeo.com).
  *
- *	@package Essence.Provider.OEmbed
+ *	@package fg.Essence.Provider.OEmbed
  */
 
 class Vimeo extends \fg\Essence\Provider\OEmbed {

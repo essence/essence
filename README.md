@@ -16,21 +16,9 @@ Using the main class of the library, you can retrieve informations in just those
 
 require_once 'path/to/essence/bootstrap.php';
 
-use fg\Essence\Essence;
+$Essence = new fg\Essence\Essence( );
 
-// First, configure Essence with the providers you want to use
-
-Essence::configure(
-	array(
-		'OEmbed/Youtube',
-		'OEmbed/Dailymotion',
-		'OpenGraph/Ted'
-	)
-);
-
-// Then, ask for informations about an URL
-
-$Media = Essence::embed( 'http://www.youtube.com/watch?v=39e3KYAmXK4' );
+$Media = $Essence->embed( 'http://www.youtube.com/watch?v=39e3KYAmXK4' );
 
 if ( $Media ) {
 	// That's all, you're good to go !
@@ -88,11 +76,46 @@ Don't worry, all these "non-standard" properties can also be stored in a Media o
 ```php
 <?php
 
-if ( !$Media->hasCustomProperty( 'a_custom_property' )) {
-	$Media->setCustomProperty( 'a_custom_property', 'value' );
+if ( !$Media->hasCustomProperty( 'foo' )) {
+	$Media->setCustomProperty( 'foo', 'bar' );
 }
 
-$value = $Media->getCustomProperty( 'a_custom_property' );
+$value = $Media->getCustomProperty( 'foo' );
+
+?>
+```
+
+Configuration
+-------------
+
+If you know which providers you will have to query, or simply want to exclude some of them, you can tell Essence which ones you want to use:
+
+```php
+<?php
+
+$Essence = new fg\Essence\Essence(
+	array(
+		'OEmbed/Youtube',
+		'OEmbed/Dailymotion',
+		'OpenGraph/Ted',
+		'YourCustomProvider'
+	)
+);
+
+?>
+```
+
+When given an array of providers, the constructor might throw an exception if a provider couldn't be found or loaded.
+If you want to make your code rock solid, you should better wrap that up in a try/catch statement:
+
+```php
+<?php
+
+try {
+	$Essence = new fg\Essence\Essence( array( ... ));
+} catch ( fg\Essence\Exception $Exception ) {
+	...
+}
 
 ?>
 ```
@@ -108,9 +131,7 @@ For example, say you want to get the URL of all videos in a blog post:
 ```php
 <?php
 
-// Don't forget to configure Essence first !
-
-$urls = Essence::extract( 'http://www.blog.com/article' );
+$urls = $Essence->extract( 'http://www.blog.com/article' );
 
 /**
  *	$urls now contains all URLs that can be extracted by Essence:
@@ -129,7 +150,7 @@ Now that you've got those URLs, there is a good chance you want to embed them:
 ```php
 <?php
 
-$medias = Essence::embedAll( $urls );
+$medias = $Essence->embedAll( $urls );
 
 /**
  *	$medias contains an array of Media objects indexed by URL:
@@ -151,7 +172,7 @@ Other providers will just ignore the options they don't handle.
 ```php
 <?php
 
-$Media = Essence::embed(
+$Media = $Essence->embed(
 	'http://www.youtube.com/watch?v=abcdef',
 	array(
 		'maxwidth' => 800,
@@ -159,7 +180,7 @@ $Media = Essence::embed(
 	)
 );
 
-$medias = Essence::embedAll(
+$medias = $Essence->embedAll(
 	array(
 		'http://www.youtube.com/watch?v=abcdef',
 		'http://www.youtube.com/watch?v=123456'
@@ -182,12 +203,11 @@ But, in case you want more informations about an error, Essence keeps exceptions
 ```php
 <?php
 
-// Essence configuration
-
-$Media = Essence::embed( 'http://www.youtube.com/watch?v=oHg5SJYRHA0' );
+$Media = $Essence->embed( 'http://www.youtube.com/watch?v=oHg5SJYRHA0' );
 
 if ( !$Media ) {
-	$Exception = Essence\Essence::lastError( );
+	$Exception = $Essence->lastError( );
+
 	echo 'That\'s why you should never trust a camel: ', $Exception->getMessage( );
 }
 

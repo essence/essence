@@ -12,7 +12,7 @@ namespace fg\Essence\Exception;
 /**
  *	An HTTP related exception.
  *
- *	@package Essence.Exception
+ *	@package fg.Essence.Exception
  */
 
 class Http extends \fg\Essence\Exception {

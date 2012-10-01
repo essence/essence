@@ -12,7 +12,7 @@ namespace fg\Essence;
 /**
  *	The base exception class of the Essence API.
  *
- *	@package Essence
+ *	@package fg.Essence
  */
 
 class Exception extends \Exception {

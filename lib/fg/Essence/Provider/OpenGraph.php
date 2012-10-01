@@ -13,7 +13,7 @@ namespace fg\Essence\Provider;
  *	Base class for an OpenGraph provider.
  *	This kind of provider extracts embed informations from OpenGraph meta tags.
  *
- *	@package Essence.Provider
+ *	@package fg.Essence.Provider
  */
 
 abstract class OpenGraph extends \fg\Essence\Provider {
@@ -34,7 +34,7 @@ abstract class OpenGraph extends \fg\Essence\Provider {
 	 *	Fetches embed information from the given URL.
 	 *
 	 *	@param string $url URL to fetch informations from.
-	 *	@return \fg\Essence\Media Embed informations.
+	 *	@return Media Embed informations.
 	 */
 
 	protected function _embed( $url ) {

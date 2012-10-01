@@ -12,20 +12,10 @@ namespace fg\Essence;
 /**
  *	Gathers embed informations from URLs.
  *
- *	@package Essence
+ *	@package fg.Essence
  */
 
 class Essence {
-
-	/**
-	 *	Singleton instance of Essence.
-	 *
-	 *	@var \fg\Essence\Essence
-	 */
-
-	protected static $_Instance = null;
-
-
 
 	/**
 	 *	A collection of providers to query.
@@ -33,7 +23,7 @@ class Essence {
 	 *	@var \fg\Essence\ProviderCollection
 	 */
 
-	protected $_ProviderCollection = null;
+	protected $_Collection = null;
 
 
 
@@ -49,46 +39,15 @@ class Essence {
 
 	/**
 	 *	Constructor.
-	 */
-
-	protected function __construct( ) {
-
-		$this->_ProviderCollection = new ProviderCollection( );
-	}
-
-
-
-	/**
-	 *	Returns a singleton instance of Essence.
 	 *
-	 *	@return \fg\Essence\Essence Singleton instance.
-	 */
-
-	protected static function _instance( ) {
-
-		if ( self::$_Instance === null ) {
-			self::$_Instance = new self( );
-		}
-
-		return self::$_Instance;
-	}
-
-
-
-	/**
-	 *	Configures Essence to query the given providers.
-	 *	Throws an exception if a Provider couldn't be found.
-	 *
-	 *	@see \fg\Essence\ProviderCollection::load( )
+	 *	@see ProviderCollection::load( )
 	 *	@param array $providers An array of provider class names, relative to
 	 *		the 'Provider' folder.
-	 *	@throws \fg\Essence\Exception
 	 */
 
-	public static function configure( array $providers ) {
+	public function __construct( array $providers = array( )) {
 
-		$_this = self::_instance( );
-		$_this->_ProviderCollection->load( $providers );
+		$this->_Collection = new ProviderCollection( $providers );
 	}
 
 
@@ -98,30 +57,29 @@ class Essence {
 	 *	it is returned as is. Otherwise, the page is parsed to find such urls.
 	 *
 	 *	@param string $url The Url to extract.
+	 *	@return array An array of extracted URLs.
 	 */
 
-	public static function extract( $url ) {
-
-		$_this = self::_instance( );
+	public function extract( $url ) {
 
 		// if a provider can directly handle the url, there is no more work to do.
 
-		if ( $_this->_ProviderCollection->hasProvider( $url )) {
+		if ( $this->_Collection->hasProvider( $url )) {
 			return array( $url );
 		}
 
 		try {
-			$urls = self::_extractUrls( $url );
-		} catch ( Exception $exception ) {
-			$_this->_log( $exception );
+			$urls = $this->_extractUrls( $url );
+		} catch ( Exception $Exception ) {
+			$this->_log( $Exception );
 			return array( );
 		}
 
 		$fetchable = array( );
 
 		foreach ( $urls as $url ) {
-			if ( $_this->_ProviderCollection->hasProvider( $url )) {
-				$fetchable[] = $url;
+			if ( $this->_Collection->hasProvider( $url )) {
+				$fetchable[ ] = $url;
 			}
 		}
 
@@ -137,29 +95,29 @@ class Essence {
 	 *	@return array Extracted URLs.
 	 */
 
-	protected static function _extractUrls( $url ) {
+	protected function _extractUrls( $url ) {
 
 		$attributes = Html::extractAttributes(
 			Http::get( $url ),
 			array(
-				'a' => array( 'href' ),
-				'embed' => array( 'src' ),
-				'iframe' => array( 'src' )
+				'a' => 'href',
+				'embed' => 'src',
+				'iframe' => 'src'
 			)
 		);
 
 		$urls = array( );
 
 		foreach ( $attributes['a'] as $a ) {
-			$urls[] = $a['href'];
+			$urls[ ] = $a['href'];
 		}
 
 		foreach ( $attributes['embed'] as $embed ) {
-			$urls[] = $embed['src'];
+			$urls[ ] = $embed['src'];
 		}
 
 		foreach ( $attributes['iframe'] as $iframe ) {
-			$urls[] = $iframe['src'];
+			$urls[ ] = $iframe['src'];
 		}
 
 		return $urls;
@@ -177,32 +135,26 @@ class Essence {
 	 *
 	 *	@param string $url URL to fetch informations from.
 	 *	@param array $options Custom options to be interpreted by a provider.
-	 *	@return \fg\Essence\Media Embed informations.
+	 *	@return Media Embed informations.
 	 */
 
-	public static function embed( $url, array $options = array( )) {
+	public function embed( $url, array $options = array( )) {
 
-		$_this = self::_instance( );
+		$providers = $this->_Collection->providers( $url );
 
-		$index = $_this->_ProviderCollection->providerIndex( $url );
-		$Media = null;
-
-		while ( $index !== false ) {
-			$Provider = $_this->_ProviderCollection->provider( $index );
-			$Media = null;
-
+		foreach ( $providers as $Provider ) {
 			try {
 				$Media = $Provider->embed( $url, $options );
-			} catch ( Exception $exception ) {
-				$_this->_log( $exception );
+			} catch ( Exception $Exception ) {
+				$this->_log( $Exception );
 			}
 
-			$index = ( $Media === null )
-				? $_this->_ProviderCollection->providerIndex( $url, $index )
-				: false;
+			if ( $Media !== null ) {
+				return $Media;
+			}
 		}
 
-		return $Media;
+		return null;
 	}
 
 
@@ -215,15 +167,15 @@ class Essence {
 	 *	@return array An array of embed informations, indexed by URL.
 	 */
 
-	public static function embedAll( array $urls, array $options = array( )) {
+	public function embedAll( array $urls, array $options = array( )) {
 
-		$infos = array( );
+		$medias = array( );
 
 		foreach ( $urls as $url ) {
-			$infos[ $url ] = self::embed( $url, $options );
+			$medias[ $url ] = $this->embed( $url, $options );
 		}
 
-		return $infos;
+		return $medias;
 	}
 
 
@@ -234,11 +186,9 @@ class Essence {
 	 *	@return array All errors.
 	 */
 
-	public static function errors( ) {
+	public function errors( ) {
 
-		$_this = self::_instance( );
-
-		return $_this->_errors;
+		return $this->_errors;
 	}
 
 
@@ -246,19 +196,15 @@ class Essence {
 	/**
 	 *	Returns the last error that occured.
 	 *
-	 *	@return \fg\Essence\Exception|null The last exception, or null if there is
-	 *		no errors.
+	 *	@return Exception|null The last exception, or null if there
+	 *		is no error.
 	 */
 
-	public static function lastError( ) {
+	public function lastError( ) {
 
-		$_this = self::_instance( );
-
-		if ( empty( $_this->_errors )) {
-			return false;
-		}
-
-		return $_this->_errors[ count( $_this->_errors ) - 1 ];
+		return empty( $this->_errors )
+			? null
+			: $this->_errors[ count( $this->_errors ) - 1 ];
 	}
 
 
@@ -266,11 +212,11 @@ class Essence {
 	/**
 	 *	Logs an exception.
 	 *
-	 *	@param \fg\Essence\Exception $exception The exception to log.
+	 *	@param Exception $Exception The exception to log.
 	 */
 
-	protected function _log( Exception $exception ) {
+	protected function _log( Exception $Exception ) {
 
-		$this->_errors[] = $exception;
+		$this->_errors[ ] = $Exception;
 	}
 }

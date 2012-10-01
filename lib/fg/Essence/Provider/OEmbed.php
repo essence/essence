@@ -13,7 +13,7 @@ namespace fg\Essence\Provider;
  *	Base class for an OEmbed provider.
  *	This kind of provider extracts embed informations through the OEmbed protocol.
  *
- *	@package Essence.Provider
+ *	@package fg.Essence.Provider
  */
 
 abstract class OEmbed extends \fg\Essence\Provider {
@@ -139,7 +139,7 @@ abstract class OEmbed extends \fg\Essence\Provider {
 	 *	Fetches embed information from the given URL.
 	 *
 	 *	@param string $url URL to fetch informations from.
-	 *	@return \fg\Essence\Media Embed informations.
+	 *	@return Media Embed informations.
 	 */
 
 	protected function _embed( $url ) {
@@ -156,7 +156,7 @@ abstract class OEmbed extends \fg\Essence\Provider {
 	 *
 	 *	@param string $endpoint Endpoint to fetch informations from.
 	 *	@param string $format Response format.
-	 *	@return \fg\Essence\Media Embed informations.
+	 *	@return Media Embed informations.
 	 */
 
 	protected function _embedEndpoint( $endpoint, $format ) {

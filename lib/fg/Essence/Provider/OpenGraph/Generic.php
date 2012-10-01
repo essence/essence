@@ -12,7 +12,7 @@ namespace fg\Essence\Provider\OpenGraph;
 /**
  *	Generic OpenGraph provider.
  *
- *	@package Essence.Provider.OpenGraph
+ *	@package fg.Essence.Provider.OpenGraph
  */
 
 class Generic extends \fg\Essence\Provider\OpenGraph {

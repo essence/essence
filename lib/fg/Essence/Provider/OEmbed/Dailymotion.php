@@ -12,7 +12,7 @@ namespace fg\Essence\Provider\OEmbed;
 /**
  *	Dailymotion provider (http://www.dailymotion.com).
  *
- *	@package Essence.Provider.OEmbed
+ *	@package fg.Essence.Provider.OEmbed
  */
 
 class Dailymotion extends \fg\Essence\Provider\OEmbed {
@@ -36,7 +36,7 @@ class Dailymotion extends \fg\Essence\Provider\OEmbed {
 	 *	Fetches embed information from the given URL.
 	 *
 	 *	@param string $url URL to fetch informations from.
-	 *	@return \fg\Essence\Media Embed informations.
+	 *	@return Media Embed informations.
 	 */
 
 	protected function _embed( $url ) {

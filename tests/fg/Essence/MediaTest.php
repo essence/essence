@@ -8,8 +8,7 @@
 namespace fg\Essence;
 
 if ( !defined( 'ESSENCE_BOOTSTRAPPED' )) {
-	require_once
-		dirname( dirname( dirname( __FILE__ )))
+	require_once dirname( dirname( dirname( __FILE__ )))
 		. DIRECTORY_SEPARATOR . 'bootstrap.php';
 }
 
@@ -48,8 +47,6 @@ class MediaTest extends \PHPUnit_Framework_TestCase {
 	 */
 
 	public function setUp( ) {
-
-		$Reflection = new \ReflectionClass( '\\fg\\Essence\\Media' );
 
 		$this->Media = new Media( $this->properties );
 	}

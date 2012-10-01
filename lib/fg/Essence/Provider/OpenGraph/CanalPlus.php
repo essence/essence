@@ -12,7 +12,7 @@ namespace fg\Essence\Provider\OpenGraph;
 /**
  *	Canal+ provider (http://www.canalplus.fr).
  *
- *	@package Essence.Provider.OpenGraph
+ *	@package fg.Essence.Provider.OpenGraph
  */
 
 class CanalPlus extends \fg\Essence\Provider\OpenGraph {

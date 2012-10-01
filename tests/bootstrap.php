@@ -7,8 +7,7 @@
 
 namespace fg\Essence;
 
-require_once
-	dirname( dirname( __FILE__ ))
+require_once dirname( dirname( __FILE__ ))
 	. DIRECTORY_SEPARATOR . 'lib'
 	. DIRECTORY_SEPARATOR . 'bootstrap.php';
 

@@ -12,7 +12,7 @@ namespace fg\Essence;
 /**
  *	Handles HTTP related operations.
  *
- *	@package Essence
+ *	@package fg.Essence
  */
 
 class Http {
@@ -83,7 +83,7 @@ class Http {
 	/**
 	 *	Returns a singleton instance of Http.
 	 *
-	 *	@return \fg\Essence\Http Singleton instance.
+	 *	@return Http Singleton instance.
 	 */
 
 	protected static function _instance( ) {

@@ -14,7 +14,7 @@ namespace fg\Essence;
  *	This class is useful to ensure that any response from any provider will
  *	follow the same conventions.
  *
- *	@package Essence
+ *	@package fg.Essence
  */
 
 class Media {

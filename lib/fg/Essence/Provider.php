@@ -12,7 +12,7 @@ namespace fg\Essence;
 /**
  *	Base class for a Provider.
  *
- *	@package Essence
+ *	@package fg.Essence
  */
 
 abstract class Provider {
@@ -90,7 +90,7 @@ abstract class Provider {
 	 *
 	 *	@param string $url URL to fetch informations from.
 	 *	@param array $options Custom options to be interpreted by the provider.
-	 *	@return \fg\Essence\Media|null Embed informations, or null if nothing
+	 *	@return Media|null Embed informations, or null if nothing
 	 *		could be fetched.
 	 */
 
@@ -129,7 +129,7 @@ abstract class Provider {
 	 *	Does the actual fetching of informations.
 	 *
 	 *	@param string $url URL to fetch informations from.
-	 *	@return \fg\Essence\Media Embed informations.
+	 *	@return Media Embed informations.
 	 *	@throws \fg\Essence\Exception
 	 */
 

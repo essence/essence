@@ -12,7 +12,7 @@ namespace fg\Essence\Provider\OEmbed;
 /**
  *	Youtube provider (http://www.youtube.com).
  *
- *	@package Essence.Provider.OEmbed
+ *	@package fg.Essence.Provider.OEmbed
  */
 
 class Youtube extends \fg\Essence\Provider\OEmbed {

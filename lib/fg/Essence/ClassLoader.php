@@ -12,7 +12,7 @@ namespace fg\Essence;
 /**
  *	A simple PSR-0 compliant class loader.
  *
- *	@package Essence
+ *	@package fg.Essence
  */
 
 class ClassLoader {
@@ -69,4 +69,3 @@ class ClassLoader {
 		}
 	}
 }
-

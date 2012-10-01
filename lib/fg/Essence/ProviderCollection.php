@@ -12,7 +12,7 @@ namespace fg\Essence;
 /**
  *	A collection of providers which can find the provider of an url.
  *
- *	@package Essence
+ *	@package fg.Essence
  */
 
 class ProviderCollection {
@@ -28,7 +28,23 @@ class ProviderCollection {
 
 
 	/**
-	 *	Loads the given list of providers.
+	 *	Loads the given providers.
+	 *
+	 *	@see load( )
+	 *	@param array $providers An array of provider class names, relative to
+	 *		the 'Provider' folder.
+	 */
+
+	public function __construct( array $providers = array( )) {
+
+		$this->load( $providers );
+	}
+
+
+
+	/**
+	 *	Loads the given providers. If no particular provider is specified,
+	 *	then all the available providers are loaded.
 	 *	Throws an exception if a Provider couldn't be found.
 	 *
 	 *	@param array $providers An array of provider class names, relative to
@@ -36,20 +52,30 @@ class ProviderCollection {
 	 *	@throws \fg\Essence\Exception
 	 */
 
-	public function load( array $providers ) {
+	public function load( array $providers = array( )) {
+
+		if ( empty( $providers )) {
+			$path = dirname( __FILE__ ) . DIRECTORY_SEPARATOR . 'Provider';
+
+			$Package = new Package( $path );
+			$providers = $Package->classes( array( ), true );
+		}
 
 		$this->_providers = array( );
 
 		foreach ( $providers as $provider ) {
 			$className = '\\fg\\Essence\\Provider\\' . str_replace( '/', '\\', $provider );
+			$Reflection = null;
 
-			if ( !class_exists( $className )) {
-				throw new Exception(
-					"Unable to find a provider named '$provider'."
-				);
+			try {
+				$Reflection = new \ReflectionClass( $className );
+			} catch ( \ReflectionException $Exception ) {
+				throw new Exception( $Exception->getMessage( ));
 			}
 
-			$this->_providers[] = new $className( );
+			if ( !$Reflection->isAbstract( )) {
+				$this->_providers[ ] = $Reflection->newInstance( );
+			}
 		}
 	}
 
@@ -64,27 +90,9 @@ class ProviderCollection {
 
 	public function hasProvider( $url ) {
 
-		return ( $this->providerIndex( $url ) !== false );
-	}
-
-
-
-	/**
-	 *	Searches for a provider of the given url, and returns its index.
-	 *
-	 *	@param string $url An url which may be embedded.
-	 *	@param integer $offset The search will start from this offset.
-	 *	@return \fg\Essence\Provider|false The url provider index if any,
-	 *		otherwise false.
-	 */
-
-	public function providerIndex( $url, $offset = 0 ) {
-
-		if ( !empty( $this->_providers )) {
-			for ( $i = $offset; $i < count( $this->_providers ); $i++ ) {
-				if ( $this->_providers[ $i ]->canEmbed( $url )) {
-					return $i;
-				}
+		foreach ( $this->_providers as $Provider ) {
+			if ( $Provider->canEmbed( $url )) {
+				return true;
 			}
 		}
 
@@ -94,16 +102,22 @@ class ProviderCollection {
 
 
 	/**
-	 *	Returns the provider at the given index.
+	 *	Finds providers of the given url.
 	 *
-	 *	@param integer $index The index of the provider.
-	 *	@return \fg\Essence\Provider|null The url provider if any, otherwise null.
+	 *	@param string $url An url which may be embedded.
+	 *	@return array An array of \fg\Essence\Provider.
 	 */
 
-	public function provider( $index ) {
+	public function providers( $url ) {
 
-		return isset( $this->_providers[ $index ])
-			? $this->_providers[ $index ]
-			: null;
+		$providers = array( );
+
+		foreach ( $this->_providers as $Provider ) {
+			if ( $Provider->canEmbed( $url )) {
+				$providers[ ] = $Provider;
+			}
+		}
+
+		return $providers;
 	}
 }
