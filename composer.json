@@ -2,6 +2,7 @@
 	"name": "fg/essence",
 	"type": "library",
 	"description": "An utility to gather embed informations seamlessly from different providers.",
+	"version": "12.10.12",
 	"authors": [{
 		"name": "Félix Girault",
 		"email": "felix.girault@gmail.com",
@@ -20,7 +21,7 @@
 	},
 	"autoload": {
 		"psr-0": {
-			"Essence": "lib/"
+			"fg": "lib/"
 		}
 	}
 }
