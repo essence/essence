@@ -111,7 +111,7 @@ If you want to make your code rock solid, you should better wrap that up in a tr
 ```php
 <?php
 
-try {
+try {
 	$Essence = new fg\Essence\Essence( array( ... ));
 } catch ( fg\Essence\Exception $Exception ) {
 	...
