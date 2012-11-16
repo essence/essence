@@ -141,6 +141,7 @@ class Essence {
 	public function embed( $url, array $options = array( )) {
 
 		$providers = $this->_Collection->providers( $url );
+        $Media = null;
 
 		foreach ( $providers as $Provider ) {
 			try {
