@@ -53,7 +53,7 @@ class Essence {
 
 
 	/**
-	 *	If the url can be parser directly by one of the registered providers,
+	 *	If the url can be parsed directly by one of the registered providers,
 	 *	it is returned as is. Otherwise, the page is parsed to find such urls.
 	 *
 	 *	@param string $url The Url to extract.
@@ -128,10 +128,11 @@ class Essence {
 	/**
 	 *	Fetches embed informations from the given URL.
 	 *
-	 *	Thanks to Peter Niederlag (https://github.com/t3dev) for his request
-	 *	(https://github.com/felixgirault/essence/pull/1).
 	 *	This method now supports an array of options that can be interpreted
 	 *	at will by the providers.
+	 *
+	 *	Thanks to Peter Niederlag (https://github.com/t3dev) for his request
+	 *	(https://github.com/felixgirault/essence/pull/1).
 	 *
 	 *	@param string $url URL to fetch informations from.
 	 *	@param array $options Custom options to be interpreted by a provider.
@@ -141,7 +142,7 @@ class Essence {
 	public function embed( $url, array $options = array( )) {
 
 		$providers = $this->_Collection->providers( $url );
-        $Media = null;
+		$Media = null;
 
 		foreach ( $providers as $Provider ) {
 			try {
@@ -177,6 +178,85 @@ class Essence {
 		}
 
 		return $medias;
+	}
+
+
+
+	/**
+	 *	Replaces URLs in the given text by media informations if they point
+	 *	on an embeddable resource.
+	 *	The template parameter controls how informations will replace the
+	 *	URL. Any property of a media object can be used. For example, to
+	 *	replace a URL with the title and HTML code of a resource, one could
+	 *	use this template:
+	 *
+	 *	<div>
+	 *		<span>%title%</span>
+	 *		<div>%html%</div>
+	 *	</div>
+	 *
+	 *	Thanks to Stefano Zoffoli (https://github.com/stefanozoffoli) for his
+	 *	idea (https://github.com/felixgirault/essence/issues/4).
+	 *
+	 *	@param string $text Text in which to replace URLs.
+	 *	@param string $template Replacement template.
+	 *	@return string Text with replaced URLs.
+	 */
+
+	public function replace( $text, $template = '%html%' ) {
+
+		$count = preg_match_all(
+			// http://daringfireball.net/2009/11/liberal_regex_for_matching_urls
+			'#\b(([\w-]+://?|www[.])[^\s()<>]+(?:\([\w\d]+\)|([^[:punct:]\s]|/)))#i',
+			$text,
+			$matches,
+			PREG_PATTERN_ORDER
+		);
+
+		if ( $count ) {
+			$medias = $this->embedAll( $matches[ 0 ]);
+			$replacements = array( );
+
+			foreach ( $medias as $url => $Media ) {
+				if ( $Media !== null ) {
+					$replacements[ $url ] = $this->_renderTemplate( $template, $Media );
+				}
+			}
+
+			$text = str_replace(
+				array_keys( $replacements ),
+				array_values( $replacements ),
+				$text
+			);
+		}
+
+		return $text;
+	}
+
+
+
+	/**
+	 *	Renders the given template with the media properties.
+	 *
+	 *	@param string $template Template to render.
+	 *	@param Media $Media Media object from which to gather properties.
+	 *	@return string Rendered template.
+	 */
+
+	protected function _renderTemplate( $template, Media $Media ) {
+
+		$properties = get_object_vars( $Media );
+		$replacements = array( );
+
+		foreach ( $properties as $name => $value ) {
+			$replacements["%$name%"] = $value;
+		}
+
+		return str_replace(
+			array_keys( $replacements ),
+			array_values( $replacements ),
+			$template
+		);
 	}
 
 
