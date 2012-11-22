@@ -171,7 +171,7 @@ $medias = $Essence->embedAll( $urls );
 Essence can replace any embeddable URL in a text by informations about it.
 Consider this piece of content:
 
-```
+```html
 Hello, my name is John Doe and I really like this video: http://www.youtube.com/watch?v=123456
 Do you like it too ?
 ```
