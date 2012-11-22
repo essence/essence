@@ -187,7 +187,7 @@ echo $Essence->replace( $text, '<p class="title">%title%</p><div class="player">
 ?>
 ```
 
-And that is the text that will be printed:
+This call should print something like that:
 
 ```html
 Hello, my name is John Doe and I really like this video:
@@ -198,7 +198,7 @@ Hello, my name is John Doe and I really like this video:
 Do you like it too ?
 ```
 
-Note that you can use any property of the Media class in the template.
+Note that you can use any property of the Media class in the template (See the [What you get](https://github.com/felixgirault/essence#what-you-get "Available properties") section).
 
 ### Configuring providers
 
