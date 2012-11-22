@@ -123,6 +123,8 @@ try {
 Advanced usage
 --------------
 
+# Extracting URLs
+
 The Essence class provides some useful utility function to ensure you will get some informations.
 
 First, the extract( ) method lets you extract embeddable URLs from a web page.
@@ -164,7 +166,43 @@ $medias = $Essence->embedAll( $urls );
 ?>
 ```
 
-Thanks to [Peter Niederlag](https://github.com/t3dev "t3dev on github"), it is now possible to pass some options to the providers.
+# Replace URLs in a text
+
+Essence can replace any embeddable URL in a text by informations about it.
+Consider this piece of content:
+
+```
+Hello, my name is John Doe and I really like this video: http://www.youtube.com/watch?v=123456
+Do you like it too ?
+```
+
+If you just pass this text to the replace( ) method, the URL will be replaced by the HTML code for the video player.
+But you can do more by defining a template to control which informations will replace the URL.
+
+```php
+<?php
+
+echo $Essence->replace( $text, '<p class="title">%title%</p><div class="player">%html%</div>' );
+
+?>
+```
+
+And that is the text that will be printed:
+
+```
+Hello, my name is John Doe and I really like this video:
+<p class="title">Video title</p>
+<div class="player">
+	<iframe src="http://www.youtube.com/embed/123456"></iframe>
+<div>
+Do you like it too ?
+``
+
+Note that you can use any property of the Media class in the template.
+
+# Configuring providers
+
+It is possible to pass some options to the providers.
 
 For example, OEmbed providers accepts the `maxwidth` and `maxheight` parameters, as specified in the OEmbed spec.
 Other providers will just ignore the options they don't handle.
@@ -193,6 +231,8 @@ $medias = $Essence->embedAll(
 
 ?>
 ```
+
+Replace URLs in text
 
 Error handling
 --------------
