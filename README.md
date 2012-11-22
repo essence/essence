@@ -123,7 +123,7 @@ try {
 Advanced usage
 --------------
 
-# Extracting URLs
+### Extracting URLs
 
 The Essence class provides some useful utility function to ensure you will get some informations.
 
@@ -166,7 +166,7 @@ $medias = $Essence->embedAll( $urls );
 ?>
 ```
 
-# Replace URLs in a text
+### Replacing URLs in text
 
 Essence can replace any embeddable URL in a text by informations about it.
 Consider this piece of content:
@@ -196,11 +196,11 @@ Hello, my name is John Doe and I really like this video:
 	<iframe src="http://www.youtube.com/embed/123456"></iframe>
 <div>
 Do you like it too ?
-``
+```
 
 Note that you can use any property of the Media class in the template.
 
-# Configuring providers
+### Configuring providers
 
 It is possible to pass some options to the providers.
 
@@ -231,8 +231,6 @@ $medias = $Essence->embedAll(
 
 ?>
 ```
-
-Replace URLs in text
 
 Error handling
 --------------
