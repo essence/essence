@@ -38,7 +38,13 @@
           <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="http://twitter.com/#!/michigangraham">mattgraham</a></span>
         </div>
 
-        <h2>Example</h2>
+        <h1>Essence</h1>
+
+<p>Essence is a simple PHP library to extract media informations from websites.</p>
+
+<p><a href="http://travis-ci.org/felixgirault/essence"><img src="https://secure.travis-ci.org/felixgirault/essence.png" alt="Build Status"></a></p>
+
+<h2>Example</h2>
 
 <p>Essence is designed to be really easy to use.
 Using the main class of the library, you can retrieve informations in just those few lines:</p>
@@ -136,7 +142,7 @@ If you want to make your code rock solid, you should better wrap that up in a tr
 
 <div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span>
 
-<span class="k">try</span><span class="err"> </span><span class="p">{</span>
+<span class="k">try</span> <span class="p">{</span>
     <span class="nv">$Essence</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">fg\Essence\Essence</span><span class="p">(</span> <span class="k">array</span><span class="p">(</span> <span class="o">...</span> <span class="p">));</span>
 <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span> <span class="nx">fg\Essence\Exception</span> <span class="nv">$Exception</span> <span class="p">)</span> <span class="p">{</span>
     <span class="o">...</span>
@@ -146,6 +152,8 @@ If you want to make your code rock solid, you should better wrap that up in a tr
 </pre></div>
 
 <h2>Advanced usage</h2>
+
+<h3>Extracting URLs</h3>
 
 <p>The Essence class provides some useful utility function to ensure you will get some informations.</p>
 
@@ -186,7 +194,40 @@ For example, say you want to get the URL of all videos in a blog post:</p>
 <span class="cp">?&gt;</span><span class="x"></span>
 </pre></div>
 
-<p>Thanks to <a href="https://github.com/t3dev" title="t3dev on github">Peter Niederlag</a>, it is now possible to pass some options to the providers.</p>
+<h3>Replacing URLs in text</h3>
+
+<p>Essence can replace any embeddable URL in a text by informations about it.
+Consider this piece of content:</p>
+
+<div class="highlight"><pre>Hello, my name is John Doe and I really like this video: http://www.youtube.com/watch?v=123456
+Do you like it too ?
+</pre></div>
+
+<p>If you just pass this text to the replace( ) method, the URL will be replaced by the HTML code for the video player.
+But you can do more by defining a template to control which informations will replace the URL.</p>
+
+<div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span>
+
+<span class="k">echo</span> <span class="nv">$Essence</span><span class="o">-&gt;</span><span class="na">replace</span><span class="p">(</span> <span class="nv">$text</span><span class="p">,</span> <span class="s1">'&lt;p class="title"&gt;%title%&lt;/p&gt;&lt;div class="player"&gt;%html%&lt;/div&gt;'</span> <span class="p">);</span>
+
+<span class="cp">?&gt;</span><span class="x"></span>
+</pre></div>
+
+<p>This call should print something like that:</p>
+
+<div class="highlight"><pre>Hello, my name is John Doe and I really like this video:
+<span class="nt">&lt;p</span> <span class="na">class=</span><span class="s">"title"</span><span class="nt">&gt;</span>Video title<span class="nt">&lt;/p&gt;</span>
+<span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"player"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;iframe</span> <span class="na">src=</span><span class="s">"http://www.youtube.com/embed/123456"</span><span class="nt">&gt;&lt;/iframe&gt;</span>
+<span class="nt">&lt;div&gt;</span>
+Do you like it too ?
+</pre></div>
+
+<p>Note that you can use any property of the Media class in the template (See the <a href="https://github.com/felixgirault/essence#what-you-get" title="Available properties">What you get</a> section).</p>
+
+<h3>Configuring providers</h3>
+
+<p>It is possible to pass some options to the providers.</p>
 
 <p>For example, OEmbed providers accepts the <code>maxwidth</code> and <code>maxheight</code> parameters, as specified in the OEmbed spec.
 Other providers will just ignore the options they don't handle.</p>
@@ -236,6 +277,16 @@ But, in case you want more informations about an error, Essence keeps exceptions
 
     </div>
     <!--[if !IE]><script>fixScale(document);</script><![endif]-->
-    
+              <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-11935716-17");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
   </body>
 </html>
