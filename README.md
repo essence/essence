@@ -189,7 +189,7 @@ echo $Essence->replace( $text, '<p class="title">%title%</p><div class="player">
 
 And that is the text that will be printed:
 
-```
+```html
 Hello, my name is John Doe and I really like this video:
 <p class="title">Video title</p>
 <div class="player">
