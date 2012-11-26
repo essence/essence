@@ -17,7 +17,7 @@ namespace fg\Essence;
  *	@package fg.Essence
  */
 
-class Media {
+class Media implements \IteratorAggregate {
 
 	/**
 	 *	Embed data, indexed by property name. Providers must try to fill these
@@ -227,5 +227,18 @@ class Media {
 	public function setProperty( $name, $value ) {
 
 		$this->_properties[ $name ] = $value;
+	}
+
+
+
+	/**
+	 *	Returns an iterator for the media properties.
+	 *
+	 *	@return ArrayIterator Iterator.
+	 */
+
+	public function getIterator( ) {
+
+		return new ArrayIterator( $this->_properties );
 	}
 }

@@ -222,7 +222,7 @@ class Essence {
 			foreach ( $medias as $url => $Media ) {
 				if ( $Media !== null ) {
 					$replacements[ $url ] = empty( $template )
-						? $Media->html
+						? $Media->property( 'html' )
 						: $this->_renderTemplate( $template, $Media );
 				}
 			}
@@ -249,11 +249,10 @@ class Essence {
 
 	protected function _renderTemplate( $template, Media $Media ) {
 
-		$properties = get_object_vars( $Media );
 		$replacements = array( );
 
-		foreach ( $properties as $name => $value ) {
-			$replacements["%$name%"] = $value;
+		foreach ( $Media as $property => $value ) {
+			$replacements["%$property%"] = $value;
 		}
 
 		return str_replace(
