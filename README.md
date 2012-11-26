@@ -76,11 +76,15 @@ Don't worry, all these "non-standard" properties can also be stored in a Media o
 ```php
 <?php
 
-if ( !$Media->hasCustomProperty( 'foo' )) {
-	$Media->setCustomProperty( 'foo', 'bar' );
+if ( !$Media->hasProperty( 'foo' )) {
+	$Media->setProperty( 'foo', 'bar' );
 }
 
-$value = $Media->getCustomProperty( 'foo' );
+$value = $Media->property( 'foo' );
+
+// Or directly like a class attribute
+
+$Media->customValue = 12;
 
 ?>
 ```

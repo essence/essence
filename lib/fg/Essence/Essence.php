@@ -195,6 +195,8 @@ class Essence {
 	 *		<div>%html%</div>
 	 *	</div>
 	 *
+	 *	By default, links will be replaced by the html property of Media.
+	 *
 	 *	Thanks to Stefano Zoffoli (https://github.com/stefanozoffoli) for his
 	 *	idea (https://github.com/felixgirault/essence/issues/4).
 	 *
@@ -203,7 +205,7 @@ class Essence {
 	 *	@return string Text with replaced URLs.
 	 */
 
-	public function replace( $text, $template = '%html%' ) {
+	public function replace( $text, $template = '' ) {
 
 		$count = preg_match_all(
 			// http://daringfireball.net/2009/11/liberal_regex_for_matching_urls
@@ -219,7 +221,9 @@ class Essence {
 
 			foreach ( $medias as $url => $Media ) {
 				if ( $Media !== null ) {
-					$replacements[ $url ] = $this->_renderTemplate( $template, $Media );
+					$replacements[ $url ] = empty( $template )
+						? $Media->html
+						: $this->_renderTemplate( $template, $Media );
 				}
 			}
 

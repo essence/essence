@@ -21,7 +21,7 @@ class Media {
 
 	/**
 	 *	Embed data, indexed by property name. Providers must try to fill these
-	 *	properties with appropriate data before adding their own, to
+	 *	default properties with appropriate data before adding their own, to
 	 *	ensure consistency accross the API.
 	 *
 	 *	These default properties are gathered from the OEmbed and OpenGraph
@@ -31,146 +31,67 @@ class Media {
 	 *	@var array
 	 */
 
-	protected $_properties = array( );
+	protected $_properties = array(
 
+		// OEmbed type
+		// OG type
+		'type' => '',
 
+		// OEmbed version
+		'version' => '',
 
-	/**
-	 *	OEmbed type
-	 *	OG type
-	 */
+		// OEmbed title
+		// OG title
+		'title' => '',
 
-	public $type = '';
+		// Sometimes provided in OEmbed (i.e. Vimeo)
+		// OG description
+		'description' => '',
 
+		// OEmbed author_name
+		'authorName' => '',
 
+		// OEmbed author_url
+		'authorUrl' => '',
 
-	/**
-	 *	OEmbed version
-	 */
+		// OEmbed provider_name
+		// OG site_name
+		'providerName' => '',
 
-	public $version = '';
+		// OEmbed provider_url
+		'providerUrl' => '',
 
+		// OEmbed cache_age
+		'cacheAge' => '',
 
+		// OEmbed thumbnail_url
+		// OG image
+		// OG image:url
+		'thumbnailUrl' => '',
 
-	/**
-	 *	OEmbed title
-	 *	OG title
-	 */
+		// OEmbed thumbnail_width
+		'thumbnailWidth' => '',
 
-	public $title = '';
+		// OEmbed thumbnail_height
+		'thumbnailHeight' => '',
 
+		// OEmbed html
+		'html' => '',
 
+		// OEmbed width
+		// OG image:width
+		// OG video:width
+		'width' => '',
 
-	/**
-	 *	Sometimes provided in OEmbed (i.e. Vimeo)
-	 *	OG description
-	 */
+		// OEmbed height
+		// OG image:height
+		// OG video:height
+		'height' => '',
 
-	public $description = '';
-
-
-
-	/**
-	 *	OEmbed author_name
-	 */
-
-	public $authorName = '';
-
-
-
-	/**
-	 *	OEmbed author_url
-	 */
-
-	public $authorUrl = '';
-
-
-
-	/**
-	 *	OEmbed provider_name
-	 *	OG site_name
-	 */
-
-	public $providerName = '';
-
-
-
-	/**
-	 *	OEmbed provider_url
-	 */
-
-	public $providerUrl = '';
-
-
-
-	/**
-	 *	OEmbed cache_age
-	 */
-
-	public $cacheAge = '';
-
-
-
-	/**
-	 *	OEmbed thumbnail_url
-	 *	OG image
-	 *	OG image:url
-	 */
-
-	public $thumbnailUrl = '';
-
-
-
-	/**
-	 *	OEmbed thumbnail_width
-	 */
-
-	public $thumbnailWidth = '';
-
-
-
-	/**
-	 *	OEmbed thumbnail_height
-	 */
-
-	public $thumbnailHeight = '';
-
-
-
-	/**
-	 *	OEmbed html
-	 */
-
-	public $html = '';
-
-
-
-	/**
-	 *	OEmbed width
-	 *	OG image:width
-	 *	OG video:width
-	 */
-
-	public $width = '';
-
-
-
-	/**
-	 *	OEmbed height
-	 *	OG image:height
-	 *	OG video:height
-	 */
-
-	public $height = '';
-
-
-
-	/**
-	 *	OEmbed url
-	 *	OG url
-	 */
-
-	public $url = '';
+		// OEmbed url
+		// OG url
+		'url' => ''
+	);
 
 
 
@@ -180,10 +101,10 @@ class Media {
 	 *	the $correspondances array can be used to specify a reindexation
 	 *	schema.
 	 *
-	 *	@see Media::$_data
+	 *	@see Media::$_properties
 	 *	@see Media::_reindex( )
-	 *	@param array $properties An array of embed informations.
-	 *	@param array $correspondances An array of index correspondances.
+	 *	@param array $properties An array of media informations.
+	 *	@param array $correspondances An array of indices correspondances.
 	 */
 
 	public function __construct( array $properties, array $correspondances = array( )) {
@@ -192,13 +113,7 @@ class Media {
 			$properties = $this->_reindex( $properties, $correspondances );
 		}
 
-		foreach ( $properties as $property => $value ) {
-			if ( isset( $this->{$property})) {
-				$this->{$property} = $value;
-			} else {
-				$this->_properties[ $property ] = $value;
-			}
-		}
+		$this->_properties = $properties;
 	}
 
 
@@ -227,34 +142,34 @@ class Media {
 
 
 	/**
-	 *
+	 *	@see hasProperty( )
 	 */
 
-	public function __isset( $property ) {
+	public function __isset( $name ) {
 
-		return $this->hasCustomProperty( $property );
+		return $this->hasProperty( $name );
 	}
 
 
 
 	/**
-	 *
+	 *	@see property( )
 	 */
 
-	public function __get( $property ) {
+	public function __get( $name ) {
 
-		return $this->getCustomProperty( $property );
+		return $this->property( $name );
 	}
 
 
 
 	/**
-	 *
+	 *	@see setProperty( )
 	 */
 
-	public function __set( $property, $value ) {
+	public function __set( $name, $value ) {
 
-		return $this->setCustomProperty( $property, $value );
+		return $this->setProperty( $name, $value );
 	}
 
 
@@ -262,26 +177,13 @@ class Media {
 	/**
 	 *	Returns if there is any value for the given property.
 	 *
-	 *	@param string $property Property name.
+	 *	@param string $name Property name.
 	 *	@param boolean True if the property exists, otherwise false.
 	 */
 
-	public function hasCustomProperty( $property ) {
+	public function hasProperty( $name ) {
 
-		return isset( $this->_properties[ $property ]);
-	}
-
-
-
-	/**
-	 *	Returns all the custom property.
-	 *
-	 *	@return array Custom properties.
-	 */
-
-	public function getCustomProperties( ) {
-
-		return $this->_properties;
+		return isset( $this->_properties[ $name ]);
 	}
 
 
@@ -289,28 +191,41 @@ class Media {
 	/**
 	 *	Returns the value of the given property.
 	 *
-	 *	@param string $property Property name.
+	 *	@param string $name Property name.
 	 *	@return mixed The property value, or null if the property doesn't exists.
 	 */
 
-	public function getCustomProperty( $property ) {
+	public function property( $name ) {
 
-		return $this->hasCustomProperty( $property )
-			? $this->_properties[ $property ]
+		return $this->hasProperty( $name )
+			? $this->_properties[ $name ]
 			: null;
 	}
 
 
 
 	/**
-	 *	Sets the value of one or many properties.
+	 *	Returns all properties.
 	 *
-	 *	@param string $property Property name.
+	 *	@return array Properties.
+	 */
+
+	public function properties( ) {
+
+		return $this->_properties;
+	}
+
+
+
+	/**
+	 *	Sets the value of a property.
+	 *
+	 *	@param string $name Property name.
 	 *	@param string $value New value.
 	 */
 
-	public function setCustomProperty( $property, $value ) {
+	public function setProperty( $name, $value ) {
 
-		$this->_properties[ $property ] = $value;
+		$this->_properties[ $name ] = $value;
 	}
 }

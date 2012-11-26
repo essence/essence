@@ -142,10 +142,6 @@ class EssenceTest extends \PHPUnit_Framework_TestCase {
 	public function testEmbed( ) {
 
 		$this->Collection->expects( $this->any( ))
-			->method( 'providerIndex' )
-			->will( $this->onConsecutiveCalls( 0, 2 ));
-
-		$this->Collection->expects( $this->any( ))
 			->method( 'providers' )
 			->will( $this->returnValue( array( new TestableProvider( ))));
 
@@ -161,10 +157,6 @@ class EssenceTest extends \PHPUnit_Framework_TestCase {
 	public function testEmbedAll( ) {
 
 		$this->Collection->expects( $this->any( ))
-			->method( 'providerIndex' )
-			->will( $this->returnValue( 0 ));
-
-		$this->Collection->expects( $this->any( ))
 			->method( 'providers' )
 			->will( $this->returnValue( array( new TestableProvider( ))));
 
@@ -175,6 +167,17 @@ class EssenceTest extends \PHPUnit_Framework_TestCase {
 			),
 			$this->Essence->embedAll( array( 'one', 'two' ))
 		);
+	}
+
+
+
+	/**
+	 *
+	 */
+
+	public function testReplace( ) {
+
+
 	}
 
 
