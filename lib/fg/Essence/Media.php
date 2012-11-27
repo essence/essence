@@ -239,6 +239,6 @@ class Media implements \IteratorAggregate {
 
 	public function getIterator( ) {
 
-		return new ArrayIterator( $this->_properties );
+		return new \ArrayIterator( $this->_properties );
 	}
 }

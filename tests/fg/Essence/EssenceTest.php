@@ -53,9 +53,17 @@ class TestableProvider extends Provider {
 	 *
 	 */
 
+	public $mediaProperties = array( );
+
+
+
+	/**
+	 *
+	 */
+
 	protected function _embed( $url ) {
 
-		return new Media( array( ));
+		return new Media( $this->mediaProperties );
 	}
 }
 
@@ -177,7 +185,38 @@ class EssenceTest extends \PHPUnit_Framework_TestCase {
 
 	public function testReplace( ) {
 
+		$Provider = new TestableProvider( );
+		$Provider->mediaProperties = array( 'html' => '<div></div>' );
 
+		$this->Collection->expects( $this->any( ))
+			->method( 'providers' )
+			->will( $this->returnValue( array( $Provider )));
+
+		$this->assertEquals(
+			'foo <div></div> bar',
+			$this->Essence->replace( 'foo http://www.example.com bar' )
+		);
+	}
+
+
+
+	/**
+	 *
+	 */
+
+	public function testReplaceWithTemplate( ) {
+
+		$Provider = new TestableProvider( );
+		$Provider->mediaProperties = array( 'title' => 'Example' );
+
+		$this->Collection->expects( $this->any( ))
+			->method( 'providers' )
+			->will( $this->returnValue( array( $Provider )));
+
+		$this->assertEquals(
+			'foo <h1>Example</h1> bar',
+			$this->Essence->replace( 'foo http://www.example.com bar', '<h1>%title%</h1>' )
+		);
 	}
 
 
