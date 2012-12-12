@@ -2,7 +2,7 @@
 	"name": "fg/essence",
 	"type": "library",
 	"description": "An utility to gather embed informations seamlessly from different providers.",
-	"version": "12.10.12",
+	"version": "12.12.12",
 	"authors": [{
 		"name": "Félix Girault",
 		"email": "felix.girault@gmail.com",
