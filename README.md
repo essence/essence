@@ -82,6 +82,10 @@ if ( !$Media->hasProperty( 'foo' )) {
 
 $value = $Media->property( 'foo' );
 
+// Or through the $properties array
+
+$Media->properties['foo'] = 'bar';
+
 // Or directly like a class attribute
 
 $Media->customValue = 12;

@@ -31,7 +31,7 @@ class Media implements \IteratorAggregate {
 	 *	@var array
 	 */
 
-	protected $_properties = array(
+	public $properties = array(
 
 		// OEmbed type
 		// OG type
@@ -101,7 +101,7 @@ class Media implements \IteratorAggregate {
 	 *	the $correspondances array can be used to specify a reindexation
 	 *	schema.
 	 *
-	 *	@see Media::$_properties
+	 *	@see Media::$properties
 	 *	@see Media::_reindex( )
 	 *	@param array $properties An array of media informations.
 	 *	@param array $correspondances An array of indices correspondances.
@@ -113,7 +113,7 @@ class Media implements \IteratorAggregate {
 			$properties = $this->_reindex( $properties, $correspondances );
 		}
 
-		$this->_properties = $properties;
+		$this->properties = $properties;
 	}
 
 
@@ -183,7 +183,7 @@ class Media implements \IteratorAggregate {
 
 	public function hasProperty( $name ) {
 
-		return isset( $this->_properties[ $name ]);
+		return isset( $this->properties[ $name ]);
 	}
 
 
@@ -198,7 +198,7 @@ class Media implements \IteratorAggregate {
 	public function property( $name ) {
 
 		return $this->hasProperty( $name )
-			? $this->_properties[ $name ]
+			? $this->properties[ $name ]
 			: null;
 	}
 
@@ -212,7 +212,7 @@ class Media implements \IteratorAggregate {
 
 	public function properties( ) {
 
-		return $this->_properties;
+		return $this->properties;
 	}
 
 
@@ -226,7 +226,7 @@ class Media implements \IteratorAggregate {
 
 	public function setProperty( $name, $value ) {
 
-		$this->_properties[ $name ] = $value;
+		$this->properties[ $name ] = $value;
 	}
 
 
@@ -239,6 +239,6 @@ class Media implements \IteratorAggregate {
 
 	public function getIterator( ) {
 
-		return new \ArrayIterator( $this->_properties );
+		return new \ArrayIterator( $this->properties );
 	}
 }

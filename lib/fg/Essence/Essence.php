@@ -222,7 +222,7 @@ class Essence {
 			foreach ( $medias as $url => $Media ) {
 				if ( $Media !== null ) {
 					$replacements[ $url ] = empty( $template )
-						? $Media->property( 'html' )
+						? $Media->html
 						: $this->_renderTemplate( $template, $Media );
 				}
 			}
