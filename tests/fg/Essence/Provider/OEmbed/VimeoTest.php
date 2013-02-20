@@ -35,7 +35,7 @@ class VimeoTest extends \PHPUnit_Framework_TestCase {
 	public function setUp( ) {
 
 		$this->Vimeo = new Vimeo( );
-		$Reflection = new \ReflectionClass( '\\fg\\Essence\\Provider\\OEmbed\\Youtube' );
+		$Reflection = new \ReflectionClass( '\\fg\\Essence\\Provider\\OEmbed\\Vimeo' );
 
 		$Property = $Reflection->getProperty( '_endpoint' );
 		$Property->setAccessible( true );
@@ -54,6 +54,8 @@ class VimeoTest extends \PHPUnit_Framework_TestCase {
 
 		$this->assertEquals( 'http://www.vimeo.com/20830433', $Media->url );
 	}
+
+
 
 	/**
 	 *
