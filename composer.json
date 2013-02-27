@@ -1,7 +1,7 @@
 {
 	"name": "fg/essence",
 	"type": "library",
-	"description": "An utility to gather embed informations seamlessly from different providers.",
+	"description": "Extracts informations about medias on the web, like youtube videos, twitter statuses or blog articles.",
 	"version": "12.12.12",
 	"authors": [{
 		"name": "Félix Girault",
@@ -12,7 +12,8 @@
 	"keywords": [
 		"embed",
 		"oembed",
-		"opengraph"
+		"opengraph",
+		"media"
 	],
 	"licence": "BSD-2-Clause",
 	"homepage": "http://github.com/felixgirault/essence",
