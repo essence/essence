@@ -5,17 +5,17 @@
  *	@license FreeBSD License (http://opensource.org/licenses/BSD-2-Clause)
  */
 
-namespace fg\Essence\Exception;
+namespace fg\Essence\Http;
 
 
 
 /**
  *	An HTTP related exception.
  *
- *	@package fg.Essence.Exception
+ *	@package fg.Essence.Http
  */
 
-class Http extends \fg\Essence\Exception {
+class Exception extends \fg\Essence\Exception {
 
 	/**
 	 *	HTTP code.
@@ -24,6 +24,16 @@ class Http extends \fg\Essence\Exception {
 	 */
 
 	protected $_code = 0;
+
+
+
+	/**
+	 *	Error URL.
+	 *
+	 *	@var string
+	 */
+
+	protected $_url = '';
 
 
 
@@ -68,17 +78,48 @@ class Http extends \fg\Essence\Exception {
 
 
 	/**
-	 *	Constructs the exception with the given HTTP code.
+	 *	Constructs the exception with the given HTTP code, and the URL that
+	 *	triggered the error.
 	 *
 	 *	@param int $code HTTP code.
+	 *	@param string url URL.
 	 */
 
 	public function __construct( $code, $url ) {
+
+		$this->_code = $code;
+		$this->_url = $url;
 
 		$message = isset( $this->_messages[ $code ])
 			? $this->_messages[ $code ]
 			: 'HTTP error';
 
-		parent::__construct( "$message: $url." );
+		parent::__construct( $message );
+	}
+
+
+
+	/**
+	 *	Returns the Http code.
+	 *
+	 *	@return int HTTP code.
+	 */
+
+	public function code( ) {
+
+		return $this->_code;
+	}
+
+
+
+	/**
+	 *	Returns the URL that triggered the error.
+	 *
+	 *	@return string URL.
+	 */
+
+	public function url( ) {
+
+		return $this->_url;
 	}
 }

@@ -37,8 +37,8 @@ class Generic extends \fg\Essence\Provider\OEmbed {
 
 	protected function _embed( $url ) {
 
-		$attributes = \fg\Essence\Html::extractAttributes(
-			\fg\Essence\Http::get( $url ),
+		$attributes = \fg\Essence\Registry::get( 'dom' )->extractAttributes(
+			\fg\Essence\Registry::get( 'http' )->get( $url ),
 			array(
 				'link' => array(
 					'rel' => '#alternate#i',

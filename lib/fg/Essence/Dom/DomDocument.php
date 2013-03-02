@@ -5,17 +5,17 @@
  *	@license FreeBSD License (http://opensource.org/licenses/BSD-2-Clause)
  */
 
-namespace fg\Essence;
+namespace fg\Essence\Dom;
 
 
 
 /**
  *	Handles HTML related operations.
  *
- *	@package fg.Essence
+ *	@package fg.Essence.Dom
  */
 
-class Html {
+class DomDocument implements \fg\Essence\Dom {
 
 	/**
 	 *	Extracts tags attributes from the given HTML document.
@@ -25,12 +25,12 @@ class Html {
 	 *	@return array Extracted attributes indexed by tag name.
 	 */
 
-	public static function extractAttributes( $html, array $options ) {
+	public function extractAttributes( $html, array $options ) {
 
 		$Document = @\DOMDocument::loadHTML( $html );
 
 		if ( $Document === false ) {
-			throw new Exception( 'Unable to load HTML document.' );
+			throw new \fg\Essence\Exception( 'Unable to load HTML document.' );
 		}
 
 		$options = self::_format( $options, array( ));
@@ -71,7 +71,7 @@ class Html {
 	 *	@return array Extracted attributes.
 	 */
 
-	protected static function _extractAttributesFromTag( \DOMElement $Tag, array $requiredAttributes ) {
+	protected function _extractAttributesFromTag( \DOMElement $Tag, array $requiredAttributes ) {
 
 		$attributes = array( );
 		$length = $Tag->attributes->length;
@@ -114,7 +114,7 @@ class Html {
 	 *	@return array The formatted array.
 	 */
 
-	protected static function _format( $attributes, $default ) {
+	protected function _format( $attributes, $default ) {
 
 		if ( is_string( $attributes )) {
 			return array( $attributes => $default );

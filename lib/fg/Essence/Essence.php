@@ -48,6 +48,33 @@ class Essence {
 	public function __construct( array $providers = array( )) {
 
 		$this->_Collection = new ProviderCollection( $providers );
+		$this->_checkEnvironment( );
+	}
+
+
+
+	/**
+	 *	Checks the execution environment.
+	 */
+
+	public function _checkEnvironment( ) {
+
+		if ( !Registry::has( 'dom' )) {
+			Registry::register( 'dom', new Dom\DomDocument( ));
+		}
+
+		if ( !Registry::has( 'http' )) {
+			Registry::register(
+				'http',
+				new Http\Curl(
+					array(
+						CURLOPT_HEADER => false,
+						CURLOPT_RETURNTRANSFER => true,
+						CURLOPT_CONNECTTIMEOUT => 10
+					)
+				)
+			);
+		}
 	}
 
 
@@ -97,8 +124,8 @@ class Essence {
 
 	protected function _extractUrls( $url ) {
 
-		$attributes = Html::extractAttributes(
-			Http::get( $url ),
+		$attributes = Registry::get( 'dom' )->extractAttributes(
+			Registry::get( 'http' )->get( $url ),
 			array(
 				'a' => 'href',
 				'embed' => 'src',
@@ -222,7 +249,7 @@ class Essence {
 			foreach ( $medias as $url => $Media ) {
 				if ( $Media !== null ) {
 					$replacements[ $url ] = empty( $template )
-						? $Media->html
+						? $Media->property( 'html' )
 						: $this->_renderTemplate( $template, $Media );
 				}
 			}

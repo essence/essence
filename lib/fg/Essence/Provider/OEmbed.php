@@ -161,7 +161,9 @@ abstract class OEmbed extends \fg\Essence\Provider {
 
 	protected function _embedEndpoint( $endpoint, $format ) {
 
-		$response = \fg\Essence\Http::get( $this->_completeEndpoint( $endpoint ));
+		$response = \fg\Essence\Registry::get( 'http' )->get(
+			$this->_completeEndpoint( $endpoint )
+		);
 
 		switch ( $format ) {
 			case self::json:
@@ -255,8 +257,7 @@ abstract class OEmbed extends \fg\Essence\Provider {
 
 	protected function _parseXml( $xml ) {
 
-		libxml_use_internal_errors( true );
-
+		$internal = libxml_use_internal_errors( true );
 		$data = array( );
 		$it = new \SimpleXmlIterator( $xml, null );
 
@@ -264,6 +265,7 @@ abstract class OEmbed extends \fg\Essence\Provider {
 			$data[ $key ] = strval( $value );
 		}
 
+		libxml_use_internal_errors( $internal );
 		return $data;
 	}
 }

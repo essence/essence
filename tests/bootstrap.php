@@ -41,7 +41,8 @@ $ClassLoader->register( );
 
 
 /**
- *	Disable cURL to facilitate testing.
+ *	Registered objects.
  */
 
-Http::$curl = false;
+Registry::register( 'dom', new Dom\DomDocument( ));
+Registry::register( 'http', new Http\FileGetContents( ));
