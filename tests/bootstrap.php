@@ -41,8 +41,8 @@ $ClassLoader->register( );
 
 
 /**
- *	Registered objects.
+ *	Test configuration.
  */
 
-Registry::register( 'dom', new Dom\DomDocument( ));
+Registry::register( 'cache', new Cache\Null( ));
 Registry::register( 'http', new Http\FileGetContents( ));

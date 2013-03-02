@@ -27,7 +27,9 @@ class FileGetContents implements \fg\Essence\Http {
 
 	public function get( $url ) {
 
-		$contents = @file_get_contents( $url );
+		$reporting = error_reporting( 0 );
+		$contents = file_get_contents( $url );
+		error_reporting( $reporting );
 
 		if ( $contents === false ) {
 			// let's assume the file doesn't exists

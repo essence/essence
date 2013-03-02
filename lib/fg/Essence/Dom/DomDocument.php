@@ -27,7 +27,9 @@ class DomDocument implements \fg\Essence\Dom {
 
 	public function extractAttributes( $html, array $options ) {
 
-		$Document = @\DOMDocument::loadHTML( $html );
+		$reporting = error_reporting( 0 );
+		$Document = \DOMDocument::loadHTML( $html );
+		error_reporting( $reporting );
 
 		if ( $Document === false ) {
 			throw new \fg\Essence\Exception( 'Unable to load HTML document.' );

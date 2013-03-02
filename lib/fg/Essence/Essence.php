@@ -28,6 +28,16 @@ class Essence {
 
 
 	/**
+	 *	The internal cache engine.
+	 *
+	 *	@var \fg\Essence\Cache
+	 */
+
+	protected $_Cache = null;
+
+
+
+	/**
 	 *	An array of catched exceptions.
 	 *
 	 *	@var array
@@ -47,8 +57,10 @@ class Essence {
 
 	public function __construct( array $providers = array( )) {
 
-		$this->_Collection = new ProviderCollection( $providers );
 		$this->_checkEnvironment( );
+
+		$this->_Collection = new ProviderCollection( $providers );
+		$this->_Cache = Registry::get( 'cache' );
 	}
 
 
@@ -58,6 +70,10 @@ class Essence {
 	 */
 
 	public function _checkEnvironment( ) {
+
+		if ( !Registry::has( 'cache' )) {
+			Registry::register( 'cache', new Cache\Volatile( ));
+		}
 
 		if ( !Registry::has( 'dom' )) {
 			Registry::register( 'dom', new Dom\DomDocument( ));
@@ -89,6 +105,27 @@ class Essence {
 
 	public function extract( $url ) {
 
+		$key = 'extract' . $url;
+		$cached = $this->_Cache->get( $key );
+
+		if ( $cached !== null ) {
+			return $cached;
+		}
+
+		$embeddable = $this->_extract( $url );
+		$this->_Cache->set( $key, $embeddable );
+
+		return $embeddable;
+	}
+
+
+
+	/**
+	 *	@see Essence::extract( )
+	 */
+
+	protected function _extract( $url ) {
+
 		// if a provider can directly handle the url, there is no more work to do.
 
 		if ( $this->_Collection->hasProvider( $url )) {
@@ -102,15 +139,18 @@ class Essence {
 			return array( );
 		}
 
-		$fetchable = array( );
+		$embeddable = array( );
 
 		foreach ( $urls as $url ) {
-			if ( $this->_Collection->hasProvider( $url )) {
-				$fetchable[ ] = $url;
+			if (
+				$this->_Collection->hasProvider( $url )
+				&& !in_array( $url, $embeddable )
+			) {
+				$embeddable[ ] = $url;
 			}
 		}
 
-		return array_values( array_unique( $fetchable )); // array_values reindexes the array
+		return $embeddable;
 	}
 
 
@@ -168,6 +208,27 @@ class Essence {
 
 	public function embed( $url, array $options = array( )) {
 
+		$key = 'embed' . $url . serialize( $options );
+		$cached = $this->_Cache->get( $key );
+
+		if ( $cached !== null ) {
+			return $cached;
+		}
+
+		$Media = $this->_embed( $url, $options );
+		$this->_Cache->set( 'embed', $Media );
+
+		return $Media;
+	}
+
+
+
+	/**
+	 *	@see Essence::embed( )
+	 */
+
+	protected function _embed( $url, array $options ) {
+
 		$providers = $this->_Collection->providers( $url );
 		$Media = null;
 
@@ -179,11 +240,11 @@ class Essence {
 			}
 
 			if ( $Media !== null ) {
-				return $Media;
+				break;
 			}
 		}
 
-		return null;
+		return $Media;
 	}
 
 
