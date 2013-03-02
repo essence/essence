@@ -60,6 +60,7 @@ class Curl implements \fg\Essence\Http {
 	 *
 	 *	@param string $url The URL fo fetch contents from.
 	 *	@return string The fetched contents.
+	 *	@throws \fg\Essence\Http\Exception
 	 */
 
 	public function get( $url ) {
