@@ -216,7 +216,7 @@ class Essence {
 		}
 
 		$Media = $this->_embed( $url, $options );
-		$this->_Cache->set( 'embed', $Media );
+		$this->_Cache->set( $key, $Media );
 
 		return $Media;
 	}
