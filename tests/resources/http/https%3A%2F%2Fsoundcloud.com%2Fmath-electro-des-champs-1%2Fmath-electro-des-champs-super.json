@@ -1,0 +1,14 @@
+{
+	"version": 1.0,
+	"type": "rich",
+	"provider_name": "SoundCloud",
+	"provider_url": "http: //soundcloud.com",
+	"height": 166,
+	"width": "100%",
+	"title": "Math Electro des Champs-SUPER SHAKER(SLUTTY PUPPETS DJ SET) by Math electro des champs",
+	"description": "ELECTRO TO TECHNO....LISTEN AND ENJOY!",
+	"thumbnail_url": "http: //i1.sndcdn.com/artworks-000007337349-d6iygo-t500x500.jpg?45575d7",
+	"html": "\u003Ciframe width=\"100%\" height=\"166\" scrolling=\"no\" frameborder=\"no\" src=\"http: //w.soundcloud.com/player/?url=http%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F15413774\u0026show_artwork=true\"\u003E\u003C/iframe\u003E",
+	"author_name": "Math electro des champs",
+	"author_url": "http://soundcloud.com/math-electro-des-champs-1"
+}

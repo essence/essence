@@ -15,7 +15,7 @@ namespace fg\Essence\Provider\OEmbed;
  *	@package fg.Essence.Provider.OEmbed
  */
 
-class Soundcloud extends \fg\Essence\Provider\OEmbed {
+class SoundCloud extends \fg\Essence\Provider\OEmbed {
 
 	/**
 	 *	Constructor.
