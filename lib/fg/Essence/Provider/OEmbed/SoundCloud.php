@@ -25,7 +25,7 @@ class SoundCloud extends \fg\Essence\Provider\OEmbed {
 
 		parent::__construct(
 			'#soundcloud\.com/[a-zA-Z0-9_]+/.+#i',
-			'http://soundcloud.com/oembed.json?url=%s',
+			'http://soundcloud.com/oembed?format=json&url=%s',
 			self::json
 		);
 	}
