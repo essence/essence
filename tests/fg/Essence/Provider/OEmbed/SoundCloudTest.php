@@ -15,16 +15,16 @@ if ( !defined( 'ESSENCE_BOOTSTRAPPED')) {
 
 
 /**
- *	Test case for Twitter.
+ *	Test case for SoundCloud.
  */
 
-class TwitterTest extends \PHPUnit_Framework_TestCase {
+class SoundCloudTest extends \PHPUnit_Framework_TestCase {
 
 	/**
 	 *
 	 */
 
-	public $Twitter = null;
+	public $SoundCloud = null;
 
 
 
@@ -34,12 +34,12 @@ class TwitterTest extends \PHPUnit_Framework_TestCase {
 
 	public function setUp( ) {
 
-		$this->Twitter = new Twitter( );
-		$Reflection = new \ReflectionClass( '\\fg\\Essence\\Provider\\OEmbed\\Twitter' );
+		$this->SoundCloud = new SoundCloud( );
+		$Reflection = new \ReflectionClass( '\\fg\\Essence\\Provider\\OEmbed\\SoundCloud' );
 
 		$Property = $Reflection->getProperty( '_endpoint' );
 		$Property->setAccessible( true );
-		$Property->setValue( $this->Twitter, 'file://' . ESSENCE_HTTP . '%s.json' );
+		$Property->setValue( $this->SoundCloud, 'file://' . ESSENCE_HTTP . '%s.json' );
 	}
 
 
@@ -50,8 +50,8 @@ class TwitterTest extends \PHPUnit_Framework_TestCase {
 
 	public function testEmbed( ) {
 
-		$Media = $this->Twitter->embed( 'https://twitter.com/Ouiche_Lorraine/status/278534502748405760' );
+		$Media = $this->SoundCloud->embed( 'https://soundcloud.com/math-electro-des-champs-1/math-electro-des-champs-super' );
 
-		$this->assertEquals( 'La_classe_americaine', $Media->authorName );
+		$this->assertEquals( 'Math electro des champs', $Media->authorName );
 	}
 }
