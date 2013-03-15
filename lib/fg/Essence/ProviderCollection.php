@@ -23,6 +23,16 @@ class ProviderCollection {
 	 *	@var array
 	 */
 
+	protected $_Package = null;
+
+
+
+	/**
+	 *	A list of providers.
+	 *
+	 *	@var array
+	 */
+
 	protected $_providers = array( );
 
 
@@ -36,6 +46,10 @@ class ProviderCollection {
 	 */
 
 	public function __construct( array $providers = array( )) {
+
+		$this->_Package = new Package(
+			dirname( __FILE__ ) . DIRECTORY_SEPARATOR . 'Provider'
+		);
 
 		$this->load( $providers );
 	}
@@ -54,11 +68,11 @@ class ProviderCollection {
 
 	public function load( array $providers = array( )) {
 
-		if ( empty( $providers )) {
-			$path = dirname( __FILE__ ) . DIRECTORY_SEPARATOR . 'Provider';
+		$excludeGenerics = false;
 
-			$Package = new Package( $path );
-			$providers = $Package->classes( array( ), true );
+		if ( empty( $providers )) {
+			$providers = $this->_Package->classes( array( ), true );
+			$excludeGenerics = true;
 		}
 
 		$this->_providers = array( );
@@ -74,7 +88,11 @@ class ProviderCollection {
 			}
 
 			if ( !$Reflection->isAbstract( )) {
-				$this->_providers[ ] = $Reflection->newInstance( );
+				$Provider = $Reflection->newInstance( );
+
+				if ( !$Provider->isGeneric( )) {
+					$this->_providers[ ] = $Provider;
+				}
 			}
 		}
 	}

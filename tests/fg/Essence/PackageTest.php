@@ -12,13 +12,6 @@ if ( !defined( 'ESSENCE_BOOTSTRAPPED' )) {
 		. DIRECTORY_SEPARATOR . 'bootstrap.php';
 }
 
-define(
-	'PACKAGE_PATH',
-	ESSENCE_RESOURCES . 'fg'
-		. DIRECTORY_SEPARATOR . 'Essence'
-		. DIRECTORY_SEPARATOR . 'Provider'
-);
-
 
 
 /**
@@ -41,7 +34,7 @@ class PackageTest extends \PHPUnit_Framework_TestCase {
 
 	public function setUp( ) {
 
-		$this->Package = new Package( PACKAGE_PATH );
+		$this->Package = new Package( ESSENCE_PACKAGE );
 	}
 
 
@@ -94,7 +87,8 @@ class PackageTest extends \PHPUnit_Framework_TestCase {
 
 		$this->assertEquals(
 			array(
-				'Foo'
+				'Foo',
+				'Generic'
 			),
 			$this->Package->classes( )
 		);
@@ -111,6 +105,7 @@ class PackageTest extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals(
 			array(
 				'Foo',
+				'Generic',
 				'Sushi\\Bar'
 			),
 			$this->Package->classes( array( ), true )

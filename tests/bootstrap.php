@@ -29,6 +29,15 @@ if ( !defined( 'ESSENCE_HTTP' )) {
 	define( 'ESSENCE_HTTP', ESSENCE_RESOURCES . 'http' . DIRECTORY_SEPARATOR );
 }
 
+if ( !defined( 'ESSENCE_PACKAGE' )) {
+	define(
+		'ESSENCE_PACKAGE',
+		ESSENCE_RESOURCES . 'fg'
+			. DIRECTORY_SEPARATOR . 'Essence'
+			. DIRECTORY_SEPARATOR . 'Provider'
+	);
+}
+
 
 
 /**

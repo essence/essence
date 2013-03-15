@@ -49,8 +49,20 @@ abstract class Provider {
 
 
 	/**
+	 *	Tells if the provider is generic.
+	 *
+	 *	@var boolean
+	 */
+
+	protected $_generic = false;
+
+
+
+	/**
 	 *	Options passed to embed( ) and to be used by _prepare( ) and _embed( ).
 	 *
+	 *	@todo This shouldn't be a class attribute, as it is valid for only one
+	 *		call. Consider passing this array to the concerned methods.
 	 *	@var array
 	 */
 
@@ -68,6 +80,21 @@ abstract class Provider {
 	public function __construct( $pattern = Provider::nothing ) {
 
 		$this->_pattern = $pattern;
+		$this->_generic = ( $pattern === self::anything );
+	}
+
+
+
+	/**
+	 *	Tells if the provider is generic, i.e. if it will attempt to fetch
+	 *	information from any URL.
+	 *
+	 *	@param boolean Whether the provider is generic or not.
+	 */
+
+	public function isGeneric( ) {
+
+		return $this->_generic;
 	}
 
 

@@ -36,8 +36,11 @@ class ProviderCollectionTest extends \PHPUnit_Framework_TestCase {
 
 		$this->Collection = new ProviderCollection( );
 
-		$ClassLoader = new ClassLoader( ESSENCE_RESOURCES );
-		$ClassLoader->register( );
+		$Reflection = new \ReflectionClass( '\\fg\\Essence\\ProviderCollection' );
+
+		$Property = $Reflection->getProperty( '_Package' );
+		$Property->setAccessible( true );
+		$Property->setValue( $this->Collection, new Package( ESSENCE_PACKAGE ));
 	}
 
 
@@ -86,6 +89,8 @@ class ProviderCollectionTest extends \PHPUnit_Framework_TestCase {
 	 */
 
 	public function testHasProvider( ) {
+
+		$this->Collection->load( );
 
 		$this->assertTrue( $this->Collection->hasProvider( 'bar' ));
 	}

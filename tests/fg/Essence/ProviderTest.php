@@ -42,6 +42,32 @@ class ProviderTest extends \PHPUnit_Framework_TestCase {
 	 *
 	 */
 
+	public function testIsGeneric( ) {
+
+		$Provider = new ConcreteProvider( Provider::anything );
+
+		$this->assertTrue( $Provider->isGeneric( ));
+	}
+
+
+
+	/**
+	 *
+	 */
+
+	public function testIsNotGeneric( ) {
+
+		$Provider = new ConcreteProvider( Provider::nothing );
+
+		$this->assertFalse( $Provider->isGeneric( ));
+	}
+
+
+
+	/**
+	 *
+	 */
+
 	public function testCanEmbed( ) {
 
 		$Provider = new ConcreteProvider( '#[a-z]+#' );
