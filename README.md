@@ -96,6 +96,22 @@ $Media->customValue = 12;
 Configuration
 -------------
 
+Essence currently supports 8 specialized providers:
+
+* OEmbed/Dailymotion
+* OEmbed/Flickr
+* OEmbed/SoundCloud
+* OEmbed/Twitter
+* OEmbed/Vimeo
+* OEmbed/Youtube
+* OpenGraph/CanalPlus
+* OpenGraph/Ted
+
+And two generic one which will try to get informations about any page:
+
+* OEmbed/Generic
+* OpenGraph/Generic
+
 If you know which providers you will have to query, or simply want to exclude some of them, you can tell Essence which ones you want to use:
 
 ```php
