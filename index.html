@@ -32,17 +32,13 @@
       <section>
         <div id="title">
           <h1>Essence</h1>
-          <p>A simple PHP library to extract media informations from websites.</p>
+          <p>A simple PHP library to extract media informations from websites, like youtube videos, twitter statuses or blog articles.</p>
           <hr>
           <span class="credits left">Project maintained by <a href="https://github.com/felixgirault">felixgirault</a></span>
           <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="http://twitter.com/#!/michigangraham">mattgraham</a></span>
         </div>
 
-        <h1>Essence</h1>
-
-<p>Essence is a simple PHP library to extract media informations from websites.</p>
-
-<p><a href="http://travis-ci.org/felixgirault/essence"><img src="https://secure.travis-ci.org/felixgirault/essence.png" alt="Build Status"></a></p>
+        <p><a href="http://travis-ci.org/felixgirault/essence"><img src="https://secure.travis-ci.org/felixgirault/essence.png" alt="Build Status"></a></p>
 
 <h2>Example</h2>
 
@@ -110,18 +106,42 @@ Don't worry, all these "non-standard" properties can also be stored in a Media o
 
 <div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span>
 
-<span class="k">if</span> <span class="p">(</span> <span class="o">!</span><span class="nv">$Media</span><span class="o">-&gt;</span><span class="na">hasCustomProperty</span><span class="p">(</span> <span class="s1">'foo'</span> <span class="p">))</span> <span class="p">{</span>
-    <span class="nv">$Media</span><span class="o">-&gt;</span><span class="na">setCustomProperty</span><span class="p">(</span> <span class="s1">'foo'</span><span class="p">,</span> <span class="s1">'bar'</span> <span class="p">);</span>
+<span class="k">if</span> <span class="p">(</span> <span class="o">!</span><span class="nv">$Media</span><span class="o">-&gt;</span><span class="na">hasProperty</span><span class="p">(</span> <span class="s1">'foo'</span> <span class="p">))</span> <span class="p">{</span>
+    <span class="nv">$Media</span><span class="o">-&gt;</span><span class="na">setProperty</span><span class="p">(</span> <span class="s1">'foo'</span><span class="p">,</span> <span class="s1">'bar'</span> <span class="p">);</span>
 <span class="p">}</span>
 
-<span class="nv">$value</span> <span class="o">=</span> <span class="nv">$Media</span><span class="o">-&gt;</span><span class="na">getCustomProperty</span><span class="p">(</span> <span class="s1">'foo'</span> <span class="p">);</span>
+<span class="nv">$value</span> <span class="o">=</span> <span class="nv">$Media</span><span class="o">-&gt;</span><span class="na">property</span><span class="p">(</span> <span class="s1">'foo'</span> <span class="p">);</span>
+
+<span class="c1">// Or through the $properties array</span>
+
+<span class="nv">$Media</span><span class="o">-&gt;</span><span class="na">properties</span><span class="p">[</span><span class="s1">'foo'</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'bar'</span><span class="p">;</span>
+
+<span class="c1">// Or directly like a class attribute</span>
+
+<span class="nv">$Media</span><span class="o">-&gt;</span><span class="na">customValue</span> <span class="o">=</span> <span class="mi">12</span><span class="p">;</span>
 
 <span class="cp">?&gt;</span><span class="x"></span>
 </pre></div>
 
 <h2>Configuration</h2>
 
-<p>If you know which providers you will have to query, or simply want to exclude some of them, you can tell Essence which ones you want to use:</p>
+<p>Essence currently supports 8 specialized providers:</p>
+
+<ul>
+<li>OEmbed/Dailymotion</li>
+<li>OEmbed/Flickr</li>
+<li>OEmbed/SoundCloud</li>
+<li>OEmbed/Twitter</li>
+<li>OEmbed/Vimeo</li>
+<li>OEmbed/Youtube</li>
+<li>OpenGraph/CanalPlus</li>
+<li>OpenGraph/Ted</li>
+</ul><p>And two generic ones which will try to get informations about any page:</p>
+
+<ul>
+<li>OEmbed/Generic</li>
+<li>OpenGraph/Generic</li>
+</ul><p>If you know which providers you will have to query, or simply want to exclude some of them, you can tell Essence which ones you want to use:</p>
 
 <div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span>
 
