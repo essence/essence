@@ -46,7 +46,7 @@ class FileGetContents implements \fg\Essence\Http {
 		if ( $contents === false ) {
 			$code = self::defaultHttpCode;
 
-			if ( $http_response_header ) {
+			if ( isset( $http_response_header )) {
 				preg_match(
 					'#^HTTP/[0-9\\.]+\s(?P<code>[0-9]+)#i',
 					$http_response_header[ 0 ],
