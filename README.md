@@ -107,7 +107,7 @@ Essence currently supports 8 specialized providers:
 * OpenGraph/CanalPlus
 * OpenGraph/Ted
 
-And two generic one which will try to get informations about any page:
+And two generic ones which will try to get informations about any page:
 
 * OEmbed/Generic
 * OpenGraph/Generic
