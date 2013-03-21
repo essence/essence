@@ -90,8 +90,14 @@ class ProviderCollection {
 			if ( !$Reflection->isAbstract( )) {
 				$Provider = $Reflection->newInstance( );
 
-				if ( !$Provider->isGeneric( )) {
-					$this->_providers[ ] = $Provider;
+				if ( $Provider->isGeneric( )) {
+					if ( !$excludeGenerics ) {
+						$this->_providers[ ] = $Provider;
+					}
+				} else {
+					// The regular providers are pushed to the front to
+					// take precedence over the generic ones.
+					array_unshift( $this->_providers, $Provider );
 				}
 			}
 		}
