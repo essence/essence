@@ -18,7 +18,9 @@ namespace fg\Essence\Provider\OEmbed;
 class Generic extends \fg\Essence\Provider\OEmbed {
 
 	/**
+	 *	A cache for extracted endpoints.
 	 *
+	 *	@var fg\Essence\Cache\Volatile
 	 */
 
 	protected $_Cache = null;
