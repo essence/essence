@@ -19,6 +19,16 @@ namespace fg\Essence\Provider;
 abstract class OpenGraph extends \fg\Essence\Provider {
 
 	/**
+	 *	A cache for extracted informations.
+	 *
+	 *	@var fg\Essence\Cache\Volatile
+	 */
+
+	protected $_Cache = null;
+
+
+
+	/**
 	 *	Constructs the OpenGraph provider with a regular expression to match
 	 *	the URLs it can handle.
 	 */
@@ -26,6 +36,8 @@ abstract class OpenGraph extends \fg\Essence\Provider {
 	public function __construct( $pattern ) {
 
 		parent::__construct( $pattern );
+
+		$this->_Cache = new \fg\Essence\Cache\Volatile( );
 	}
 
 
@@ -39,24 +51,12 @@ abstract class OpenGraph extends \fg\Essence\Provider {
 
 	protected function _embed( $url ) {
 
-		$attributes = \fg\Essence\Registry::get( 'dom' )->extractAttributes(
-			\fg\Essence\Registry::get( 'http' )->get( $url ),
-			array(
-				'meta' => array(
-					'property' => '#^og:.+#i',
-					'content'
-				)
-			)
-		);
-
-		$og = array( );
-
-		foreach ( $attributes['meta'] as $meta ) {
-			$og[ $meta['property']] = $meta['content'];
-		}
+		$og = $this->_extractInformations( $url );
 
 		if ( empty( $og )) {
-			throw new \fg\Essence\Exception( 'Unable to extract OpenGraph data.' );
+			throw new \fg\Essence\Exception(
+				'Unable to extract OpenGraph data.'
+			);
 		}
 
 		return new \fg\Essence\Media(
@@ -78,5 +78,40 @@ abstract class OpenGraph extends \fg\Essence\Provider {
 				'og:url' => 'url'
 			)
 		);
+	}
+
+
+
+	/**
+	 *	Extracts OpenGraph informations from the given URL.
+	 *
+	 *	@param string $url URL to fetch informations from.
+	 *	@return array Extracted informations.
+	 */
+
+	protected function _extractInformations( $url ) {
+
+		if ( $this->_Cache->has( $url )) {
+			return $this->_Cache->get( $url );
+		}
+
+		$attributes = \fg\Essence\Registry::get( 'dom' )->extractAttributes(
+			\fg\Essence\Registry::get( 'http' )->get( $url ),
+			array(
+				'meta' => array(
+					'property' => '#^og:.+#i',
+					'content'
+				)
+			)
+		);
+
+		$og = array( );
+
+		foreach ( $attributes['meta'] as $meta ) {
+			$og[ $meta['property']] = $meta['content'];
+		}
+
+		$this->_Cache->set( $url, $og );
+		return $og;
 	}
 }

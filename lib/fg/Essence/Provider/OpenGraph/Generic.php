@@ -25,4 +25,17 @@ class Generic extends \fg\Essence\Provider\OpenGraph {
 
 		parent::__construct( self::anything );
 	}
+
+
+
+	/**
+	 *	Tells if the provider can fetch embed informations from the given URL.
+	 *
+	 *	@param string $url URL to fetch informations from.
+	 */
+
+	public function canEmbed( $url ) {
+
+		return ( $this->_extractInformations( $url ) !== false );
+	}
 }
