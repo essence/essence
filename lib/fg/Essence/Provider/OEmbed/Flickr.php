@@ -24,7 +24,7 @@ class Flickr extends \fg\Essence\Provider\OEmbed {
 	public function __construct( ) {
 
 		parent::__construct(
-			'#flickr\.com/photos/[a-zA-Z0-9\\._]+/[0-9]+#i',
+			'#flickr\.com/photos/[a-zA-Z0-9@\\._]+/[0-9]+#i',
 			'http://flickr.com/services/oembed?format=json&url=%s',
 			self::json
 		);

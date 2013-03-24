@@ -48,6 +48,10 @@ class FlickrTest extends \PHPUnit_Framework_TestCase {
 		$this->assertTrue(
 			$this->Flickr->canEmbed( 'http://www.flickr.com/photos/phuson/4311168776/' )
 		);
+
+		$this->assertTrue(
+			$this->Flickr->canEmbed( 'http://www.flickr.com/photos/20916857@N00/2934150415' )
+		);
 	}
 
 
