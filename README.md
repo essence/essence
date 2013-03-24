@@ -196,8 +196,7 @@ Essence can replace any embeddable URL in a text by informations about it.
 Consider this piece of content:
 
 ```html
-Hello, my name is John Doe and I really like this video: http://www.youtube.com/watch?v=123456
-Do you like it too ?
+Check out this video: http://www.youtube.com/watch?v=123456
 ```
 
 If you just pass this text to the replace( ) method, the URL will be replaced by the HTML code for the video player.
@@ -214,12 +213,11 @@ echo $Essence->replace( $text, '<p class="title">%title%</p><div class="player">
 This call should print something like that:
 
 ```html
-Hello, my name is John Doe and I really like this video:
+Check out this video:
 <p class="title">Video title</p>
 <div class="player">
 	<iframe src="http://www.youtube.com/embed/123456"></iframe>
 <div>
-Do you like it too ?
 ```
 
 Note that you can use any property of the Media class in the template (See the [What you get](https://github.com/felixgirault/essence#what-you-get "Available properties") section).
