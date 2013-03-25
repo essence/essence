@@ -79,13 +79,7 @@ class ProviderCollection {
 
 		foreach ( $providers as $provider ) {
 			$className = '\\fg\\Essence\\Provider\\' . str_replace( '/', '\\', $provider );
-			$Reflection = null;
-
-			try {
-				$Reflection = new \ReflectionClass( $className );
-			} catch ( \ReflectionException $Exception ) {
-				throw new Exception( $Exception->getMessage( ));
-			}
+			$Reflection = new \ReflectionClass( $className );
 
 			if ( !$Reflection->isAbstract( )) {
 				$Provider = $Reflection->newInstance( );

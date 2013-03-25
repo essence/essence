@@ -18,12 +18,12 @@ namespace fg\Essence\Http;
 class Exception extends \fg\Essence\Exception {
 
 	/**
-	 *	HTTP code.
+	 *	HTTP status code.
 	 *
 	 *	@var integer
 	 */
 
-	protected $_code = 0;
+	protected $_status = 0;
 
 
 
@@ -78,36 +78,38 @@ class Exception extends \fg\Essence\Exception {
 
 
 	/**
-	 *	Constructs the exception with the given HTTP code, and the URL that
-	 *	triggered the error.
+	 *	Constructs the exception with the given HTTP status code, and the URL
+	 *	that triggered the error.
 	 *
-	 *	@param int $code HTTP code.
-	 *	@param string url URL.
+	 *	@param int $status HTTP status code.
+	 *	@param string $url URL.
+	 *	@param int $code Exception code.
+	 *	@param Exception $Previous Previous exception.
 	 */
 
-	public function __construct( $code, $url ) {
+	public function __construct( $status, $url, $code, Exception $Previous = null ) {
 
-		$this->_code = $code;
+		$this->_status = $status;
 		$this->_url = $url;
 
-		$message = isset( $this->_messages[ $code ])
-			? $this->_messages[ $code ]
+		$message = isset( $this->_messages[ $status ])
+			? $this->_messages[ $status ]
 			: 'HTTP error';
 
-		parent::__construct( $message );
+		parent::__construct( $message, $code, $Previous );
 	}
 
 
 
 	/**
-	 *	Returns the Http code.
+	 *	Returns the Http status code.
 	 *
-	 *	@return int HTTP code.
+	 *	@return int HTTP status code.
 	 */
 
-	public function code( ) {
+	public function status( ) {
 
-		return $this->_code;
+		return $this->_status;
 	}
 
 

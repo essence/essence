@@ -18,7 +18,14 @@ namespace fg\Essence;
 class Exception extends \Exception {
 
 	/**
-	 *	That's all folks!
+	 *	An alias to fit the Essence coding style.
+	 *	I'm probably mad.
+	 *
+	 *	@return string The exception message.
 	 */
 
+	public function message( ) {
+
+		return $this->getMessage( );
+	}
 }
