@@ -87,7 +87,7 @@ class Exception extends \fg\Essence\Exception {
 	 *	@param Exception $Previous Previous exception.
 	 */
 
-	public function __construct( $status, $url, $code, Exception $Previous = null ) {
+	public function __construct( $status, $url, $code = 0, Exception $Previous = null ) {
 
 		$this->_status = $status;
 		$this->_url = $url;
