@@ -28,18 +28,33 @@ class Curl implements \fg\Essence\Http {
 
 
 	/**
-	 *	Initializes cURL with the given settings.
+	 *	Default cURL options, takes precedence over the user options.
+	 *
+	 *	@var array
+	 */
+
+	protected $_defaults = array(
+		CURLOPT_HEADER => false,
+		CURLOPT_RETURNTRANSFER => true,
+		CURLOPT_FOLLOWLOCATION => true
+	);
+
+
+
+	/**
+	 *	Initializes cURL with the given options.
 	 *
 	 *	@param array cURL options.
 	 */
 
-	public function __construct( array $settings = array( )) {
+	public function __construct( array $options = array( )) {
 
 		$this->_curl = curl_init( );
 
-		if ( $settings ) {
-			curl_setopt_array( $this->_curl, $settings );
-		}
+		curl_setopt_array(
+			$this->_curl,
+			$this->_defaults + $options
+		);
 	}
 
 

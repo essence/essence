@@ -80,16 +80,7 @@ class Essence {
 		}
 
 		if ( !Registry::has( 'http' )) {
-			Registry::register(
-				'http',
-				new Http\Curl(
-					array(
-						CURLOPT_HEADER => false,
-						CURLOPT_RETURNTRANSFER => true,
-						CURLOPT_CONNECTTIMEOUT => 10
-					)
-				)
-			);
+			Registry::register( 'http', new Http\Curl( ));
 		}
 	}
 
