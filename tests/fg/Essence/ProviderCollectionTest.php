@@ -77,7 +77,7 @@ class ProviderCollectionTest extends \PHPUnit_Framework_TestCase {
 
 	public function testLoadUndefined( ) {
 
-		$this->setExpectedException( '\\fg\\Essence\\Exception' );
+		$this->setExpectedException( '\\ReflectionException' );
 
 		$this->Collection->load( array( 'Undefined' ));
 	}
