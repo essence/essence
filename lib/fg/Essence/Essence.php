@@ -103,9 +103,14 @@ class Essence {
 			return $cached;
 		}
 
-		$embeddable = $this->_extract( $url );
-		$this->_Cache->set( $key, $embeddable );
+		try {
+			$embeddable = $this->_extract( $url );
+		} catch ( Exception $Exception ) {
+			$this->_log( $Exception );
+			return array( );
+		}
 
+		$this->_Cache->set( $key, $embeddable );
 		return $embeddable;
 	}
 
@@ -123,13 +128,7 @@ class Essence {
 			return array( $url );
 		}
 
-		try {
-			$urls = $this->_extractUrls( $url );
-		} catch ( Exception $Exception ) {
-			$this->_log( $Exception );
-			return array( );
-		}
-
+		$urls = $this->_extractUrls( $url );
 		$embeddable = array( );
 
 		foreach ( $urls as $url ) {
@@ -206,9 +205,14 @@ class Essence {
 			return $cached;
 		}
 
-		$Media = $this->_embed( $url, $options );
-		$this->_Cache->set( $key, $Media );
+		try {
+			$Media = $this->_embed( $url, $options );
+		} catch ( Exception $Exception ) {
+			$this->_log( $Exception );
+			return null;
+		}
 
+		$this->_Cache->set( $key, $Media );
 		return $Media;
 	}
 
@@ -331,7 +335,7 @@ class Essence {
 		$replacements = array( );
 
 		foreach ( $Media as $property => $value ) {
-			$replacements["%$property%"] = $value;
+			$replacements['%$property%'] = $value;
 		}
 
 		return str_replace(
