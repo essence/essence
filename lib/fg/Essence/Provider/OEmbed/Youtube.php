@@ -25,7 +25,7 @@ class Youtube extends \fg\Essence\Provider\OEmbed {
 
 		parent::__construct(
 			'#youtube\.com|youtu\.be#i',
-			'http://www.youtube.com/oembed?format=json&url=%s',
+			'http://www.youtube.com/oembed?format=jsonp&url=%s',
 			self::json
 		);
 	}
