@@ -108,6 +108,10 @@ abstract class OpenGraph extends \fg\Essence\Provider {
 		$og = array( );
 
 		foreach ( $attributes['meta'] as $meta ) {
+			if ( isset($og[ $meta['property']]) ) { // Take only the first value
+				continue;
+			}
+			
 			$og[ $meta['property']] = $meta['content'];
 		}
 
