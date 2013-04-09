@@ -335,7 +335,7 @@ class Essence {
 		$replacements = array( );
 
 		foreach ( $Media as $property => $value ) {
-			$replacements['%$property%'] = $value;
+			$replacements["%$property%"] = $value;
 		}
 
 		return str_replace(
