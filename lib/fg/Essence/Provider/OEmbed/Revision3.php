@@ -10,12 +10,12 @@ namespace fg\Essence\Provider\OEmbed;
 
 
 /**
- *	Hulu provider (http://www.hulu.com/).
+ *	revision3 provider (http://www.revision3.com/).
  *
  *	@package fg.Essence.Provider.OEmbed
  */
 
-class Hulu extends \fg\Essence\Provider\OEmbed {
+class Revision3 extends \fg\Essence\Provider\OEmbed {
 
 	/**
 	 *	Constructor.
@@ -24,8 +24,8 @@ class Hulu extends \fg\Essence\Provider\OEmbed {
 	public function __construct( ) {
 
 		parent::__construct(
-			'#hulu\\.com/watch/.*+#i',
-			'http://www.hulu.com/api/oembed.json',
+			'#revision3\.com/[a-z0-9]/.+#i',
+			'http://revision3.com/api/oembed?format=json&url=%s',
 			self::json
 		);
 	}

@@ -24,7 +24,7 @@ class Scribd extends \fg\Essence\Provider\OEmbed {
 	public function __construct( ) {
 
 		parent::__construct(
-			'#scribd\.com/.+#i',
+			'#scribd\.com/doc/[0-9]+/.+#i',
 			'http://www.scribd.com/services/oembed?format=json&url=%s',
 			self::json
 		);
