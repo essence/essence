@@ -85,7 +85,7 @@ abstract class Provider {
 	 *	@param array $options Configuration options.
 	 */
 
-	public function __construct( $options ) {
+	public function __construct( array $options = array( )) {
 
 		$this->_options = array_merge( $this->_defaults, $options );
 	}
