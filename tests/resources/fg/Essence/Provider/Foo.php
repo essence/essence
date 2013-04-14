@@ -11,20 +11,17 @@ namespace fg\Essence\Provider;
 class Foo extends \fg\Essence\Provider {
 
 	/**
-	 *
+	 *	{@inheritDoc}
 	 */
 
-	public function __construct( ) {
-
-		parent::__construct( '#^foo$#' );
-	}
+	protected $_pattern = '#^foo$#';
 
 
 
 	/**
-	 *
+	 *	{@inheritDoc}
 	 */
 
-	protected function _embed( $url ) { }
+	protected function _embed( $url, $options ) { }
 
 }

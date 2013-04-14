@@ -39,7 +39,7 @@ class Generic extends \fg\Essence\Provider\OEmbed {
 	 *	Constructor.
 	 */
 
-	public function __construct( $options ) {
+	public function __construct( array $options = array( )) {
 
 		parent::__construct( $options );
 
@@ -76,7 +76,11 @@ class Generic extends \fg\Essence\Provider\OEmbed {
 			throw new \fg\Essence\Exception( 'Unable to find any endpoint.' );
 		}
 
-		return $this->_embedEndpoint( $endpoint['url'], $endpoint['type']);
+		return $this->_embedEndpoint(
+			$endpoint['url'],
+			$endpoint['type'],
+			$options
+		);
 	}
 
 

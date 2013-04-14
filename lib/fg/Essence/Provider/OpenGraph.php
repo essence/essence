@@ -33,9 +33,9 @@ abstract class OpenGraph extends \fg\Essence\Provider {
 	 *	the URLs it can handle.
 	 */
 
-	public function __construct( $pattern ) {
+	public function __construct( array $options = array( )) {
 
-		parent::__construct( $pattern );
+		parent::__construct( $options );
 
 		$this->_Cache = new \fg\Essence\Cache\Volatile( );
 	}
