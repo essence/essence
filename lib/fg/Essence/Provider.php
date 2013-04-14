@@ -87,7 +87,9 @@ abstract class Provider {
 
 	public function __construct( array $options = array( )) {
 
-		$this->_options = array_merge( $this->_defaults, $options );
+		$this->_options = empty( $options )
+			? $this->_defaults
+			: array_merge( $this->_defaults, $options );
 	}
 
 
