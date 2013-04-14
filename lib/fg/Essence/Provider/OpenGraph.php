@@ -29,8 +29,7 @@ abstract class OpenGraph extends \fg\Essence\Provider {
 
 
 	/**
-	 *	Constructs the OpenGraph provider with a regular expression to match
-	 *	the URLs it can handle.
+	 *	{@inheritDoc}
 	 */
 
 	public function __construct( array $options = array( )) {
@@ -43,10 +42,7 @@ abstract class OpenGraph extends \fg\Essence\Provider {
 
 
 	/**
-	 *	Fetches embed information from the given URL.
-	 *
-	 *	@param string $url URL to fetch informations from.
-	 *	@return Media Embed informations.
+	 *	{@inheritDoc}
 	 */
 
 	protected function _embed( $url, $options ) {

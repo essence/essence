@@ -26,9 +26,7 @@ class Generic extends \fg\Essence\Provider\OpenGraph {
 
 
 	/**
-	 *	Tells if the provider can fetch embed informations from the given URL.
-	 *
-	 *	@param string $url URL to fetch informations from.
+	 *	{@inheritDoc}
 	 */
 
 	public function canEmbed( $url ) {

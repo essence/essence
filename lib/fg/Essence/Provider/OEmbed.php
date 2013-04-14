@@ -117,10 +117,7 @@ abstract class OEmbed extends \fg\Essence\Provider {
 
 
 	/**
-	 *	Fetches embed information from the given URL.
-	 *
-	 *	@param string $url URL to fetch informations from.
-	 *	@return Media Embed informations.
+	 *	{@inheritDoc}
 	 */
 
 	protected function _embed( $url, $options ) {

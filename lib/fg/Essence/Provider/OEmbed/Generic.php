@@ -36,7 +36,7 @@ class Generic extends \fg\Essence\Provider\OEmbed {
 
 
 	/**
-	 *	Constructor.
+	 *	{@inheritDoc}
 	 */
 
 	public function __construct( array $options = array( )) {
@@ -49,9 +49,7 @@ class Generic extends \fg\Essence\Provider\OEmbed {
 
 
 	/**
-	 *	Tells if the provider can fetch embed informations from the given URL.
-	 *
-	 *	@param string $url URL to fetch informations from.
+	 *	{@inheritDoc}
 	 */
 
 	public function canEmbed( $url ) {
@@ -62,10 +60,7 @@ class Generic extends \fg\Essence\Provider\OEmbed {
 
 
 	/**
-	 *	Fetches embed information from the given URL.
-	 *
-	 *	@param string $url URL to fetch informations from.
-	 *	@return Media Embed informations.
+	 *	{@inheritDoc}
 	 */
 
 	protected function _embed( $url, $options ) {

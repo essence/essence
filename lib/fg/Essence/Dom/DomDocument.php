@@ -18,11 +18,7 @@ namespace fg\Essence\Dom;
 class DomDocument implements \fg\Essence\Dom {
 
 	/**
-	 *	Extracts tags attributes from the given HTML document.
-	 *
-	 *	@param string $html An HTML document.
-	 *	@param array $options Options defining which attributes to extract.
-	 *	@return array Extracted attributes indexed by tag name.
+	 *	{@inheritDoc}
 	 */
 
 	public function extractAttributes( $html, array $options ) {
