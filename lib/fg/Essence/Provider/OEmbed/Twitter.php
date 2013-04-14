@@ -18,15 +18,17 @@ namespace fg\Essence\Provider\OEmbed;
 class Twitter extends \fg\Essence\Provider\OEmbed {
 
 	/**
-	 *	Constructor.
+	 *	{@inheritDoc}
 	 */
 
-	public function __construct( ) {
+	protected $_pattern = '#twitter\.com/[a-zA-Z0-9_]+/status/.+#i';
 
-		parent::__construct(
-			'#twitter\.com/[a-zA-Z0-9_]+/status/.+#i',
-			'https://api.twitter.com/1/statuses/oembed.json?url=%s',
-			self::json
-		);
-	}
+
+
+	/**
+	 *	{@inheritDoc}
+	 */
+
+	protected $_endpoint = 'https://api.twitter.com/1/statuses/oembed.json?url=%s';
+
 }

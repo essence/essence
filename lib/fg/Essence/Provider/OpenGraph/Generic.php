@@ -18,13 +18,10 @@ namespace fg\Essence\Provider\OpenGraph;
 class Generic extends \fg\Essence\Provider\OpenGraph {
 
 	/**
-	 *	Constructor.
+	 *	{@inheritDoc}
 	 */
 
-	public function __construct( ) {
-
-		parent::__construct( self::anything );
-	}
+	protected $_generic = true;
 
 
 

@@ -18,17 +18,18 @@ namespace fg\Essence\Provider\OEmbed;
 class Youtube extends \fg\Essence\Provider\OEmbed {
 
 	/**
-	 *	Constructor.
+	 *	{@inheritDoc}
 	 */
 
-	public function __construct( ) {
+	protected $_pattern = '#youtube\.com|youtu\.be#i';
 
-		parent::__construct(
-			'#youtube\.com|youtu\.be#i',
-			'http://www.youtube.com/oembed?format=json&url=%s',
-			self::json
-		);
-	}
+
+
+	/**
+	 *	{@inheritDoc}
+	 */
+
+	protected $_endpoint = 'http://www.youtube.com/oembed?format=json&url=%s';
 
 
 

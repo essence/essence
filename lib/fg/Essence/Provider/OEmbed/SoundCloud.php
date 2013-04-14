@@ -18,15 +18,17 @@ namespace fg\Essence\Provider\OEmbed;
 class SoundCloud extends \fg\Essence\Provider\OEmbed {
 
 	/**
-	 *	Constructor.
+	 *	{@inheritDoc}
 	 */
 
-	public function __construct( ) {
+	protected $_pattern = '#soundcloud\.com/[a-zA-Z0-9-]+/[a-zA-Z0-9-]+#i';
 
-		parent::__construct(
-			'#soundcloud\.com/[a-zA-Z0-9-]+/[a-zA-Z0-9-]+#i',
-			'http://soundcloud.com/oembed?format=json&url=%s',
-			self::json
-		);
-	}
+
+
+	/**
+	 *	{@inheritDoc}
+	 */
+
+	protected $_endpoint = 'http://soundcloud.com/oembed?format=json&url=%s';
+
 }

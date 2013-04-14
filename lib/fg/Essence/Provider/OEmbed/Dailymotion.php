@@ -18,17 +18,18 @@ namespace fg\Essence\Provider\OEmbed;
 class Dailymotion extends \fg\Essence\Provider\OEmbed {
 
 	/**
-	 *	Constructor.
+	 *	{@inheritDoc}
 	 */
 
-	public function __construct( ) {
+	protected $_pattern = '#dailymotion\.com#i';
 
-		parent::__construct(
-			'#dailymotion\.com#i',
-			'http://www.dailymotion.com/services/oembed?format=json&url=%s',
-			self::json
-		);
-	}
+
+
+	/**
+	 *	{@inheritDoc}
+	 */
+
+	protected $_endpoint = 'http://www.dailymotion.com/services/oembed?format=json&url=%s';
 
 
 
@@ -39,9 +40,9 @@ class Dailymotion extends \fg\Essence\Provider\OEmbed {
 	 *	@return Media Embed informations.
 	 */
 
-	protected function _embed( $url ) {
+	protected function _embed( $url, $options ) {
 
-		$Media = parent::_embed( $url );
+		$Media = parent::_embed( $url, $options );
 
 		// we're getting the larger possible thumbnail, instead of the default
 		// one given by dailymotion

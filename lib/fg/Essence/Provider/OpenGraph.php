@@ -49,7 +49,7 @@ abstract class OpenGraph extends \fg\Essence\Provider {
 	 *	@return Media Embed informations.
 	 */
 
-	protected function _embed( $url ) {
+	protected function _embed( $url, $options ) {
 
 		$og = $this->_extractInformations( $url );
 
@@ -111,7 +111,7 @@ abstract class OpenGraph extends \fg\Essence\Provider {
 			if ( isset($og[ $meta['property']]) ) { // Take only the first value
 				continue;
 			}
-			
+
 			$og[ $meta['property']] = $meta['content'];
 		}
 

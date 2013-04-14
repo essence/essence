@@ -18,15 +18,17 @@ namespace fg\Essence\Provider\OEmbed;
 class Flickr extends \fg\Essence\Provider\OEmbed {
 
 	/**
-	 *	Constructor.
+	 *	{@inheritDoc}
 	 */
 
-	public function __construct( ) {
+	protected $_pattern = '#flickr\.com/photos/[a-zA-Z0-9@\\._]+/[0-9]+#i';
 
-		parent::__construct(
-			'#flickr\.com/photos/[a-zA-Z0-9@\\._]+/[0-9]+#i',
-			'http://flickr.com/services/oembed?format=json&url=%s',
-			self::json
-		);
-	}
+
+
+	/**
+	 *	{@inheritDoc}
+	 */
+
+	protected $_endpoint = 'http://flickr.com/services/oembed?format=json&url=%s';
+
 }

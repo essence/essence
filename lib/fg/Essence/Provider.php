@@ -44,7 +44,7 @@ abstract class Provider {
 	 *	@var string
 	 */
 
-	protected $_pattern = '';
+	protected $_pattern = self::nothing;
 
 
 
@@ -59,10 +59,9 @@ abstract class Provider {
 
 
 	/**
-	 *	Options passed to embed( ) and to be used by _prepare( ) and _embed( ).
+	 *	Provider options, obtained from merging constructor options to the
+	 *	default ones.
 	 *
-	 *	@todo This shouldn't be a class attribute, as it is valid for only one
-	 *		call. Consider passing this array to the concerned methods.
 	 *	@var array
 	 */
 
@@ -71,16 +70,24 @@ abstract class Provider {
 
 
 	/**
-	 *	Constructs the Provider with a regular expression to match the URLs
-	 *	it can handle.
+	 *	Default options to be merged with the ones given to the constructor.
 	 *
-	 *	@param string $pattern The regular expression.
+	 *	@var array
 	 */
 
-	public function __construct( $pattern = Provider::nothing ) {
+	protected $_defaults = array( );
 
-		$this->_pattern = $pattern;
-		$this->_generic = ( $pattern === self::anything );
+
+
+	/**
+	 *	Constructs the Provider with a set of options to configure its behavior.
+	 *
+	 *	@param array $options Configuration options.
+	 */
+
+	public function __construct( $options ) {
+
+		$this->_options = array_merge( $this->_defaults, $options );
 	}
 
 
@@ -117,16 +124,14 @@ abstract class Provider {
 	 *
 	 *	@param string $url URL to fetch informations from.
 	 *	@param array $options Custom options to be interpreted by the provider.
-	 *	@return Media|null Embed informations, or null if nothing
-	 *		could be fetched.
+	 *	@return Media|null Embed informations, or null if nothing could be
+	 *		fetched.
 	 */
 
 	public final function embed( $url, array $options = array( )) {
 
-		$this->_options = $options;
-
 		$url = $this->_prepare( $url );
-		$Media = $this->_embed( $url );
+		$Media = $this->_embed( $url, $options );
 
 		if ( empty( $Media->url )) {
 			$Media->url = $url;
@@ -156,10 +161,11 @@ abstract class Provider {
 	 *	Does the actual fetching of informations.
 	 *
 	 *	@param string $url URL to fetch informations from.
+	 *	@param array $options Custom options to be interpreted by the provider.
 	 *	@return Media Embed informations.
 	 *	@throws \fg\Essence\Exception
 	 */
 
-	abstract protected function _embed( $url );
+	abstract protected function _embed( $url, $options );
 
 }

@@ -18,15 +18,17 @@ namespace fg\Essence\Provider\OEmbed;
 class Revision3 extends \fg\Essence\Provider\OEmbed {
 
 	/**
-	 *	Constructor.
+	 *	{@inheritDoc}
 	 */
 
-	public function __construct( ) {
+	protected $_pattern = '#revision3\.com/[a-z0-9]/.+#i';
 
-		parent::__construct(
-			'#revision3\.com/[a-z0-9]/.+#i',
-			'http://revision3.com/api/oembed?format=json&url=%s',
-			self::json
-		);
-	}
+
+
+	/**
+	 *	{@inheritDoc}
+	 */
+
+	protected $_endpoint = 'http://revision3.com/api/oembed?format=json&url=%s';
+
 }

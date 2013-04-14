@@ -18,11 +18,9 @@ namespace fg\Essence\Provider\OpenGraph;
 class Ted extends \fg\Essence\Provider\OpenGraph {
 
 	/**
-	 *	Constructor.
+	 *	{@inheritDoc}
 	 */
 
-	public function __construct( ) {
+	protected $_pattern = '#ted\.com/talks#i';
 
-		parent::__construct( '#ted\\.com/talks#i' );
-	}
 }

@@ -77,20 +77,25 @@ class ProviderCollection {
 
 		$this->_providers = array( );
 
-		foreach ( $providers as $provider ) {
-			$className = '\\fg\\Essence\\Provider\\' . str_replace( '/', '\\', $provider );
+		foreach ( $providers as $name => $options ) {
+			if ( is_int( $name )) {
+				$name = $options;
+				$options = array( );
+			}
+
+			$className = '\\fg\\Essence\\Provider\\' . str_replace( '/', '\\', $name );
 			$Reflection = new \ReflectionClass( $className );
 
 			if ( !$Reflection->isAbstract( )) {
-				$Provider = $Reflection->newInstance( );
+				$Provider = $Reflection->newInstance( $options );
 
 				if ( $Provider->isGeneric( )) {
 					if ( !$excludeGenerics ) {
 						$this->_providers[ ] = $Provider;
 					}
 				} else {
-					// The regular providers are pushed to the front to
-					// take precedence over the generic ones.
+					// regular providers are pushed to the front to take
+					// precedence over the generic ones.
 					array_unshift( $this->_providers, $Provider );
 				}
 			}

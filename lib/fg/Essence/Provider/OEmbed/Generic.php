@@ -18,6 +18,14 @@ namespace fg\Essence\Provider\OEmbed;
 class Generic extends \fg\Essence\Provider\OEmbed {
 
 	/**
+	 *	{@inheritDoc}
+	 */
+
+	protected $_generic = true;
+
+
+
+	/**
 	 *	A cache for extracted endpoints.
 	 *
 	 *	@var fg\Essence\Cache\Volatile
@@ -31,9 +39,9 @@ class Generic extends \fg\Essence\Provider\OEmbed {
 	 *	Constructor.
 	 */
 
-	public function __construct( ) {
+	public function __construct( $options ) {
 
-		parent::__construct( self::anything, '', '' );
+		parent::__construct( $options );
 
 		$this->_Cache = new \fg\Essence\Cache\Volatile( );
 	}
@@ -60,7 +68,7 @@ class Generic extends \fg\Essence\Provider\OEmbed {
 	 *	@return Media Embed informations.
 	 */
 
-	protected function _embed( $url ) {
+	protected function _embed( $url, $options ) {
 
 		$endpoint = $this->_extractEndpoint( $url );
 

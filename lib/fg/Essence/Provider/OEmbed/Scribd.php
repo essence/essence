@@ -18,15 +18,17 @@ namespace fg\Essence\Provider\OEmbed;
 class Scribd extends \fg\Essence\Provider\OEmbed {
 
 	/**
-	 *	Constructor.
+	 *	{@inheritDoc}
 	 */
 
-	public function __construct( ) {
+	protected $_pattern = '#scribd\.com/doc/[0-9]+/.+#i';
 
-		parent::__construct(
-			'#scribd\.com/doc/[0-9]+/.+#i',
-			'http://www.scribd.com/services/oembed?format=json&url=%s',
-			self::json
-		);
-	}
+
+
+	/**
+	 *	{@inheritDoc}
+	 */
+
+	protected $_endpoint = 'http://www.scribd.com/services/oembed?format=json&url=%s';
+
 }

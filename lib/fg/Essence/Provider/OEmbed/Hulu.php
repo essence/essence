@@ -18,15 +18,17 @@ namespace fg\Essence\Provider\OEmbed;
 class Hulu extends \fg\Essence\Provider\OEmbed {
 
 	/**
-	 *	Constructor.
+	 *	{@inheritDoc}
 	 */
 
-	public function __construct( ) {
+	protected $_pattern = '#hulu\.com/watch/.*+#i';
 
-		parent::__construct(
-			'#hulu\\.com/watch/.*+#i',
-			'http://www.hulu.com/api/oembed.json?url=%s',
-			self::json
-		);
-	}
+
+
+	/**
+	 *	{@inheritDoc}
+	 */
+
+	protected $_endpoint = 'http://www.hulu.com/api/oembed.json?url=%s';
+
 }
