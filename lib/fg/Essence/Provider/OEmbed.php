@@ -44,7 +44,7 @@ abstract class OEmbed extends \fg\Essence\Provider {
 	 *	@param string
 	 */
 
-	protected $_format = '';
+	protected $_format = self::json;
 
 
 
@@ -72,25 +72,6 @@ abstract class OEmbed extends \fg\Essence\Provider {
 		JSON_ERROR_SYNTAX => 'syntax error',
 		JSON_ERROR_UTF8 => 'UTF-8 error'
 	);
-
-
-
-	/**
-	 *	Constructs the OEmbed provider with a regular expression to match the
-	 *	URLs it can handle, and an OEmbed endpoint.
-	 *
-	 *	@param string $pattern A regular expression to match URLs.
-	 *	@param string $endpoint The OEmbed endpoint URL.
-	 *	@param string $format The expected response format.
-	 */
-
-	public function __construct( $pattern, $endpoint, $format ) {
-
-		parent::__construct( $pattern );
-
-		$this->_endpoint = $endpoint;
-		$this->_format = $format;
-	}
 
 
 
@@ -136,17 +117,16 @@ abstract class OEmbed extends \fg\Essence\Provider {
 
 
 	/**
-	 *	Fetches embed information from the given URL.
-	 *
-	 *	@param string $url URL to fetch informations from.
-	 *	@return Media Embed informations.
+	 *	{@inheritDoc}
 	 */
 
-	protected function _embed( $url ) {
+	protected function _embed( $url, $options ) {
 
-		$endpoint = sprintf( $this->_endpoint, urlencode( $url ));
-
-		return $this->_embedEndpoint( $endpoint, $this->_format );
+		return $this->_embedEndpoint(
+			sprintf( $this->_endpoint, urlencode( $url )),
+			$this->_format,
+			$options
+		);
 	}
 
 
@@ -159,10 +139,10 @@ abstract class OEmbed extends \fg\Essence\Provider {
 	 *	@return Media Embed informations.
 	 */
 
-	protected function _embedEndpoint( $endpoint, $format ) {
+	protected function _embedEndpoint( $endpoint, $format, $options ) {
 
 		$response = \fg\Essence\Registry::get( 'http' )->get(
-			$this->_completeEndpoint( $endpoint )
+			$this->_completeEndpoint( $endpoint, $options )
 		);
 
 		switch ( $format ) {
@@ -202,11 +182,11 @@ abstract class OEmbed extends \fg\Essence\Provider {
 	 *	@return string Completed endpoint URL.
 	 */
 
-	protected function _completeEndpoint( $endpoint ) {
+	protected function _completeEndpoint( $endpoint, $options ) {
 
-		if ( !empty( $this->_options )) {
+		if ( !empty( $options )) {
 			$params = array_intersect_key(
-				$this->_options,
+				$options,
 				array(
 					'maxwidth' => '',
 					'maxheight' => ''

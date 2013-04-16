@@ -18,11 +18,9 @@ namespace fg\Essence\Provider\OpenGraph;
 class CanalPlus extends \fg\Essence\Provider\OpenGraph {
 
 	/**
-	 *	Constructor.
+	 *	{@inheritDoc}
 	 */
 
-	public function __construct( ) {
+	protected $_pattern = '#canalplus\.fr#i';
 
-		parent::__construct( '#canalplus\.fr#i' );
-	}
 }

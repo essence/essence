@@ -18,6 +18,14 @@ namespace fg\Essence\Provider\OEmbed;
 class Generic extends \fg\Essence\Provider\OEmbed {
 
 	/**
+	 *	{@inheritDoc}
+	 */
+
+	protected $_generic = true;
+
+
+
+	/**
 	 *	A cache for extracted endpoints.
 	 *
 	 *	@var fg\Essence\Cache\Volatile
@@ -28,12 +36,12 @@ class Generic extends \fg\Essence\Provider\OEmbed {
 
 
 	/**
-	 *	Constructor.
+	 *	{@inheritDoc}
 	 */
 
-	public function __construct( ) {
+	public function __construct( array $options = array( )) {
 
-		parent::__construct( self::anything, '', '' );
+		parent::__construct( $options );
 
 		$this->_Cache = new \fg\Essence\Cache\Volatile( );
 	}
@@ -41,9 +49,7 @@ class Generic extends \fg\Essence\Provider\OEmbed {
 
 
 	/**
-	 *	Tells if the provider can fetch embed informations from the given URL.
-	 *
-	 *	@param string $url URL to fetch informations from.
+	 *	{@inheritDoc}
 	 */
 
 	public function canEmbed( $url ) {
@@ -54,13 +60,10 @@ class Generic extends \fg\Essence\Provider\OEmbed {
 
 
 	/**
-	 *	Fetches embed information from the given URL.
-	 *
-	 *	@param string $url URL to fetch informations from.
-	 *	@return Media Embed informations.
+	 *	{@inheritDoc}
 	 */
 
-	protected function _embed( $url ) {
+	protected function _embed( $url, $options ) {
 
 		$endpoint = $this->_extractEndpoint( $url );
 
@@ -68,7 +71,11 @@ class Generic extends \fg\Essence\Provider\OEmbed {
 			throw new \fg\Essence\Exception( 'Unable to find any endpoint.' );
 		}
 
-		return $this->_embedEndpoint( $endpoint['url'], $endpoint['type']);
+		return $this->_embedEndpoint(
+			$endpoint['url'],
+			$endpoint['type'],
+			$options
+		);
 	}
 
 

@@ -29,13 +29,12 @@ abstract class OpenGraph extends \fg\Essence\Provider {
 
 
 	/**
-	 *	Constructs the OpenGraph provider with a regular expression to match
-	 *	the URLs it can handle.
+	 *	{@inheritDoc}
 	 */
 
-	public function __construct( $pattern ) {
+	public function __construct( array $options = array( )) {
 
-		parent::__construct( $pattern );
+		parent::__construct( $options );
 
 		$this->_Cache = new \fg\Essence\Cache\Volatile( );
 	}
@@ -43,13 +42,10 @@ abstract class OpenGraph extends \fg\Essence\Provider {
 
 
 	/**
-	 *	Fetches embed information from the given URL.
-	 *
-	 *	@param string $url URL to fetch informations from.
-	 *	@return Media Embed informations.
+	 *	{@inheritDoc}
 	 */
 
-	protected function _embed( $url ) {
+	protected function _embed( $url, $options ) {
 
 		$og = $this->_extractInformations( $url );
 
@@ -111,7 +107,7 @@ abstract class OpenGraph extends \fg\Essence\Provider {
 			if ( isset($og[ $meta['property']]) ) { // Take only the first value
 				continue;
 			}
-			
+
 			$og[ $meta['property']] = $meta['content'];
 		}
 

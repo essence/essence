@@ -44,7 +44,7 @@ class OpenGraphTest extends \PHPUnit_Framework_TestCase {
 
 	public function setUp( ) {
 
-		$this->OpenGraph = new ConcreteOpenGraph( OpenGraph::anything );
+		$this->OpenGraph = new ConcreteOpenGraph( );
 	}
 
 

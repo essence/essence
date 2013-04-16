@@ -21,10 +21,18 @@ if ( !defined( 'ESSENCE_BOOTSTRAPPED' )) {
 class ConcreteProvider extends Provider {
 
 	/**
+	 *	{@inheritDoc}
+	 */
+
+	protected $_pattern = '#[a-z]+#';
+
+
+
+	/**
 	 *
 	 */
 
-	protected function _embed( $url ) {
+	protected function _embed( $url, $options ) {
 
 		return new Media( array( 'title' => 'Title' ));
 	}
@@ -42,12 +50,7 @@ class ProviderTest extends \PHPUnit_Framework_TestCase {
 	 *
 	 */
 
-	public function testIsGeneric( ) {
-
-		$Provider = new ConcreteProvider( Provider::anything );
-
-		$this->assertTrue( $Provider->isGeneric( ));
-	}
+	public $Provider = null;
 
 
 
@@ -55,11 +58,9 @@ class ProviderTest extends \PHPUnit_Framework_TestCase {
 	 *
 	 */
 
-	public function testIsNotGeneric( ) {
+	public function setup( ) {
 
-		$Provider = new ConcreteProvider( Provider::nothing );
-
-		$this->assertFalse( $Provider->isGeneric( ));
+		$this->Provider = new ConcreteProvider( );
 	}
 
 
@@ -70,9 +71,7 @@ class ProviderTest extends \PHPUnit_Framework_TestCase {
 
 	public function testCanEmbed( ) {
 
-		$Provider = new ConcreteProvider( '#[a-z]+#' );
-
-		$this->assertTrue( $Provider->canEmbed( 'abc' ));
+		$this->assertTrue( $this->Provider->canEmbed( 'abc' ));
 	}
 
 
@@ -83,9 +82,7 @@ class ProviderTest extends \PHPUnit_Framework_TestCase {
 
 	public function testCantEmbed( ) {
 
-		$Provider = new ConcreteProvider( '#[a-z]+#' );
-
-		$this->assertFalse( $Provider->canEmbed( '123' ));
+		$this->assertFalse( $this->Provider->canEmbed( '123' ));
 	}
 
 
@@ -96,8 +93,6 @@ class ProviderTest extends \PHPUnit_Framework_TestCase {
 
 	public function testEmbed( ) {
 
-		$Provider = new ConcreteProvider( Provider::anything );
-
 		$this->assertEquals(
 			new Media(
 				array(
@@ -105,7 +100,7 @@ class ProviderTest extends \PHPUnit_Framework_TestCase {
 					'url' => 'http://foo.bar'
 				)
 			),
-			$Provider->embed( '  http://foo.bar  ' )
+			$this->Provider->embed( '  http://foo.bar  ' )
 		);
 	}
 }

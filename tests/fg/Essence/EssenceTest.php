@@ -15,7 +15,7 @@ if ( !defined( 'ESSENCE_BOOTSTRAPPED' )) {
 
 
 /**
- *	Test case for Essence.
+ *
  */
 
 class TestableEssence extends Essence {
@@ -58,10 +58,10 @@ class TestableProvider extends Provider {
 
 
 	/**
-	 *
+	 *	{@inheritDoc}
 	 */
 
-	protected function _embed( $url ) {
+	protected function _embed( $url, $options ) {
 
 		return new Media( $this->mediaProperties );
 	}

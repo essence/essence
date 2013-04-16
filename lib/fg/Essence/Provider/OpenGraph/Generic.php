@@ -18,20 +18,15 @@ namespace fg\Essence\Provider\OpenGraph;
 class Generic extends \fg\Essence\Provider\OpenGraph {
 
 	/**
-	 *	Constructor.
+	 *	{@inheritDoc}
 	 */
 
-	public function __construct( ) {
-
-		parent::__construct( self::anything );
-	}
+	protected $_generic = true;
 
 
 
 	/**
-	 *	Tells if the provider can fetch embed informations from the given URL.
-	 *
-	 *	@param string $url URL to fetch informations from.
+	 *	{@inheritDoc}
 	 */
 
 	public function canEmbed( $url ) {

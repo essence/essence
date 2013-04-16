@@ -21,13 +21,45 @@ if ( !defined( 'ESSENCE_BOOTSTRAPPED')) {
 class ConcreteOEmbed extends OEmbed {
 
 	/**
+	 *	{@inheritDoc}
+	 */
+
+	public function __construct( ) {
+
+		$this->_endpoint = 'file://' . ESSENCE_HTTP . '%s.json';
+	}
+
+
+
+	/**
+	 *
+	 */
+
+	public function setEndpoint( $endpoint ) {
+
+		$this->_endpoint = $endpoint;
+	}
+
+
+
+	/**
+	 *
+	 */
+
+	public function setFormat( $format ) {
+
+		$this->_format = $format;
+	}
+
+
+
+	/**
 	 *
 	 */
 
 	public function completeEndpoint( $endpoint, $options ) {
 
-		$this->_options = $options;
-		return $this->_completeEndpoint( $endpoint );
+		return $this->_completeEndpoint( $endpoint, $options );
 	}
 }
 
@@ -43,21 +75,35 @@ class OEmbedTest extends \PHPUnit_Framework_TestCase {
 	 *
 	 */
 
+	public $OEmbed = null;
+
+
+
+	/**
+	 *
+	 */
+
+	public function setup( ) {
+
+		$this->OEmbed = new ConcreteOEmbed( );
+	}
+
+
+
+	/**
+	 *
+	 */
+
 	public function testPrepare( ) {
 
-		$OEmbed = new ConcreteOEmbed(
-			OEmbed::anything,
-			'file://' . ESSENCE_HTTP . '%s.json',
-			OEmbed::json
-		);
 
-		$Media = $OEmbed->embed( 'valid#anchor' );
+		$Media = $this->OEmbed->embed( 'valid#anchor' );
 		$this->assertEquals( 'valid', $Media->url );
 
-		$Media = $OEmbed->embed( 'valid?argument=value' );
+		$Media = $this->OEmbed->embed( 'valid?argument=value' );
 		$this->assertEquals( 'valid', $Media->url );
 
-		$Media = $OEmbed->embed( 'valid?argument=value#anchor' );
+		$Media = $this->OEmbed->embed( 'valid?argument=value#anchor' );
 		$this->assertEquals( 'valid', $Media->url );
 	}
 
@@ -69,11 +115,10 @@ class OEmbedTest extends \PHPUnit_Framework_TestCase {
 
 	public function testCompleteEndpoint( ) {
 
-		$OEmbed = new ConcreteOEmbed( '', '', '' );
 
 		$this->assertEquals(
 			'url?maxwidth=120&maxheight=60',
-			$OEmbed->completeEndpoint(
+			$this->OEmbed->completeEndpoint(
 				'url',
 				array(
 					'maxwidth' => 120,
@@ -84,7 +129,7 @@ class OEmbedTest extends \PHPUnit_Framework_TestCase {
 
 		$this->assertEquals(
 			'url?maxwidth=120',
-			$OEmbed->completeEndpoint(
+			$this->OEmbed->completeEndpoint(
 				'url',
 				array(
 					'maxwidth' => 120,
@@ -95,7 +140,7 @@ class OEmbedTest extends \PHPUnit_Framework_TestCase {
 
 		$this->assertEquals(
 			'url?param=value&maxwidth=120',
-			$OEmbed->completeEndpoint(
+			$this->OEmbed->completeEndpoint(
 				'url?param=value',
 				array( 'maxwidth' => 120 )
 			)
@@ -110,13 +155,8 @@ class OEmbedTest extends \PHPUnit_Framework_TestCase {
 
 	public function testEmbedJson( ) {
 
-		$OEmbed = new ConcreteOEmbed(
-			OEmbed::anything,
-			'file://' . ESSENCE_HTTP . '%s.json',
-			OEmbed::json
-		);
 
-		$this->assertNotNull( $OEmbed->embed( 'valid' ));
+		$this->assertNotNull( $this->OEmbed->embed( 'valid' ));
 	}
 
 
@@ -129,13 +169,8 @@ class OEmbedTest extends \PHPUnit_Framework_TestCase {
 
 		$this->setExpectedException( '\\fg\\Essence\\Exception' );
 
-		$OEmbed = new ConcreteOEmbed(
-			OEmbed::anything,
-			'file://' . ESSENCE_HTTP . '%s.json',
-			OEmbed::json
-		);
-
-		$OEmbed->embed( 'invalid' );
+		$this->OEmbed->setEndpoint( 'file://' . ESSENCE_HTTP . '%s.xml' );
+		$this->OEmbed->embed( 'invalid' );
 	}
 
 
@@ -146,13 +181,10 @@ class OEmbedTest extends \PHPUnit_Framework_TestCase {
 
 	public function testEmbedXml( ) {
 
-		$OEmbed = new ConcreteOEmbed(
-			OEmbed::anything,
-			'file://' . ESSENCE_HTTP . '%s.xml',
-			OEmbed::xml
-		);
+		$this->OEmbed->setEndpoint( 'file://' . ESSENCE_HTTP . '%s.xml' );
+		$this->OEmbed->setFormat( OEmbed::xml );
 
-		$this->assertNotNull( $OEmbed->embed( 'valid' ));
+		$this->assertNotNull( $this->OEmbed->embed( 'valid' ));
 	}
 
 
@@ -163,14 +195,11 @@ class OEmbedTest extends \PHPUnit_Framework_TestCase {
 
 	public function testEmbedInvalidXml( ) {
 
-		$OEmbed = new ConcreteOEmbed(
-			OEmbed::anything,
-			'file://' . ESSENCE_HTTP . '%s.xml',
-			OEmbed::xml
-		);
+		$this->OEmbed->setEndpoint( 'file://' . ESSENCE_HTTP . '%s.xml' );
+		$this->OEmbed->setFormat( OEmbed::xml );
 
 		try {
-			$OEmbed->embed( 'invalid' );
+			$this->OEmbed->embed( 'invalid' );
 		} catch ( \Exception $e ) {
 			return;
 		}
@@ -188,12 +217,7 @@ class OEmbedTest extends \PHPUnit_Framework_TestCase {
 
 		$this->setExpectedException( '\\fg\\Essence\\Exception' );
 
-		$OEmbed = new ConcreteOEmbed(
-			OEmbed::anything,
-			'file://' . ESSENCE_HTTP . '%s.json',
-			'unsupported'
-		);
-
-		$OEmbed->embed( 'valid' );
+		$this->OEmbed->setFormat( 'unsupported' );
+		$this->OEmbed->embed( 'valid' );
 	}
 }

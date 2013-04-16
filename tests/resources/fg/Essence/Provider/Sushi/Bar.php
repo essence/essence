@@ -11,20 +11,17 @@ namespace fg\Essence\Provider\Sushi;
 class Bar extends \fg\Essence\Provider {
 
 	/**
-	 *
+	 *	{@inheritDoc}
 	 */
 
-	public function __construct( ) {
-
-		parent::__construct( '#^bar$#' );
-	}
+	protected $_pattern = '#^bar$#';
 
 
 
 	/**
-	 *
+	 *	{@inheritDoc}
 	 */
 
-	protected function _embed( $url ) { }
+	protected function _embed( $url, $options ) { }
 
 }

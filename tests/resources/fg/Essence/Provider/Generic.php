@@ -11,20 +11,17 @@ namespace fg\Essence\Provider;
 class Generic extends \fg\Essence\Provider {
 
 	/**
-	 *
+	 *	{@inheritDoc}
 	 */
 
-	public function __construct( ) {
-
-		parent::__construct( self::anything );
-	}
+	protected $_generic = true;
 
 
 
 	/**
-	 *
+	 *	{@inheritDoc}
 	 */
 
-	protected function _embed( $url ) { }
+	protected function _embed( $url, $options ) { }
 
 }

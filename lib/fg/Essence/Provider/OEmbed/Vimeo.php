@@ -18,17 +18,18 @@ namespace fg\Essence\Provider\OEmbed;
 class Vimeo extends \fg\Essence\Provider\OEmbed {
 
 	/**
-	 *	Constructor.
+	 *	{@inheritDoc}
 	 */
 
-	public function __construct( ) {
+	protected $_pattern = '#vimeo\.com#i';
 
-		parent::__construct(
-			'#vimeo\.com#i',
-			'http://vimeo.com/api/oembed.json?url=%s',
-			self::json
-		);
-	}
+
+
+	/**
+	 *	{@inheritDoc}
+	 */
+
+	protected $_endpoint = 'http://vimeo.com/api/oembed.json?url=%s';
 
 
 

@@ -18,10 +18,7 @@ namespace fg\Essence\Cache;
 class Null implements \fg\Essence\Cache {
 
 	/**
-	 *	Returns if data exists for the given key.
-	 *
-	 *	@param string $key The key to test.
-	 *	@return boolean Whether there is data for the key or not.
+	 *	{@inheritDoc}
 	 */
 
 	public function has( $key ) {
@@ -32,11 +29,7 @@ class Null implements \fg\Essence\Cache {
 
 
 	/**
-	 *	Returns the data for the given key.
-	 *
-	 *	@param string $key The key to search for.
-	 *	@param mixed $default Default value to return if there is no data.
-	 *	@return mixed The data.
+	 *	{@inheritDoc}
 	 */
 
 	public function get( $key, $default = null ) {
@@ -47,10 +40,7 @@ class Null implements \fg\Essence\Cache {
 
 
 	/**
-	 *	Sets the data for the given key.
-	 *
-	 *	@param string $key The key for the data.
-	 *	@param mixed $data The data.
+	 *	{@inheritDoc}
 	 */
 
 	public function set( $key, $data ) { }
@@ -58,7 +48,7 @@ class Null implements \fg\Essence\Cache {
 
 
 	/**
-	 *	Deletes all cached data.
+	 *	{@inheritDoc}
 	 */
 
 	public function clear( ) { }
