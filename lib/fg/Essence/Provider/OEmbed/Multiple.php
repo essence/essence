@@ -208,7 +208,7 @@ class Multiple extends \fg\Essence\Provider\OEmbed {
 				'endpoint' => 'https://api.twitter.com/1/statuses/oembed.json?url=%s',
 				'format' => self::json
 			),
-						'Urtak' => array(
+			'Urtak' => array(
 				'pattern' => '#urtak.com/(u|clr)/.+#i',
 				'endpoint' => 'http://oembed.urtak.com/1/oembed?format=json',
 				'format' => self::json
