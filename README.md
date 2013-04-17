@@ -96,16 +96,39 @@ $Media->customValue = 12;
 Configuration
 -------------
 
-Essence currently supports 8 specialized providers:
+Essence currently supports 31 specialized providers:
 
-* OEmbed/Dailymotion
-* OEmbed/Flickr
-* OEmbed/SoundCloud
-* OEmbed/Twitter
-* OEmbed/Vimeo
-* OEmbed/Youtube
-* OpenGraph/CanalPlus
-* OpenGraph/Ted
+* 23hq
+* Bandcamp
+* Cacoo
+* Chirb.it
+* Clikthrough
+* Collegehumour
+* Dailymotion
+* Deviantart
+* Dipity
+* Flickr
+* Funnyordie
+* Huffduffer
+* Hulu
+* Ifixit
+* Imgur
+* Instagram
+* Mobypicture
+* Polldaddy
+* Qik
+* Revision3
+* Scribd
+* Shoudio
+* Sketchfab
+* Slideshare
+* Ted
+* Twitter
+* Vhx
+* vimeo
+* Yfrog
+* Youtube
+* CanalPlus
 
 And two generic ones which will try to get informations about any page:
 
