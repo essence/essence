@@ -18,13 +18,13 @@ if ( !defined( 'ESSENCE_BOOTSTRAPPED')) {
  *	Test case for Ted.
  */
 
-class TedTest extends \PHPUnit_Framework_TestCase {
+class CollegeHumourExtTest extends \PHPUnit_Framework_TestCase {
 
 	/**
 	 *
 	 */
 
-	public $Ted = null;
+	public $CollegeHumourExt = null;
 
 
 
@@ -34,7 +34,7 @@ class TedTest extends \PHPUnit_Framework_TestCase {
 
 	public function setUp( ) {
 
-		$this->Ted = new Ted( );
+		$this->CollegeHumourExt = new CollegeHumourExt( );
 	}
 
 
@@ -45,7 +45,7 @@ class TedTest extends \PHPUnit_Framework_TestCase {
 
 	public function testCanEmbed( ) {
 
-		$this->assertTrue( $this->Ted->canEmbed( 'http://www.ted.com/talks/reggie_watts_disorients_you_in_the_most_entertaining_way.html' ));
+		$this->assertTrue( $this->CollegeHumourExt->canEmbed( 'http://www.collegehumor.com/article/6884402/obituaries-for-the-stuff-you-should-throw-out' ));
 	}
 
 
@@ -56,6 +56,6 @@ class TedTest extends \PHPUnit_Framework_TestCase {
 
 	public function testCantEmbed( ) {
 
-		$this->assertFalse( $this->Ted->canEmbed( 'http://www.unsupported.com' ));
+		$this->assertFalse( $this->CollegeHumourExt->canEmbed( 'http://www.unsupported.com' ));
 	}
 }
