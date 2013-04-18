@@ -107,10 +107,15 @@ class Package {
 				$parts[ ] = basename( $entry, '.php' );
 
 				if (
+					$entry[0] == '.'
+				) {
+					// Ignore hidden files
+					continue;
+				}
+
+				if (
 					$recursive
 					&& is_dir( $path )
-					&& ( $entry != '.' )
-					&& ( $entry != '..' )
 				) {
 					$classes = array_merge(
 						$classes,
