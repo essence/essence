@@ -98,42 +98,14 @@ Configuration
 
 Essence currently supports 31 specialized providers:
 
-* 23hq
-* Bandcamp
-* Cacoo
-* Chirb.it
-* Clikthrough
-* Collegehumour
-* Dailymotion
-* Deviantart
-* Dipity
-* Flickr
-* Funnyordie
-* Huffduffer
-* Hulu
-* Ifixit
-* Imgur
-* Instagram
-* Mobypicture
-* Polldaddy
-* Qik
-* Revision3
-* Scribd
-* Shoudio
-* Sketchfab
-* Slideshare
-* Ted
-* Twitter
-* Vhx
-* vimeo
-* Yfrog
-* Youtube
-* CanalPlus
+```
+23hq, Cacoo, CanalPlus, Chirb.it, Clikthrough, CollegeHumour, Dailymotion, Deviantart,
+Dipity, Flickr, Funnyordie, Huffduffer, Hulu, Ifixit, Imgur, Instagram, Mobypicture,
+Polldaddy, Qik, Revision3, Scribd, Shoudio, Sketchfab, Slideshare, SoundCloud, Ted,
+Twitter, Vhx, Vimeo, Yfrog and Youtube.
+```
 
-And two generic ones which will try to get informations about any page:
-
-* OEmbed/Generic
-* OpenGraph/Generic
+And two generic ones which will try to get informations about any page.
 
 If you know which providers you will have to query, or simply want to exclude some of them, you can tell Essence which ones you want to use:
 

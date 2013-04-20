@@ -2,6 +2,7 @@
 
 /**
  *	@author Félix Girault <felix.girault@gmail.com>
+ *	@author Laughingwithu <Laughingwithu@gmail.com>
  *	@license FreeBSD License (http://opensource.org/licenses/BSD-2-Clause)
  */
 
@@ -52,7 +53,7 @@ class Multiple extends \fg\Essence\Provider\OEmbed {
 				'endpoint' => 'http://clikthrough.com/services/oembed?format=json&url=%s',
 				'format' => self::json
 			),
-			'Collegehumor' => array(
+			'CollegeHumor' => array(
 				'pattern' => '#collegehumor.com/(video|embed)/.*#i',
 				'endpoint' => 'http://www.collegehumor.com/oembed.json?url=%s',
 				'format' => self::json
@@ -72,7 +73,7 @@ class Multiple extends \fg\Essence\Provider\OEmbed {
 				'endpoint' => 'http://flickr.com/services/oembed?format=json&url=%s',
 				'format' => self::json
 			),
-			'Funnyordie' => array(
+			'FunnyOrDie' => array(
 				'pattern' => '#funnyordie\.com/videos/.*#i',
 				'endpoint' => 'http://www.funnyordie.com/oembed?format=json&url=%s',
 				'format' => self::json
@@ -142,7 +143,7 @@ class Multiple extends \fg\Essence\Provider\OEmbed {
 				'endpoint' => 'http://sketchfab.com/oembed?format=json&url=%s',
 				'format' => self::json
 			),
-			'Slideshare' => array(
+			'SlideShare' => array(
 				'pattern' => '#slideshare\.net/.+/.+#i',
 				'endpoint' => 'http://www.slideshare.net/api/oembed/2?format=json&url=%s',
 				'format' => self::json

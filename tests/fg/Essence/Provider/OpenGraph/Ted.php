@@ -18,13 +18,13 @@ if ( !defined( 'ESSENCE_BOOTSTRAPPED')) {
  *	Test case for Ted.
  */
 
-class CollegeHumourExtTest extends \PHPUnit_Framework_TestCase {
+class TedTest extends \PHPUnit_Framework_TestCase {
 
 	/**
 	 *
 	 */
 
-	public $CollegeHumourExt = null;
+	public $Ted = null;
 
 
 
@@ -34,7 +34,7 @@ class CollegeHumourExtTest extends \PHPUnit_Framework_TestCase {
 
 	public function setUp( ) {
 
-		$this->CollegeHumourExt = new CollegeHumourExt( );
+		$this->Ted = new Ted( );
 	}
 
 
@@ -45,7 +45,7 @@ class CollegeHumourExtTest extends \PHPUnit_Framework_TestCase {
 
 	public function testCanEmbed( ) {
 
-		$this->assertTrue( $this->CollegeHumourExt->canEmbed( 'http://www.collegehumor.com/article/6884402/obituaries-for-the-stuff-you-should-throw-out' ));
+		$this->assertTrue( $this->Ted->canEmbed( 'http://www.ted.com/talks/katherine_kuchenbecker_the_technology_of_touch.html' ));
 	}
 
 
@@ -56,6 +56,6 @@ class CollegeHumourExtTest extends \PHPUnit_Framework_TestCase {
 
 	public function testCantEmbed( ) {
 
-		$this->assertFalse( $this->CollegeHumourExt->canEmbed( 'http://www.unsupported.com' ));
+		$this->assertFalse( $this->Ted->canEmbed( 'http://www.unsupported.com' ));
 	}
 }

@@ -10,12 +10,12 @@ namespace fg\Essence\Provider\OpenGraph;
 
 
 /**
- *	College Humour Images and Articles provider (http://www.collegehumour.com).
+ *	CollegeHumour images and articles provider (http://www.collegehumour.com).
  *
  *	@package fg.Essence.Provider.OpenGraph
  */
 
-class CollegeHumourExt extends \fg\Essence\Provider\OpenGraph {
+class CollegeHumour extends \fg\Essence\Provider\OpenGraph {
 
 	/**
 	 *	{@inheritDoc}

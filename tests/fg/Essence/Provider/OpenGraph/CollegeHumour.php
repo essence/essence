@@ -2,6 +2,7 @@
 
 /**
  *	@author Félix Girault <felix.girault@gmail.com>
+ *	@author Laughingwithu <Laughingwithu@gmail.com>
  *	@license FreeBSD License (http://opensource.org/licenses/BSD-2-Clause)
  */
 
@@ -15,16 +16,16 @@ if ( !defined( 'ESSENCE_BOOTSTRAPPED')) {
 
 
 /**
- *	Test case for bandcamp.
+ *	Test case for CollegeHumour.
  */
 
-class BandcampTest extends \PHPUnit_Framework_TestCase {
+class CollegeHumourTest extends \PHPUnit_Framework_TestCase {
 
 	/**
 	 *
 	 */
 
-	public $Bandcamp = null;
+	public $CollegeHumour = null;
 
 
 
@@ -34,7 +35,7 @@ class BandcampTest extends \PHPUnit_Framework_TestCase {
 
 	public function setUp( ) {
 
-		$this->Bandcamp = new Bandcamp( );
+		$this->CollegeHumour = new CollegeHumour( );
 	}
 
 
@@ -45,7 +46,7 @@ class BandcampTest extends \PHPUnit_Framework_TestCase {
 
 	public function testCanEmbed( ) {
 
-		$this->assertTrue( $this->Bandcamp->canEmbed( 'http://www.ted.com/talks/katherine_kuchenbecker_the_technology_of_touch.html' ));
+		$this->assertTrue( $this->CollegeHumour->canEmbed( 'http://www.collegehumor.com/article/6884402/obituaries-for-the-stuff-you-should-throw-out' ));
 	}
 
 
@@ -56,6 +57,6 @@ class BandcampTest extends \PHPUnit_Framework_TestCase {
 
 	public function testCantEmbed( ) {
 
-		$this->assertFalse( $this->Bandcamp->canEmbed( 'http://www.unsupported.com' ));
+		$this->assertFalse( $this->CollegeHumour->canEmbed( 'http://www.collegehumor.com/embed/6884604/how-to-break-out-of-zip-ties' ));
 	}
 }
