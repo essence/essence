@@ -1,7 +1,7 @@
 <?php
 
 /**
- *	@author Félix Girault <felix.girault@gmail.com>
+ *	@author Laughingwithu <laughingwithu@gmail.com>
  *	@license FreeBSD License (http://opensource.org/licenses/BSD-2-Clause)
  */
 
@@ -15,16 +15,16 @@ if ( !defined( 'ESSENCE_BOOTSTRAPPED')) {
 
 
 /**
- *	Test case for Ted.
+ *	Test case for Prezi.
  */
 
-class TedTest extends \PHPUnit_Framework_TestCase {
+class PreziTest extends \PHPUnit_Framework_TestCase {
 
 	/**
 	 *
 	 */
 
-	public $Ted = null;
+	public $Prezi = null;
 
 
 
@@ -34,7 +34,7 @@ class TedTest extends \PHPUnit_Framework_TestCase {
 
 	public function setUp( ) {
 
-		$this->Ted = new Ted( );
+		$this->Prezi = new Prezi( );
 	}
 
 
@@ -45,7 +45,7 @@ class TedTest extends \PHPUnit_Framework_TestCase {
 
 	public function testCanEmbed( ) {
 
-		$this->assertTrue( $this->Ted->canEmbed( 'http://www.ted.com/talks/katherine_kuchenbecker_the_technology_of_touch.html' ));
+		$this->assertTrue( $this->Prezi->canEmbed( 'http://prezi.com/bq2blf6kdefn/6-cs-of-successful-social-marketing/' ));
 	}
 
 
@@ -56,6 +56,6 @@ class TedTest extends \PHPUnit_Framework_TestCase {
 
 	public function testCantEmbed( ) {
 
-		$this->assertFalse( $this->Ted->canEmbed( 'http://www.unsupported.com' ));
+		$this->assertFalse( $this->Prezi->canEmbed( 'http://www.unsupported.com' ));
 	}
 }
