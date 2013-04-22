@@ -49,6 +49,7 @@ abstract class OpenGraph extends \fg\Essence\Provider {
 
 		$og = $this->_extractInformations( $url );
 
+		
 		if ( empty( $og )) {
 			throw new \fg\Essence\Exception(
 				'Unable to extract OpenGraph data.'
@@ -59,9 +60,6 @@ abstract class OpenGraph extends \fg\Essence\Provider {
 			$og,
 			array(
 				'og:type' => 'type',
-				'og:title' => 'title',
-				'og:description' => 'description',
-				'og:site_name' => 'providerName',
 				'og:title' => 'title',
 				'og:description' => 'description',
 				'og:site_name' => 'providerName',
@@ -111,38 +109,50 @@ abstract class OpenGraph extends \fg\Essence\Provider {
 			$og[ $meta['property']] = $meta['content'];
 		}
 
-		$og = $this->_insertHtml( $og );
+		$og = $this->_insertHtml($og);
 
 		$this->_Cache->set( $url, $og );
+
 		return $og;
-		}
-		
-		
-	protected function _insertHtml($og) {
-	// check to see if "html" set
-		If (isset($og[html])) {
-			// Nothing to do here
-		}
-		else {
-		// Assign OG main attributes to the four specified by Oembed
-		$rich = Array("rich","video");
-		$image = Array("photo","music","article","movie");
-		$link = Array("link","url");
+	}
+
+
+/**
+ *	Ensures that an there is always a html array available.
+ *
+ *	@param string $og to include array parsed by Essence.
+ *	@return array with html variable included.
+ *  Contribution by laughingwithu@gmail.com
+ */
 	
-		// add the html variable based on content type
-			if (array_intersect($rich, $og)) {
-				$og['html'] = "<iframe src='" . $og["og:video"] . "'></iframe>";
+	protected function _insertHtml($og) {
+	// End function where "html" is already set
+		if (isset($og['html'])) {
+			// Nothing to do
+		}
+		else { 
+			// get the url to the preferred resource - ie video < image < link
+			if (isset($og['og:video'])){
+				$url = $og['og:video'];
 			}
-			else if (array_intersect($image, $og)) {
-				$og['html'] = "<img src='" . $og["og:image"] . "'></iframe>";
-			}
-			else if (array_intersect($link, $og)) {
-				$og['html'] = "<a href='" . $og["og:url"] . "'></a>";
+			else if (isset($og['og:image'])){
+				$url = $og['og:image'];
 			}
 			else {
-				// Nothing to do here
+				$url = $og['og:url'];
+			}
+			// Assign OG attributes to match the format of the html that will be most useful
+			$type_array = array(
+				array('check' => array("picture", "article", "image","photo","book","video.movie","video.episode","video.tv_show","video.other","music.song","music.album","music.radio_station","music.playlist"), 'format' => '<img src="%s" alt="%s">'),
+				array('check' => array("rich", "video","prezi_for_facebook:prezi"), 'format' => '<iframe src="%s" alt="%s"><p>Your browser does not support iframes.</p></iframe>'),
+				array('check' => array("link", "website","url"), 'format' => '<a href="%s">%s</a>'));
+			// Run through each check until we get a hit on the type
+			foreach ($type_array as &$ti) {
+				if (array_intersect($og, $ti['check'])) {
+				$og['html'] = sprintf($ti['format'], $url, $og['og:title']);
+				}
 			}
 		}
-	    return($og);
+		return $og;		
 	}
 }
