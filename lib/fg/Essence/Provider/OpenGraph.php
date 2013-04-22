@@ -111,7 +111,36 @@ abstract class OpenGraph extends \fg\Essence\Provider {
 			$og[ $meta['property']] = $meta['content'];
 		}
 
+		$og = $this->_insertHtml( $og );
+
 		$this->_Cache->set( $url, $og );
 		return $og;
+		}
+	protected function _insertHtml($og) {
+	// check to see if "html" set
+		If (isset($og[html])) {
+			// Nothing to do here
+		}
+		else {
+		// Assign OG main attributes to the four specified by Oembed
+		$rich = Array("rich","video");
+		$image = Array("photo","music","article","movie");
+		$link = Array("link","url");
+	
+		// add the html variable based on content type
+			if (array_intersect($rich, $og)) {
+				$og['html'] = "<iframe src='" . $og["og:video"] . "'></iframe>";
+			}
+			else if (array_intersect($image, $og)) {
+				$og['html'] = "<img src='" . $og["og:image"] . "'></iframe>";
+			}
+			else if (array_intersect($link, $og)) {
+				$og['html'] = "<a href='" . $og["og:url"] . "'></a>";
+			}
+			else {
+				// Nothing to do here
+			}
+		}
+	    return($og);
 	}
 }
