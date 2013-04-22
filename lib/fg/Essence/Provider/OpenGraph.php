@@ -116,6 +116,8 @@ abstract class OpenGraph extends \fg\Essence\Provider {
 		$this->_Cache->set( $url, $og );
 		return $og;
 		}
+		
+		
 	protected function _insertHtml($og) {
 	// check to see if "html" set
 		If (isset($og[html])) {
