@@ -1,7 +1,7 @@
 <?php
 
 /**
- *	@author Félix Girault <felix.girault@gmail.com>
+ *	@author Laughingwithu <laughingwithu@gmail.com>
  *	@license FreeBSD License (http://opensource.org/licenses/BSD-2-Clause)
  */
 
@@ -10,17 +10,17 @@ namespace fg\Essence\Provider\OpenGraph;
 
 
 /**
- *	TED provider (http://www.ted.com).
+ *	Prezi provider (http://www.prezi.com).
  *
  *	@package fg.Essence.Provider.OpenGraph
  */
 
-class Ted extends \fg\Essence\Provider\OpenGraph {
+class Prezi extends \fg\Essence\Provider\OpenGraph {
 
 	/**
 	 *	{@inheritDoc}
 	 */
 
-	protected $_pattern = '#ted\.com/talks#i';
+	protected $_pattern = '#prezi\.com/.+/.+#i';
 
 }
