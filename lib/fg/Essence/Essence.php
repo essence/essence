@@ -87,16 +87,17 @@ class Essence {
 
 
 	/**
-	 *	If the url can be parsed directly by one of the registered providers,
-	 *	it is returned as is. Otherwise, the page is parsed to find such urls.
+	 *	Extracts embeddable URLs from either an URL or an HTML source.
+	 *	If the URL can be parsed directly by one of the registered providers,
+	 *	it is returned as is. Otherwise, the page is parsed to find such URLs.
 	 *
-	 *	@param string $url The Url to extract.
+	 *	@param string $source The URL or HTML source to be extracted.
 	 *	@return array An array of extracted URLs.
 	 */
 
-	public function extract( $url ) {
+	public function extract( $source ) {
 
-		$key = 'extract' . $url;
+		$key = 'extract' . $source;
 		$cached = $this->_Cache->get( $key );
 
 		if ( $cached !== null ) {
@@ -104,7 +105,7 @@ class Essence {
 		}
 
 		try {
-			$embeddable = $this->_extract( $url );
+			$embeddable = $this->_extract( $source );
 		} catch ( Exception $Exception ) {
 			$this->_log( $Exception );
 			return array( );
@@ -120,15 +121,18 @@ class Essence {
 	 *	@see Essence::extract( )
 	 */
 
-	protected function _extract( $url ) {
+	protected function _extract( $source ) {
 
-		// if a provider can directly handle the url, there is no more work to do.
+		if ( filter_var( $source, FILTER_VALIDATE_URL )) {
+			// if a provider can directly handle the URL, there is no more work to do.
+			if ( $this->_Collection->hasProvider( $source )) {
+				return array( $source );
+			}
 
-		if ( $this->_Collection->hasProvider( $url )) {
-			return array( $url );
+			$source = Registry::get( 'http' )->get( $source );
 		}
 
-		$urls = $this->_extractUrls( $url );
+		$urls = $this->_extractUrls( $source );
 		$embeddable = array( );
 
 		foreach ( $urls as $url ) {
@@ -146,16 +150,16 @@ class Essence {
 
 
 	/**
-	 *	Extracts URLs from a web page.
+	 *	Extracts URLs from an HTML source.
 	 *
-	 *	@param string $url The web page to extract URLs from.
+	 *	@param string $html The HTML source to extract URLs from.
 	 *	@return array Extracted URLs.
 	 */
 
-	protected function _extractUrls( $url ) {
+	protected function _extractUrls( $html ) {
 
 		$attributes = Registry::get( 'dom' )->extractAttributes(
-			Registry::get( 'http' )->get( $url ),
+			$html,
 			array(
 				'a' => 'href',
 				'embed' => 'src',
