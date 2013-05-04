@@ -93,16 +93,15 @@ $Media->customValue = 12;
 ?>
 ```
 
+While some open graph properties do not exactly match the Oembed specification, Essence ensures that the html variable is always available. Please note where a page contains multiple media types, Essence creates the html variable based on the assumption that videos are preferred over images which are preferred over links.
+
 Configuration
 -------------
 
-Essence currently supports 31 specialized providers:
+Essence currently supports 36 specialized providers:
 
 ```
-23hq, Cacoo, CanalPlus, Chirb.it, Clikthrough, CollegeHumour, Dailymotion, Deviantart,
-Dipity, Flickr, Funnyordie, Huffduffer, Hulu, Ifixit, Imgur, Instagram, Mobypicture,
-Polldaddy, Qik, Revision3, Scribd, Shoudio, Sketchfab, Slideshare, SoundCloud, Ted,
-Twitter, Vhx, Vimeo, Yfrog and Youtube.
+23hq, Bandcamp, Blip.tv, Cacoo, CanalPlus, Chirb.it, Clikthrough, CollegeHumour, Dailymotion, Deviantart, Dipity, Flickr, Funnyordie, Howcast, Huffduffer, Hulu, Ifixit, Imgur, Instagram, Mobypicture, Official.fm, Polldaddy, Qik, Revision3, Scribd, Shoudio, Sketchfab, Slideshare, SoundCloud, Ted, Twitter, Vhx, Viddler, Vimeo, Yfrog and Youtube.
 ```
 
 And two generic ones which will try to get informations about any page.
@@ -131,7 +130,7 @@ If you want to make your code rock solid, you should better wrap that up in a tr
 <?php
 
 try {
-	$Essence = new fg\Essence\Essence( array( ... ));
+	$Essence = new fg\Essence\Essence( array( ... )); 
 } catch ( fg\Essence\Exception $Exception ) {
 	...
 }
