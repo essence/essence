@@ -38,6 +38,11 @@ class Multiple extends \fg\Essence\Provider\OEmbed {
 				'endpoint' => 'http://www.23hq.com/23/oembed?format=json&url=%s',
 				'format' => self::json
 			),
+			'Blip.tv' => array(
+				'pattern' => '#blip.tv/.+#i',
+				'endpoint' => 'http://blip.tv/oembed?format=json&url=%s',
+				'format' => self::json
+			),			
 			'Cacoo' => array(
 				'pattern' => '#cacoo.com/.+#i',
 				'endpoint' => 'http://cacoo.com/oembed.json?url=%s',
@@ -166,6 +171,11 @@ class Multiple extends \fg\Essence\Provider\OEmbed {
 			'Vhx' => array(
 				'pattern' => '#vhx.tv/.+#i',
 				'endpoint' => 'http://vhx.tv/services/oembed.json?url=%s',
+				'format' => self::json
+			),
+			'Viddler' => array(
+				'pattern' => '#viddler.com/.+#i',
+				'endpoint' => 'http://www.viddler.com/oembed/?url=%s',
 				'format' => self::json
 			),
 			'Yfrog' => array(

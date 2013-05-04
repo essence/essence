@@ -131,28 +131,21 @@ abstract class OpenGraph extends \fg\Essence\Provider {
 			// Nothing to do
 		}
 		else { 
-			// get the url to the preferred resource - ie video < image < link
+			$title = $og['og:title'];
+			// check if the preferred resource exists (ie. video < image < link) and then insert a html variable into the $og array accordingly
 			if (isset($og['og:video'])){
 				$url = $og['og:video'];
+				$og['html'] = "<iframe src='$url' alt='$title' width='560' height='315' frameborder='0' allowfullscreen='' mozallowfullscreen='' webkitallowfullscreen=''><p>Your browser does not support iframes.</p></iframe>"; // The dimensions 560 x 315 are generally standard and not all OG providers give dimensions
 			}
 			else if (isset($og['og:image'])){
 				$url = $og['og:image'];
+				$og['html'] = "<img src='$url' alt='$title'>";
 			}
 			else {
 				$url = $og['og:url'];
+				$og['html'] = "<a href='$url'  target='_blank'>$title</a>";
 			}
-			// Assign OG attributes to match the format of the html that will be most useful
-			$type_array = array(
-				array('check' => array("picture", "article", "image","photo","book","video.movie","video.episode","video.tv_show","video.other","music.song","music.album","music.radio_station","music.playlist"), 'format' => '<img src="%s" alt="%s">'),
-				array('check' => array("rich", "video","prezi_for_facebook:prezi"), 'format' => '<iframe src="%s" alt="%s"><p>Your browser does not support iframes.</p></iframe>'),
-				array('check' => array("link", "website","url"), 'format' => '<a href="%s">%s</a>'));
-			// Run through each check until we get a hit on the type
-			foreach ($type_array as &$ti) {
-				if (array_intersect($og, $ti['check'])) {
-				$og['html'] = sprintf($ti['format'], $url, $og['og:title']);
-				}
-			}
+			return $og;		
 		}
-		return $og;		
 	}
 }
