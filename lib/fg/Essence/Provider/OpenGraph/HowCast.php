@@ -11,7 +11,8 @@ namespace fg\Essence\Provider\OpenGraph;
 
 /**
  *	How Cast provider (http://www.howcast.com).
- *  test: http://www.howcast.com/guides/1073-How-to-Shave
+ *	Test URL: http://www.howcast.com/guides/1073-How-to-Shave
+ *
  *	@package fg.Essence.Provider.OpenGraph
  */
 
@@ -24,3 +25,4 @@ class HowCast extends \fg\Essence\Provider\OpenGraph {
 	protected $_pattern = '#howcast\.com/.+/.+#i';
 
 }
+
