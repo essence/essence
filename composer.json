@@ -18,7 +18,8 @@
 	"licence": "BSD-2-Clause",
 	"homepage": "http://github.com/felixgirault/essence",
 	"require": {
-		"php": ">=5.3.0"
+		"php": ">=5.3.0",
+		"ext-curl": "*"
 	},
 	"autoload": {
 		"psr-0": {
