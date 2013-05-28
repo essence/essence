@@ -294,34 +294,23 @@ class Essence {
 
 	public function replace( $text, $template = '' ) {
 
-		$count = preg_match_all(
+		return preg_replace_callback(
 			// http://daringfireball.net/2009/11/liberal_regex_for_matching_urls
 			'#\b(([\w-]+://?|www[.])[^\s()<>]+(?:\([\w\d]+\)|([^[:punct:]\s]|/)))#i',
-			$text,
-			$matches,
-			PREG_PATTERN_ORDER
-		);
+			function ( $matches ) {
+				$Media = $this->embed( $matches[ 0 ]);
+				$replacement = '';
 
-		if ( $count ) {
-			$medias = $this->embedAll( $matches[ 0 ]);
-			$replacements = array( );
-
-			foreach ( $medias as $url => $Media ) {
 				if ( $Media !== null ) {
-					$replacements[ $url ] = empty( $template )
+					$replacement = empty( $template )
 						? $Media->property( 'html' )
 						: $this->_renderTemplate( $template, $Media );
 				}
-			}
 
-			$text = str_replace(
-				array_keys( $replacements ),
-				array_values( $replacements ),
-				$text
-			);
-		}
-
-		return $text;
+				return $replacement;
+			},
+			$text
+		);
 	}
 
 
