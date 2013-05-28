@@ -304,39 +304,26 @@ class Essence {
 				$replacement = '';
 
 				if ( $Media !== null ) {
-					$replacement = empty( $template )
-						? $Media->property( 'html' )
-						: $Essence->_renderTemplate( $template, $Media );
+					if ( empty( $template )) {
+						$replacement = $Media->property( 'html' );
+					} else {
+						$replacements = array( );
+
+						foreach ( $Media as $property => $value ) {
+							$replacements["%$property%"] = $value;
+						}
+
+						$replacement = str_replace(
+							array_keys( $replacements ),
+							array_values( $replacements ),
+							$template
+						);
+					}
 				}
 
 				return $replacement;
 			},
 			$text
-		);
-	}
-
-
-
-	/**
-	 *	Renders the given template with the media properties.
-	 *
-	 *	@param string $template Template to render.
-	 *	@param Media $Media Media object from which to gather properties.
-	 *	@return string Rendered template.
-	 */
-
-	protected function _renderTemplate( $template, Media $Media ) {
-
-		$replacements = array( );
-
-		foreach ( $Media as $property => $value ) {
-			$replacements["%$property%"] = $value;
-		}
-
-		return str_replace(
-			array_keys( $replacements ),
-			array_values( $replacements ),
-			$template
 		);
 	}
 
