@@ -300,7 +300,7 @@ class Essence {
 			// http://daringfireball.net/2009/11/liberal_regex_for_matching_urls
 			'#\b(([\w-]+://?|www[.])[^\s()<>]+(?:\([\w\d]+\)|([^[:punct:]\s]|/)))#i',
 			function ( $matches ) use ( &$Essence, $template ) {
-				$Media = $this->embed( $matches[ 0 ]);
+				$Media = $Essence->embed( $matches[ 0 ]);
 				$replacement = '';
 
 				if ( $Media !== null ) {
