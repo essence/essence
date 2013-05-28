@@ -294,17 +294,19 @@ class Essence {
 
 	public function replace( $text, $template = '' ) {
 
+		$Essence = $this;
+
 		return preg_replace_callback(
 			// http://daringfireball.net/2009/11/liberal_regex_for_matching_urls
 			'#\b(([\w-]+://?|www[.])[^\s()<>]+(?:\([\w\d]+\)|([^[:punct:]\s]|/)))#i',
-			function ( $matches ) {
+			function ( $matches ) use ( &$Essence, $template ) {
 				$Media = $this->embed( $matches[ 0 ]);
 				$replacement = '';
 
 				if ( $Media !== null ) {
 					$replacement = empty( $template )
 						? $Media->property( 'html' )
-						: $this->_renderTemplate( $template, $Media );
+						: $Essence->_renderTemplate( $template, $Media );
 				}
 
 				return $replacement;
