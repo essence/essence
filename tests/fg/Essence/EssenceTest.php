@@ -254,6 +254,27 @@ HTML;
 	 *
 	 */
 
+	public function testDontReplaceLinks( ) {
+
+		$Provider = new TestableProvider( );
+		$Provider->mediaProperties = array( 'html' => '<div></div>' );
+
+		$this->Collection->expects( $this->any( ))
+			->method( 'providers' )
+			->will( $this->returnValue( array( $Provider )));
+
+		$this->assertEquals(
+			'foo <a href="http://example.com">baz</a> bar',
+			$this->Essence->replace( 'foo <a href="http://example.com">baz</a> bar' )
+		);
+	}
+
+
+
+	/**
+	 *
+	 */
+
 	public function testErrors( ) {
 
 		$this->Essence->log( new Exception( 'one' ));
