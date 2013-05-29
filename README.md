@@ -61,7 +61,7 @@ Here is the default properties it provides:
 * providerUrl
 * cacheAge
 * thumbnailUrl
-* thumbnailWith
+* thumbnailWidth
 * thumbnailHeight
 * html
 * width
