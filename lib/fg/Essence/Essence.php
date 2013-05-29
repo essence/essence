@@ -298,9 +298,9 @@ class Essence {
 
 		return preg_replace_callback(
 			// http://daringfireball.net/2009/11/liberal_regex_for_matching_urls
-			'#\s(([\w-]+://?|www[.])[^\s()<>]+(?:\([\w\d]+\)|([^[:punct:]\s]|/)))#i',
+			'#(\s)(([\w-]+://?|www[.])[^\s()<>]+(?:\([\w\d]+\)|([^[:punct:]\s]|/)))#i',
 			function ( $matches ) use ( &$Essence, $template ) {
-				$Media = $Essence->embed( $matches[ 0 ]);
+				$Media = $Essence->embed( $matches[ 2 ]);
 				$replacement = '';
 
 				if ( $Media !== null ) {
@@ -321,7 +321,7 @@ class Essence {
 					}
 				}
 
-				return ' ' . $replacement;
+				return $matches[1] . $replacement;
 			},
 			$text
 		);
