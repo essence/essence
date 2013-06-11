@@ -9,7 +9,7 @@ Essence is a simple PHP library to extract media informations from websites, lik
 * [What you get](#what-you-get)
 * [Configuration](#configuration)
 * [Advanced usage](#advanced-usage)
-* [Third-party libraries](#third-party-library)
+* [Third-party libraries](#third-party-libraries)
 
 Example
 -------
