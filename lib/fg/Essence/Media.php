@@ -147,7 +147,7 @@ class Media implements \IteratorAggregate {
 
 	public function __isset( $name ) {
 
-		return $this->hasProperty( $name );
+		return $this->has( $name );
 	}
 
 
@@ -158,7 +158,7 @@ class Media implements \IteratorAggregate {
 
 	public function __get( $name ) {
 
-		return $this->property( $name );
+		return $this->get( $name );
 	}
 
 
@@ -169,7 +169,7 @@ class Media implements \IteratorAggregate {
 
 	public function __set( $name, $value ) {
 
-		return $this->setProperty( $name, $value );
+		return $this->set( $name, $value );
 	}
 
 
@@ -211,7 +211,7 @@ class Media implements \IteratorAggregate {
 
 	public function get( $property ) {
 
-		return $this->hasProperty( $property )
+		return $this->has( $property )
 			? $this->properties[ $property ]
 			: null;
 	}
