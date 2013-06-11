@@ -276,5 +276,6 @@ if ( !$Media ) {
 Third-party libraries
 ---------------------
 
-Demo framework by Sean Steindl: https://github.com/laughingwithu/Essence_demo.
-Symfony bundle by Ka Yue Yeung: https://github.com/kayue/KayueEssenceBundle.
+* CakePHP plugin: https://github.com/felixgirault/cakephp-essence
+* Demo framework by Sean Steindl: https://github.com/laughingwithu/Essence_demo
+* Symfony bundle by Ka Yue Yeung: https://github.com/kayue/KayueEssenceBundle
