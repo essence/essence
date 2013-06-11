@@ -142,7 +142,7 @@ class Media implements \IteratorAggregate {
 
 
 	/**
-	 *	@see hasProperty( )
+	 *	@see has( )
 	 */
 
 	public function __isset( $name ) {
@@ -153,7 +153,7 @@ class Media implements \IteratorAggregate {
 
 
 	/**
-	 *	@see property( )
+	 *	@see get( )
 	 */
 
 	public function __get( $name ) {
@@ -164,7 +164,7 @@ class Media implements \IteratorAggregate {
 
 
 	/**
-	 *	@see setProperty( )
+	 *	@see set( )
 	 */
 
 	public function __set( $name, $value ) {
@@ -177,13 +177,27 @@ class Media implements \IteratorAggregate {
 	/**
 	 *	Returns if there is any value for the given property.
 	 *
-	 *	@param string $name Property name.
+	 *	@param string $property Property name.
 	 *	@param boolean True if the property exists, otherwise false.
+	 */
+
+	public function has( $property ) {
+
+		return isset( $this->properties[ $property ]);
+	}
+
+
+
+	/**
+	 *	An alias for has( ).
+	 *
+	 *	@see has( ).
+	 *	@deprecated Since 1.4.2.
 	 */
 
 	public function hasProperty( $name ) {
 
-		return isset( $this->properties[ $name ]);
+		return $this->has( $name );
 	}
 
 
@@ -191,28 +205,29 @@ class Media implements \IteratorAggregate {
 	/**
 	 *	Returns the value of the given property.
 	 *
-	 *	@param string $name Property name.
+	 *	@param string $property Property name.
 	 *	@return mixed The property value, or null if the property doesn't exists.
 	 */
 
-	public function property( $name ) {
+	public function get( $property ) {
 
-		return $this->hasProperty( $name )
-			? $this->properties[ $name ]
+		return $this->hasProperty( $property )
+			? $this->properties[ $property ]
 			: null;
 	}
 
 
 
 	/**
-	 *	Returns all properties.
+	 *	An alias for get( ).
 	 *
-	 *	@return array Properties.
+	 *	@see get( ).
+	 *	@deprecated Since 1.4.2.
 	 */
 
-	public function properties( ) {
+	public function property( $property ) {
 
-		return $this->properties;
+		return $this->get( $property );
 	}
 
 
@@ -220,13 +235,27 @@ class Media implements \IteratorAggregate {
 	/**
 	 *	Sets the value of a property.
 	 *
-	 *	@param string $name Property name.
+	 *	@param string $property Property name.
 	 *	@param string $value New value.
 	 */
 
-	public function setProperty( $name, $value ) {
+	public function set( $property, $value ) {
 
-		$this->properties[ $name ] = $value;
+		$this->properties[ $property ] = $value;
+	}
+
+
+
+	/**
+	 *	An alias for set( ).
+	 *
+	 *	@see set( ).
+	 *	@deprecated Since 1.4.2.
+	 */
+
+	public function setProperty( $property, $value ) {
+
+		$this->set( $property, $value );
 	}
 
 

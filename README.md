@@ -82,11 +82,11 @@ Don't worry, all these "non-standard" properties can also be stored in a Media o
 ```php
 <?php
 
-if ( !$Media->hasProperty( 'foo' )) {
-	$Media->setProperty( 'foo', 'bar' );
+if ( !$Media->has( 'foo' )) {
+	$Media->set( 'foo', 'bar' );
 }
 
-$value = $Media->property( 'foo' );
+$value = $Media->get( 'foo' );
 
 // Or through the $properties array
 
@@ -136,7 +136,7 @@ If you want to make your code rock solid, you should better wrap that up in a tr
 <?php
 
 try {
-	$Essence = new fg\Essence\Essence( array( ... )); 
+	$Essence = new fg\Essence\Essence( array( ... ));
 } catch ( fg\Essence\Exception $Exception ) {
 	...
 }
