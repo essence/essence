@@ -5,6 +5,12 @@ Essence is a simple PHP library to extract media informations from websites, lik
 
 [![Build Status](https://secure.travis-ci.org/felixgirault/essence.png)](http://travis-ci.org/felixgirault/essence)
 
+* [Example](#example)
+* [What you get](#what-you-get)
+* [Configuration](#configuration)
+* [Advanced usage](#advanced-usage)
+* [Third-party libraries](#third-party-library)
+
 Example
 -------
 
@@ -248,8 +254,7 @@ $medias = $Essence->embedAll(
 ?>
 ```
 
-Error handling
---------------
+### Error handling
 
 By default, Essence does all the dirty stuff for you by catching all internal exceptions, so you just have to test if an Media object is valid.
 But, in case you want more informations about an error, Essence keeps exceptions warm, and lets you access all of them:
@@ -267,3 +272,9 @@ if ( !$Media ) {
 
 ?>
 ```
+
+Third-party libraries
+---------------------
+
+Demo framework by Sean Steindl: https://github.com/laughingwithu/Essence_demo.
+Symfony bundle by Ka Yue Yeung: https://github.com/kayue/KayueEssenceBundle.
