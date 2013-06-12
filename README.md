@@ -1,9 +1,10 @@
 Essence
 =======
 
-Essence is a simple PHP library to extract media informations from websites, like youtube videos, twitter statuses or blog articles.
+[![Build status](https://secure.travis-ci.org/felixgirault/essence.png)](http://travis-ci.org/felixgirault/essence)
+[![Total downloads](https://poser.pugx.org/fg/essence/d/total.png)](https://packagist.org/packages/fg/essence)
 
-[![Build Status](https://secure.travis-ci.org/felixgirault/essence.png)](http://travis-ci.org/felixgirault/essence)
+Essence is a simple PHP library to extract media informations from websites, like youtube videos, twitter statuses or blog articles.
 
 * [Example](#example)
 * [What you get](#what-you-get)
