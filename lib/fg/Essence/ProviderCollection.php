@@ -83,7 +83,15 @@ class ProviderCollection {
 				$options = array( );
 			}
 
-			$className = '\\fg\\Essence\\Provider\\' . str_replace( '/', '\\', $name );
+			// check if the given provider name start with a slash
+			// if the first char is a slash a FQCN is given
+			// otherwise we need to transform it into a FQCN relative to the Essence buildin providers namespace
+			if ( substr($name, 0, 1) === '\\' ) {
+			    $className = $name;
+			} else {
+			    $className = '\\fg\\Essence\\Provider\\' . str_replace( '/', '\\', $name );
+			}
+
 			$Reflection = new \ReflectionClass( $className );
 
 			if ( !$Reflection->isAbstract( )) {
