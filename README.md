@@ -123,12 +123,14 @@ $Essence = new fg\Essence\Essence(
 		'OEmbed/Youtube',
 		'OEmbed/Dailymotion',
 		'OpenGraph/Ted',
-		'YourCustomProvider'
+		'\YourCustomProvider'
 	)
 );
 
 ?>
 ```
+
+You can add custom providers by adding a FQCN (Fully-Qualified Class Name) to the list of providers.
 
 When given an array of providers, the constructor might throw an exception if a provider couldn't be found or loaded.
 If you want to make your code rock solid, you should better wrap that up in a try/catch statement:
