@@ -50,7 +50,7 @@ abstract class OpenGraph extends \fg\Essence\Provider {
 
 		$og = $this->_extractInformations( $url );
 
-		
+
 		if ( empty( $og )) {
 			throw new \fg\Essence\Exception(
 				'Unable to extract OpenGraph data.'
@@ -90,8 +90,8 @@ abstract class OpenGraph extends \fg\Essence\Provider {
 			return $this->_Cache->get( $url );
 		}
 
-		$attributes = \fg\Essence\Registry::get( 'dom' )->extractAttributes(
-			\fg\Essence\Registry::get( 'http' )->get( $url ),
+		$attributes = \fg\Essence\Utility\Registry::get( 'dom' )->extractAttributes(
+			\fg\Essence\Utility\Registry::get( 'http' )->get( $url ),
 			array(
 				'meta' => array(
 					'property' => '#^og:.+#i',
@@ -127,7 +127,7 @@ abstract class OpenGraph extends \fg\Essence\Provider {
 	 *	@param string $og to include array parsed by Essence.
 	 *	@return array with html variable included.
 	 */
-	
+
 	protected function _buildHtml( $og ) {
 
 		$title = $og['og:title'];

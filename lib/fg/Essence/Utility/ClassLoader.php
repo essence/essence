@@ -5,14 +5,14 @@
  *	@license FreeBSD License (http://opensource.org/licenses/BSD-2-Clause)
  */
 
-namespace fg\Essence;
+namespace fg\Essence\Utility;
 
 
 
 /**
  *	A simple PSR-0 compliant class loader.
  *
- *	@package fg.Essence
+ *	@package fg.Essence.Utility
  */
 
 class ClassLoader {

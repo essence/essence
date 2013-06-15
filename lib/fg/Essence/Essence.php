@@ -60,7 +60,7 @@ class Essence {
 		$this->_checkEnvironment( );
 
 		$this->_Collection = new ProviderCollection( $providers );
-		$this->_Cache = Registry::get( 'cache' );
+		$this->_Cache = Utility\Registry::get( 'cache' );
 	}
 
 
@@ -71,16 +71,16 @@ class Essence {
 
 	public function _checkEnvironment( ) {
 
-		if ( !Registry::has( 'cache' )) {
-			Registry::register( 'cache', new Cache\Volatile( ));
+		if ( !Utility\Registry::has( 'cache' )) {
+			Utility\Registry::register( 'cache', new Cache\Volatile( ));
 		}
 
-		if ( !Registry::has( 'dom' )) {
-			Registry::register( 'dom', new Dom\DomDocument( ));
+		if ( !Utility\Registry::has( 'dom' )) {
+			Utility\Registry::register( 'dom', new Dom\DomDocument( ));
 		}
 
-		if ( !Registry::has( 'http' )) {
-			Registry::register( 'http', new Http\Curl( ));
+		if ( !Utility\Registry::has( 'http' )) {
+			Utility\Registry::register( 'http', new Http\Curl( ));
 		}
 	}
 
@@ -129,7 +129,7 @@ class Essence {
 				return array( $source );
 			}
 
-			$source = Registry::get( 'http' )->get( $source );
+			$source = Utility\Registry::get( 'http' )->get( $source );
 		}
 
 		$urls = $this->_extractUrls( $source );
@@ -158,7 +158,7 @@ class Essence {
 
 	protected function _extractUrls( $html ) {
 
-		$attributes = Registry::get( 'dom' )->extractAttributes(
+		$attributes = Utility\Registry::get( 'dom' )->extractAttributes(
 			$html,
 			array(
 				'a' => 'href',

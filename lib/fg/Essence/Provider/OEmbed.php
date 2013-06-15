@@ -141,7 +141,7 @@ abstract class OEmbed extends \fg\Essence\Provider {
 
 	protected function _embedEndpoint( $endpoint, $format, $options ) {
 
-		$response = \fg\Essence\Registry::get( 'http' )->get(
+		$response = \fg\Essence\Utility\Registry::get( 'http' )->get(
 			$this->_completeEndpoint( $endpoint, $options )
 		);
 

@@ -5,14 +5,14 @@
  *	@license FreeBSD License (http://opensource.org/licenses/BSD-2-Clause)
  */
 
-namespace fg\Essence;
+namespace fg\Essence\Utility;
 
 
 
 /**
  *	Represents a package.
  *
- *	@package fg.Essence
+ *	@package fg.Essence.Utility
  */
 
 class Package {
@@ -85,9 +85,9 @@ class Package {
 	 *	Scans the directory and returns the classes it contains.
 	 *
 	 *	@note This method doesn't deal with symlinks.
-	 *	@param boolean $recursive Whether or not to search recursively.
 	 *	@param array $packages Sub packages in which to search for, relatively
 	 *		to the base package path.
+	 *	@param boolean $recursive Whether or not to search recursively.
 	 *	@return array An array of directory and/or file paths.
 	 */
 

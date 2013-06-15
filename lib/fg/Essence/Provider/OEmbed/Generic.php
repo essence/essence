@@ -92,8 +92,8 @@ class Generic extends \fg\Essence\Provider\OEmbed {
 			return $this->_Cache->get( $url );
 		}
 
-		$attributes = \fg\Essence\Registry::get( 'dom' )->extractAttributes(
-			\fg\Essence\Registry::get( 'http' )->get( $url ),
+		$attributes = \fg\Essence\Utility\Registry::get( 'dom' )->extractAttributes(
+			\fg\Essence\Utility\Registry::get( 'http' )->get( $url ),
 			array(
 				'link' => array(
 					'rel' => '#alternate#i',

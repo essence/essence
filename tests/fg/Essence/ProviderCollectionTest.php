@@ -40,7 +40,7 @@ class ProviderCollectionTest extends \PHPUnit_Framework_TestCase {
 
 		$Property = $Reflection->getProperty( '_Package' );
 		$Property->setAccessible( true );
-		$Property->setValue( $this->Collection, new Package( ESSENCE_PACKAGE ));
+		$Property->setValue( $this->Collection, new Utility\Package( ESSENCE_PACKAGE ));
 	}
 
 

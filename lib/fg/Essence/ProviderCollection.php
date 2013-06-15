@@ -47,7 +47,7 @@ class ProviderCollection {
 
 	public function __construct( array $providers = array( )) {
 
-		$this->_Package = new Package(
+		$this->_Package = new Utility\Package(
 			dirname( __FILE__ ) . DIRECTORY_SEPARATOR . 'Provider'
 		);
 

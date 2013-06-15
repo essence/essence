@@ -5,8 +5,6 @@
  *	@license FreeBSD License (http://opensource.org/licenses/BSD-2-Clause)
  */
 
-namespace fg\Essence;
-
 require_once dirname( dirname( __FILE__ ))
 	. DIRECTORY_SEPARATOR . 'lib'
 	. DIRECTORY_SEPARATOR . 'bootstrap.php';
@@ -44,8 +42,8 @@ if ( !defined( 'ESSENCE_PACKAGE' )) {
  *	Autoload
  */
 
-$ClassLoader = new ClassLoader( ESSENCE_TEST );
-$ClassLoader->register( );
+$ResourcesClassLoader = new fg\Essence\Utility\ClassLoader( ESSENCE_RESOURCES );
+$ResourcesClassLoader->register( );
 
 
 
@@ -53,5 +51,5 @@ $ClassLoader->register( );
  *	Test configuration.
  */
 
-Registry::register( 'cache', new Cache\Null( ));
-Registry::register( 'http', new Http\FileGetContents( ));
+fg\Essence\Utility\Registry::register( 'cache', new fg\Essence\Cache\Null( ));
+fg\Essence\Utility\Registry::register( 'http', new fg\Essence\Http\FileGetContents( ));
