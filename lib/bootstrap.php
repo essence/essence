@@ -23,8 +23,8 @@ if ( !defined( 'ESSENCE_LIB' )) {
 	define( 'ESSENCE_LIB', dirname( __FILE__ ));
 }
 
-if ( !defined( 'ESSENCE_BOOTSTRAPED' )) {
-	define( 'ESSENCE_BOOTSTRAPED', true );
+if ( !defined( 'ESSENCE_BOOTSTRAPPED' )) {
+	define( 'ESSENCE_BOOTSTRAPPED', true );
 }
 
 
