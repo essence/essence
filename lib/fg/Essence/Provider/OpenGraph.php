@@ -13,6 +13,7 @@ use fg\Essence\Media;
 use fg\Essence\Provider;
 use fg\Essence\Cache\Volatile;
 use fg\Essence\Utility\Registry;
+use fg\Essence\Utility\Set;
 
 
 
@@ -64,19 +65,21 @@ abstract class OpenGraph extends Provider {
 		}
 
 		return new Media(
-			$og,
-			array(
-				'og:type' => 'type',
-				'og:title' => 'title',
-				'og:description' => 'description',
-				'og:site_name' => 'providerName',
-				'og:image' => 'thumbnailUrl',
-				'og:image:url' => 'thumbnailUrl',
-				'og:image:width' => 'width',
-				'og:image:height' => 'height',
-				'og:video:width' => 'width',
-				'og:video:height' => 'height',
-				'og:url' => 'url'
+			Set::reindex(
+				$og,
+				array(
+					'og:type' => 'type',
+					'og:title' => 'title',
+					'og:description' => 'description',
+					'og:site_name' => 'providerName',
+					'og:image' => 'thumbnailUrl',
+					'og:image:url' => 'thumbnailUrl',
+					'og:image:width' => 'width',
+					'og:image:height' => 'height',
+					'og:video:width' => 'width',
+					'og:video:height' => 'height',
+					'og:url' => 'url'
+				)
 			)
 		);
 	}

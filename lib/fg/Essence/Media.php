@@ -97,46 +97,18 @@ class Media implements \IteratorAggregate {
 
 	/**
 	 *	Constructs a Media from the given dataset.
-	 *	If the property names in the dataset doesn't match the standard one,
-	 *	the $correspondances array can be used to specify a reindexation
-	 *	schema.
 	 *
 	 *	@see Media::$properties
-	 *	@see Media::_reindex( )
 	 *	@param array $properties An array of media informations.
-	 *	@param array $correspondances An array of indices correspondances.
 	 */
 
-	public function __construct( array $properties, array $correspondances = array( )) {
+	public function __construct( array $properties ) {
 
 		if ( !empty( $correspondances )) {
 			$properties = $this->_reindex( $properties, $correspondances );
 		}
 
 		$this->properties = $properties;
-	}
-
-
-
-	/**
-	 *	Reindexes a set of properties, according to the given correspondances.
-	 *
-	 *	@param array $properties The set of properties to be reindexed.
-	 *	@param array $correspondances An array of index correspondances of the
-	 *		form `array( 'currentIndex' => 'newIndex' )`.
-	 */
-
-	protected function _reindex( array $properties, array $correspondances ) {
-
-		$result = $properties;
-
-		foreach ( $correspondances as $from => $to ) {
-			if ( isset( $properties[ $from ])) {
-				$result[ $to ] = $properties[ $from ];
-			}
-		}
-
-		return $result;
 	}
 
 

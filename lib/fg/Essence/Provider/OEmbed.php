@@ -11,6 +11,7 @@ use fg\Essence\Exception;
 use fg\Essence\Media;
 use fg\Essence\Provider;
 use fg\Essence\Utility\Registry;
+use fg\Essence\Utility\Set;
 
 
 
@@ -164,16 +165,18 @@ abstract class OEmbed extends Provider {
 		}
 
 		return new Media(
-			$data,
-			array(
-				'author_name' => 'authorName',
-				'author_url' => 'authorUrl',
-				'provider_name' => 'providerName',
-				'provider_url' => 'providerUrl',
-				'cache_age' => 'cacheAge',
-				'thumbnail_url' => 'thumbnailUrl',
-				'thumbnail_width' => 'thumbnailWidth',
-				'thumbnail_height' => 'thumbnailHeight',
+			Set::reindex(
+				$data,
+				array(
+					'author_name' => 'authorName',
+					'author_url' => 'authorUrl',
+					'provider_name' => 'providerName',
+					'provider_url' => 'providerUrl',
+					'cache_age' => 'cacheAge',
+					'thumbnail_url' => 'thumbnailUrl',
+					'thumbnail_width' => 'thumbnailWidth',
+					'thumbnail_height' => 'thumbnailHeight',
+				)
 			)
 		);
 	}
