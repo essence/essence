@@ -8,6 +8,12 @@
 
 namespace fg\Essence\Provider;
 
+use fg\Essence\Exception;
+use fg\Essence\Media;
+use fg\Essence\Provider;
+use fg\Essence\Cache\Volatile;
+use fg\Essence\Utility\Registry;
+
 
 
 /**
@@ -17,7 +23,7 @@ namespace fg\Essence\Provider;
  *	@package fg.Essence.Provider
  */
 
-abstract class OpenGraph extends \fg\Essence\Provider {
+abstract class OpenGraph extends Provider {
 
 	/**
 	 *	A cache for extracted informations.
@@ -37,7 +43,7 @@ abstract class OpenGraph extends \fg\Essence\Provider {
 
 		parent::__construct( $options );
 
-		$this->_Cache = new \fg\Essence\Cache\Volatile( );
+		$this->_Cache = new Volatile( );
 	}
 
 
@@ -52,12 +58,12 @@ abstract class OpenGraph extends \fg\Essence\Provider {
 
 
 		if ( empty( $og )) {
-			throw new \fg\Essence\Exception(
+			throw new Exception(
 				'Unable to extract OpenGraph data.'
 			);
 		}
 
-		return new \fg\Essence\Media(
+		return new Media(
 			$og,
 			array(
 				'og:type' => 'type',
@@ -90,8 +96,8 @@ abstract class OpenGraph extends \fg\Essence\Provider {
 			return $this->_Cache->get( $url );
 		}
 
-		$attributes = \fg\Essence\Utility\Registry::get( 'dom' )->extractAttributes(
-			\fg\Essence\Utility\Registry::get( 'http' )->get( $url ),
+		$attributes = Registry::get( 'dom' )->extractAttributes(
+			Registry::get( 'http' )->get( $url ),
 			array(
 				'meta' => array(
 					'property' => '#^og:.+#i',

@@ -7,6 +7,8 @@
 
 namespace fg\Essence;
 
+use fg\Essence\Utility\Package;
+
 
 
 /**
@@ -47,7 +49,7 @@ class ProviderCollection {
 
 	public function __construct( array $providers = array( )) {
 
-		$this->_Package = new Utility\Package(
+		$this->_Package = new Package(
 			dirname( __FILE__ ) . DIRECTORY_SEPARATOR . 'Provider'
 		);
 
@@ -63,7 +65,7 @@ class ProviderCollection {
 	 *
 	 *	@param array $providers An array of provider class names, relative to
 	 *		the 'Provider' folder.
-	 *	@throws \fg\Essence\Exception
+	 *	@throws fg\Essence\Exception
 	 */
 
 	public function load( array $providers = array( )) {
@@ -136,7 +138,7 @@ class ProviderCollection {
 	 *	Finds providers of the given url.
 	 *
 	 *	@param string $url An url which may be embedded.
-	 *	@return array An array of \fg\Essence\Provider.
+	 *	@return array An array of fg\Essence\Provider.
 	 */
 
 	public function providers( $url ) {

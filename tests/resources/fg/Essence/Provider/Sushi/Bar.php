@@ -2,13 +2,15 @@
 
 namespace fg\Essence\Provider\Sushi;
 
+use fg\Essence\Provider;
+
 
 
 /**
  *
  */
 
-class Bar extends \fg\Essence\Provider {
+class Bar extends Provider {
 
 	/**
 	 *	{@inheritDoc}

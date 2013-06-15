@@ -46,7 +46,7 @@ class Registry {
 	 *
 	 *	@param string $name Object name.
 	 *	@return object The registered object.
-	 *	@throws \fg\Essence\Exception
+	 *	@throws fg\Essence\Exception
 	 */
 
 	public static function get( $name ) {

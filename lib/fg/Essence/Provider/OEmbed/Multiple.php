@@ -8,6 +8,9 @@
 
 namespace fg\Essence\Provider\OEmbed;
 
+use fg\Essence\Cache\Volatile;
+use fg\Essence\Provider\OEmbed;
+
 
 
 /**
@@ -16,7 +19,7 @@ namespace fg\Essence\Provider\OEmbed;
  *	@package fg.Essence.Provider.OEmbed
  */
 
-class Multiple extends \fg\Essence\Provider\OEmbed {
+class Multiple extends OEmbed {
 
 	/**
 	 *	Default providers.
@@ -42,7 +45,7 @@ class Multiple extends \fg\Essence\Provider\OEmbed {
 				'pattern' => '#blip.tv/.+#i',
 				'endpoint' => 'http://blip.tv/oembed?format=json&url=%s',
 				'format' => self::json
-			),			
+			),
 			'Cacoo' => array(
 				'pattern' => '#cacoo.com/.+#i',
 				'endpoint' => 'http://cacoo.com/oembed.json?url=%s',
@@ -206,7 +209,7 @@ class Multiple extends \fg\Essence\Provider\OEmbed {
 
 		parent::__construct( $options );
 
-		$this->_Cache = new \fg\Essence\Cache\Volatile( );
+		$this->_Cache = new Volatile( );
 	}
 
 

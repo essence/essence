@@ -7,6 +7,11 @@
 
 namespace fg\Essence\Provider;
 
+use fg\Essence\Exception;
+use fg\Essence\Media;
+use fg\Essence\Provider;
+use fg\Essence\Utility\Registry;
+
 
 
 /**
@@ -16,7 +21,7 @@ namespace fg\Essence\Provider;
  *	@package fg.Essence.Provider
  */
 
-abstract class OEmbed extends \fg\Essence\Provider {
+abstract class OEmbed extends Provider {
 
 	/**
 	 *	JSON response format.
@@ -141,7 +146,7 @@ abstract class OEmbed extends \fg\Essence\Provider {
 
 	protected function _embedEndpoint( $endpoint, $format, $options ) {
 
-		$response = \fg\Essence\Utility\Registry::get( 'http' )->get(
+		$response = Registry::get( 'http' )->get(
 			$this->_completeEndpoint( $endpoint, $options )
 		);
 
@@ -155,10 +160,10 @@ abstract class OEmbed extends \fg\Essence\Provider {
 				break;
 
 			default:
-				throw new \fg\Essence\Exception( 'Unsupported format.' );
+				throw new Exception( 'Unsupported format.' );
 		}
 
-		return new \fg\Essence\Media(
+		return new Media(
 			$data,
 			array(
 				'author_name' => 'authorName',
@@ -216,7 +221,7 @@ abstract class OEmbed extends \fg\Essence\Provider {
 		$data = json_decode( $json, true );
 
 		if ( $data === null ) {
-			throw new \fg\Essence\Exception(
+			throw new Exception(
 				'Error parsing JSON response: '
 				. $this->_jsonErrors[ json_last_error( )]
 				. '.'

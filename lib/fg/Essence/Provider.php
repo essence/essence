@@ -165,7 +165,7 @@ abstract class Provider {
 	 *	@param string $url URL to fetch informations from.
 	 *	@param array $options Custom options to be interpreted by the provider.
 	 *	@return Media Embed informations.
-	 *	@throws \fg\Essence\Exception
+	 *	@throws fg\Essence\Exception
 	 */
 
 	abstract protected function _embed( $url, $options );

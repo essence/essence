@@ -7,6 +7,8 @@
 
 namespace fg\Essence\Cache;
 
+use fg\Essence\Cache;
+
 
 
 /**
@@ -15,7 +17,7 @@ namespace fg\Essence\Cache;
  *	@package fg.Essence.Cache
  */
 
-class Volatile implements \fg\Essence\Cache {
+class Volatile implements Cache {
 
 	/**
 	 *	Data.

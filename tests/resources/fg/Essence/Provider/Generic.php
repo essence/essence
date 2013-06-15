@@ -2,13 +2,15 @@
 
 namespace fg\Essence\Provider;
 
+use fg\Essence\Provider;
+
 
 
 /**
  *
  */
 
-class Generic extends \fg\Essence\Provider {
+class Generic extends Provider {
 
 	/**
 	 *	{@inheritDoc}

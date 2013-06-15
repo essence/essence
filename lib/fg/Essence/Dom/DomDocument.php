@@ -7,6 +7,9 @@
 
 namespace fg\Essence\Dom;
 
+use fg\Essence\Dom;
+use fg\Essence\Exception;
+
 
 
 /**
@@ -15,7 +18,7 @@ namespace fg\Essence\Dom;
  *	@package fg.Essence.Dom
  */
 
-class DomDocument implements \fg\Essence\Dom {
+class DomDocument implements Dom {
 
 	/**
 	 *	{@inheritDoc}
@@ -28,7 +31,7 @@ class DomDocument implements \fg\Essence\Dom {
 		error_reporting( $reporting );
 
 		if ( $Document === false ) {
-			throw new \fg\Essence\Exception( 'Unable to load HTML document.' );
+			throw new Exception( 'Unable to load HTML document.' );
 		}
 
 		$options = self::_format( $options, array( ));

@@ -5,6 +5,8 @@
  *	@license FreeBSD License (http://opensource.org/licenses/BSD-2-Clause)
  */
 
+use fg\Essence\Utility\ClassLoader;
+
 require_once
 	dirname( __FILE__ )
 	. DIRECTORY_SEPARATOR . 'fg'
@@ -32,5 +34,5 @@ if ( !defined( 'ESSENCE_BOOTSTRAPED' )) {
  *	Autoload.
  */
 
-$ClassLoader = new fg\Essence\Utility\ClassLoader( ESSENCE_LIB );
+$ClassLoader = new ClassLoader( ESSENCE_LIB );
 $ClassLoader->register( );

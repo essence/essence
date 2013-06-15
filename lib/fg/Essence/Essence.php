@@ -7,6 +7,11 @@
 
 namespace fg\Essence;
 
+use fg\Essence\Cache\Volatile;
+use fg\Essence\Dom\DomDocument;
+use fg\Essence\Http\Curl;
+use fg\Essence\Utility\Registry;
+
 
 
 /**
@@ -20,7 +25,7 @@ class Essence {
 	/**
 	 *	A collection of providers to query.
 	 *
-	 *	@var \fg\Essence\ProviderCollection
+	 *	@var fg\Essence\ProviderCollection
 	 */
 
 	protected $_Collection = null;
@@ -30,7 +35,7 @@ class Essence {
 	/**
 	 *	The internal cache engine.
 	 *
-	 *	@var \fg\Essence\Cache
+	 *	@var fg\Essence\Cache
 	 */
 
 	protected $_Cache = null;
@@ -60,7 +65,7 @@ class Essence {
 		$this->_checkEnvironment( );
 
 		$this->_Collection = new ProviderCollection( $providers );
-		$this->_Cache = Utility\Registry::get( 'cache' );
+		$this->_Cache = Registry::get( 'cache' );
 	}
 
 
@@ -71,16 +76,16 @@ class Essence {
 
 	public function _checkEnvironment( ) {
 
-		if ( !Utility\Registry::has( 'cache' )) {
-			Utility\Registry::register( 'cache', new Cache\Volatile( ));
+		if ( !Registry::has( 'cache' )) {
+			Registry::register( 'cache', new Volatile( ));
 		}
 
-		if ( !Utility\Registry::has( 'dom' )) {
-			Utility\Registry::register( 'dom', new Dom\DomDocument( ));
+		if ( !Registry::has( 'dom' )) {
+			Registry::register( 'dom', new DomDocument( ));
 		}
 
-		if ( !Utility\Registry::has( 'http' )) {
-			Utility\Registry::register( 'http', new Http\Curl( ));
+		if ( !Registry::has( 'http' )) {
+			Registry::register( 'http', new Curl( ));
 		}
 	}
 
@@ -129,7 +134,7 @@ class Essence {
 				return array( $source );
 			}
 
-			$source = Utility\Registry::get( 'http' )->get( $source );
+			$source = Registry::get( 'http' )->get( $source );
 		}
 
 		$urls = $this->_extractUrls( $source );
@@ -158,7 +163,7 @@ class Essence {
 
 	protected function _extractUrls( $html ) {
 
-		$attributes = Utility\Registry::get( 'dom' )->extractAttributes(
+		$attributes = Registry::get( 'dom' )->extractAttributes(
 			$html,
 			array(
 				'a' => 'href',

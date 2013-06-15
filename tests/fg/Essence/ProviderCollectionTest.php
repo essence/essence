@@ -7,6 +7,9 @@
 
 namespace fg\Essence;
 
+use fg\Essence\Utility\Package;
+use fg\Essence\Provider\Sushi\Bar;
+
 if ( !defined( 'ESSENCE_BOOTSTRAPPED' )) {
 	require_once dirname( dirname( dirname( __FILE__ )))
 		. DIRECTORY_SEPARATOR . 'bootstrap.php';
@@ -40,7 +43,7 @@ class ProviderCollectionTest extends \PHPUnit_Framework_TestCase {
 
 		$Property = $Reflection->getProperty( '_Package' );
 		$Property->setAccessible( true );
-		$Property->setValue( $this->Collection, new Utility\Package( ESSENCE_PACKAGE ));
+		$Property->setValue( $this->Collection, new Package( ESSENCE_PACKAGE ));
 	}
 
 
@@ -107,7 +110,7 @@ class ProviderCollectionTest extends \PHPUnit_Framework_TestCase {
 
 		$this->assertTrue(
 			in_array(
-				new \fg\Essence\Provider\Sushi\Bar( ),
+				new Bar( ),
 				$this->Collection->providers( 'bar' )
 			)
 		);
