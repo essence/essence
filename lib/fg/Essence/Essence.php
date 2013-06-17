@@ -78,7 +78,7 @@ class Essence {
 
 		$this->_checkEnvironment( );
 
-		$this->_Collection = new ProviderCollection( $providers );
+		$this->_Collection = new ProviderCollection( $providers , $this->_Logger );
 		$this->_Cache = Registry::get( 'cache' );
 	}
 
@@ -266,7 +266,7 @@ class Essence {
 
 		foreach ( $providers as $Provider ) {
 			try {
-			    $this->_Logger->debug( __METHOD__ . ': ' . $url . ' try provider ' . $provider );
+			    $this->_Logger->debug( __METHOD__ . ': ' . $url . ' try provider ' . $Provider );
 				$Media = $Provider->embed( $url, $options );
 				$this->_Logger->info( 'Embed information for: ' . $url . ': ' . var_export( $Media, true ));
 			} catch ( Exception $Exception ) {
