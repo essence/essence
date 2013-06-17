@@ -8,6 +8,8 @@
 namespace fg\Essence;
 
 
+use \Psr\Log\LoggerInterface;
+
 
 /**
  *	A collection of providers which can find the provider of an url.
@@ -38,14 +40,32 @@ class ProviderCollection {
 
 
 	/**
+	 *	An PSR logger (optional)
+	 *
+	 *	@var LoggerInterface
+	 */
+
+	protected $_Logger = array( );
+
+
+	/**
 	 *	Loads the given providers.
 	 *
 	 *	@see load( )
 	 *	@param array $providers An array of provider class names, relative to
 	 *		the 'Provider' folder.
+	 *  @param LoggerInterface $Logger An optional logger that implements the PSR Logger interface
 	 */
 
-	public function __construct( array $providers = array( )) {
+	public function __construct( array $providers = array( ), LoggerInterface $Logger = null ) {
+
+	    if ( $Logger !== null ) {
+	        $this->_Logger = $Logger;
+	    } else {
+	        $this->_Logger = new \Psr\Log\NullLogger();
+	    }
+
+	    $this->_Logger->debug( __METHOD__ . ' Initialize the following providers: ' . implode(', ', $providers) );
 
 		$this->_Package = new Package(
 			dirname( __FILE__ ) . DIRECTORY_SEPARATOR . 'Provider'
@@ -95,7 +115,7 @@ class ProviderCollection {
 			$Reflection = new \ReflectionClass( $className );
 
 			if ( !$Reflection->isAbstract( )) {
-				$Provider = $Reflection->newInstance( $options );
+				$Provider = $Reflection->newInstance( $options, $this->_Logger );
 
 				if ( $Provider->isGeneric( )) {
 					if ( !$excludeGenerics ) {

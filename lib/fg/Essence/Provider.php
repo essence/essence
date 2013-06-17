@@ -8,6 +8,8 @@
 namespace fg\Essence;
 
 
+use \Psr\Log\LoggerInterface;
+
 
 /**
  *	Base class for a Provider.
@@ -78,6 +80,14 @@ abstract class Provider {
 	protected $_defaults = array( );
 
 
+	/**
+	 *	An PSR logger (optional)
+	 *
+	 *	@var LoggerInterface
+	 */
+
+	protected $_Logger = array( );
+
 
 	/**
 	 *	Constructs the Provider with a set of options to configure its behavior.
@@ -85,7 +95,13 @@ abstract class Provider {
 	 *	@param array $options Configuration options.
 	 */
 
-	public function __construct( array $options = array( )) {
+	public function __construct( array $options = array( ), LoggerInterface $Logger ) {
+
+	    if ( $Logger !== null ) {
+	        $this->_Logger = $Logger;
+	    } else {
+	        $this->_Logger = new \Psr\Log\NullLogger();
+	    }
 
 		$this->_options = empty( $options )
 			? $this->_defaults
@@ -170,4 +186,13 @@ abstract class Provider {
 
 	abstract protected function _embed( $url, $options );
 
+
+	/**
+	 *
+	 * @return string
+	 */
+	public function __toString()
+	{
+	    return __CLASS__;
+	}
 }

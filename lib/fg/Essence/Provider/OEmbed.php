@@ -141,9 +141,10 @@ abstract class OEmbed extends \fg\Essence\Provider {
 
 	protected function _embedEndpoint( $endpoint, $format, $options ) {
 
-		$response = \fg\Essence\Registry::get( 'http' )->get(
-			$this->_completeEndpoint( $endpoint, $options )
-		);
+	    $fullUrl = $this->_completeEndpoint( $endpoint, $options );
+	    $this->_Logger->info( __METHOD__ . ' embed request for ' . $fullUrl );
+
+		$response = \fg\Essence\Registry::get( 'http' )->get( $fullUrl );
 
 		switch ( $format ) {
 			case self::json:
@@ -157,6 +158,8 @@ abstract class OEmbed extends \fg\Essence\Provider {
 			default:
 				throw new \fg\Essence\Exception( 'Unsupported format.' );
 		}
+
+		$this->_Logger->debug( __METHOD__ . ' received embed data ' . var_export($data, true) );
 
 		return new \fg\Essence\Media(
 			$data,
