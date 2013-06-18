@@ -312,21 +312,19 @@ class Essence {
 					if ( empty( $template )) {
 						$replacement = $Media->property( 'html' );
 					} else {
-						$replacements = array( );
-
-						foreach ( $Media as $property => $value ) {
-							$replacements["%$property%"] = $value;
-						}
-
-						$replacement = str_replace(
-							array_keys( $replacements ),
-							array_values( $replacements ),
+						$replacement = preg_replace_callback(
+							'#%([\s\S]+?)%#',
+							function( $matches ) use ( &$Media ) {
+								return $Media->has( $matches[ 1 ])
+									? $Media->get( $matches[ 1 ])
+									: '';
+							},
 							$template
 						);
 					}
 				}
 
-				return $matches[1] . $replacement;
+				return $matches[ 1 ] . $replacement;
 			},
 			$text
 		);
