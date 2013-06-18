@@ -23,6 +23,7 @@ class Set {
 	 *	@param array $data The data to be reindexed.
 	 *	@param array $correspondances An array of index correspondances of the
 	 *		form `array( 'currentIndex' => 'newIndex' )`.
+	 *	@return array Reindexed array.
 	 */
 
 	public static function reindex( array $data, array $correspondances ) {
