@@ -74,7 +74,7 @@ class ProviderCollection {
 		$excludeGenerics = false;
 
 		if ( empty( $providers )) {
-			$providers = $this->_Package->classes( array( ), true );
+			$providers = $this->_Package->classes( );
 			$excludeGenerics = true;
 		}
 

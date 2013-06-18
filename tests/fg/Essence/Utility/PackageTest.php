@@ -83,23 +83,6 @@ class PackageTest extends \PHPUnit_Framework_TestCase {
 	 *
 	 */
 
-	public function testClasses( ) {
-
-		$this->assertEquals(
-			array(
-				'Foo',
-				'Generic'
-			),
-			$this->Package->classes( )
-		);
-	}
-
-
-
-	/**
-	 *
-	 */
-
 	public function testClassesRecursive( ) {
 
 		$this->assertEquals(
