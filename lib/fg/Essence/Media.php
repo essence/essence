@@ -178,14 +178,16 @@ class Media implements \IteratorAggregate {
 	 *	Returns the value of the given property.
 	 *
 	 *	@param string $property Property name.
-	 *	@return mixed The property value, or null if the property doesn't exists.
+	 *	@param mixed $default Default value to be returned in case the property
+	 *		doesn't exists.
+	 *	@return mixed The property value, or $default.
 	 */
 
-	public function get( $property ) {
+	public function get( $property, $default = null ) {
 
 		return $this->has( $property )
 			? $this->properties[ $property ]
-			: null;
+			: $default;
 	}
 
 
@@ -197,7 +199,7 @@ class Media implements \IteratorAggregate {
 	 *	@deprecated Since 1.4.2.
 	 */
 
-	public function property( $property ) {
+	public function property( $property, $default = null ) {
 
 		return $this->get( $property );
 	}
