@@ -8,6 +8,7 @@
 namespace fg\Essence;
 
 use fg\Essence\Utility\Package;
+use fg\Essence\Utility\Set;
 
 
 
@@ -77,14 +78,10 @@ class ProviderCollection {
 			$excludeGenerics = true;
 		}
 
+		$providers = Set::normalize( $providers, array( ));
 		$this->_providers = array( );
 
 		foreach ( $providers as $name => $options ) {
-			if ( is_int( $name )) {
-				$name = $options;
-				$options = array( );
-			}
-
 			// check if the given provider name start with a slash
 			// if the first char is a slash a FQCN is given
 			// otherwise we need to transform it into a FQCN relative to the Essence buildin providers namespace

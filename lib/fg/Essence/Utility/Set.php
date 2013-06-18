@@ -38,4 +38,35 @@ class Set {
 
 		return $result;
 	}
+
+
+
+	/**
+	 *	Every element that is numerically indexed becomes a key, given
+	 *	$default as value.
+	 *
+	 *	@param array $data The array to normalize.
+	 *	@param string $default Default value.
+	 *	@return array The normalized array.
+	 */
+
+	public static function normalize( $data, $default ) {
+
+		if ( is_string( $data )) {
+			return array( $data => $default );
+		}
+
+		$normalized = array( );
+
+		foreach ( $data as $key => $value ) {
+			if ( is_numeric( $key )) {
+				$key = $value;
+				$value = $default;
+			}
+
+			$normalized[ $key ] = $value;
+		}
+
+		return $normalized;
+	}
 }

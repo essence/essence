@@ -36,4 +36,31 @@ class SetTest {
 			$data
 		);
 	}
+
+
+
+	/**
+	 *
+	 */
+
+	public function testNormalize( ) {
+
+		$data = Set::normalize(
+			array(
+				'one',
+				'two' => 'three',
+				'four'
+			),
+			'default'
+		);
+
+		$this->assertEquals(
+			array(
+				'one' => 'default',
+				'two' => 'three',
+				'four' => 'default'
+			),
+			$data
+		);
+	}
 }
