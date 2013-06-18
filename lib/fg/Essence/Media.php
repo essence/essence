@@ -201,7 +201,7 @@ class Media implements \IteratorAggregate {
 
 	public function property( $property, $default = null ) {
 
-		return $this->get( $property );
+		return $this->get( $property, $default );
 	}
 
 
