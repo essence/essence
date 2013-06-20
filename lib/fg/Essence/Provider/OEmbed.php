@@ -146,6 +146,8 @@ abstract class OEmbed extends \fg\Essence\Provider {
 
 		$response = \fg\Essence\Registry::get( 'http' )->get( $fullUrl );
 
+		$this->_Logger->info( __METHOD__ . ' result from url ' . $fullUrl, array( 'response' => $response ));
+
 		switch ( $format ) {
 			case self::json:
 				$data = $this->_parseJson( $response );
