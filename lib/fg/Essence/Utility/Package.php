@@ -5,14 +5,14 @@
  *	@license FreeBSD License (http://opensource.org/licenses/BSD-2-Clause)
  */
 
-namespace fg\Essence;
+namespace fg\Essence\Utility;
 
 
 
 /**
  *	Represents a package.
  *
- *	@package fg.Essence
+ *	@package fg.Essence.Utility
  */
 
 class Package {
@@ -82,16 +82,15 @@ class Package {
 
 
 	/**
-	 *	Scans the directory and returns the classes it contains.
+	 *	Scans the directory recursively and returns the classes it contains.
 	 *
 	 *	@note This method doesn't deal with symlinks.
-	 *	@param boolean $recursive Whether or not to search recursively.
 	 *	@param array $packages Sub packages in which to search for, relatively
 	 *		to the base package path.
 	 *	@return array An array of directory and/or file paths.
 	 */
 
-	public function classes( array $packages = array( ), $recursive = false ) {
+	public function classes( array $packages = array( )) {
 
 		$classes = array( );
 		$searchPath = empty( $packages )
@@ -107,14 +106,13 @@ class Package {
 				$parts[ ] = basename( $entry, '.php' );
 
 				if (
-					$recursive
-					&& is_dir( $path )
+					is_dir( $path )
 					&& ( $entry != '.' )
 					&& ( $entry != '..' )
 				) {
 					$classes = array_merge(
 						$classes,
-						$this->classes( $parts, $recursive )
+						$this->classes( $parts )
 					);
 				}
 

@@ -7,6 +7,11 @@
 
 namespace fg\Essence\Provider;
 
+use fg\Essence\Exception;
+use fg\Essence\Media;
+use fg\Essence\Provider;
+use fg\Essence\Utility\Registry;
+use fg\Essence\Utility\Set;
 
 
 /**
@@ -16,7 +21,7 @@ namespace fg\Essence\Provider;
  *	@package fg.Essence.Provider
  */
 
-abstract class OEmbed extends \fg\Essence\Provider {
+abstract class OEmbed extends Provider {
 
 	/**
 	 *	JSON response format.
@@ -156,22 +161,23 @@ abstract class OEmbed extends \fg\Essence\Provider {
 				break;
 
 			default:
-				throw new \fg\Essence\Exception( 'Unsupported format.' );
+				throw new Exception( 'Unsupported format.' );
 		}
 
 		$this->_Logger->debug( __METHOD__ . ' received embed data ' . var_export($data, true) );
-
-		return new \fg\Essence\Media(
-			$data,
-			array(
-				'author_name' => 'authorName',
-				'author_url' => 'authorUrl',
-				'provider_name' => 'providerName',
-				'provider_url' => 'providerUrl',
-				'cache_age' => 'cacheAge',
-				'thumbnail_url' => 'thumbnailUrl',
-				'thumbnail_width' => 'thumbnailWidth',
-				'thumbnail_height' => 'thumbnailHeight',
+		return new Media(
+			Set::reindex(
+				$data,
+				array(
+					'author_name' => 'authorName',
+					'author_url' => 'authorUrl',
+					'provider_name' => 'providerName',
+					'provider_url' => 'providerUrl',
+					'cache_age' => 'cacheAge',
+					'thumbnail_url' => 'thumbnailUrl',
+					'thumbnail_width' => 'thumbnailWidth',
+					'thumbnail_height' => 'thumbnailHeight',
+				)
 			)
 		);
 	}
@@ -219,7 +225,7 @@ abstract class OEmbed extends \fg\Essence\Provider {
 		$data = json_decode( $json, true );
 
 		if ( $data === null ) {
-			throw new \fg\Essence\Exception(
+			throw new Exception(
 				'Error parsing JSON response: '
 				. $this->_jsonErrors[ json_last_error( )]
 				. '.'

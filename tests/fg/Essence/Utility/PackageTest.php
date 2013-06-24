@@ -5,10 +5,10 @@
  *	@license FreeBSD License (http://opensource.org/licenses/BSD-2-Clause)
  */
 
-namespace fg\Essence;
+namespace fg\Essence\Utility;
 
 if ( !defined( 'ESSENCE_BOOTSTRAPPED' )) {
-	require_once dirname( dirname( dirname( __FILE__ )))
+	require_once dirname( dirname( dirname( dirname( __FILE__ ))))
 		. DIRECTORY_SEPARATOR . 'bootstrap.php';
 }
 
@@ -75,23 +75,6 @@ class PackageTest extends \PHPUnit_Framework_TestCase {
 
 		$Package = new Package( 'foo', '\\' );
 		$this->assertEquals( '\\', $Package->separator( ));
-	}
-
-
-
-	/**
-	 *
-	 */
-
-	public function testClasses( ) {
-
-		$this->assertEquals(
-			array(
-				'Foo',
-				'Generic'
-			),
-			$this->Package->classes( )
-		);
 	}
 
 

@@ -15,7 +15,7 @@ namespace fg\Essence\Cache;
  *	@package fg.Essence.Cache
  */
 
-class Null implements \fg\Essence\Cache {
+class Null implements Cache {
 
 	/**
 	 *	{@inheritDoc}

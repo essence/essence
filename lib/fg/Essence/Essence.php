@@ -7,8 +7,13 @@
 
 namespace fg\Essence;
 
+use fg\Essence\Cache\Volatile;
+use fg\Essence\Dom\DomDocument;
+use fg\Essence\Http\Curl;
+use fg\Essence\Utility\Registry;
 
 use \Psr\Log\LoggerInterface;
+
 
 
 /**
@@ -22,7 +27,7 @@ class Essence {
 	/**
 	 *	A collection of providers to query.
 	 *
-	 *	@var \fg\Essence\ProviderCollection
+	 *	@var fg\Essence\ProviderCollection
 	 */
 
 	protected $_Collection = null;
@@ -32,7 +37,7 @@ class Essence {
 	/**
 	 *	The internal cache engine.
 	 *
-	 *	@var \fg\Essence\Cache
+	 *	@var fg\Essence\Cache
 	 */
 
 	protected $_Cache = null;
@@ -78,7 +83,7 @@ class Essence {
 
 		$this->_checkEnvironment( );
 
-		$this->_Collection = new ProviderCollection( $providers , $this->_Logger );
+		$this->_Collection = new ProviderCollection( $providers );
 		$this->_Cache = Registry::get( 'cache' );
 	}
 
@@ -91,18 +96,18 @@ class Essence {
 	public function _checkEnvironment( ) {
 
 		if ( !Registry::has( 'cache' )) {
-	        $this->_Logger->debug( __METHOD__ . ': Register Cache\Volatile as cache' );
-			Registry::register( 'cache', new Cache\Volatile( ));
+			$this->_Logger->debug( __METHOD__ . ': Register Cache\Volatile as cache' );
+			Registry::register( 'cache', new Volatile( ));
 		}
 
 		if ( !Registry::has( 'dom' )) {
-	        $this->_Logger->debug( __METHOD__ . ': Register Dom\DomDocument as dom' );
-			Registry::register( 'dom', new Dom\DomDocument( ));
+			$this->_Logger->debug( __METHOD__ . ': Register Dom\DomDocument as dom' );
+			Registry::register( 'dom', new DomDocument( ));
 		}
 
 		if ( !Registry::has( 'http' )) {
-	        $this->_Logger->debug( __METHOD__ . ': Register Http\Curl as http ' );
-			Registry::register( 'http', new Http\Curl( ));
+			$this->_Logger->debug( __METHOD__ . ': Register Http\Curl as http ' );
+			Registry::register( 'http', new Curl( ));
 		}
 	}
 
@@ -148,10 +153,10 @@ class Essence {
 	protected function _extract( $source ) {
 
 		if ( filter_var( $source, FILTER_VALIDATE_URL )) {
-		    $this->_Logger->debug( __METHOD__ . ' is valid url ' . $source . ' try to handle direct by provider' );
+			$this->_Logger->debug( __METHOD__ . ' is valid url ' . $source . ' try to handle direct by provider' );
 			// if a provider can directly handle the URL, there is no more work to do.
 			if ( $this->_Collection->hasProvider( $source )) {
-			    $this->_Logger->debug( __METHOD__ . ' at least one provider can handle this URL return URL direct' );
+				$this->_Logger->debug( __METHOD__ . ' at least one provider can handle this URL return URL direct' );
 				return array( $source );
 			}
 
@@ -163,12 +168,12 @@ class Essence {
 		$embeddable = array( );
 
 		foreach ( $urls as $url ) {
-		    $this->debug( __METHOD__ . ': found URL in source ' . $url );
+			$this->debug( __METHOD__ . ': found URL in source ' . $url );
 			if (
 				$this->_Collection->hasProvider( $url )
 				&& !in_array( $url, $embeddable )
 			) {
-			    $this->debug( __METHOD__ . ': found provider for URL ' . $url );
+				$this->debug( __METHOD__ . ': found provider for URL ' . $url );
 				$embeddable[ ] = $url;
 			}
 		}
@@ -235,12 +240,12 @@ class Essence {
 		$cached = $this->_Cache->get( $key );
 
 		if ( $cached !== null ) {
-		    $this->_Logger->debug( __METHOD__ . ': ' . $url . ' from cache ', array('result' => $cached));
+			$this->_Logger->debug( __METHOD__ . ': ' . $url . ' from cache ', array('result' => $cached));
 			return $cached;
 		}
 
 		try {
-		    $this->_Logger->debug( __METHOD__ . ': ' . $url . ' not found in cache' );
+			$this->_Logger->debug( __METHOD__ . ': ' . $url . ' not found in cache' );
 			$Media = $this->_embed( $url, $options );
 		} catch ( Exception $Exception ) {
 			$this->_log( $Exception );
@@ -266,7 +271,7 @@ class Essence {
 
 		foreach ( $providers as $Provider ) {
 			try {
-			    $this->_Logger->debug( __METHOD__ . ': ' . $url . ' try provider ' . $Provider );
+				$this->_Logger->debug( __METHOD__ . ': ' . $url . ' try provider ' . $Provider );
 				$Media = $Provider->embed( $url, $options );
 				$this->_Logger->info( 'Embed information for: ' . $url . ': ' . var_export( $Media, true ));
 			} catch ( Exception $Exception ) {
@@ -324,39 +329,38 @@ class Essence {
 	 *
 	 *	@param string $text Text in which to replace URLs.
 	 *	@param string $template Replacement template.
+	 *	@param array $options Custom options to be interpreted by a provider.
 	 *	@return string Text with replaced URLs.
 	 */
 
-	public function replace( $text, $template = '' ) {
+	public function replace( $text, $template = '', array $options = array( )) {
 
 		$Essence = $this;
 
 		return preg_replace_callback(
 			// http://daringfireball.net/2009/11/liberal_regex_for_matching_urls
 			'#(\s)(([\w-]+://?|www[.])[^\s()<>]+(?:\([\w\d]+\)|([^[:punct:]\s]|/)))#i',
-			function ( $matches ) use ( &$Essence, $template ) {
-				$Media = $Essence->embed( $matches[ 2 ]);
+			function ( $matches ) use ( &$Essence, $template, $options ) {
+				$Media = $Essence->embed( $matches[ 2 ], $options );
 				$replacement = '';
 
 				if ( $Media !== null ) {
 					if ( empty( $template )) {
 						$replacement = $Media->property( 'html' );
 					} else {
-						$replacements = array( );
-
-						foreach ( $Media as $property => $value ) {
-							$replacements["%$property%"] = $value;
-						}
-
-						$replacement = str_replace(
-							array_keys( $replacements ),
-							array_values( $replacements ),
+						$replacement = preg_replace_callback(
+							'#%([\s\S]+?)%#',
+							function( $matches ) use ( &$Media ) {
+								return $Media->has( $matches[ 1 ])
+									? $Media->get( $matches[ 1 ])
+									: '';
+							},
 							$template
 						);
 					}
 				}
 
-				return $matches[1] . $replacement;
+				return $matches[ 1 ] . $replacement;
 			},
 			$text
 		);
