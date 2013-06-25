@@ -57,7 +57,6 @@ abstract class OpenGraph extends Provider {
 
 		$og = $this->_extractInformations( $url );
 
-
 		if ( empty( $og )) {
 			throw new Exception(
 				'Unable to extract OpenGraph data.'
@@ -122,7 +121,6 @@ abstract class OpenGraph extends Provider {
 		}
 
 		$this->_Cache->set( $url, $og );
-
 		return $og;
 	}
 
@@ -142,9 +140,20 @@ abstract class OpenGraph extends Provider {
 		$html = '';
 
 		if ( isset( $og['og:video'])) {
-			$html = '<iframe src="' . $og['og:video'] . '" alt="' . $title . '" width="' . ( $og['og:video:width'] ?: '560' ) . '" height="' . ( $og['og:video:height'] ?: '315' ) . '" frameborder="0" allowfullscreen mozallowfullscreen webkitallowfullscreen></iframe>';
+			$html = sprintf(
+				'<iframe src="%s" alt="%s" width="%s" height="%s" frameborder="0" allowfullscreen mozallowfullscreen webkitallowfullscreen></iframe>',
+				$og['og:video'],
+				$title,
+				$og['og:video:width'] ?: '560',
+				$og['og:video:height'] ?: '315'
+			)
 		} else {
-			$html = '<a href="' . ( $og['og:url'] ?: $url ) . '" alt="' . $title . '">' . $title . '</a>';
+			$html = sprintf(
+				'<a href="%s" alt="%s">%s</a>',
+				$og['og:url'] ?: $url,
+				$title,
+				$title
+			);
 		}
 
 		return $html;
