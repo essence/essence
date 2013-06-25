@@ -136,21 +136,29 @@ abstract class OpenGraph extends Provider {
 
 	protected function _buildHtml( $og, $url ) {
 
-		$title = $og['og:title'] ?: '';
 		$html = '';
+		$title = isset( $og['og:title'])
+			? $og['og:title']
+			: '';
 
 		if ( isset( $og['og:video'])) {
 			$html = sprintf(
 				'<iframe src="%s" alt="%s" width="%s" height="%s" frameborder="0" allowfullscreen mozallowfullscreen webkitallowfullscreen></iframe>',
 				$og['og:video'],
 				$title,
-				$og['og:video:width'] ?: '560',
-				$og['og:video:height'] ?: '315'
+				isset( $og['og:video:width'])
+					? $og['og:video:width']
+					: 560,
+				isset( $og['og:video:height'])
+					? $og['og:video:height']
+					: 315
 			);
 		} else {
 			$html = sprintf(
 				'<a href="%s" alt="%s">%s</a>',
-				$og['og:url'] ?: $url,
+				isset( $og['og:url'])
+					? $og['og:url']
+					: $url,
 				$title,
 				$title
 			);
