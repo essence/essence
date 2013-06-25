@@ -294,18 +294,19 @@ class Essence {
 	 *
 	 *	@param string $text Text in which to replace URLs.
 	 *	@param string $template Replacement template.
+	 *	@param array $options Custom options to be interpreted by a provider.
 	 *	@return string Text with replaced URLs.
 	 */
 
-	public function replace( $text, $template = '' ) {
+	public function replace( $text, $template = '', array $options = array( )) {
 
 		$Essence = $this;
 
 		return preg_replace_callback(
 			// http://daringfireball.net/2009/11/liberal_regex_for_matching_urls
 			'#(\s)(([\w-]+://?|www[.])[^\s()<>]+(?:\([\w\d]+\)|([^[:punct:]\s]|/)))#i',
-			function ( $matches ) use ( &$Essence, $template ) {
-				$Media = $Essence->embed( $matches[ 2 ]);
+			function ( $matches ) use ( &$Essence, $template, $options ) {
+				$Media = $Essence->embed( $matches[ 2 ], $options );
 				$replacement = '';
 
 				if ( $Media !== null ) {

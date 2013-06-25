@@ -55,7 +55,7 @@ What you get
 With Essence, you will mainly interact with Media objects.
 Media is a simple container for all the informations that are fetched from an URL.
 
-Here is the default properties it provides:
+Here are the default properties it provides:
 
 * type
 * version
