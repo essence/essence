@@ -146,7 +146,7 @@ abstract class OpenGraph extends Provider {
 				$title,
 				$og['og:video:width'] ?: '560',
 				$og['og:video:height'] ?: '315'
-			)
+			);
 		} else {
 			$html = sprintf(
 				'<a href="%s" alt="%s">%s</a>',
