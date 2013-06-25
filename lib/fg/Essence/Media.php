@@ -104,11 +104,7 @@ class Media implements \IteratorAggregate {
 
 	public function __construct( array $properties ) {
 
-		if ( !empty( $correspondances )) {
-			$properties = $this->_reindex( $properties, $correspondances );
-		}
-
-		$this->properties = $properties;
+		$this->properties = array_merge( $this->properties, $properties );
 	}
 
 
