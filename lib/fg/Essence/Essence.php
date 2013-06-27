@@ -163,27 +163,19 @@ class Essence {
 
 	protected function _extractUrls( $html ) {
 
-		$attributes = Registry::get( 'dom' )->extractAttributes(
-			$html,
-			array(
-				'a' => 'href',
-				'embed' => 'src',
-				'iframe' => 'src'
-			)
+		$options = array(
+			'a' => 'href',
+			'embed' => 'src',
+			'iframe' => 'src'
 		);
 
+		$attributes = Registry::get( 'dom' )->extractAttributes( $html, $options );
 		$urls = array( );
 
-		foreach ( $attributes['a'] as $a ) {
-			$urls[ ] = $a['href'];
-		}
-
-		foreach ( $attributes['embed'] as $embed ) {
-			$urls[ ] = $embed['src'];
-		}
-
-		foreach ( $attributes['iframe'] as $iframe ) {
-			$urls[ ] = $iframe['src'];
+		foreach ( $options as $tagName => $attributeName ) {
+			foreach ( $attributes[ $tagName ] as $tag ) {
+				$urls[ ] = $tag[ $attributeName ];
+			}
 		}
 
 		return $urls;
