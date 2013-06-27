@@ -303,10 +303,18 @@ class Essence {
 		$Essence = $this;
 
 		return preg_replace_callback(
-			// http://daringfireball.net/2009/11/liberal_regex_for_matching_urls
-			'#(\s)(([\w-]+://?|www[.])[^\s()<>]+(?:\([\w\d]+\)|([^[:punct:]\s]|/)))#i',
+			// http://daringfireball.net/2010/07/improved_regex_for_matching_urls
+			'#(?<lead>.)?(?<url>(?:https?://|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:\'"\.,<>?«»“”‘’]))#i',
 			function ( $matches ) use ( &$Essence, $template, $options ) {
-				$Media = $Essence->embed( $matches[ 2 ], $options );
+
+				// if the character preceding the URL is a quote, then it is
+				// probably inside a tag attribute, and we don't want to
+				// replace those ones.
+				if ( $matches['lead'] === '"' ) {
+					return $matches[ 0 ];
+				}
+
+				$Media = $Essence->embed( $matches['url'], $options );
 				$replacement = '';
 
 				if ( $Media !== null ) {
@@ -314,16 +322,16 @@ class Essence {
 						$replacement = $Media->get( 'html', '' );
 					} else {
 						$replacement = preg_replace_callback(
-							'#%([\s\S]+?)%#',
-							function( $matches ) use ( &$Media ) {
-								return $Media->get( $matches[ 1 ], '' );
+							'#%(?<property>[\s\S]+?)%#',
+							function( $m ) use ( &$Media ) {
+								return $Media->get( $m['property'], '' );
 							},
 							$template
 						);
 					}
 				}
 
-				return $matches[ 1 ] . $replacement;
+				return $matches['lead'] . $replacement;
 			},
 			$text
 		);

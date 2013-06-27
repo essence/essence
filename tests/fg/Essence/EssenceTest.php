@@ -215,15 +215,57 @@ HTML;
 	public function testReplace( ) {
 
 		$Provider = new TestableProvider( );
-		$Provider->mediaProperties = array( 'html' => '<div></div>' );
+		$Provider->mediaProperties = array( 'html' => 'HTML' );
 
 		$this->Collection->expects( $this->any( ))
 			->method( 'providers' )
 			->will( $this->returnValue( array( $Provider )));
 
 		$this->assertEquals(
-			'foo <div></div> bar',
+			'foo HTML bar',
 			$this->Essence->replace( 'foo http://www.example.com bar' )
+		);
+	}
+
+
+
+	/**
+	 *
+	 */
+
+	public function testReplaceSingleUrl( ) {
+
+		$Provider = new TestableProvider( );
+		$Provider->mediaProperties = array( 'html' => 'HTML' );
+
+		$this->Collection->expects( $this->any( ))
+			->method( 'providers' )
+			->will( $this->returnValue( array( $Provider )));
+
+		$this->assertEquals(
+			'HTML',
+			$this->Essence->replace( 'http://www.example.com' )
+		);
+	}
+
+
+
+	/**
+	 *
+	 */
+
+	public function testReplaceTagSurroundedUrl( ) {
+
+		$Provider = new TestableProvider( );
+		$Provider->mediaProperties = array( 'html' => 'HTML' );
+
+		$this->Collection->expects( $this->any( ))
+			->method( 'providers' )
+			->will( $this->returnValue( array( $Provider )));
+
+		$this->assertEquals(
+			'<span>HTML</span>',
+			$this->Essence->replace( '<span>http://www.example.com</span>' )
 		);
 	}
 
@@ -257,7 +299,6 @@ HTML;
 	public function testDontReplaceLinks( ) {
 
 		$Provider = new TestableProvider( );
-		$Provider->mediaProperties = array( 'html' => '<div></div>' );
 
 		$this->Collection->expects( $this->any( ))
 			->method( 'providers' )
