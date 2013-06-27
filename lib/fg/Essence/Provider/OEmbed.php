@@ -149,7 +149,7 @@ abstract class OEmbed extends Provider {
 	    $fullUrl = $this->_completeEndpoint( $endpoint, $options );
 	    $this->_Logger->info( __METHOD__ . ' embed request for ' . $fullUrl );
 
-		$response = \fg\Essence\Registry::get( 'http' )->get( $fullUrl );
+		$response = Registry::get( 'http' )->get( $fullUrl );
 
 		$this->_Logger->info( __METHOD__ . ' result from url ' . $fullUrl, array( 'response' => $response ));
 
