@@ -71,27 +71,18 @@ class ProviderCollection {
 
 	public function load( array $providers = array( )) {
 
-		$excludeGenerics = false;
+		$excludeGenerics = empty( $providers );
 
-		if ( empty( $providers )) {
+		if ( $excludeGenerics ) {
 			$providers = $this->_Package->classes( );
-			$excludeGenerics = true;
 		}
 
 		$providers = Set::normalize( $providers, array( ));
-		$this->_providers = array( );
 
 		foreach ( $providers as $name => $options ) {
-			// check if the given provider name start with a slash
-			// if the first char is a slash a FQCN is given
-			// otherwise we need to transform it into a FQCN relative to the Essence buildin providers namespace
-			if ( substr($name, 0, 1) === '\\' ) {
-			    $className = $name;
-			} else {
-			    $className = '\\fg\\Essence\\Provider\\' . str_replace( '/', '\\', $name );
-			}
-
-			$Reflection = new \ReflectionClass( $className );
+			$Reflection = new \ReflectionClass(
+				$this->_fullyQualified( $name )
+			);
 
 			if ( !$Reflection->isAbstract( )) {
 				$Provider = $Reflection->newInstance( $options );
@@ -107,6 +98,23 @@ class ProviderCollection {
 				}
 			}
 		}
+	}
+
+
+
+	/**
+	 *	Returns the fully qualified class name (FQCN) for the given provider
+	 *	name. If the name happens to be a FQCN, it is returned as is.
+	 *
+	 *	@param string $name Provider name.
+	 *	@param string FQCN.
+	 */
+
+	protected function _fullyQualified( $name ) {
+
+		return ( $name[ 0 ] !== '\\' )
+			? '\\fg\\Essence\\Provider\\' . str_replace( '/', '\\', $name )
+			: $name;
 	}
 
 
