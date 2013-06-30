@@ -282,3 +282,24 @@ Third-party libraries
 * CakePHP plugin: https://github.com/felixgirault/cakephp-essence
 * Demo framework by Sean Steindl: https://github.com/laughingwithu/Essence_demo
 * Symfony bundle by Ka Yue Yeung: https://github.com/kayue/KayueEssenceBundle
+
+If you're interested in embedding videos, you should take a look at the [Multiplayer](https://github.com/felixgirault/multiplayer) lib.
+It allows you to build customizable embed codes painlessly:
+
+```php
+<?php
+
+$Multiplayer = new fg\Multiplayer\Multiplayer( );
+
+if ( $Media->type === 'video' ) {
+	echo $Multiplayer->html(
+		$Media->url,
+		array(
+			'autoPlay' => true,
+			'highlightColor' => 'BADA55'
+		)
+	);
+}
+
+?>
+```
