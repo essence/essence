@@ -179,7 +179,7 @@ class Media implements \IteratorAggregate {
 	 *	@return mixed The property value, or $default.
 	 */
 
-	public function get( $property, $default = null ) {
+	public function get( $property, $default = '' ) {
 
 		return $this->has( $property )
 			? $this->properties[ $property ]
@@ -195,7 +195,7 @@ class Media implements \IteratorAggregate {
 	 *	@deprecated Since 1.4.2.
 	 */
 
-	public function property( $property, $default = null ) {
+	public function property( $property, $default = '' ) {
 
 		return $this->get( $property, $default );
 	}

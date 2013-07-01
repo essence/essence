@@ -171,7 +171,7 @@ class MediaTest extends \PHPUnit_Framework_TestCase {
 
 	public function testGetUnknown( ) {
 
-		$this->assertNull( $this->Media->get( 'unknown' ));
+		$this->assertEmpty( $this->Media->get( 'unknown' ));
 	}
 
 

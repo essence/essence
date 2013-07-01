@@ -311,12 +311,12 @@ class Essence {
 
 				if ( $Media !== null ) {
 					if ( empty( $template )) {
-						$replacement = $Media->get( 'html', '' );
+						$replacement = $Media->get( 'html' );
 					} else {
 						$replacement = preg_replace_callback(
 							'#%(?<property>[\s\S]+?)%#',
 							function( $m ) use ( &$Media ) {
-								return $Media->get( $m['property'], '' );
+								return $Media->get( $m['property']);
 							},
 							$template
 						);
