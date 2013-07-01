@@ -16,14 +16,6 @@ class Bar extends Provider {
 	 *	{@inheritDoc}
 	 */
 
-	protected $_pattern = '#^bar$#';
-
-
-
-	/**
-	 *	{@inheritDoc}
-	 */
-
 	protected function _embed( $url, $options ) { }
 
 }

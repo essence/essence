@@ -34,35 +34,11 @@ class DailymotionTest extends \PHPUnit_Framework_TestCase {
 
 	public function setUp( ) {
 
-		$this->Dailymotion = new Dailymotion( );
-
-		$Reflection = new \ReflectionClass( '\\fg\\Essence\\Provider\\OEmbed\\Dailymotion' );
-
-		$Property = $Reflection->getProperty( '_endpoint' );
-		$Property->setAccessible( true );
-		$Property->setValue( $this->Dailymotion, 'file://' . ESSENCE_HTTP . '%s.json' );
-	}
-
-
-
-	/**
-	 *
-	 */
-
-	public function testCanEmbed( ) {
-
-		$this->assertTrue( $this->Dailymotion->canEmbed( 'http://www.dailymotion.com/video/xlyy09_very-bad-blagues-le-premier-p-tit-dej_fun' ));
-	}
-
-
-
-	/**
-	 *
-	 */
-
-	public function testCantEmbed( ) {
-
-		$this->assertFalse( $this->Dailymotion->canEmbed( 'http://www.youtube.com/watch?v=HgKXN_Uw2ME' ));
+		$this->Dailymotion = new Dailymotion(
+			array(
+				'endpoint' => 'file://' . ESSENCE_HTTP . '%s.json'
+			)
+		);
 	}
 
 

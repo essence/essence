@@ -18,37 +18,6 @@ namespace fg\Essence;
 abstract class Provider {
 
 	/**
-	 *	A regular expression that doesn't match anything.
-	 *
-	 *	@var string
-	 */
-
-	const nothing = '#(?=a)b#';
-
-
-
-	/**
-	 *	A regular expression that matches anything.
-	 *
-	 *	@var string
-	 */
-
-	const anything = '#.*#';
-
-
-
-	/**
-	 *	A regular expression used to determine if an URL can be handled by the
-	 *	provider.
-	 *
-	 *	@var string
-	 */
-
-	protected $_pattern = self::nothing;
-
-
-
-	/**
 	 *	Tells if the provider is generic.
 	 *
 	 *	@var boolean
@@ -70,16 +39,6 @@ abstract class Provider {
 
 
 	/**
-	 *	Default options to be merged with the ones given to the constructor.
-	 *
-	 *	@var array
-	 */
-
-	protected $_defaults = array( );
-
-
-
-	/**
 	 *	Constructs the Provider with a set of options to configure its behavior.
 	 *
 	 *	@param array $options Configuration options.
@@ -87,9 +46,9 @@ abstract class Provider {
 
 	public function __construct( array $options = array( )) {
 
-		$this->_options = empty( $options )
-			? $this->_defaults
-			: array_merge( $this->_defaults, $options );
+		if ( !empty( $options )) {
+			$this->_options = array_merge( $this->_options, $options );
+		}
 	}
 
 
@@ -104,19 +63,6 @@ abstract class Provider {
 	public function isGeneric( ) {
 
 		return $this->_generic;
-	}
-
-
-
-	/**
-	 *	Tells if the provider can fetch embed informations from the given URL.
-	 *
-	 *	@param string $url URL to fetch informations from.
-	 */
-
-	public function canEmbed( $url ) {
-
-		return ( boolean ) preg_match( $this->_pattern, $url );
 	}
 
 

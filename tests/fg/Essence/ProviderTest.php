@@ -21,14 +21,6 @@ if ( !defined( 'ESSENCE_BOOTSTRAPPED' )) {
 class ConcreteProvider extends Provider {
 
 	/**
-	 *	{@inheritDoc}
-	 */
-
-	protected $_pattern = '#[a-z]+#';
-
-
-
-	/**
 	 *
 	 */
 
@@ -61,28 +53,6 @@ class ProviderTest extends \PHPUnit_Framework_TestCase {
 	public function setup( ) {
 
 		$this->Provider = new ConcreteProvider( );
-	}
-
-
-
-	/**
-	 *
-	 */
-
-	public function testCanEmbed( ) {
-
-		$this->assertTrue( $this->Provider->canEmbed( 'abc' ));
-	}
-
-
-
-	/**
-	 *
-	 */
-
-	public function testCantEmbed( ) {
-
-		$this->assertFalse( $this->Provider->canEmbed( '123' ));
 	}
 
 

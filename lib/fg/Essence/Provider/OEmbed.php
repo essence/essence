@@ -22,7 +22,7 @@ use fg\Essence\Utility\Set;
  *	@package fg.Essence.Provider
  */
 
-abstract class OEmbed extends Provider {
+class OEmbed extends Provider {
 
 	/**
 	 *	JSON response format.
@@ -45,22 +45,16 @@ abstract class OEmbed extends Provider {
 
 
 	/**
-	 *	The expected response format.
+	 *	### Options
 	 *
-	 *	@param string
+	 *	- 'endpoint' string The OEmbed endpoint.
+	 *	- 'format' string The expected response format.
 	 */
 
-	protected $_format = self::json;
-
-
-
-	/**
-	 *	The OEmbed endpoint.
-	 *
-	 *	@param string
-	 */
-
-	protected $_endpoint = '';
+	protected $_options = array(
+		'endpoint' => '',
+		'format' => self::json
+	);
 
 
 
@@ -129,8 +123,8 @@ abstract class OEmbed extends Provider {
 	protected function _embed( $url, $options ) {
 
 		return $this->_embedEndpoint(
-			sprintf( $this->_endpoint, urlencode( $url )),
-			$this->_format,
+			sprintf( $this->_options['endpoint'], urlencode( $url )),
+			$this->_options['format'],
 			$options
 		);
 	}
@@ -249,7 +243,7 @@ abstract class OEmbed extends Provider {
 		$data = array( );
 		$it = new \SimpleXmlIterator( $xml, null );
 
-		foreach( $it as $key => $value ) {
+		foreach ( $it as $key => $value ) {
 			$data[ $key ] = strval( $value );
 		}
 

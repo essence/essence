@@ -34,12 +34,11 @@ class VimeoTest extends \PHPUnit_Framework_TestCase {
 
 	public function setUp( ) {
 
-		$this->Vimeo = new Vimeo( );
-		$Reflection = new \ReflectionClass( '\\fg\\Essence\\Provider\\OEmbed\\Vimeo' );
-
-		$Property = $Reflection->getProperty( '_endpoint' );
-		$Property->setAccessible( true );
-		$Property->setValue( $this->Vimeo, 'file://' . ESSENCE_HTTP . '%s.json' );
+		$this->Vimeo = new Vimeo(
+			array(
+				'endpoint' => 'file://' . ESSENCE_HTTP . '%s.json'
+			)
+		);
 	}
 
 

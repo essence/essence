@@ -37,52 +37,18 @@ class ProviderCollectionTest extends \PHPUnit_Framework_TestCase {
 
 	public function setUp( ) {
 
-		$this->Collection = new ProviderCollection( );
-
-		$Reflection = new \ReflectionClass( '\\fg\\Essence\\ProviderCollection' );
-
-		$Property = $Reflection->getProperty( '_Package' );
-		$Property->setAccessible( true );
-		$Property->setValue( $this->Collection, new Package( ESSENCE_PACKAGE ));
-	}
-
-
-
-	/**
-	 *
-	 */
-
-	public function testLoadAll( ) {
-
-		$this->Collection->load( );
-
-		$this->assertAttributeNotEmpty( '_providers', $this->Collection );
-	}
-
-
-
-	/**
-	 *
-	 */
-
-	public function testLoad( ) {
-
-		$this->Collection->load( array( 'Foo' ));
-
-		$this->assertTrue( $this->Collection->hasProvider( 'foo' ));
-	}
-
-
-
-	/**
-	 *
-	 */
-
-	public function testLoadUndefined( ) {
-
-		$this->setExpectedException( '\\ReflectionException' );
-
-		$this->Collection->load( array( 'Undefined' ));
+		$this->Collection = new ProviderCollection(
+			array(
+				'Foo' => array(
+					'class' => 'Foo',
+					'pattern' => '#^foo$#'
+				),
+				'Bar' => array(
+					'class' => 'Sushi/Bar',
+					'pattern' => '#^bar$#'
+				)
+			)
+		);
 	}
 
 
@@ -93,9 +59,7 @@ class ProviderCollectionTest extends \PHPUnit_Framework_TestCase {
 
 	public function testHasProvider( ) {
 
-		$this->Collection->load( );
-
-		$this->assertTrue( $this->Collection->hasProvider( 'bar' ));
+		$this->assertTrue( $this->Collection->hasProvider( 'foo' ));
 	}
 
 
@@ -106,13 +70,15 @@ class ProviderCollectionTest extends \PHPUnit_Framework_TestCase {
 
 	public function testProviders( ) {
 
-		$this->Collection->load( array( 'Sushi/Bar' ));
+		$providers = $this->Collection->providers( 'bar' );
 
-		$this->assertTrue(
-			in_array(
-				new Bar( ),
-				$this->Collection->providers( 'bar' )
-			)
-		);
+		if ( empty( $providers )) {
+			$this->fail( 'There should be one provider.' );
+		} else {
+			$this->assertEquals(
+				'fg\Essence\Provider\Sushi\Bar',
+				get_class( $providers[ 0 ])
+			);
+		}
 	}
 }

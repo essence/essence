@@ -18,40 +18,7 @@ if ( !defined( 'ESSENCE_BOOTSTRAPPED')) {
  *
  */
 
-class ConcreteOEmbed extends OEmbed {
-
-	/**
-	 *	{@inheritDoc}
-	 */
-
-	public function __construct( ) {
-
-		$this->_endpoint = 'file://' . ESSENCE_HTTP . '%s.json';
-	}
-
-
-
-	/**
-	 *
-	 */
-
-	public function setEndpoint( $endpoint ) {
-
-		$this->_endpoint = $endpoint;
-	}
-
-
-
-	/**
-	 *
-	 */
-
-	public function setFormat( $format ) {
-
-		$this->_format = $format;
-	}
-
-
+class TestableOEmbed extends OEmbed {
 
 	/**
 	 *
@@ -85,7 +52,12 @@ class OEmbedTest extends \PHPUnit_Framework_TestCase {
 
 	public function setup( ) {
 
-		$this->OEmbed = new ConcreteOEmbed( );
+		$this->OEmbed = new TestableOEmbed(
+			array(
+				'endpoint' => 'file://' . ESSENCE_HTTP . '%s.json',
+				'format' => OEmbed::json
+			)
+		);
 	}
 
 
@@ -169,7 +141,6 @@ class OEmbedTest extends \PHPUnit_Framework_TestCase {
 
 		$this->setExpectedException( '\\fg\\Essence\\Exception' );
 
-		$this->OEmbed->setEndpoint( 'file://' . ESSENCE_HTTP . '%s.xml' );
 		$this->OEmbed->embed( 'invalid' );
 	}
 
@@ -181,10 +152,14 @@ class OEmbedTest extends \PHPUnit_Framework_TestCase {
 
 	public function testEmbedXml( ) {
 
-		$this->OEmbed->setEndpoint( 'file://' . ESSENCE_HTTP . '%s.xml' );
-		$this->OEmbed->setFormat( OEmbed::xml );
+		$OEmbed = new TestableOEmbed(
+			array(
+				'endpoint' => 'file://' . ESSENCE_HTTP . '%s.xml',
+				'format' => OEmbed::xml
+			)
+		);
 
-		$this->assertNotNull( $this->OEmbed->embed( 'valid' ));
+		$this->assertNotNull( $OEmbed->embed( 'valid' ));
 	}
 
 
@@ -195,11 +170,15 @@ class OEmbedTest extends \PHPUnit_Framework_TestCase {
 
 	public function testEmbedInvalidXml( ) {
 
-		$this->OEmbed->setEndpoint( 'file://' . ESSENCE_HTTP . '%s.xml' );
-		$this->OEmbed->setFormat( OEmbed::xml );
+		$OEmbed = new TestableOEmbed(
+			array(
+				'endpoint' => 'file://' . ESSENCE_HTTP . '%s.xml',
+				'format' => OEmbed::xml
+			)
+		);
 
 		try {
-			$this->OEmbed->embed( 'invalid' );
+			$OEmbed->embed( 'invalid' );
 		} catch ( \Exception $e ) {
 			return;
 		}
@@ -215,9 +194,19 @@ class OEmbedTest extends \PHPUnit_Framework_TestCase {
 
 	public function testEmbedUnsupportedFormat( ) {
 
-		$this->setExpectedException( '\\fg\\Essence\\Exception' );
+		$OEmbed = new TestableOEmbed(
+			array(
+				'endpoint' => 'file://' . ESSENCE_HTTP . '%s.json',
+				'format' => 'unsupported'
+			)
+		);
 
-		$this->OEmbed->setFormat( 'unsupported' );
-		$this->OEmbed->embed( 'valid' );
+		try {
+			$OEmbed->embed( 'valid' );
+		} catch ( \Exception $e ) {
+			return;
+		}
+
+		$this->fail( 'An expected exception has not been raised.' );
 	}
 }

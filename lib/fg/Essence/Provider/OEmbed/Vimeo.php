@@ -20,22 +20,6 @@ use fg\Essence\Provider\OEmbed;
 class Vimeo extends OEmbed {
 
 	/**
-	 *	{@inheritDoc}
-	 */
-
-	protected $_pattern = '#vimeo\.com#i';
-
-
-
-	/**
-	 *	{@inheritDoc}
-	 */
-
-	protected $_endpoint = 'http://vimeo.com/api/oembed.json?url=%s';
-
-
-
-	/**
 	 *	Refactors URLs like these :
 	 *		- http://player.vimeo.com/video/20830433
 	 *

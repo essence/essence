@@ -24,17 +24,6 @@ class TestableEssence extends Essence {
 	 *
 	 */
 
-	public function setCollection( ProviderCollection $Collection ) {
-
-		$this->_Collection = $Collection;
-	}
-
-
-
-	/**
-	 *
-	 */
-
 	public function log( Exception $Exception ) {
 
 		$this->_log( $Exception );
@@ -98,9 +87,7 @@ class EssenceTest extends \PHPUnit_Framework_TestCase {
 	public function setUp( ) {
 
 		$this->Collection = $this->getMock( '\\fg\\Essence\\ProviderCollection' );
-
-		$this->Essence = new TestableEssence( );
-		$this->Essence->setCollection( $this->Collection );
+		$this->Essence = new TestableEssence( $this->Collection );
 	}
 
 

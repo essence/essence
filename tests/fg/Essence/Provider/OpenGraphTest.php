@@ -15,16 +15,6 @@ if ( !defined( 'ESSENCE_BOOTSTRAPPED')) {
 
 
 /**
- *
- */
-
-class ConcreteOpenGraph extends OpenGraph {
-
-}
-
-
-
-/**
  *	Test case for OpenGraph.
  */
 
@@ -44,7 +34,7 @@ class OpenGraphTest extends \PHPUnit_Framework_TestCase {
 
 	public function setUp( ) {
 
-		$this->OpenGraph = new ConcreteOpenGraph( );
+		$this->OpenGraph = new OpenGraph( );
 	}
 
 

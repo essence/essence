@@ -16,14 +16,6 @@ class Foo extends Provider {
 	 *	{@inheritDoc}
 	 */
 
-	protected $_pattern = '#^foo$#';
-
-
-
-	/**
-	 *	{@inheritDoc}
-	 */
-
 	protected function _embed( $url, $options ) { }
 
 }

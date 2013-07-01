@@ -55,16 +55,14 @@ class Essence {
 	/**
 	 *	Constructor.
 	 *
-	 *	@see ProviderCollection::load( )
-	 *	@param array $providers An array of provider class names, relative to
-	 *		the 'Provider' folder.
+	 *	@param array $ProviderCollection A collection of providers.
 	 */
 
-	public function __construct( array $providers = array( )) {
+	public function __construct( ProviderCollection $Collection = null ) {
 
 		$this->_checkEnvironment( );
 
-		$this->_Collection = new ProviderCollection( $providers );
+		$this->_Collection = $Collection ?: new ProviderCollection( );
 		$this->_Cache = Registry::get( 'cache' );
 	}
 

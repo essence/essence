@@ -24,7 +24,7 @@ use fg\Essence\Utility\Set;
  *	@package fg.Essence.Provider
  */
 
-abstract class OpenGraph extends Provider {
+class OpenGraph extends Provider {
 
 	/**
 	 *	A cache for extracted informations.

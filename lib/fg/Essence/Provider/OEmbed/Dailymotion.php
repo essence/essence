@@ -23,22 +23,6 @@ class Dailymotion extends OEmbed {
 	 *	{@inheritDoc}
 	 */
 
-	protected $_pattern = '#dailymotion\.com#i';
-
-
-
-	/**
-	 *	{@inheritDoc}
-	 */
-
-	protected $_endpoint = 'http://www.dailymotion.com/services/oembed?format=json&url=%s';
-
-
-
-	/**
-	 *	{@inheritDoc}
-	 */
-
 	protected function _embed( $url, $options ) {
 
 		$Media = parent::_embed( $url, $options );

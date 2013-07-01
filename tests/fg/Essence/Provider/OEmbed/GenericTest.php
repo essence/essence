@@ -34,13 +34,11 @@ class GenericTest extends \PHPUnit_Framework_TestCase {
 
 	public function setUp( ) {
 
-		$this->Generic = new Generic( );
-
-		$Reflection = new \ReflectionClass( '\\fg\\Essence\\Provider\\OEmbed\\Generic' );
-
-		$Property = $Reflection->getProperty( '_endpoint' );
-		$Property->setAccessible( true );
-		$Property->setValue( $this->Generic, 'file://' . ESSENCE_HTTP . '%s.html' );
+		$this->Generic = new Generic(
+			array(
+				'endpoint' => 'file://' . ESSENCE_HTTP . '%s.html'
+			)
+		);
 	}
 
 

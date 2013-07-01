@@ -21,22 +21,6 @@ use fg\Essence\Provider\OEmbed;
 class Youtube extends OEmbed {
 
 	/**
-	 *	{@inheritDoc}
-	 */
-
-	protected $_pattern = '#youtube\.com|youtu\.be#i';
-
-
-
-	/**
-	 *	{@inheritDoc}
-	 */
-
-	protected $_endpoint = 'http://www.youtube.com/oembed?format=json&url=%s';
-
-
-
-	/**
 	 *	Refactors URLs like these :
 	 *		- http://www.youtube.com/watch?v=oHg5SJYRHA0&noise=noise
 	 *		- http://www.youtube.com/v/oHg5SJYRHA0
