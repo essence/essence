@@ -157,20 +157,6 @@ class Media implements \IteratorAggregate {
 
 
 	/**
-	 *	An alias for has( ).
-	 *
-	 *	@see has( ).
-	 *	@deprecated Since 1.4.2.
-	 */
-
-	public function hasProperty( $name ) {
-
-		return $this->has( $name );
-	}
-
-
-
-	/**
 	 *	Returns the value of the given property.
 	 *
 	 *	@param string $property Property name.
@@ -189,20 +175,6 @@ class Media implements \IteratorAggregate {
 
 
 	/**
-	 *	An alias for get( ).
-	 *
-	 *	@see get( ).
-	 *	@deprecated Since 1.4.2.
-	 */
-
-	public function property( $property, $default = '' ) {
-
-		return $this->get( $property, $default );
-	}
-
-
-
-	/**
 	 *	Sets the value of a property.
 	 *
 	 *	@param string $property Property name.
@@ -212,20 +184,6 @@ class Media implements \IteratorAggregate {
 	public function set( $property, $value ) {
 
 		$this->properties[ $property ] = $value;
-	}
-
-
-
-	/**
-	 *	An alias for set( ).
-	 *
-	 *	@see set( ).
-	 *	@deprecated Since 1.4.2.
-	 */
-
-	public function setProperty( $property, $value ) {
-
-		$this->set( $property, $value );
 	}
 
 
