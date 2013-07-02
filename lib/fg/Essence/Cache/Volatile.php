@@ -46,11 +46,9 @@ class Volatile implements Cache {
 
 	public function get( $key, $default = null ) {
 
-		if ( $this->has( $key )) {
-			return $this->_data[ $key ];
-		}
-
-		return $default;
+		return $this->has( $key )
+			? $this->_data[ $key ]
+			: $default;
 	}
 
 
@@ -62,6 +60,7 @@ class Volatile implements Cache {
 	public function set( $key, $data ) {
 
 		$this->_data[ $key ] = $data;
+		return $data;
 	}
 
 

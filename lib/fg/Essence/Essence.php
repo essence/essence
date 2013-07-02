@@ -72,14 +72,20 @@ class Essence {
 	/**
 	 *	Constructor.
 	 *
-	 *	@param array $ProviderCollection A collection of providers.
+	 *	@param fg\Essence\ProviderCollection|array $collection An instance
+	 *		of ProviderCollection, or a configuration array to pass to a new
+	 *		instance.
 	 */
 
-	public function __construct( ProviderCollection $Collection = null ) {
+	public function __construct( $collection = array( )) {
+
+		if ( $collection instanceof ProviderCollection ) {
+			$this->_Collection = $collection;
+		} else {
+			$this->_Collection = new ProviderCollection(( array )$collection );
+		}
 
 		$this->_checkEnvironment( );
-
-		$this->_Collection = $Collection ?: new ProviderCollection( );
 		$this->_Cache = Registry::get( 'cache' );
 	}
 
@@ -118,10 +124,9 @@ class Essence {
 	public function extract( $source ) {
 
 		$key = 'extract' . $source;
-		$cached = $this->_Cache->get( $key );
 
-		if ( $cached !== null ) {
-			return $cached;
+		if ( $this->_Cache->has( $key )) {
+			return $this->_Cache->get( $key );
 		}
 
 		try {
@@ -131,8 +136,7 @@ class Essence {
 			return array( );
 		}
 
-		$this->_Cache->set( $key, $embeddable );
-		return $embeddable;
+		return $this->_Cache->set( $key, $embeddable );
 	}
 
 
@@ -214,11 +218,10 @@ class Essence {
 
 	public function embed( $url, array $options = array( )) {
 
-		$key = 'embed' . $url . serialize( $options );
-		$cached = $this->_Cache->get( $key );
+		$key = 'embed' . $url . json_encode( $options );
 
-		if ( $cached !== null ) {
-			return $cached;
+		if ( $this->_Cache->has( $key )) {
+			return $this->_Cache->get( $key );
 		}
 
 		try {
@@ -228,8 +231,7 @@ class Essence {
 			return null;
 		}
 
-		$this->_Cache->set( $key, $Media );
-		return $Media;
+		return $this->_Cache->set( $key, $Media );
 	}
 
 

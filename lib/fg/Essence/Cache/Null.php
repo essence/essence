@@ -45,7 +45,10 @@ class Null implements Cache {
 	 *	{@inheritDoc}
 	 */
 
-	public function set( $key, $data ) { }
+	public function set( $key, $data ) {
+
+		return $data;
+	}
 
 
 

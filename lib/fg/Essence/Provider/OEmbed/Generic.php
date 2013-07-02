@@ -121,7 +121,6 @@ class Generic extends OEmbed {
 			}
 		}
 
-		$this->_Cache->set( $url, $endpoint );
-		return $endpoint;
+		return $this->_Cache->set( $url, $endpoint );
 	}
 }

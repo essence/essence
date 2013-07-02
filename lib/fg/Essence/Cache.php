@@ -45,6 +45,7 @@ interface Cache {
 	 *
 	 *	@param string $key The key for the data.
 	 *	@param mixed $data The data.
+	 *	@return mixed $data The passed data.
 	 */
 
 	public function set( $key, $data );
