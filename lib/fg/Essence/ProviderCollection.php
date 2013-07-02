@@ -22,7 +22,13 @@ use fg\Essence\Utility\Set;
 class ProviderCollection {
 
 	/**
-	 *	A list of providers.
+	 *	A list of providers configurations.
+	 *
+	 *	### Options
+	 *
+	 *	- 'name' string Name of the provider.
+	 *		- 'class' string The provider class.
+	 *		- 'pattern' string A regex to test URLs.
 	 *
 	 *	@var array
 	 */
@@ -342,9 +348,7 @@ class ProviderCollection {
 				$Provider = $Reflection->newInstance( $options );
 
 				if ( $Provider->isGeneric( )) {
-					if ( !$excludeGenerics ) {
-						$this->_providers[ ] = $Provider;
-					}
+					$this->_providers[ ] = $Provider;
 				} else {
 					// regular providers are pushed to the front to take
 					// precedence over the generic ones.
