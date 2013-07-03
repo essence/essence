@@ -275,13 +275,11 @@ class Essence {
 
 	public function replace( $text, $template = '', array $options = array( )) {
 
-		$Essence = $this;
-
 		return preg_replace_callback(
 			// http://daringfireball.net/2010/07/improved_regex_for_matching_urls
 			$this->_config['urlPattern'],
-			function ( $matches ) use ( &$Essence, $template, $options ) {
-				$Media = $Essence->embed( $matches['url'], $options );
+			function ( $matches ) use ( $template, $options ) {
+				$Media = $this->embed( $matches['url'], $options );
 				$replacement = '';
 
 				if ( $Media !== null ) {
