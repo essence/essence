@@ -69,11 +69,9 @@ class Essence {
 
 	public function __construct( $collection = array( )) {
 
-		if ( $collection instanceof ProviderCollection ) {
-			$this->_Collection = $collection;
-		} else {
-			$this->_Collection = new ProviderCollection(( array )$collection );
-		}
+		$this->_Collection = ( $collection instanceof ProviderCollection )
+			? $collection
+			: new ProviderCollection(( array )$collection );
 
 		$this->_checkEnvironment( );
 		$this->_Cache = Registry::get( 'cache' );
@@ -218,13 +216,7 @@ class Essence {
 		$Media = null;
 
 		foreach ( $providers as $Provider ) {
-			try {
-				$Media = $Provider->embed( $url, $options );
-			} catch ( Exception $Exception ) {
-				$this->_log( $Exception );
-			}
-
-			if ( $Media !== null ) {
+			if ( $Media = $Provider->embed( $url, $options )) {
 				break;
 			}
 		}
