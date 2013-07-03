@@ -7,8 +7,6 @@
 
 namespace fg\Essence\Provider\OEmbed;
 
-use fg\Essence\Provider\OEmbed;
-
 
 
 /**
@@ -17,7 +15,7 @@ use fg\Essence\Provider\OEmbed;
  *	@package fg.Essence.Provider.OEmbed
  */
 
-class Dailymotion extends OEmbed {
+class Dailymotion extends \fg\Essence\Provider\OEmbed {
 
 	/**
 	 *	{@inheritDoc}

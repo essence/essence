@@ -7,8 +7,6 @@
 
 namespace fg\Essence\Provider\OpenGraph;
 
-use fg\Essence\Provider\OpenGraph;
-
 
 
 /**
@@ -17,7 +15,7 @@ use fg\Essence\Provider\OpenGraph;
  *	@package fg.Essence.Provider.OpenGraph
  */
 
-class Generic extends OpenGraph {
+class Generic extends \fg\Essence\Provider\OpenGraph {
 
 	/**
 	 *	{@inheritDoc}

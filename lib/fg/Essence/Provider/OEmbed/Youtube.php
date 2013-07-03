@@ -7,9 +7,6 @@
 
 namespace fg\Essence\Provider\OEmbed;
 
-use fg\Essence\Provider;
-use fg\Essence\Provider\OEmbed;
-
 
 
 /**
@@ -18,7 +15,7 @@ use fg\Essence\Provider\OEmbed;
  *	@package fg.Essence.Provider.OEmbed
  */
 
-class Youtube extends OEmbed {
+class Youtube extends \fg\Essence\Provider\OEmbed {
 
 	/**
 	 *	{@inheritDoc}
@@ -52,7 +49,7 @@ class Youtube extends OEmbed {
 
 	protected function _prepare( $url ) {
 
-		$url = Provider::_prepare( $url );
+		$url = \fg\Essence\Provider::_prepare( $url );
 
 		if ( preg_match( "#(v=|v/|embed/|youtu\.be/)([a-z0-9_-]+)#i", $url, $matches )) {
 			return 'http://www.youtube.com/watch?v=' . $matches[ 2 ];

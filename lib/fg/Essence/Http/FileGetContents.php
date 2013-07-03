@@ -7,8 +7,6 @@
 
 namespace fg\Essence\Http;
 
-use fg\Essence\Http;
-
 
 
 /**
@@ -17,7 +15,7 @@ use fg\Essence\Http;
  *	@package fg.Essence.Http
  */
 
-class FileGetContents implements Http {
+class FileGetContents implements \fg\Essence\Http {
 
 	/**
 	 *	The default HTTP status code to assume if headers cannot be parsed.
@@ -36,7 +34,7 @@ class FileGetContents implements Http {
 	 *
 	 *	@param string $url The URL fo fetch contents from.
 	 *	@return string The fetched contents.
-	 *	@throws fg\Essence\Http\Exception
+	 *	@throws \fg\Essence\Http\Exception
 	 */
 
 	public function get( $url ) {

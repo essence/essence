@@ -7,8 +7,6 @@
 
 namespace fg\Essence\Http;
 
-use fg\Essence\Http;
-
 
 
 /**
@@ -17,7 +15,7 @@ use fg\Essence\Http;
  *	@package fg.Essence.Http
  */
 
-class Curl implements Http {
+class Curl implements \fg\Essence\Http {
 
 	/**
 	 *	CURL handle.

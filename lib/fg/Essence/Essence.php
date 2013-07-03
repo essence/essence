@@ -12,6 +12,8 @@ use fg\Essence\Dom\DomDocument;
 use fg\Essence\Http\Curl;
 use fg\Essence\Utility\Registry;
 
+use \Psr\Log\LoggerInterface;
+
 
 
 /**
@@ -53,14 +55,31 @@ class Essence {
 
 
 	/**
+	 *	An PSR logger (optional)
+	 *
+	 *	@var LoggerInterface
+	 */
+
+	protected $_Logger = array( );
+
+
+
+	/**
 	 *	Constructor.
 	 *
 	 *	@see ProviderCollection::load( )
 	 *	@param array $providers An array of provider class names, relative to
 	 *		the 'Provider' folder.
+	 *  @param LoggerInterface $Logger An optional logger that implements the PSR Logger interface
 	 */
 
-	public function __construct( array $providers = array( )) {
+	public function __construct( array $providers = array( ), LoggerInterface $Logger = null ) {
+
+	    if ( $Logger !== null ) {
+	        $this->_Logger = $Logger;
+	    } else {
+	        $this->_Logger = new \Psr\Log\NullLogger();
+	    }
 
 		$this->_checkEnvironment( );
 
@@ -77,14 +96,17 @@ class Essence {
 	public function _checkEnvironment( ) {
 
 		if ( !Registry::has( 'cache' )) {
+			$this->_Logger->debug( __METHOD__ . ': Register Cache\Volatile as cache' );
 			Registry::register( 'cache', new Volatile( ));
 		}
 
 		if ( !Registry::has( 'dom' )) {
+			$this->_Logger->debug( __METHOD__ . ': Register Dom\DomDocument as dom' );
 			Registry::register( 'dom', new DomDocument( ));
 		}
 
 		if ( !Registry::has( 'http' )) {
+			$this->_Logger->debug( __METHOD__ . ': Register Http\Curl as http ' );
 			Registry::register( 'http', new Curl( ));
 		}
 	}
@@ -106,10 +128,12 @@ class Essence {
 		$cached = $this->_Cache->get( $key );
 
 		if ( $cached !== null ) {
+		    $this->_Logger->debug( __METHOD__ . ': ' . $source . ' from cache ', array('result' => $result));
 			return $cached;
 		}
 
 		try {
+		    $this->_Logger->debug( __METHOD__ . ': ' . $source . ' not found in cache' );
 			$embeddable = $this->_extract( $source );
 		} catch ( Exception $Exception ) {
 			$this->_log( $Exception );
@@ -129,11 +153,14 @@ class Essence {
 	protected function _extract( $source ) {
 
 		if ( filter_var( $source, FILTER_VALIDATE_URL )) {
+			$this->_Logger->debug( __METHOD__ . ' is valid url ' . $source . ' try to handle direct by provider' );
 			// if a provider can directly handle the URL, there is no more work to do.
 			if ( $this->_Collection->hasProvider( $source )) {
+				$this->_Logger->debug( __METHOD__ . ' at least one provider can handle this URL return URL direct' );
 				return array( $source );
 			}
 
+			$this->_Logger->debug( __METHOD__ . ' the URL is still valid but there is no provider that can handle the URL, get the page' );
 			$source = Registry::get( 'http' )->get( $source );
 		}
 
@@ -141,10 +168,12 @@ class Essence {
 		$embeddable = array( );
 
 		foreach ( $urls as $url ) {
+			$this->debug( __METHOD__ . ': found URL in source ' . $url );
 			if (
 				$this->_Collection->hasProvider( $url )
 				&& !in_array( $url, $embeddable )
 			) {
+				$this->debug( __METHOD__ . ': found provider for URL ' . $url );
 				$embeddable[ ] = $url;
 			}
 		}
@@ -203,10 +232,12 @@ class Essence {
 		$cached = $this->_Cache->get( $key );
 
 		if ( $cached !== null ) {
+			$this->_Logger->debug( __METHOD__ . ': ' . $url . ' from cache ', array('result' => $cached));
 			return $cached;
 		}
 
 		try {
+			$this->_Logger->debug( __METHOD__ . ': ' . $url . ' not found in cache' );
 			$Media = $this->_embed( $url, $options );
 		} catch ( Exception $Exception ) {
 			$this->_log( $Exception );
@@ -226,11 +257,15 @@ class Essence {
 	protected function _embed( $url, array $options ) {
 
 		$providers = $this->_Collection->providers( $url );
+		$this->_Logger->debug( __METHOD__ . ': ' . $url . ' found ' . count($providers) . ' possible providers' );
+
 		$Media = null;
 
 		foreach ( $providers as $Provider ) {
 			try {
+				$this->_Logger->debug( __METHOD__ . ': ' . $url . ' try provider ' . $Provider );
 				$Media = $Provider->embed( $url, $options );
+				$this->_Logger->info( 'Embed information for: ' . $url . ': ' . var_export( $Media, true ));
 			} catch ( Exception $Exception ) {
 				$this->_log( $Exception );
 			}
@@ -369,5 +404,11 @@ class Essence {
 	protected function _log( Exception $Exception ) {
 
 		$this->_errors[ ] = $Exception;
+		if ( $this->_Logger !== null ) {
+		    $this->_Logger->warning( 'Exception catched: ' . $Exception->getMessage() , array('exception' => $Exception) );
+		}
 	}
+
+
+
 }

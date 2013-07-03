@@ -85,6 +85,25 @@ class MediaTest extends \PHPUnit_Framework_TestCase {
 	 *
 	 */
 
+	public function testReindex( ) {
+
+		$Media = new Media(
+			$this->properties,
+			array( 'title' => 'title2' )
+		);
+
+		$this->assertEquals(
+			$this->properties['title'],
+			$Media->title2
+		);
+	}
+
+
+
+	/**
+	 *
+	 */
+
 	public function testMagicIsSet( ) {
 
 		$this->assertTrue( isset( $this->Media->custom ));

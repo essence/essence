@@ -7,11 +7,6 @@
 
 namespace fg\Essence\Provider\OEmbed;
 
-use fg\Essence\Exception;
-use fg\Essence\Cache\Volatile;
-use fg\Essence\Provider\OEmbed;
-use fg\Essence\Utility\Registry;
-
 
 
 /**
@@ -20,7 +15,7 @@ use fg\Essence\Utility\Registry;
  *	@package fg.Essence.Provider.OEmbed
  */
 
-class Generic extends OEmbed {
+class Generic extends \fg\Essence\Provider\OEmbed {
 
 	/**
 	 *	{@inheritDoc}
@@ -48,7 +43,7 @@ class Generic extends OEmbed {
 
 		parent::__construct( $options );
 
-		$this->_Cache = new Volatile( );
+		$this->_Cache = new \fg\Essence\Cache\Volatile( );
 	}
 
 
@@ -73,7 +68,7 @@ class Generic extends OEmbed {
 		$endpoint = $this->_extractEndpoint( $url );
 
 		if ( !$endpoint ) {
-			throw new Exception( 'Unable to find any endpoint.' );
+			throw new \fg\Essence\Exception( 'Unable to find any endpoint.' );
 		}
 
 		return $this->_embedEndpoint(
@@ -97,8 +92,8 @@ class Generic extends OEmbed {
 			return $this->_Cache->get( $url );
 		}
 
-		$attributes = Registry::get( 'dom' )->extractAttributes(
-			Registry::get( 'http' )->get( $url ),
+		$attributes = \fg\Essence\Registry::get( 'dom' )->extractAttributes(
+			\fg\Essence\Registry::get( 'http' )->get( $url ),
 			array(
 				'link' => array(
 					'rel' => '#alternate#i',

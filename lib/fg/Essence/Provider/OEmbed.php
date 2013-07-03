@@ -14,7 +14,6 @@ use fg\Essence\Utility\Registry;
 use fg\Essence\Utility\Set;
 
 
-
 /**
  *	Base class for an OEmbed provider.
  *	This kind of provider extracts embed informations through the OEmbed protocol.
@@ -147,9 +146,12 @@ abstract class OEmbed extends Provider {
 
 	protected function _embedEndpoint( $endpoint, $format, $options ) {
 
-		$response = Registry::get( 'http' )->get(
-			$this->_completeEndpoint( $endpoint, $options )
-		);
+	    $fullUrl = $this->_completeEndpoint( $endpoint, $options );
+	    $this->_Logger->info( __METHOD__ . ' embed request for ' . $fullUrl );
+
+		$response = Registry::get( 'http' )->get( $fullUrl );
+
+		$this->_Logger->info( __METHOD__ . ' result from url ' . $fullUrl, array( 'response' => $response ));
 
 		switch ( $format ) {
 			case self::json:
@@ -164,6 +166,7 @@ abstract class OEmbed extends Provider {
 				throw new Exception( 'Unsupported format.' );
 		}
 
+		$this->_Logger->debug( __METHOD__ . ' received embed data ' . var_export($data, true) );
 		return new Media(
 			Set::reindex(
 				$data,

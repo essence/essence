@@ -8,8 +8,6 @@
 
 namespace fg\Essence\Provider\OpenGraph;
 
-use fg\Essence\Provider\OpenGraph;
-
 
 
 /**
@@ -18,7 +16,7 @@ use fg\Essence\Provider\OpenGraph;
  *	@package fg.Essence.Provider.OpenGraph
  */
 
-class CollegeHumor extends OpenGraph {
+class CollegeHumor extends \fg\Essence\Provider\OpenGraph {
 
 	/**
 	 *	{@inheritDoc}

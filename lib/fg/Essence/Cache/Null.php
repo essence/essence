@@ -7,8 +7,6 @@
 
 namespace fg\Essence\Cache;
 
-use fg\Essence\Cache;
-
 
 
 /**

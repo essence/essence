@@ -7,10 +7,6 @@
 
 namespace fg\Essence\Dom;
 
-use fg\Essence\Dom;
-use fg\Essence\Exception;
-use fg\Essence\Utility\Set;
-
 
 
 /**
@@ -19,7 +15,7 @@ use fg\Essence\Utility\Set;
  *	@package fg.Essence.Dom
  */
 
-class DomDocument implements Dom {
+class DomDocument implements \fg\Essence\Dom {
 
 	/**
 	 *	{@inheritDoc}
@@ -32,21 +28,22 @@ class DomDocument implements Dom {
 		error_reporting( $reporting );
 
 		if ( $Document === false ) {
-			throw new Exception( 'Unable to load HTML document.' );
+			throw new \fg\Essence\Exception( 'Unable to load HTML document.' );
 		}
 
-		$options = Set::normalize( $options, array( ));
+		$options = self::_format( $options, array( ));
 		$data = array( );
 
 		foreach ( $options as $tagName => $requiredAttributes ) {
 			$data[ $tagName ] = array( );
-			$tags = $Document->getElementsByTagName( $tagName );
-			$requiredAttributes = Set::normalize( $requiredAttributes, '' );
+			$requiredAttributes = self::_format( $requiredAttributes, '' );
 
-			//if ( $tags->length > 0 ) {
+			$tags = $Document->getElementsByTagName( $tagName );
+
+			if ( $tags->length > 0 ) {
 				foreach ( $tags as $Tag ) {
 					if ( $Tag->hasAttributes( )) {
-						$attributes = $this->_extractAttributesFromTag(
+						$attributes = self::_extractAttributesFromTag(
 							$Tag,
 							$requiredAttributes
 						);
@@ -56,7 +53,7 @@ class DomDocument implements Dom {
 						}
 					}
 				}
-			//}
+			}
 		}
 
 		return $data;
@@ -102,5 +99,36 @@ class DomDocument implements Dom {
 		return empty( $diff )
 			? $attributes
 			: array( );
+	}
+
+
+
+	/**
+	 *	Formats the given attributes for safer later use. Every element that
+	 *	is numerically indexed becomes a key, given $default as value.
+	 *
+	 *	@param array $attributes The array to format.
+	 *	@param string $default Default value.
+	 *	@return array The formatted array.
+	 */
+
+	protected function _format( $attributes, $default ) {
+
+		if ( is_string( $attributes )) {
+			return array( $attributes => $default );
+		}
+
+		$formatted = array( );
+
+		foreach ( $attributes as $key => $value ) {
+			if ( is_numeric( $key )) {
+				$key = $value;
+				$value = $default;
+			}
+
+			$formatted[ $key ] = $value;
+		}
+
+		return $formatted;
 	}
 }

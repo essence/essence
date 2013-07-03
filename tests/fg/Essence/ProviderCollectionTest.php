@@ -7,9 +7,6 @@
 
 namespace fg\Essence;
 
-use fg\Essence\Utility\Package;
-use fg\Essence\Provider\Sushi\Bar;
-
 if ( !defined( 'ESSENCE_BOOTSTRAPPED' )) {
 	require_once dirname( dirname( dirname( __FILE__ )))
 		. DIRECTORY_SEPARATOR . 'bootstrap.php';
@@ -110,7 +107,7 @@ class ProviderCollectionTest extends \PHPUnit_Framework_TestCase {
 
 		$this->assertTrue(
 			in_array(
-				new Bar( ),
+				new \fg\Essence\Provider\Sushi\Bar( ),
 				$this->Collection->providers( 'bar' )
 			)
 		);

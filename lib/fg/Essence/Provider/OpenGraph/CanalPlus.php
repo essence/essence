@@ -7,8 +7,6 @@
 
 namespace fg\Essence\Provider\OpenGraph;
 
-use fg\Essence\Provider\OpenGraph;
-
 
 
 /**
@@ -17,7 +15,7 @@ use fg\Essence\Provider\OpenGraph;
  *	@package fg.Essence.Provider.OpenGraph
  */
 
-class CanalPlus extends OpenGraph {
+class CanalPlus extends \fg\Essence\Provider\OpenGraph {
 
 	/**
 	 *	{@inheritDoc}

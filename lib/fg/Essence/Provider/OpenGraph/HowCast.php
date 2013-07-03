@@ -7,8 +7,6 @@
 
 namespace fg\Essence\Provider\OpenGraph;
 
-use fg\Essence\Provider\OpenGraph;
-
 
 
 /**
@@ -18,7 +16,7 @@ use fg\Essence\Provider\OpenGraph;
  *	@package fg.Essence.Provider.OpenGraph
  */
 
-class HowCast extends OpenGraph {
+class HowCast extends \fg\Essence\Provider\OpenGraph {
 
 	/**
 	 *	{@inheritDoc}
