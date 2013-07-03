@@ -18,24 +18,6 @@ if ( !defined( 'ESSENCE_BOOTSTRAPPED' )) {
  *
  */
 
-class TestableEssence extends Essence {
-
-	/**
-	 *
-	 */
-
-	public function log( Exception $Exception ) {
-
-		$this->_log( $Exception );
-	}
-}
-
-
-
-/**
- *
- */
-
 class TestableProvider extends Provider {
 
 	/**
@@ -87,7 +69,7 @@ class EssenceTest extends \PHPUnit_Framework_TestCase {
 	public function setUp( ) {
 
 		$this->Collection = $this->getMock( '\\fg\\Essence\\ProviderCollection' );
-		$this->Essence = new TestableEssence( $this->Collection );
+		$this->Essence = new Essence( $this->Collection );
 	}
 
 
@@ -297,50 +279,5 @@ HTML;
 			'foo <a href="http://example.com">baz</a> bar',
 			$this->Essence->replace( 'foo <a href="http://example.com">baz</a> bar' )
 		);
-	}
-
-
-
-	/**
-	 *
-	 */
-
-	public function testErrors( ) {
-
-		$this->Essence->log( new Exception( 'one' ));
-		$this->Essence->log( new Exception( 'two' ));
-
-		$this->assertEquals(
-			array(
-				new Exception( 'one' ),
-				new Exception( 'two' )
-			),
-			$this->Essence->errors( )
-		);
-	}
-
-
-
-	/**
-	 *
-	 */
-
-	public function testLastError( ) {
-
-		$this->Essence->log( new Exception( 'one' ));
-		$this->Essence->log( new Exception( 'two' ));
-
-		$this->assertEquals( new Exception( 'two' ), $this->Essence->lastError( ));
-	}
-
-
-
-	/**
-	 *
-	 */
-
-	public function testLastErrorEmpty( ) {
-
-		$this->assertNull( $this->Essence->lastError( ));
 	}
 }

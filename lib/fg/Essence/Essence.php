@@ -60,16 +60,6 @@ class Essence {
 
 
 	/**
-	 *	An array of catched exceptions.
-	 *
-	 *	@var array
-	 */
-
-	protected $_errors = array( );
-
-
-
-	/**
 	 *	Constructor.
 	 *
 	 *	@param fg\Essence\ProviderCollection|array $collection An instance
@@ -125,18 +115,9 @@ class Essence {
 
 		$key = 'extract' . $source;
 
-		if ( $this->_Cache->has( $key )) {
-			return $this->_Cache->get( $key );
-		}
-
-		try {
-			$embeddable = $this->_extract( $source );
-		} catch ( Exception $Exception ) {
-			$this->_log( $Exception );
-			return array( );
-		}
-
-		return $this->_Cache->set( $key, $embeddable );
+		return $this->_Cache->has( $key )
+			? $this->_Cache->get( $key )
+			: $this->_Cache->set( $key, $this->_extract( $source ));
 	}
 
 
@@ -220,18 +201,9 @@ class Essence {
 
 		$key = 'embed' . $url . json_encode( $options );
 
-		if ( $this->_Cache->has( $key )) {
-			return $this->_Cache->get( $key );
-		}
-
-		try {
-			$Media = $this->_embed( $url, $options );
-		} catch ( Exception $Exception ) {
-			$this->_log( $Exception );
-			return null;
-		}
-
-		return $this->_Cache->set( $key, $Media );
+		return $this->_Cache->has( $key )
+			? $this->_Cache->get( $key )
+			: $this->_Cache->set( $key, $this->_embed( $url, $options ));
 	}
 
 
@@ -338,47 +310,5 @@ class Essence {
 			},
 			$text
 		);
-	}
-
-
-
-	/**
-	 *	Returns all errors that occured.
-	 *
-	 *	@return array All errors.
-	 */
-
-	public function errors( ) {
-
-		return $this->_errors;
-	}
-
-
-
-	/**
-	 *	Returns the last error that occured.
-	 *
-	 *	@return Exception|null The last exception, or null if there
-	 *		is no error.
-	 */
-
-	public function lastError( ) {
-
-		return empty( $this->_errors )
-			? null
-			: $this->_errors[ count( $this->_errors ) - 1 ];
-	}
-
-
-
-	/**
-	 *	Logs an exception.
-	 *
-	 *	@param Exception $Exception The exception to log.
-	 */
-
-	protected function _log( Exception $Exception ) {
-
-		$this->_errors[ ] = $Exception;
 	}
 }
