@@ -7,6 +7,8 @@
 
 namespace fg\Essence\Utility;
 
+use fg\Essence\Exception;
+
 
 
 /**

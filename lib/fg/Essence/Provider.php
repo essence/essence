@@ -151,8 +151,8 @@ abstract class Provider {
 		$url = $this->_prepare( $url );
 		$Media = $this->_embed( $url, $options );
 
-		if ( empty( $Media->url )) {
-			$Media->url = $url;
+		if ( $Media && !$Media->get( 'url' )) {
+			$Media->set( 'url', $url );
 		}
 
 		return $Media;

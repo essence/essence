@@ -8,6 +8,13 @@
 
 namespace fg\Essence\Provider;
 
+use fg\Essence\Exception;
+use fg\Essence\Media;
+use fg\Essence\Provider;
+use fg\Essence\Cache\Volatile;
+use fg\Essence\Utility\Registry;
+use fg\Essence\Utility\Set;
+
 
 
 /**
@@ -17,7 +24,7 @@ namespace fg\Essence\Provider;
  *	@package fg.Essence.Provider
  */
 
-abstract class OpenGraph extends \fg\Essence\Provider {
+abstract class OpenGraph extends Provider {
 
 	/**
 	 *	A cache for extracted informations.
@@ -37,7 +44,7 @@ abstract class OpenGraph extends \fg\Essence\Provider {
 
 		parent::__construct( $options );
 
-		$this->_Cache = new \fg\Essence\Cache\Volatile( );
+		$this->_Cache = new Volatile( );
 	}
 
 
@@ -50,27 +57,28 @@ abstract class OpenGraph extends \fg\Essence\Provider {
 
 		$og = $this->_extractInformations( $url );
 
-		
 		if ( empty( $og )) {
-			throw new \fg\Essence\Exception(
+			throw new Exception(
 				'Unable to extract OpenGraph data.'
 			);
 		}
 
-		return new \fg\Essence\Media(
-			$og,
-			array(
-				'og:type' => 'type',
-				'og:title' => 'title',
-				'og:description' => 'description',
-				'og:site_name' => 'providerName',
-				'og:image' => 'thumbnailUrl',
-				'og:image:url' => 'thumbnailUrl',
-				'og:image:width' => 'width',
-				'og:image:height' => 'height',
-				'og:video:width' => 'width',
-				'og:video:height' => 'height',
-				'og:url' => 'url'
+		return new Media(
+			Set::reindex(
+				$og,
+				array(
+					'og:type' => 'type',
+					'og:title' => 'title',
+					'og:description' => 'description',
+					'og:site_name' => 'providerName',
+					'og:image' => 'thumbnailUrl',
+					'og:image:url' => 'thumbnailUrl',
+					'og:image:width' => 'width',
+					'og:image:height' => 'height',
+					'og:video:width' => 'width',
+					'og:video:height' => 'height',
+					'og:url' => 'url'
+				)
 			)
 		);
 	}
@@ -90,8 +98,8 @@ abstract class OpenGraph extends \fg\Essence\Provider {
 			return $this->_Cache->get( $url );
 		}
 
-		$attributes = \fg\Essence\Registry::get( 'dom' )->extractAttributes(
-			\fg\Essence\Registry::get( 'http' )->get( $url ),
+		$attributes = Registry::get( 'dom' )->extractAttributes(
+			Registry::get( 'http' )->get( $url ),
 			array(
 				'meta' => array(
 					'property' => '#^og:.+#i',
@@ -103,44 +111,57 @@ abstract class OpenGraph extends \fg\Essence\Provider {
 		$og = array( );
 
 		foreach ( $attributes['meta'] as $meta ) {
-			if ( isset($og[ $meta['property']]) ) { // Take only the first value
-				continue;
+			if ( !isset( $og[ $meta['property']])) {
+				$og[ $meta['property']] = $meta['content'];
 			}
-
-			$og[ $meta['property']] = $meta['content'];
 		}
 
 		if ( empty( $og['html'])) {
-			$og['html'] = $this->_buildHtml( $og );
+			$og['html'] = $this->_buildHtml( $og, $url );
 		}
 
 		$this->_Cache->set( $url, $og );
-
 		return $og;
 	}
 
 
 
 	/**
-	 *	Ensures that an there is always a html array available.
+	 *	Builds an HTML code from OpenGraph properties.
 	 *
-	 *	@param string $og to include array parsed by Essence.
-	 *	@return array with html variable included.
+	 *	@param array $og OpenGraph properties.
+	 *	@param string $url URL from which informations were fetched.
+	 *	@return string Generated HTML.
 	 */
-	
-	protected function _buildHtml( $og ) {
 
-		$title = $og['og:title'];
+	protected function _buildHtml( $og, $url ) {
+
 		$html = '';
+		$title = isset( $og['og:title'])
+			? $og['og:title']
+			: '';
 
-		// check if the preferred resource exists (ie. video < image < link) and
-		// then builds an html string accordingly
 		if ( isset( $og['og:video'])) {
-			$html = '<iframe src="' . $og['og:video'] . '" alt="' . $title . '" width="560" height="315" frameborder="0" allowfullscreen mozallowfullscreen webkitallowfullscreen><p>Your browser does not support iframes.</p></iframe>'; // The dimensions 560 x 315 are generally standard and not all OG providers give dimensions
-		} else if ( isset( $og['og:image'])) {
-			$html = '<img src="' . $og['og:image'] . '" alt="' . $title . '">';
+			$html = sprintf(
+				'<iframe src="%s" alt="%s" width="%s" height="%s" frameborder="0" allowfullscreen mozallowfullscreen webkitallowfullscreen></iframe>',
+				$og['og:video'],
+				$title,
+				isset( $og['og:video:width'])
+					? $og['og:video:width']
+					: 560,
+				isset( $og['og:video:height'])
+					? $og['og:video:height']
+					: 315
+			);
 		} else {
-			$html = '<a href="' . $og['og:url'] . '" target="_blank">' . $title . '</a>';
+			$html = sprintf(
+				'<a href="%s" alt="%s">%s</a>',
+				isset( $og['og:url'])
+					? $og['og:url']
+					: $url,
+				$title,
+				$title
+			);
 		}
 
 		return $html;
