@@ -18,16 +18,6 @@ namespace fg\Essence;
 abstract class Provider {
 
 	/**
-	 *	Tells if the provider is generic.
-	 *
-	 *	@var boolean
-	 */
-
-	protected $_generic = false;
-
-
-
-	/**
 	 *	Provider options, obtained from merging constructor options to the
 	 *	default ones.
 	 *
@@ -49,20 +39,6 @@ abstract class Provider {
 		if ( !empty( $options )) {
 			$this->_options = array_merge( $this->_options, $options );
 		}
-	}
-
-
-
-	/**
-	 *	Tells if the provider is generic, i.e. if it will attempt to fetch
-	 *	information from any URL.
-	 *
-	 *	@param boolean Whether the provider is generic or not.
-	 */
-
-	public function isGeneric( ) {
-
-		return $this->_generic;
 	}
 
 

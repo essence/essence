@@ -23,14 +23,6 @@ use fg\Essence\Utility\Registry;
 class Generic extends OEmbed {
 
 	/**
-	 *	{@inheritDoc}
-	 */
-
-	protected $_generic = true;
-
-
-
-	/**
 	 *	A cache for extracted endpoints.
 	 *
 	 *	@var fg\Essence\Cache\Volatile
@@ -49,17 +41,6 @@ class Generic extends OEmbed {
 		parent::__construct( $options );
 
 		$this->_Cache = new Volatile( );
-	}
-
-
-
-	/**
-	 *	{@inheritDoc}
-	 */
-
-	public function canEmbed( $url ) {
-
-		return ( $this->_extractEndpoint( $url ) !== false );
 	}
 
 

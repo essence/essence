@@ -251,7 +251,7 @@ class ProviderCollection {
 			'format' => OEmbed::json
 		),
 		'Youtube' => array(
-			'class' => 'OEmbed',
+			'class' => 'OEmbed/Youtube',
 			'pattern' => '#youtube\.com|youtu\.be#i',
 			'endpoint' => 'http://www.youtube.com/oembed?format=json&url=%s',
 			'format' => OEmbed::json
@@ -340,42 +340,16 @@ class ProviderCollection {
 	protected function _provider( $name, $options ) {
 
 		if ( !isset( $this->_providers[ $name ])) {
-			$Reflection = new \ReflectionClass(
-				$this->_fullyQualified( $options['class'])
-			);
+			$class = $options['class'];
 
-			if ( !$Reflection->isAbstract( )) {
-				$Provider = $Reflection->newInstance( $options );
-
-				if ( $Provider->isGeneric( )) {
-					$this->_providers[ ] = $Provider;
-				} else {
-					// regular providers are pushed to the front to take
-					// precedence over the generic ones.
-					array_unshift( $this->_providers, $Provider );
-				}
+			if ( $class[ 0 ] !== '\\' ) {
+				$class = '\\fg\\Essence\\Provider\\' . str_replace( '/', '\\', $class );
 			}
 
-			$this->_providers[ $name ] = $Provider;
+			$Reflection = new \ReflectionClass( $class );
+			$this->_providers[ $name ] = $Reflection->newInstance( $options );
 		}
 
 		return $this->_providers[ $name ];
-	}
-
-
-
-	/**
-	 *	Returns the fully qualified class name (FQCN) for the given provider
-	 *	name. If the name happens to be a FQCN, it is returned as is.
-	 *
-	 *	@param string $name Provider name.
-	 *	@param string FQCN.
-	 */
-
-	protected function _fullyQualified( $name ) {
-
-		return ( $name[ 0 ] !== '\\' )
-			? '\\fg\\Essence\\Provider\\' . str_replace( '/', '\\', $name )
-			: $name;
 	}
 }
