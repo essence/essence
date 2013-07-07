@@ -11,7 +11,6 @@ namespace fg\Essence\Provider;
 use fg\Essence\Exception;
 use fg\Essence\Media;
 use fg\Essence\Provider;
-use fg\Essence\Cache\Volatile;
 use fg\Essence\Utility\Registry;
 use fg\Essence\Utility\Hash;
 

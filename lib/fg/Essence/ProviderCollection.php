@@ -7,10 +7,6 @@
 
 namespace fg\Essence;
 
-use fg\Essence\Provider\OEmbed;
-use fg\Essence\Utility\Package;
-use fg\Essence\Utility\Set;
-
 
 
 /**

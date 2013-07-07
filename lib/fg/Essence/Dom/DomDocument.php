@@ -43,20 +43,18 @@ class DomDocument implements Dom {
 			$tags = $Document->getElementsByTagName( $tagName );
 			$requiredAttributes = Hash::normalize( $requiredAttributes, '' );
 
-			//if ( $tags->length > 0 ) {
-				foreach ( $tags as $Tag ) {
-					if ( $Tag->hasAttributes( )) {
-						$attributes = $this->_extractAttributesFromTag(
-							$Tag,
-							$requiredAttributes
-						);
+			foreach ( $tags as $Tag ) {
+				if ( $Tag->hasAttributes( )) {
+					$attributes = $this->_extractAttributesFromTag(
+						$Tag,
+						$requiredAttributes
+					);
 
-						if ( !empty( $attributes )) {
-							$data[ $tagName ][ ] = $attributes;
-						}
+					if ( !empty( $attributes )) {
+						$data[ $tagName ][ ] = $attributes;
 					}
 				}
-			//}
+			}
 		}
 
 		return $data;
