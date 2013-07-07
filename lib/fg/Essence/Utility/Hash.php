@@ -15,7 +15,7 @@ namespace fg\Essence\Utility;
  *	@package fg.Essence.Utility
  */
 
-class Set {
+class Hash {
 
 	/**
 	 *	Reindexes an array, according to the given correspondances.

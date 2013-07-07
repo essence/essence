@@ -15,10 +15,10 @@ if ( !defined( 'ESSENCE_BOOTSTRAPPED' )) {
 
 
 /**
- *	Test case for Set.
+ *	Test case for Hash.
  */
 
-class SetTest {
+class HashTest {
 
 	/**
 	 *
@@ -26,7 +26,7 @@ class SetTest {
 
 	public function testReindex( ) {
 
-		$data = Set::reindex(
+		$data = Hash::reindex(
 			array( 'one' => 'value' ),
 			array( 'one' => 'two' )
 		);
@@ -45,7 +45,7 @@ class SetTest {
 
 	public function testNormalize( ) {
 
-		$data = Set::normalize(
+		$data = Hash::normalize(
 			array(
 				'one',
 				'two' => 'three',
