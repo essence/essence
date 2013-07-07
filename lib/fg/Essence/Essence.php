@@ -45,16 +45,17 @@ class Essence {
 	/**
 	 *	Configuration options.
 	 *
+	 *	### Options
+	 *
+	 *	- 'urlPattern' string A pattern to match URLs.
+	 *	- 'varPattern' string A pattern to match template's variables.
+	 *
 	 *	@var array
 	 */
 
 	protected $_config = array(
-
-		// matches an URL
 		'urlPattern' => '#(?=(\b)\b|[^"])?(?<url>(?:https?://|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:\'"\.,<>?«»“”‘’]))#i',
-
-		// matches a property in a template
-		'propertyPattern' => '#%(?<property>[\s\S]+?)%#'
+		'varPattern' => '#%(?<property>[\s\S]+?)%#'
 	);
 
 
@@ -62,18 +63,21 @@ class Essence {
 	/**
 	 *	Constructor.
 	 *
-	 *	@param fg\Essence\ProviderCollection|array $collection An instance
-	 *		of ProviderCollection, or a configuration array to pass to a new
-	 *		instance.
+	 *	@param fg\Essence\ProviderCollection|array|string $providers An instance
+	 *		of ProviderCollection, or a configuration array/file to pass to a
+	 *		new instance.
+	 *	@param array $config Essence configuration.
 	 */
 
-	public function __construct( $collection = array( )) {
-
-		$this->_Collection = ( $collection instanceof ProviderCollection )
-			? $collection
-			: new ProviderCollection(( array )$collection );
+	public function __construct( $providers = array( ), array $config = array( )) {
 
 		$this->_checkEnvironment( );
+
+		$this->_Collection = ( $providers instanceof ProviderCollection )
+			? $providers
+			: new ProviderCollection( $providers );
+
+		$this->_config = array_merge( $this->_config, $config );
 		$this->_Cache = Registry::get( 'cache' );
 	}
 
@@ -139,15 +143,12 @@ class Essence {
 		$embeddable = array( );
 
 		foreach ( $urls as $url ) {
-			if (
-				$this->_Collection->hasProvider( $url )
-				&& !in_array( $url, $embeddable )
-			) {
+			if (	$this->_Collection->hasProvider( $url )) {
 				$embeddable[ ] = $url;
 			}
 		}
 
-		return $embeddable;
+		return array_unique( $embeddable );
 	}
 
 
@@ -262,7 +263,7 @@ class Essence {
 	 *
 	 *	By default, links will be replaced by the html property of Media.
 	 *	The behavior of this method can method can be customized with the
-	 *	'urlPattern' and 'propertyPattern' configuration options.
+	 *	'urlPattern' and 'varPattern' configuration options.
 	 *
 	 *	Thanks to Stefano Zoffoli (https://github.com/stefanozoffoli) for his
 	 *	idea (https://github.com/felixgirault/essence/issues/4).
@@ -287,7 +288,7 @@ class Essence {
 						$replacement = $Media->get( 'html' );
 					} else {
 						$replacement = preg_replace_callback(
-							$this->_config['propertyPattern'],
+							$this->_config['varPattern'],
 							function( $matches ) use ( &$Media ) {
 								return $Media->get( $matches['property']);
 							},

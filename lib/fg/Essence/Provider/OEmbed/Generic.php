@@ -59,7 +59,7 @@ class Generic extends OEmbed {
 
 		return $this->_embedEndpoint(
 			$endpoint['url'],
-			$endpoint['type'],
+			$endpoint['format'],
 			$options
 		);
 	}
@@ -92,10 +92,10 @@ class Generic extends OEmbed {
 		$endpoint = false;
 
 		foreach ( $attributes['link'] as $link ) {
-			if ( preg_match( '#json|xml#i', $link['type'], $matches )) {
+			if ( preg_match( '#(?<format>json|xml)#i', $link['type'], $matches )) {
 				$endpoint = array(
 					'url' => $link['href'],
-					'type' => array_shift( $matches )
+					'format' => $matches['format']
 				);
 
 				break;

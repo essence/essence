@@ -9,7 +9,7 @@ namespace fg\Essence\Dom;
 
 use fg\Essence\Dom;
 use fg\Essence\Exception;
-use fg\Essence\Utility\Set;
+use fg\Essence\Utility\Hash;
 
 
 
@@ -35,13 +35,13 @@ class DomDocument implements Dom {
 			throw new Exception( 'Unable to load HTML document.' );
 		}
 
-		$options = Set::normalize( $options, array( ));
+		$options = Hash::normalize( $options, array( ));
 		$data = array( );
 
 		foreach ( $options as $tagName => $requiredAttributes ) {
 			$data[ $tagName ] = array( );
 			$tags = $Document->getElementsByTagName( $tagName );
-			$requiredAttributes = Set::normalize( $requiredAttributes, '' );
+			$requiredAttributes = Hash::normalize( $requiredAttributes, '' );
 
 			//if ( $tags->length > 0 ) {
 				foreach ( $tags as $Tag ) {

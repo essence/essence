@@ -10,8 +10,9 @@ namespace fg\Essence\Provider;
 use fg\Essence\Exception;
 use fg\Essence\Media;
 use fg\Essence\Provider;
+use fg\Essence\Cache\Volatile;
 use fg\Essence\Utility\Registry;
-use fg\Essence\Utility\Set;
+use fg\Essence\Utility\Hash;
 
 
 
@@ -52,6 +53,7 @@ class OEmbed extends Provider {
 	 */
 
 	protected $_options = array(
+		'prepare' => 'OEmbed::prepare',
 		'endpoint' => '',
 		'format' => self::json
 	);
@@ -82,12 +84,12 @@ class OEmbed extends Provider {
 	 *	@return string Prepared url.
 	 */
 
-	protected function _prepare( $url ) {
+	public static function prepare( $url ) {
 
-		$url = parent::_prepare( $url );
+		$url = trim( $url );
 
-		if ( !$this->_strip( $url, '?' )) {
-			$this->_strip( $url, '#' );
+		if ( !self::strip( $url, '?' )) {
+			self::strip( $url, '#' );
 		}
 
 		return $url;
@@ -103,15 +105,16 @@ class OEmbed extends Provider {
 	 *	@return boolean True if the string was modified, otherwise false.
 	 */
 
-	protected function _strip( &$string, $delimiter ) {
+	public static function strip( &$string, $delimiter ) {
 
 		$position = strpos( $string, $delimiter );
+		$found = ( $position !== false );
 
-		if ( $position !== false ) {
+		if ( $found ) {
 			$string = substr( $string, 0, $position );
 		}
 
-		return ( $position !== false );
+		return $found;
 	}
 
 
@@ -159,7 +162,7 @@ class OEmbed extends Provider {
 		}
 
 		return new Media(
-			Set::reindex(
+			Hash::reindex(
 				$data,
 				array(
 					'author_name' => 'authorName',

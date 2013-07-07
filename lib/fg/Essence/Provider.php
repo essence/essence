@@ -21,10 +21,18 @@ abstract class Provider {
 	 *	Provider options, obtained from merging constructor options to the
 	 *	default ones.
 	 *
+	 *	### Options
+	 *
+	 *	- 'prepare' callable( string $url ) A function to prepare the given URL.
+	 *	- 'polish' callable( fg\Essence\Media $Media ) A function to polish
+	 *		the given media.
+	 *
 	 *	@var array
 	 */
 
-	protected $_options = array( );
+	protected $_options = array(
+		'prepare' => 'trim'
+	);
 
 
 
@@ -36,9 +44,18 @@ abstract class Provider {
 
 	public function __construct( array $options = array( )) {
 
-		if ( !empty( $options )) {
-			$this->_options = array_merge( $this->_options, $options );
+		$parentVars = get_class_vars( get_parent_class( $this ));
+		$parentOptions = $parentVars['_options'];
+
+		if (
+			!empty( $parentOptions )
+			&& is_array( $this->_options )
+			&& ( $this->_options != $parentOptions )
+		) {
+			$this->_options = array_merge( $parentOptions, $this->_options );
 		}
+
+		$this->_options = array_merge( $this->_options, $options );
 	}
 
 
@@ -54,7 +71,12 @@ abstract class Provider {
 
 	public final function embed( $url, array $options = array( )) {
 
-		$url = $this->_prepare( $url );
+		$prepare = $this->_options['prepare'];
+
+		if ( is_callable( $prepare )) {
+			$url = $prepare( $url );
+		}
+
 		$Media = $this->_embed( $url, $options );
 
 		if ( $Media && !$Media->get( 'url' )) {
@@ -62,21 +84,6 @@ abstract class Provider {
 		}
 
 		return $Media;
-	}
-
-
-
-	/**
-	 *	Prepares an URL before fetching its contents. This method can be
-	 *	overloaded in subclasses to do some preprocessing.
-	 *
-	 *	@param string $url URL to prepare.
-	 *	@return string Prepared URL.
-	 */
-
-	protected function _prepare( $url ) {
-
-		return trim( $url );
 	}
 
 

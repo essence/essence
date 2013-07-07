@@ -68,15 +68,9 @@ class OEmbedTest extends \PHPUnit_Framework_TestCase {
 
 	public function testPrepare( ) {
 
-
-		$Media = $this->OEmbed->embed( 'valid#anchor' );
-		$this->assertEquals( 'valid', $Media->url );
-
-		$Media = $this->OEmbed->embed( 'valid?argument=value' );
-		$this->assertEquals( 'valid', $Media->url );
-
-		$Media = $this->OEmbed->embed( 'valid?argument=value#anchor' );
-		$this->assertEquals( 'valid', $Media->url );
+		$this->assertEquals( 'valid', OEmbed::prepare( 'valid#anchor' ));
+		$this->assertEquals( 'valid', OEmbed::prepare( 'valid?argument=value' ));
+		$this->assertEquals( 'valid', OEmbed::prepare( 'valid?argument=value#anchor' ));
 	}
 
 

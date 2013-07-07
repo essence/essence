@@ -13,7 +13,7 @@ use fg\Essence\Media;
 use fg\Essence\Provider;
 use fg\Essence\Cache\Volatile;
 use fg\Essence\Utility\Registry;
-use fg\Essence\Utility\Set;
+use fg\Essence\Utility\Hash;
 
 
 
@@ -64,7 +64,7 @@ class OpenGraph extends Provider {
 		}
 
 		return new Media(
-			Set::reindex(
+			Hash::reindex(
 				$og,
 				array(
 					'og:type' => 'type',
