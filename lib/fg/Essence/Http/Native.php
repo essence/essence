@@ -20,7 +20,7 @@ use fg\Essence\Http;
 class Native implements Http {
 
 	/**
-	 *	The default HTTP status code to assume if headers cannot be parsed.
+	 *	Default HTTP status code.
 	 *
 	 *	@var int
 	 */
@@ -30,7 +30,10 @@ class Native implements Http {
 
 
 	/**
+	 *	Constructor.
 	 *
+	 *	@param int $defaultCode The default HTTP status code to assume if
+	 *		response headers cannot be parsed.
 	 */
 
 	public function __construct( $defaultCode = 404 ) {
