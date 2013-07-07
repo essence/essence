@@ -25,7 +25,18 @@ class Native implements Http {
 	 *	@var int
 	 */
 
-	const defaultHttpCode = 404;
+	protected $_defaultCode;
+
+
+
+	/**
+	 *
+	 */
+
+	public function __construct( $defaultCode = 404 ) {
+
+		$this->_defaultCode = $defaultCode;
+	}
 
 
 
@@ -46,7 +57,7 @@ class Native implements Http {
 		error_reporting( $reporting );
 
 		if ( $contents === false ) {
-			$code = self::defaultHttpCode;
+			$code = $this->_defaultCode;
 
 			if ( isset( $http_response_header )) {
 				preg_match(
