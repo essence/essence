@@ -15,16 +15,16 @@ if ( !defined( 'ESSENCE_BOOTSTRAPPED')) {
 
 
 /**
- *	Test case for FileGetContents.
+ *	Test case for Native.
  */
 
-class FileGetContentsTest extends \PHPUnit_Framework_TestCase {
+class NativeTest extends \PHPUnit_Framework_TestCase {
 
 	/**
 	 *
 	 */
 
-	public $FileGetContents = null;
+	public $Native = null;
 
 
 
@@ -34,7 +34,7 @@ class FileGetContentsTest extends \PHPUnit_Framework_TestCase {
 
 	public function setUp( ) {
 
-		$this->FileGetContents = new FileGetContents( );
+		$this->Native = new Native( );
 	}
 
 
@@ -45,7 +45,7 @@ class FileGetContentsTest extends \PHPUnit_Framework_TestCase {
 
 	public function testGet( ) {
 
-		$this->assertNotEmpty( $this->FileGetContents->get( 'file://' . __FILE__ ));
+		$this->assertNotEmpty( $this->Native->get( 'file://' . __FILE__ ));
 	}
 
 
@@ -57,6 +57,6 @@ class FileGetContentsTest extends \PHPUnit_Framework_TestCase {
 	public function testGetUnreachable( ) {
 
 		$this->setExpectedException( '\\fg\\Essence\\Http\\Exception' );
-		$this->FileGetContents->get( 'file://' . __FILE__ . '.unreachable' );
+		$this->Native->get( 'file://' . __FILE__ . '.unreachable' );
 	}
 }

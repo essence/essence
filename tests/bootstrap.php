@@ -6,7 +6,7 @@
  */
 
 use fg\Essence\Cache\Null;
-use fg\Essence\Http\FileGetContents;
+use fg\Essence\Http\Native;
 use fg\Essence\Utility\ClassLoader;
 use fg\Essence\Utility\Registry;
 
@@ -57,4 +57,4 @@ $ResourcesClassLoader->register( );
  */
 
 Registry::register( 'cache', new Null( ));
-Registry::register( 'http', new FileGetContents( ));
+Registry::register( 'http', new Native( ));

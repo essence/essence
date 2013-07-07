@@ -59,7 +59,7 @@ class ProviderCollection {
 
 		if ( is_array( $config )) {
 			$this->_config = $config;
-		} else if ( is_file( $config )) {
+		} else if ( file_exists( $config )) {
 			$this->load( $config );
 		}
 	}

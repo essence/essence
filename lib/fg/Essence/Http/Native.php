@@ -17,7 +17,7 @@ use fg\Essence\Http;
  *	@package fg.Essence.Http
  */
 
-class FileGetContents implements Http {
+class Native implements Http {
 
 	/**
 	 *	The default HTTP status code to assume if headers cannot be parsed.
@@ -50,7 +50,7 @@ class FileGetContents implements Http {
 
 			if ( isset( $http_response_header )) {
 				preg_match(
-					'#^HTTP/[0-9\\.]+\s(?P<code>[0-9]+)#i',
+					'#^HTTP/[0-9\.]+\s(?P<code>[0-9]+)#i',
 					$http_response_header[ 0 ],
 					$matches
 				);
