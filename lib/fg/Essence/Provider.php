@@ -7,6 +7,8 @@
 
 namespace fg\Essence;
 
+use fg\Essence\Cache\Volatile;
+
 
 
 /**
@@ -16,6 +18,16 @@ namespace fg\Essence;
  */
 
 abstract class Provider {
+
+	/**
+	 *	An internal cache.
+	 *
+	 *	@var fg\Essence\Cache
+	 */
+
+	protected $_Cache = null;
+
+
 
 	/**
 	 *	Provider options, obtained from merging constructor options to the
@@ -42,7 +54,7 @@ abstract class Provider {
 	 *	@param array $options Configuration options.
 	 */
 
-	public function __construct( array $options = array( )) {
+	public function __construct( array $options = array( ), $Cache = null ) {
 
 		$parentVars = get_class_vars( get_parent_class( $this ));
 		$parentOptions = $parentVars['_options'];
@@ -56,6 +68,7 @@ abstract class Provider {
 		}
 
 		$this->_options = array_merge( $this->_options, $options );
+		$this->_Cache = $Cache ? $Cache : new Volatile( );
 	}
 
 

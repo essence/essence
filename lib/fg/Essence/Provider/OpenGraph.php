@@ -27,29 +27,6 @@ use fg\Essence\Utility\Hash;
 class OpenGraph extends Provider {
 
 	/**
-	 *	A cache for extracted informations.
-	 *
-	 *	@var fg\Essence\Cache\Volatile
-	 */
-
-	protected $_Cache = null;
-
-
-
-	/**
-	 *	{@inheritDoc}
-	 */
-
-	public function __construct( array $options = array( )) {
-
-		parent::__construct( $options );
-
-		$this->_Cache = new Volatile( );
-	}
-
-
-
-	/**
 	 *	{@inheritDoc}
 	 */
 

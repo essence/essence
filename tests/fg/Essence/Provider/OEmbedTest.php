@@ -203,4 +203,19 @@ class OEmbedTest extends \PHPUnit_Framework_TestCase {
 
 		$this->fail( 'An expected exception has not been raised.' );
 	}
+
+
+
+	/**
+	 *
+	 */
+
+	public function testEmbedGeneric( ) {
+
+		$OEmbed = new TestableOEmbed( );
+
+		$this->assertNotNull(
+			$OEmbed->embed( 'file://' . ESSENCE_HTTP . 'valid.html' )
+		);
+	}
 }

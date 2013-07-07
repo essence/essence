@@ -258,4 +258,22 @@ return array(
 			return $url;
 		}
 	)
+
+	// generic OEmbed
+
+	/*
+	'OEmbed' => array(
+		'class' => 'OEmbed',
+		'pattern' => '#.*#'
+	),
+	*/
+
+	// generic OpenGraph
+
+	/*
+	'OpenGraph' => array(
+		'class' => 'OpenGraph',
+		'pattern' => '#.*#'
+	),
+	*/
 );

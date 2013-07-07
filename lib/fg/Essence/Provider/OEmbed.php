@@ -10,7 +10,6 @@ namespace fg\Essence\Provider;
 use fg\Essence\Exception;
 use fg\Essence\Media;
 use fg\Essence\Provider;
-use fg\Essence\Cache\Volatile;
 use fg\Essence\Utility\Registry;
 use fg\Essence\Utility\Hash;
 
@@ -121,15 +120,77 @@ class OEmbed extends Provider {
 
 	/**
 	 *	{@inheritDoc}
+	 *
+	 *	@note If no endpoint was specified in the configuration, the page at
+	 *		the given URL will be parsed to find one.
 	 */
 
 	protected function _embed( $url, $options ) {
 
-		return $this->_embedEndpoint(
-			sprintf( $this->_options['endpoint'], urlencode( $url )),
-			$this->_options['format'],
-			$options
+		$Media = null;
+
+		if ( empty( $this->_options['endpoint'])) {
+			$endpoint = $this->_extractEndpoint( $url );
+
+			if ( !$endpoint ) {
+				throw new Exception( 'Unable to find any endpoint.' );
+			}
+
+			$Media = $this->_embedEndpoint(
+				$endpoint['url'],
+				$endpoint['format'],
+				$options
+			);
+		} else {
+			$Media = $this->_embedEndpoint(
+				sprintf( $this->_options['endpoint'], urlencode( $url )),
+				$this->_options['format'],
+				$options
+			);
+		}
+
+		return $Media;
+	}
+
+
+
+	/**
+	 *	Extracts an oEmbed endpoint from the given URL.
+	 *
+	 *	@param string $url
+	 */
+
+	protected function _extractEndpoint( $url ) {
+
+		if ( $this->_Cache->has( $url )) {
+			return $this->_Cache->get( $url );
+		}
+
+		$attributes = Registry::get( 'dom' )->extractAttributes(
+			Registry::get( 'http' )->get( $url ),
+			array(
+				'link' => array(
+					'rel' => '#alternate#i',
+					'type',
+					'href'
+				)
+			)
 		);
+
+		$endpoint = false;
+
+		foreach ( $attributes['link'] as $link ) {
+			if ( preg_match( '#(?<format>json|xml)#i', $link['type'], $matches )) {
+				$endpoint = array(
+					'url' => $link['href'],
+					'format' => $matches['format']
+				);
+
+				break;
+			}
+		}
+
+		return $this->_Cache->set( $url, $endpoint );
 	}
 
 
