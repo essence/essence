@@ -38,20 +38,20 @@ class DomDocument implements Dom {
 		$options = Hash::normalize( $options, array( ));
 		$data = array( );
 
-		foreach ( $options as $tagName => $requiredAttributes ) {
-			$data[ $tagName ] = array( );
-			$tags = $Document->getElementsByTagName( $tagName );
-			$requiredAttributes = Hash::normalize( $requiredAttributes, '' );
+		foreach ( $options as $tag => $required ) {
+			$tags = $Document->getElementsByTagName( $tag );
+			$required = Hash::normalize( $required, '' );
+			$data[ $tag ] = array( );
 
 			foreach ( $tags as $Tag ) {
 				if ( $Tag->hasAttributes( )) {
 					$attributes = $this->_extractAttributesFromTag(
 						$Tag,
-						$requiredAttributes
+						$required
 					);
 
 					if ( !empty( $attributes )) {
-						$data[ $tagName ][ ] = $attributes;
+						$data[ $tag ][ ] = $attributes;
 					}
 				}
 			}
@@ -65,37 +65,32 @@ class DomDocument implements Dom {
 	/**
 	 *	Extracts attributes from the given tag.
 	 *
-	 *	@param \DOMElement $Tag Tag to extract attributes from.
-	 *	@param array $requiredAttributes Required attributes.
+	 *	@param \DOMNode $Tag Tag to extract attributes from.
+	 *	@param array $required Required attributes.
 	 *	@return array Extracted attributes.
 	 */
 
-	protected function _extractAttributesFromTag( \DOMElement $Tag, array $requiredAttributes ) {
+	protected function _extractAttributesFromTag( \DOMNode $Tag, array $required ) {
 
 		$attributes = array( );
-		$length = $Tag->attributes->length;
 
-		for ( $i = 0; $i < $length; $i++ ) {
-			$attribute = $Tag->attributes->item( $i );
+		foreach ( $Tag->attributes as $a => $Attribute ) {
+			if ( !empty( $required )) {
+				if ( isset( $required[ $Attribute->name ])) {
+					$pattern = $required[ $Attribute->name ];
 
-			if ( !empty( $requiredAttributes )) {
-				if ( isset( $requiredAttributes[ $attribute->name ])) {
-					$pattern = $requiredAttributes[ $attribute->name ];
-
-					if ( !empty( $pattern )) {
-						if ( !preg_match( $pattern, $attribute->value )) {
-							return array( );
-						}
+					if ( $pattern && !preg_match( $pattern, $Attribute->value )) {
+						return array( );
 					}
 				} else {
 					continue;
 				}
 			}
 
-			$attributes[ $attribute->name ] = $attribute->value;
+			$attributes[ $Attribute->name ] = $Attribute->value;
 		}
 
-		$diff = array_diff_key( $requiredAttributes, $attributes );
+		$diff = array_diff_key( $required, $attributes );
 
 		return empty( $diff )
 			? $attributes
