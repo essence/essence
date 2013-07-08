@@ -8,11 +8,12 @@
 namespace fg\Essence\Cache;
 
 use fg\Essence\Cache;
+use fg\Essence\Cache\Volatile;
 
 
 
 /**
- *	.
+ *
  *
  *	@package fg.Essence.Cache
  */
@@ -38,5 +39,22 @@ trait Consumer {
 	public function setCache( Cache &$Cache ) {
 
 		$this->_Cache =& $Cache;
+	}
+
+
+
+	/**
+	 *	Returns the internal cache.
+	 *
+	 *	@return fg\Essence\Cache Cache.
+	 */
+
+	public function &_cache( ) {
+
+		if ( $this->_Cache === null ) {
+			$this->_Cache = new Volatile( );
+		}
+
+		return $this->_Cache;
 	}
 }
