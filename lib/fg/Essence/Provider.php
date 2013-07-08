@@ -20,16 +20,6 @@ use fg\Essence\Cache\Volatile;
 abstract class Provider {
 
 	/**
-	 *	An internal cache.
-	 *
-	 *	@var fg\Essence\Cache
-	 */
-
-	protected $_Cache = null;
-
-
-
-	/**
 	 *	Provider options, obtained from merging constructor options to the
 	 *	default ones.
 	 *
@@ -54,10 +44,9 @@ abstract class Provider {
 	 *	@param array $options Configuration options.
 	 */
 
-	public function __construct( array $options = array( ), $Cache = null ) {
+	public function __construct( array $options = array( )) {
 
-		$this->_options = array_merge( $options, $this->_options );
-		$this->_Cache = $Cache ?: new Volatile( );
+		$this->_options = array_merge( $this->_options, $options );
 	}
 
 

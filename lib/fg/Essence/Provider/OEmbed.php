@@ -132,15 +132,13 @@ class OEmbed extends Provider {
 		if ( empty( $this->_options['endpoint'])) {
 			$endpoint = $this->_extractEndpoint( $url );
 
-			if ( !$endpoint ) {
-				throw new Exception( 'Unable to find any endpoint.' );
+			if ( $endpoint ) {
+				$Media = $this->_embedEndpoint(
+					$endpoint['url'],
+					$endpoint['format'],
+					$options
+				);
 			}
-
-			$Media = $this->_embedEndpoint(
-				$endpoint['url'],
-				$endpoint['format'],
-				$options
-			);
 		} else {
 			$Media = $this->_embedEndpoint(
 				sprintf( $this->_options['endpoint'], urlencode( $url )),
@@ -161,10 +159,6 @@ class OEmbed extends Provider {
 	 */
 
 	protected function _extractEndpoint( $url ) {
-
-		if ( $this->_Cache->has( $url )) {
-			return $this->_Cache->get( $url );
-		}
 
 		$attributes = Registry::get( 'dom' )->extractAttributes(
 			Registry::get( 'http' )->get( $url ),
@@ -190,7 +184,7 @@ class OEmbed extends Provider {
 			}
 		}
 
-		return $this->_Cache->set( $url, $endpoint );
+		return $endpoint;
 	}
 
 

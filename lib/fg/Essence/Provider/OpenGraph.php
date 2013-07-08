@@ -70,10 +70,6 @@ class OpenGraph extends Provider {
 
 	protected function _extractInformations( $url ) {
 
-		if ( $this->_Cache->has( $url )) {
-			return $this->_Cache->get( $url );
-		}
-
 		$attributes = Registry::get( 'dom' )->extractAttributes(
 			Registry::get( 'http' )->get( $url ),
 			array(
@@ -96,7 +92,6 @@ class OpenGraph extends Provider {
 			$og['html'] = $this->_buildHtml( $og, $url );
 		}
 
-		$this->_Cache->set( $url, $og );
 		return $og;
 	}
 
