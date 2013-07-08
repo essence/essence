@@ -98,6 +98,7 @@ class ProviderCollection {
 	/**
 	 *	Finds providers of the given url.
 	 *
+	 *	@todo Use PHP generators to yield providers.
 	 *	@param string $url An url which may be embedded.
 	 *	@return array An array of fg\Essence\Provider.
 	 */
