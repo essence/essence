@@ -9,7 +9,7 @@ namespace fg\Essence;
 
 use fg\Essence\Cache\Volatile;
 use fg\Essence\Cache\Consumer as CacheConsumer;
-use fg\Essence\Dom\DomDocument;
+use fg\Essence\Dom\Native;
 use fg\Essence\Http\Curl;
 use fg\Essence\Utility\Registry;
 
@@ -90,7 +90,7 @@ class Essence {
 		}
 
 		if ( !Registry::has( 'dom' )) {
-			Registry::register( 'dom', new DomDocument( ));
+			Registry::register( 'dom', new Native( ));
 		}
 
 		if ( !Registry::has( 'http' )) {

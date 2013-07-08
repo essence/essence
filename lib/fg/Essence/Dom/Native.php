@@ -19,7 +19,7 @@ use fg\Essence\Utility\Hash;
  *	@package fg.Essence.Dom
  */
 
-class DomDocument implements Dom {
+class Native implements Dom {
 
 	/**
 	 *	{@inheritDoc}
@@ -28,7 +28,7 @@ class DomDocument implements Dom {
 	public function extractAttributes( $html, array $options ) {
 
 		$reporting = error_reporting( 0 );
-		$Document = \DOMDocument::loadHTML( $html );
+		$Document = \Native::loadHTML( $html );
 		error_reporting( $reporting );
 
 		if ( $Document === false ) {

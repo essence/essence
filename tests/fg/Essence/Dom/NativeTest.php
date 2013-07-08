@@ -15,16 +15,16 @@ if ( !defined( 'ESSENCE_BOOTSTRAPPED')) {
 
 
 /**
- *	Test case for DomDocument.
+ *	Test case for Native.
  */
 
-class DomDocumentTest extends \PHPUnit_Framework_TestCase {
+class NativeTest extends \PHPUnit_Framework_TestCase {
 
 	/**
 	 *
 	 */
 
-	public $DomDocument = null;
+	public $Native = null;
 
 
 
@@ -48,7 +48,7 @@ HTML;
 
 	public function setUp( ) {
 
-		$this->DomDocument = new DomDocument( );
+		$this->Native = new Native( );
 	}
 
 
@@ -60,7 +60,7 @@ HTML;
 	public function testExtractAttributes( ) {
 
 		$this->setExpectedException( '\\fg\\Essence\\Exception' );
-		$this->DomDocument->extractAttributes( '', array( ));
+		$this->Native->extractAttributes( '', array( ));
 	}
 
 
@@ -75,7 +75,7 @@ HTML;
 			array(
 				'unknown' => array( )
 			),
-			$this->DomDocument->extractAttributes( $this->html, array( 'unknown' ))
+			$this->Native->extractAttributes( $this->html, array( 'unknown' ))
 		);
 	}
 
@@ -101,7 +101,7 @@ HTML;
 					)
 				)
 			),
-			$this->DomDocument->extractAttributes( $this->html, array( 'a' ))
+			$this->Native->extractAttributes( $this->html, array( 'a' ))
 		);
 	}
 
@@ -122,7 +122,7 @@ HTML;
 					)
 				)
 			),
-			$this->DomDocument->extractAttributes(
+			$this->Native->extractAttributes(
 				$this->html,
 				array(
 					'a' => array( 'href', 'target' )
@@ -148,7 +148,7 @@ HTML;
 					)
 				)
 			),
-			$this->DomDocument->extractAttributes(
+			$this->Native->extractAttributes(
 				$this->html,
 				array(
 					'meta' => array( 'name' => '#^ns:.+#', 'content' )
@@ -189,7 +189,7 @@ HTML;
 					)
 				)
 			),
-			$this->DomDocument->extractAttributes(
+			$this->Native->extractAttributes(
 				$this->html,
 				array( 'meta', 'a' )
 			)
