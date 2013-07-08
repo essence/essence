@@ -56,19 +56,8 @@ abstract class Provider {
 
 	public function __construct( array $options = array( ), $Cache = null ) {
 
-		$parentVars = get_class_vars( get_parent_class( $this ));
-		$parentOptions = $parentVars['_options'];
-
-		if (
-			!empty( $parentOptions )
-			&& is_array( $this->_options )
-			&& ( $this->_options != $parentOptions )
-		) {
-			$this->_options = array_merge( $parentOptions, $this->_options );
-		}
-
-		$this->_options = array_merge( $this->_options, $options );
-		$this->_Cache = $Cache ? $Cache : new Volatile( );
+		$this->_options = array_merge( $options, $this->_options );
+		$this->_Cache = $Cache ?: new Volatile( );
 	}
 
 
@@ -87,7 +76,7 @@ abstract class Provider {
 		$prepare = $this->_options['prepare'];
 
 		if ( is_callable( $prepare )) {
-			$url = $prepare( $url );
+			$url = call_user_func( $prepare, $url );
 		}
 
 		$Media = $this->_embed( $url, $options );
