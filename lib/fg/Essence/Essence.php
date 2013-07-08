@@ -8,6 +8,7 @@
 namespace fg\Essence;
 
 use fg\Essence\Cache\Volatile;
+use fg\Essence\Cache\Consumer as CacheConsumer;
 use fg\Essence\Dom\DomDocument;
 use fg\Essence\Http\Curl;
 use fg\Essence\Utility\Registry;
@@ -22,6 +23,10 @@ use fg\Essence\Utility\Registry;
 
 class Essence {
 
+	use CacheConsumer;
+
+
+
 	/**
 	 *	A collection of providers to query.
 	 *
@@ -29,16 +34,6 @@ class Essence {
 	 */
 
 	protected $_Collection = null;
-
-
-
-	/**
-	 *	The internal cache engine.
-	 *
-	 *	@var fg\Essence\Cache
-	 */
-
-	protected $_Cache = null;
 
 
 
@@ -54,6 +49,7 @@ class Essence {
 	 */
 
 	protected $_config = array(
+		// http://daringfireball.net/2010/07/improved_regex_for_matching_urls
 		'urlPattern' => '#(?=(\b)\b|[^"])?(?<url>(?:https?://|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:\'"\.,<>?«»“”‘’]))#i',
 		'varPattern' => '#%(?<property>[\s\S]+?)%#'
 	);
@@ -73,12 +69,12 @@ class Essence {
 
 		$this->_checkEnvironment( );
 
+		$this->_config = array_merge( $this->_config, $config );
 		$this->_Collection = ( $providers instanceof ProviderCollection )
 			? $providers
 			: new ProviderCollection( $providers );
 
-		$this->_config = array_merge( $this->_config, $config );
-		$this->_Cache = Registry::get( 'cache' );
+		$this->setCache( Registry::get( 'cache' ));
 	}
 
 
@@ -115,40 +111,27 @@ class Essence {
 
 	public function extract( $source ) {
 
-		$key = 'extract' . $source;
+		return $this->_cached( function( ) use ( $source ) {
 
-		return $this->_Cache->has( $key )
-			? $this->_Cache->get( $key )
-			: $this->_Cache->set( $key, $this->_extract( $source ));
-	}
+			if ( filter_var( $source, FILTER_VALIDATE_URL )) {
+				if ( $this->_Collection->hasProvider( $source )) {
+					return array( $source );
+				}
 
-
-
-	/**
-	 *	@see Essence::extract( )
-	 */
-
-	protected function _extract( $source ) {
-
-		if ( filter_var( $source, FILTER_VALIDATE_URL )) {
-			// if a provider can directly handle the URL, there is no more work to do.
-			if ( $this->_Collection->hasProvider( $source )) {
-				return array( $source );
+				$source = Registry::get( 'http' )->get( $source );
 			}
 
-			$source = Registry::get( 'http' )->get( $source );
-		}
+			$urls = $this->_extractUrls( $source );
+			$embeddable = array( );
 
-		$urls = $this->_extractUrls( $source );
-		$embeddable = array( );
-
-		foreach ( $urls as $url ) {
-			if (	$this->_Collection->hasProvider( $url )) {
-				$embeddable[ ] = $url;
+			foreach ( $urls as $url ) {
+				if (	$this->_Collection->hasProvider( $url )) {
+					$embeddable[ ] = $url;
+				}
 			}
-		}
 
-		return array_unique( $embeddable );
+			return array_unique( $embeddable );
+		});
 	}
 
 
@@ -198,31 +181,19 @@ class Essence {
 
 	public function embed( $url, array $options = array( )) {
 
-		$key = 'embed' . $url . json_encode( $options );
+		return $this->_cached( function( ) use ( $url, $options ) {
 
-		return $this->_Cache->has( $key )
-			? $this->_Cache->get( $key )
-			: $this->_Cache->set( $key, $this->_embed( $url, $options ));
-	}
+			$providers = $this->_Collection->providers( $url );
+			$Media = null;
 
-
-
-	/**
-	 *	@see Essence::embed( )
-	 */
-
-	protected function _embed( $url, array $options ) {
-
-		$providers = $this->_Collection->providers( $url );
-		$Media = null;
-
-		foreach ( $providers as $Provider ) {
-			if ( $Media = $Provider->embed( $url, $options )) {
-				break;
+			foreach ( $providers as $Provider ) {
+				if ( $Media = $Provider->embed( $url, $options )) {
+					break;
+				}
 			}
-		}
 
-		return $Media;
+			return $Media;
+		});
 	}
 
 
@@ -277,7 +248,6 @@ class Essence {
 	public function replace( $text, $template = '', array $options = array( )) {
 
 		return preg_replace_callback(
-			// http://daringfireball.net/2010/07/improved_regex_for_matching_urls
 			$this->_config['urlPattern'],
 			function ( $matches ) use ( $template, $options ) {
 				$Media = $this->embed( $matches['url'], $options );
