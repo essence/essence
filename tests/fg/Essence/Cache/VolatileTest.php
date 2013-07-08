@@ -60,10 +60,10 @@ class VolatileTest extends \PHPUnit_Framework_TestCase {
 	public function testGetSet( ) {
 
 		$this->assertNull( $this->Volatile->get( 'key' ));
-		$this->assertEquals( $this->Volatile->get( 'key', 'value' ), 'value' );
+		$this->assertEquals( 'value', $this->Volatile->get( 'key', 'value' ));
 
-		$this->Volatile->set( 'key', 'value' );
-		$this->assertEquals( $this->Volatile->get( 'key' ), 'value' );
+		$this->assertEquals( 'value', $this->Volatile->set( 'key', 'value' ));
+		$this->assertEquals( 'value', $this->Volatile->get( 'key' ));
 	}
 
 
