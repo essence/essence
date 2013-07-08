@@ -1,6 +1,20 @@
 <?php
 
+/**
+ *	@author Félix Girault <felix.girault@gmail.com>
+ *	@license FreeBSD License (http://opensource.org/licenses/BSD-2-Clause)
+ */
+
 use fg\Essence\Provider\OEmbed;
+
+
+
+/**
+ *	Default providers configuration.
+ *
+ *	@see fg\Essence\ProviderCollection::$_config
+ *	@var array
+ */
 
 return array(
 	'23hq' => array(
@@ -221,8 +235,8 @@ return array(
 
 			$url = OEmbed::prepare( $url );
 
-			if ( preg_match( "#player\.vimeo\.com/video/([0-9]+)#i", $url, $matches )) {
-				return 'http://www.vimeo.com/' . $matches[ 1 ];
+			if ( preg_match( '#player\.vimeo\.com/video/(?<id>[0-9]+)#i', $url, $matches )) {
+				$url = 'http://www.vimeo.com/' . $matches['id'];
 			}
 
 			return $url;
@@ -251,8 +265,8 @@ return array(
 
 			$url = OEmbed::prepare( $url );
 
-			if ( preg_match( "#(v=|v/|embed/|youtu\.be/)([a-z0-9_-]+)#i", $url, $matches )) {
-				return 'http://www.youtube.com/watch?v=' . $matches[ 2 ];
+			if ( preg_match( '#(?:v=|v/|embed/|youtu\.be/)(?<id>[a-z0-9_-]+)#i', $url, $matches )) {
+				$url = 'http://www.youtube.com/watch?v=' . $matches['id'];
 			}
 
 			return $url;
