@@ -111,27 +111,37 @@ class Essence {
 
 	public function extract( $source ) {
 
-		return $this->_cached( function( ) use ( $source ) {
+		return $this->_Cache->has( $source )
+			? $this->_Cache->get( $source )
+			: $this->_Cache->set( $source, $this->_extract( $source ));
+	}
 
-			if ( filter_var( $source, FILTER_VALIDATE_URL )) {
-				if ( $this->_Collection->hasProvider( $source )) {
-					return array( $source );
-				}
 
-				$source = Registry::get( 'http' )->get( $source );
+
+	/**
+	 *	@see extract( )
+	 */
+
+	protected function _extract( $source ) {
+
+		if ( filter_var( $source, FILTER_VALIDATE_URL )) {
+			if ( $this->_Collection->hasProvider( $source )) {
+				return array( $source );
 			}
 
-			$urls = $this->_extractUrls( $source );
-			$embeddable = array( );
+			$source = Registry::get( 'http' )->get( $source );
+		}
 
-			foreach ( $urls as $url ) {
-				if (	$this->_Collection->hasProvider( $url )) {
-					$embeddable[ ] = $url;
-				}
+		$urls = $this->_extractUrls( $source );
+		$embeddable = array( );
+
+		foreach ( $urls as $url ) {
+			if (	$this->_Collection->hasProvider( $url )) {
+				$embeddable[ ] = $url;
 			}
+		}
 
-			return array_unique( $embeddable );
-		});
+		return array_unique( $embeddable );
 	}
 
 
@@ -181,19 +191,35 @@ class Essence {
 
 	public function embed( $url, array $options = array( )) {
 
-		return $this->_cached( function( ) use ( $url, $options ) {
+		$key = $url;
 
-			$providers = $this->_Collection->providers( $url );
-			$Media = null;
+		if ( $options ) {
+			$key .= json_encode( $options );
+		}
 
-			foreach ( $providers as $Provider ) {
-				if ( $Media = $Provider->embed( $url, $options )) {
-					break;
-				}
+		return $this->_Cache->has( $key )
+			? $this->_Cache->get( $key )
+			: $this->_Cache->set( $key, $this->_embed( $url, $options ));
+	}
+
+
+
+	/**
+	 *	@see embed( )
+	 */
+
+	protected function _embed( $url, array $options ) {
+
+		$providers = $this->_Collection->providers( $url );
+		$Media = null;
+
+		foreach ( $providers as $Provider ) {
+			if ( $Media = $Provider->embed( $url, $options )) {
+				break;
 			}
+		}
 
-			return $Media;
-		});
+		return $Media;
 	}
 
 

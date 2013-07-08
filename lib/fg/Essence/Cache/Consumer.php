@@ -20,7 +20,9 @@ use fg\Essence\Cache;
 trait Consumer {
 
 	/**
+	 *	The internal cache.
 	 *
+	 *	@var fg\Essence\Cache
 	 */
 
 	protected $_Cache = null;
@@ -28,31 +30,13 @@ trait Consumer {
 
 
 	/**
+	 *	Sets the internal cache.
 	 *
+	 *	@param fg\Essence\Cache $Cache Cache.
 	 */
 
 	public function setCache( Cache &$Cache ) {
 
-		$this->_Cache = $Cache;
-	}
-
-
-
-	/**
-	 *
-	 */
-
-	protected function _cached( $callback ) {
-
-		list(, $caller ) = debug_backtrace( false );
-
-		$key = $caller['function'] . json_encode( $caller['args']);
-
-		return $this->_Cache->has( $key )
-			? $this->_Cache->get( $key )
-			: $this->_Cache->set(
-				$key,
-				call_user_func_array( $callback, $caller['args'])
-			);
+		$this->_Cache =& $Cache;
 	}
 }
