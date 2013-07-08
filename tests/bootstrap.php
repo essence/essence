@@ -5,10 +5,7 @@
  *	@license FreeBSD License (http://opensource.org/licenses/BSD-2-Clause)
  */
 
-use fg\Essence\Cache\Null;
-use fg\Essence\Http\Native;
 use fg\Essence\Utility\ClassLoader;
-use fg\Essence\Utility\Registry;
 
 require_once dirname( dirname( __FILE__ ))
 	. DIRECTORY_SEPARATOR . 'lib'
@@ -49,12 +46,3 @@ if ( !defined( 'ESSENCE_PACKAGE' )) {
 
 $ResourcesClassLoader = new ClassLoader( ESSENCE_RESOURCES );
 $ResourcesClassLoader->register( );
-
-
-
-/**
- *	Test configuration.
- */
-
-Registry::register( 'cache', new Null( ));
-Registry::register( 'http', new Native( ));

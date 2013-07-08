@@ -49,7 +49,7 @@ trait Consumer {
 	 *	@return fg\Essence\Dom DOM parser.
 	 */
 
-	public function &_Dom( ) {
+	public function &_dom( ) {
 
 		if ( $this->_Dom === null ) {
 			$this->_Dom = new Native( );

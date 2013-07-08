@@ -10,7 +10,8 @@ namespace fg\Essence\Provider;
 use fg\Essence\Exception;
 use fg\Essence\Media;
 use fg\Essence\Provider;
-use fg\Essence\Utility\Registry;
+use fg\Essence\Dom\Consumer as DomConsumer;
+use fg\Essence\Http\Consumer as HttpConsumer;
 use fg\Essence\Utility\Hash;
 
 
@@ -23,6 +24,11 @@ use fg\Essence\Utility\Hash;
  */
 
 class OEmbed extends Provider {
+
+	use DomConsumer;
+	use HttpConsumer;
+
+
 
 	/**
 	 *	JSON response format.
@@ -160,8 +166,8 @@ class OEmbed extends Provider {
 
 	protected function _extractEndpoint( $url ) {
 
-		$attributes = Registry::get( 'dom' )->extractAttributes(
-			Registry::get( 'http' )->get( $url ),
+		$attributes = $this->_dom( )->extractAttributes(
+			$this->_http( )->get( $url ),
 			array(
 				'link' => array(
 					'rel' => '#alternate#i',
@@ -199,7 +205,7 @@ class OEmbed extends Provider {
 
 	protected function _embedEndpoint( $endpoint, $format, $options ) {
 
-		$response = Registry::get( 'http' )->get(
+		$response = $this->_http( )->get(
 			$this->_completeEndpoint( $endpoint, $options )
 		);
 

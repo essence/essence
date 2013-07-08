@@ -11,7 +11,8 @@ namespace fg\Essence\Provider;
 use fg\Essence\Exception;
 use fg\Essence\Media;
 use fg\Essence\Provider;
-use fg\Essence\Utility\Registry;
+use fg\Essence\Dom\Consumer as DomConsumer;
+use fg\Essence\Http\Consumer as HttpConsumer;
 use fg\Essence\Utility\Hash;
 
 
@@ -24,6 +25,11 @@ use fg\Essence\Utility\Hash;
  */
 
 class OpenGraph extends Provider {
+
+	use DomConsumer;
+	use HttpConsumer;
+
+
 
 	/**
 	 *	{@inheritDoc}
@@ -70,8 +76,8 @@ class OpenGraph extends Provider {
 
 	protected function _extractInformations( $url ) {
 
-		$attributes = Registry::get( 'dom' )->extractAttributes(
-			Registry::get( 'http' )->get( $url ),
+		$attributes = $this->_dom( )->extractAttributes(
+			$this->_http( )->get( $url ),
 			array(
 				'meta' => array(
 					'property' => '#^og:.+#i',

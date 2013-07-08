@@ -7,11 +7,9 @@
 
 namespace fg\Essence;
 
-use fg\Essence\Cache\Volatile;
 use fg\Essence\Cache\Consumer as CacheConsumer;
-use fg\Essence\Dom\Native;
-use fg\Essence\Http\Curl;
-use fg\Essence\Utility\Registry;
+use fg\Essence\Dom\Consumer as DomConsumer;
+use fg\Essence\Http\Consumer as HttpConsumer;
 
 
 
@@ -24,6 +22,8 @@ use fg\Essence\Utility\Registry;
 class Essence {
 
 	use CacheConsumer;
+	use DomConsumer;
+	use HttpConsumer;
 
 
 
@@ -67,35 +67,11 @@ class Essence {
 
 	public function __construct( $providers = array( ), array $config = array( )) {
 
-		$this->_checkEnvironment( );
-
-		$this->_config = array_merge( $this->_config, $config );
 		$this->_Collection = ( $providers instanceof ProviderCollection )
 			? $providers
 			: new ProviderCollection( $providers );
 
-		$this->setCache( Registry::get( 'cache' ));
-	}
-
-
-
-	/**
-	 *	Checks the execution environment.
-	 */
-
-	public function _checkEnvironment( ) {
-
-		if ( !Registry::has( 'cache' )) {
-			Registry::register( 'cache', new Volatile( ));
-		}
-
-		if ( !Registry::has( 'dom' )) {
-			Registry::register( 'dom', new Native( ));
-		}
-
-		if ( !Registry::has( 'http' )) {
-			Registry::register( 'http', new Curl( ));
-		}
+		$this->_config = array_merge( $this->_config, $config );
 	}
 
 
@@ -111,9 +87,9 @@ class Essence {
 
 	public function extract( $source ) {
 
-		return $this->_Cache->has( $source )
-			? $this->_Cache->get( $source )
-			: $this->_Cache->set( $source, $this->_extract( $source ));
+		return $this->_cache( )->has( $source )
+			? $this->_cache( )->get( $source )
+			: $this->_cache( )->set( $source, $this->_extract( $source ));
 	}
 
 
@@ -129,7 +105,7 @@ class Essence {
 				return array( $source );
 			}
 
-			$source = Registry::get( 'http' )->get( $source );
+			$source = $this->_http( )->get( $source );
 		}
 
 		$urls = $this->_extractUrls( $source );
@@ -161,7 +137,7 @@ class Essence {
 			'iframe' => 'src'
 		);
 
-		$attributes = Registry::get( 'dom' )->extractAttributes( $html, $options );
+		$attributes = $this->_dom( )->extractAttributes( $html, $options );
 		$urls = array( );
 
 		foreach ( $options as $tagName => $attributeName ) {
@@ -197,9 +173,9 @@ class Essence {
 			$key .= json_encode( $options );
 		}
 
-		return $this->_Cache->has( $key )
-			? $this->_Cache->get( $key )
-			: $this->_Cache->set( $key, $this->_embed( $url, $options ));
+		return $this->_cache( )->has( $key )
+			? $this->_cache( )->get( $key )
+			: $this->_cache( )->set( $key, $this->_embed( $url, $options ));
 	}
 
 
