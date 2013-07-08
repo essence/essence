@@ -28,7 +28,7 @@ class Native implements Dom {
 	public function extractAttributes( $html, array $options ) {
 
 		$reporting = error_reporting( 0 );
-		$Document = \Native::loadHTML( $html );
+		$Document = \DomDocument::loadHTML( $html );
 		error_reporting( $reporting );
 
 		if ( $Document === false ) {
