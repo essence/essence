@@ -34,5 +34,4 @@ if ( !defined( 'ESSENCE_BOOTSTRAPED' )) {
  *	Autoload.
  */
 
-$ClassLoader = new ClassLoader( ESSENCE_LIB );
-$ClassLoader->register( );
+ClassLoader::setup( ESSENCE_LIB );

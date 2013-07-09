@@ -18,54 +18,23 @@ namespace fg\Essence\Utility;
 class ClassLoader {
 
 	/**
-	 *	Base include path for all class files.
-	 *
-	 *	@var array
-	 */
-
-	protected $_basePath = '';
-
-
-
-	/**
-	 *	Constructor.
+	 *	Sets autoload up on the given path.
 	 *
 	 *	@param string $basePath Base include path for all class files.
 	 */
 
-	public function __construct( $basePath = '' ) {
+	public static function setup( $basePath ) {
 
-		$this->_basePath = rtrim( $basePath, DIRECTORY_SEPARATOR );
-	}
+		spl_autoload_register( function( $className ) use ( $basePath ) {
 
+			$path = $basePath
+				. DIRECTORY_SEPARATOR
+				. str_replace( '\\', DIRECTORY_SEPARATOR, $className )
+				. '.php';
 
-
-	/**
-	 *	Registers this class loader on the SPL autoload stack.
-	 */
-
-	public function register( ) {
-
-		spl_autoload_register( array( $this, 'load' ));
-	}
-
-
-
-	/**
-	 *  Loads the given class or interface.
-	 *
-	 *  @param string $className Name of the class to load.
-	 */
-
-	public function load( $className ) {
-
-		$path = $this->_basePath
-			. DIRECTORY_SEPARATOR
-			. str_replace( '\\', DIRECTORY_SEPARATOR, $className )
-			. '.php';
-
-		if ( file_exists( $path )) {
-			require_once $path;
-		}
+			if ( file_exists( $path )) {
+				require_once $path;
+			}
+		});
 	}
 }

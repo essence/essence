@@ -24,56 +24,11 @@ class ClassLoaderTest extends \PHPUnit_Framework_TestCase {
 	 *
 	 */
 
-	public $ClassLoader = null;
+	public function testSetup( ) {
 
-
-
-	/**
-	 *
-	 */
-
-	public function setUp( ) {
-
-		$this->ClassLoader = new ClassLoader( ESSENCE_RESOURCES );
-		$this->ClassLoader->register( );
-	}
-
-
-
-	/**
-	 *
-	 */
-
-	public function testRegister( ) {
-
-		$this->assertTrue(
-			in_array(
-				array( $this->ClassLoader, 'load' ),
-				spl_autoload_functions( )
-			)
-		);
-	}
-
-
-
-	/**
-	 *
-	 */
-
-	public function testLoad( ) {
+		ClassLoader::setup( ESSENCE_RESOURCES );
 
 		$this->assertTrue( class_exists( '\\fg\\Essence\\Provider\\Foo' ));
 		$this->assertTrue( class_exists( '\\fg\\Essence\\Provider\\Sushi\\Bar' ));
-	}
-
-
-
-	/**
-	 *
-	 */
-
-	public function testLoadUndefined( ) {
-
-		$this->assertFalse( class_exists( '\\fg\\Essence\\Provider\\Undefined' ));
 	}
 }

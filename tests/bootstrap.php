@@ -44,5 +44,4 @@ if ( !defined( 'ESSENCE_PACKAGE' )) {
  *	Autoload
  */
 
-$ResourcesClassLoader = new ClassLoader( ESSENCE_RESOURCES );
-$ResourcesClassLoader->register( );
+ClassLoader::setup( ESSENCE_RESOURCES );
