@@ -14,7 +14,7 @@ use fg\Essence\Utility\Hash;
 
 
 /**
- *	Handles HTML related operations.
+ *	Handles HTML related operations through DomDocument.
  *
  *	@package fg.Essence.Dom
  */
@@ -38,20 +38,17 @@ class Native implements Dom {
 		$options = Hash::normalize( $options, array( ));
 		$data = array( );
 
-		foreach ( $options as $tag => $required ) {
-			$tags = $Document->getElementsByTagName( $tag );
+		foreach ( $options as $name => $required ) {
+			$tags = $Document->getElementsByTagName( $name );
 			$required = Hash::normalize( $required, '' );
-			$data[ $tag ] = array( );
+			$data[ $name ] = array( );
 
 			foreach ( $tags as $Tag ) {
 				if ( $Tag->hasAttributes( )) {
-					$attributes = $this->_extractAttributesFromTag(
-						$Tag,
-						$required
-					);
+					$attributes = $this->_extractAttributesFromTag( $Tag, $required );
 
 					if ( !empty( $attributes )) {
-						$data[ $tag ][ ] = $attributes;
+						$data[ $name ][ ] = $attributes;
 					}
 				}
 			}
@@ -74,10 +71,10 @@ class Native implements Dom {
 
 		$attributes = array( );
 
-		foreach ( $Tag->attributes as $a => $Attribute ) {
+		foreach ( $Tag->attributes as $name => $Attribute ) {
 			if ( !empty( $required )) {
-				if ( isset( $required[ $Attribute->name ])) {
-					$pattern = $required[ $Attribute->name ];
+				if ( isset( $required[ $name ])) {
+					$pattern = $required[ $name ];
 
 					if ( $pattern && !preg_match( $pattern, $Attribute->value )) {
 						return array( );
@@ -87,7 +84,7 @@ class Native implements Dom {
 				}
 			}
 
-			$attributes[ $Attribute->name ] = $Attribute->value;
+			$attributes[ $name ] = $Attribute->value;
 		}
 
 		$diff = array_diff_key( $required, $attributes );
