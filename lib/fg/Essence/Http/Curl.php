@@ -12,7 +12,7 @@ use fg\Essence\Http;
 
 
 /**
- *	Handles HTTP related operations.
+ *	Handles HTTP related operations through cURL.
  *
  *	@package fg.Essence.Http
  */

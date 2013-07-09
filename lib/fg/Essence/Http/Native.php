@@ -12,7 +12,7 @@ use fg\Essence\Http;
 
 
 /**
- *	Handles HTTP related operations.
+ *	Handles HTTP related operations through file_get_contents( ).
  *
  *	@package fg.Essence.Http
  */
