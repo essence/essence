@@ -151,7 +151,7 @@ class Media implements \IteratorAggregate {
 
 	public function has( $property ) {
 
-		return isset( $this->properties[ $property ]);
+		return !empty( $this->properties[ $property ]);
 	}
 
 
