@@ -267,15 +267,32 @@ HTML;
 
 	public function testDontReplaceLinks( ) {
 
+		$this->Collection->expects( $this->any( ))
+			->method( 'providers' )
+			->will( $this->returnValue( array( new TestableProvider( ))));
+
+		$link = '<a href="http://example.com">baz</a>';
+		$this->assertEquals( $link, $this->Essence->replace( $link ));
+
+		$link = '<a href=\'http://example.com\'>baz</a>';
+		$this->assertEquals( $link, $this->Essence->replace( $link ));
+	}
+
+
+
+	/**
+	 *
+	 */
+
+	public function testReplaceQuotesSurroundedUrl( ) {
+
 		$Provider = new TestableProvider( );
+		$Provider->mediaProperties = array( 'html' => 'HTML' );
 
 		$this->Collection->expects( $this->any( ))
 			->method( 'providers' )
 			->will( $this->returnValue( array( $Provider )));
 
-		$this->assertEquals(
-			'foo <a href="http://example.com">baz</a> bar',
-			$this->Essence->replace( 'foo <a href="http://example.com">baz</a> bar' )
-		);
+		$this->assertEquals( '"HTML"', $this->Essence->replace( '"http://example.com"' ));
 	}
 }
