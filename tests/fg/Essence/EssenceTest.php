@@ -267,8 +267,6 @@ HTML;
 
 	public function testDontReplaceLinks( ) {
 
-		$this->markTestSkipped( );
-
 		$Provider = new TestableProvider( );
 
 		$this->Collection->expects( $this->any( ))
