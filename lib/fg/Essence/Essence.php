@@ -43,7 +43,6 @@ class Essence {
 	 *	### Options
 	 *
 	 *	- 'urlPattern' string A pattern to match URLs.
-	 *	- 'varPattern' string A pattern to match template's variables.
 	 *
 	 *	@var array
 	 */
@@ -51,7 +50,6 @@ class Essence {
 	protected $_config = array(
 		// http://daringfireball.net/2010/07/improved_regex_for_matching_urls
 		'urlPattern' => '#(?<!=["\'])(?<url>(?:https?://|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:\'"\.,<>?«»“”‘’]))#i',
-		'varPattern' => '#%(?<property>[\s\S]+?)%#'
 	);
 
 
@@ -224,54 +222,46 @@ class Essence {
 
 
 	/**
-	 *	Replaces URLs in the given text by media informations if they point
-	 *	on an embeddable resource.
-	 *	The template parameter controls how informations will replace the
-	 *	URL. Any property of a media object can be used. For example, to
-	 *	replace a URL with the title and HTML code of a resource, one could
-	 *	use this template:
-	 *
-	 *	<div>
-	 *		<span>%title%</span>
-	 *		<div>%html%</div>
-	 *	</div>
-	 *
+	 *	Replaces URLs in the given text by media informations if they point on
+	 *	an embeddable resource.
 	 *	By default, links will be replaced by the html property of Media.
-	 *	The behavior of this method can method can be customized with the
-	 *	'urlPattern' and 'varPattern' configuration options.
+	 *	If $callback is a callable function, it will be used to generate
+	 *	replacement strings, given a Media object.
+	 *
+	 *	@code
+	 *	$text = $Essence->replace( $text, function( $Media ) {
+	 *		return '<div class="title">' . $Media->title . '</div>';
+	 *	});
+	 *	@endcode
+	 *
+	 *	This behavior should make it easy to integrate third party templating
+	 *	engines.
+	 *	The pattern to match urls can be configured the 'urlPattern' configuration
+	 *	option.
 	 *
 	 *	Thanks to Stefano Zoffoli (https://github.com/stefanozoffoli) for his
 	 *	idea (https://github.com/felixgirault/essence/issues/4).
 	 *
 	 *	@param string $text Text in which to replace URLs.
-	 *	@param string $template Replacement template.
+	 *	@param callable $callback Templating callback.
 	 *	@param array $options Custom options to be interpreted by a provider.
 	 *	@return string Text with replaced URLs.
 	 */
 
-	public function replace( $text, $template = '', array $options = array( )) {
+	public function replace( $text, $callback = null, array $options = array( )) {
 
 		return preg_replace_callback(
 			$this->_config['urlPattern'],
-			function ( $matches ) use ( $template, $options ) {
+			function ( $matches ) use ( $callback, $options ) {
 				$Media = $this->embed( $matches['url'], $options );
-				$replacement = '';
 
-				if ( $Media !== null ) {
-					if ( empty( $template )) {
-						$replacement = $Media->get( 'html' );
-					} else {
-						$replacement = preg_replace_callback(
-							$this->_config['varPattern'],
-							function( $matches ) use ( &$Media ) {
-								return $Media->get( $matches['property']);
-							},
-							$template
-						);
-					}
+				if ( $Media === null ) {
+					return $matches['url'];
 				}
 
-				return $replacement;
+				return is_callable( $callback )
+					? call_user_func( $callback, $Media )
+					: $Media->get( 'html' );
 			},
 			$text
 		);

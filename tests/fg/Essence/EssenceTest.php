@@ -255,7 +255,9 @@ HTML;
 
 		$this->assertEquals(
 			'foo <h1>Example</h1> bar',
-			$this->Essence->replace( 'foo http://www.example.com bar', '<h1>%title%</h1>' )
+			$this->Essence->replace( 'foo http://www.example.com bar', function( $Media ) {
+				return '<h1>' . $Media->title . '</h1>';
+			})
 		);
 	}
 
