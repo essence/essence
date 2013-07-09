@@ -13,7 +13,7 @@ use fg\Essence\Http\Native;
 
 
 /**
- *
+ *	Basic functionnalities for HTTP client consumers.
  *
  *	@package fg.Essence.Http
  */

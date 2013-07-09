@@ -13,7 +13,7 @@ use fg\Essence\Cache\Volatile;
 
 
 /**
- *
+ *	Basic functionnalities for cache consumers.
  *
  *	@package fg.Essence.Cache
  */

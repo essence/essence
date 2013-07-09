@@ -13,7 +13,7 @@ use fg\Essence\Dom\Native;
 
 
 /**
- *
+ *	Basic functionnalities for DOM parser consumers.
  *
  *	@package fg.Essence.Dom
  */
