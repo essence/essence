@@ -87,9 +87,11 @@ class Essence {
 
 	public function extract( $source ) {
 
-		return $this->_cache( )->has( $source )
-			? $this->_cache( )->get( $source )
-			: $this->_cache( )->set( $source, $this->_extract( $source ));
+		$key = 'extract' . $source;
+
+		return $this->_cache( )->has( $key )
+			? $this->_cache( )->get( $key )
+			: $this->_cache( )->set( $key, $this->_extract( $source ));
 	}
 
 
@@ -167,7 +169,7 @@ class Essence {
 
 	public function embed( $url, array $options = array( )) {
 
-		$key = $url;
+		$key = 'embed' . $url;
 
 		if ( $options ) {
 			$key .= json_encode( $options );
