@@ -20,14 +20,11 @@ use fg\Essence\Cache\Volatile;
 abstract class Provider {
 
 	/**
-	 *	Provider options, obtained from merging constructor options to the
-	 *	default ones.
+	 *	Configuration options.
 	 *
 	 *	### Options
 	 *
 	 *	- 'prepare' callable( string $url ) A function to prepare the given URL.
-	 *	- 'polish' callable( fg\Essence\Media $Media ) A function to polish
-	 *		the given media.
 	 *
 	 *	@var array
 	 */
