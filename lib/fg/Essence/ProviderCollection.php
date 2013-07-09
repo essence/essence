@@ -25,6 +25,7 @@ class ProviderCollection {
 	 *	- 'name' string Name of the provider.
 	 *		- 'class' string The provider class.
 	 *		- 'pattern' string A regex to test URLs.
+	 *		- ... mixed Provider specific options.
 	 *
 	 *	@var array
 	 */
@@ -129,14 +130,15 @@ class ProviderCollection {
 	protected function _provider( $name, $options ) {
 
 		if ( !isset( $this->_providers[ $name ])) {
-			$class = $options['class'];
+			$class = $options[ 'class' ];
 
 			if ( $class[ 0 ] !== '\\' ) {
-				$class = '\\fg\\Essence\\Provider\\' . str_replace( '/', '\\', $class );
+				$class = __NAMESPACE__
+					. '\\Provider\\'
+					. str_replace( '/', '\\', $class );
 			}
 
-			$Reflection = new \ReflectionClass( $class );
-			$this->_providers[ $name ] = $Reflection->newInstance( $options );
+			$this->_providers[ $name ] = new $class( $options );
 		}
 
 		return $this->_providers[ $name ];
