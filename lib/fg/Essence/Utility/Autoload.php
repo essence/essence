@@ -15,7 +15,7 @@ namespace fg\Essence\Utility;
  *	@package fg.Essence.Utility
  */
 
-class ClassLoader {
+class Autoload {
 
 	/**
 	 *	Sets autoload up on the given path.

@@ -15,10 +15,10 @@ if ( !defined( 'ESSENCE_BOOTSTRAPPED' )) {
 
 
 /**
- *	Test case for ClassLoader.
+ *	Test case for Autoload.
  */
 
-class ClassLoaderTest extends \PHPUnit_Framework_TestCase {
+class AutoloadTest extends \PHPUnit_Framework_TestCase {
 
 	/**
 	 *
@@ -26,7 +26,7 @@ class ClassLoaderTest extends \PHPUnit_Framework_TestCase {
 
 	public function testSetup( ) {
 
-		ClassLoader::setup( ESSENCE_RESOURCES );
+		Autoload::setup( ESSENCE_RESOURCES );
 
 		$this->assertTrue( class_exists( '\\fg\\Essence\\Provider\\Foo' ));
 		$this->assertTrue( class_exists( '\\fg\\Essence\\Provider\\Sushi\\Bar' ));

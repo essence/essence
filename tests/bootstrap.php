@@ -5,7 +5,7 @@
  *	@license FreeBSD License (http://opensource.org/licenses/BSD-2-Clause)
  */
 
-use fg\Essence\Utility\ClassLoader;
+use fg\Essence\Utility\Autoload;
 
 require_once dirname( dirname( __FILE__ ))
 	. DIRECTORY_SEPARATOR . 'lib'
@@ -44,4 +44,4 @@ if ( !defined( 'ESSENCE_PACKAGE' )) {
  *	Autoload
  */
 
-ClassLoader::setup( ESSENCE_RESOURCES );
+Autoload::setup( ESSENCE_RESOURCES );
