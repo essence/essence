@@ -26,9 +26,6 @@ class AutoloadTest extends \PHPUnit_Framework_TestCase {
 
 	public function testSetup( ) {
 
-		Autoload::setup( ESSENCE_RESOURCES );
-
-		$this->assertTrue( class_exists( '\\Essence\\Provider\\Foo' ));
-		$this->assertTrue( class_exists( '\\Essence\\Provider\\Sushi\\Bar' ));
+		$this->assertTrue( class_exists( '\\Essence\\Provider\\OEmbed' ));
 	}
 }

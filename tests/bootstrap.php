@@ -9,8 +9,6 @@ require_once dirname( dirname( __FILE__ ))
 	. DIRECTORY_SEPARATOR . 'lib'
 	. DIRECTORY_SEPARATOR . 'bootstrap.php';
 
-use Essence\Utility\Autoload;
-
 
 
 /**
@@ -29,10 +27,3 @@ if ( !defined( 'ESSENCE_HTTP' )) {
 	define( 'ESSENCE_HTTP', ESSENCE_RESOURCES . 'http' . DIRECTORY_SEPARATOR );
 }
 
-
-
-/**
- *	Autoload
- */
-
-Autoload::setup( ESSENCE_RESOURCES );

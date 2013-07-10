@@ -7,9 +7,6 @@
 
 namespace Essence;
 
-use Essence\Utility\Package;
-use Essence\Provider\Sushi\Bar;
-
 if ( !defined( 'ESSENCE_BOOTSTRAPPED' )) {
 	require_once dirname( dirname( __FILE__ ))
 		. DIRECTORY_SEPARATOR . 'bootstrap.php';
@@ -40,11 +37,11 @@ class ProviderCollectionTest extends \PHPUnit_Framework_TestCase {
 		$this->Collection = new ProviderCollection(
 			array(
 				'Foo' => array(
-					'class' => 'Foo',
+					'class' => 'OEmbed',
 					'pattern' => '#^foo$#'
 				),
 				'Bar' => array(
-					'class' => 'Sushi/Bar',
+					'class' => 'OpenGraph',
 					'pattern' => '#^bar$#'
 				)
 			)
@@ -76,8 +73,8 @@ class ProviderCollectionTest extends \PHPUnit_Framework_TestCase {
 			$this->fail( 'There should be one provider.' );
 		} else {
 			$this->assertEquals(
-				'Essence\Provider\Sushi\Bar',
-				get_class( $providers[ 0 ])
+				'Essence\Provider\OpenGraph',
+				get_class( array_shift( $providers ))
 			);
 		}
 	}
