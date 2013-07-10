@@ -24,7 +24,8 @@ class ProviderCollection {
 	 *
 	 *	- 'name' string Name of the provider.
 	 *		- 'class' string The provider class.
-	 *		- 'filter' string A regex to test URLs.
+	 *		- 'filter' string|callable A regex or callback to filter URLs
+	 *			that will be processed by the provider.
 	 *		- ... mixed Provider specific options.
 	 *
 	 *	@var array
@@ -77,7 +78,7 @@ class ProviderCollection {
 	public function hasProvider( $url ) {
 
 		foreach ( $this->_config as $options ) {
-			if ( preg_match( $options['filter'], $url )) {
+			if ( $this->_filter( $options['filter'], $url )) {
 				return true;
 			}
 		}
@@ -100,12 +101,29 @@ class ProviderCollection {
 		$providers = array( );
 
 		foreach ( $this->_config as $name => $options ) {
-			if ( preg_match( $options['filter'], $url )) {
+			if ( $this->_filter( $options['filter'], $url )) {
 				$providers[ ] = $this->_provider( $name, $options );
 			}
 		}
 
 		return $providers;
+	}
+
+
+
+	/**
+	 *	Filters the URL with the given filter.
+	 *
+	 *	@param string|callable $filter Regex or callback to filter URL.
+	 *	@param string $url URL to filter.
+	 *	@return Whether the URL passes the filter or not.
+	 */
+
+	protected function _filter( $filter, $url ) {
+
+		return is_callable( $filter )
+			? call_user_func( $filter, $url )
+			: preg_match( $filter, $url );
 	}
 
 

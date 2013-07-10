@@ -42,7 +42,9 @@ class ProviderCollectionTest extends \PHPUnit_Framework_TestCase {
 				),
 				'Bar' => array(
 					'class' => 'OpenGraph',
-					'filter' => '#^bar$#'
+					'filter' => function ( $url ) {
+						return ( $url === 'bar' );
+					}
 				)
 			)
 		);
@@ -57,6 +59,8 @@ class ProviderCollectionTest extends \PHPUnit_Framework_TestCase {
 	public function testHasProvider( ) {
 
 		$this->assertTrue( $this->Collection->hasProvider( 'foo' ));
+		$this->assertTrue( $this->Collection->hasProvider( 'bar' ));
+		$this->assertFalse( $this->Collection->hasProvider( 'baz' ));
 	}
 
 
@@ -67,13 +71,13 @@ class ProviderCollectionTest extends \PHPUnit_Framework_TestCase {
 
 	public function testProviders( ) {
 
-		$providers = $this->Collection->providers( 'bar' );
+		$providers = $this->Collection->providers( 'foo' );
 
 		if ( empty( $providers )) {
 			$this->fail( 'There should be one provider.' );
 		} else {
 			$this->assertEquals(
-				'Essence\Provider\OpenGraph',
+				'Essence\Provider\OEmbed',
 				get_class( array_shift( $providers ))
 			);
 		}
