@@ -5,10 +5,10 @@
  *	@license FreeBSD License (http://opensource.org/licenses/BSD-2-Clause)
  */
 
-namespace fg\Essence\Cache;
+namespace fg\Essence\Cache\Engine;
 
 if ( !defined( 'ESSENCE_BOOTSTRAPPED')) {
-	require_once dirname( dirname( dirname( dirname( __FILE__ ))))
+	require_once dirname( dirname( dirname( dirname( dirname( __FILE__ )))))
 		. DIRECTORY_SEPARATOR . 'bootstrap.php';
 }
 

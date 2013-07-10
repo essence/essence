@@ -8,7 +8,7 @@
 namespace fg\Essence\Http;
 
 use fg\Essence\Http;
-use fg\Essence\Http\Native;
+use fg\Essence\Http\Client\Native;
 
 
 

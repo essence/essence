@@ -5,19 +5,19 @@
  *	@license FreeBSD License (http://opensource.org/licenses/BSD-2-Clause)
  */
 
-namespace fg\Essence\Cache;
+namespace fg\Essence\Cache\Engine;
 
-use fg\Essence\Cache;
+use fg\Essence\Cache\Engine;
 
 
 
 /**
  *	Handles caching for a single session.
  *
- *	@package fg.Essence.Cache
+ *	@package fg.Essence.Cache.Engine
  */
 
-class Volatile implements Cache {
+class Volatile implements Engine {
 
 	/**
 	 *	Data.

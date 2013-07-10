@@ -5,19 +5,20 @@
  *	@license FreeBSD License (http://opensource.org/licenses/BSD-2-Clause)
  */
 
-namespace fg\Essence\Http;
+namespace fg\Essence\Http\Client;
 
-use fg\Essence\Http;
+use fg\Essence\Http\Client;
+use fg\Essence\Http\Exception;
 
 
 
 /**
  *	Handles HTTP related operations through file_get_contents( ).
  *
- *	@package fg.Essence.Http
+ *	@package fg.Essence.Http.Client
  */
 
-class Native implements Http {
+class Native implements Client {
 
 	/**
 	 *	Default HTTP status code.

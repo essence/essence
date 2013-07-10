@@ -5,17 +5,17 @@
  *	@license FreeBSD License (http://opensource.org/licenses/BSD-2-Clause)
  */
 
-namespace fg\Essence;
+namespace fg\Essence\Cache;
 
 
 
 /**
  *	Handles caching.
  *
- *	@package fg.Essence
+ *	@package fg.Essence.Cache
  */
 
-interface Cache {
+interface Engine {
 
 	/**
 	 *	Returns if data exists for the given key.

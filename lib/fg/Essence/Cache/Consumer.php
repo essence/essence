@@ -7,8 +7,8 @@
 
 namespace fg\Essence\Cache;
 
-use fg\Essence\Cache;
-use fg\Essence\Cache\Volatile;
+use fg\Essence\Cache\Engine;
+use fg\Essence\Cache\Engine\Volatile;
 
 
 
@@ -33,12 +33,12 @@ trait Consumer {
 	/**
 	 *	Sets the internal cache.
 	 *
-	 *	@param fg\Essence\Cache $Cache Cache.
+	 *	@param fg\Essence\Cache\Engine $Engine Cache engine.
 	 */
 
-	public function setCache( Cache &$Cache ) {
+	public function setCache( Engine &$Engine ) {
 
-		$this->_Cache =& $Cache;
+		$this->_Cache =& $Engine;
 	}
 
 

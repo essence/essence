@@ -8,7 +8,7 @@
 namespace fg\Essence\Dom;
 
 use fg\Essence\Dom;
-use fg\Essence\Dom\Native;
+use fg\Essence\Dom\Parser\Native;
 
 
 

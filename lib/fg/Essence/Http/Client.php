@@ -5,17 +5,17 @@
  *	@license FreeBSD License (http://opensource.org/licenses/BSD-2-Clause)
  */
 
-namespace fg\Essence;
+namespace fg\Essence\Http;
 
 
 
 /**
  *	Handles HTTP related operations.
  *
- *	@package fg.Essence
+ *	@package fg.Essence.Http
  */
 
-interface Http {
+interface Client {
 
 	/**
 	 *	Retrieves contents from the given URL.

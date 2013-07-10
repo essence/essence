@@ -5,19 +5,19 @@
  *	@license FreeBSD License (http://opensource.org/licenses/BSD-2-Clause)
  */
 
-namespace fg\Essence\Http;
+namespace fg\Essence\Http\Client;
 
-use fg\Essence\Http;
+use fg\Essence\Http\Client;
 
 
 
 /**
  *	Handles HTTP related operations through cURL.
  *
- *	@package fg.Essence.Http
+ *	@package fg.Essence.Http.Client
  */
 
-class Curl implements Http {
+class Curl implements Client {
 
 	/**
 	 *	CURL handle.

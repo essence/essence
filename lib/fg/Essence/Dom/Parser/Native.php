@@ -5,9 +5,9 @@
  *	@license FreeBSD License (http://opensource.org/licenses/BSD-2-Clause)
  */
 
-namespace fg\Essence\Dom;
+namespace fg\Essence\Dom\Parser;
 
-use fg\Essence\Dom;
+use fg\Essence\Dom\Parser;
 use fg\Essence\Exception;
 use fg\Essence\Utility\Hash;
 
@@ -16,10 +16,10 @@ use fg\Essence\Utility\Hash;
 /**
  *	Handles HTML related operations through DomDocument.
  *
- *	@package fg.Essence.Dom
+ *	@package fg.Essence.Dom.Parser
  */
 
-class Native implements Dom {
+class Native implements Parser {
 
 	/**
 	 *	{@inheritDoc}

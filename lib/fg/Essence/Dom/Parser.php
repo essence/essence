@@ -5,17 +5,17 @@
  *	@license FreeBSD License (http://opensource.org/licenses/BSD-2-Clause)
  */
 
-namespace fg\Essence;
+namespace fg\Essence\Dom;
 
 
 
 /**
  *	Handles HTML related operations.
  *
- *	@package fg.Essence
+ *	@package fg.Essence.Dom
  */
 
-interface Dom {
+interface Parser {
 
 	/**
 	 *	Extracts tags attributes from the given HTML document.
