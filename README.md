@@ -19,8 +19,6 @@ Essence is designed to be really easy to use.
 Using the main class of the library, you can retrieve informations in just those few lines:
 
 ```php
-<?php
-
 require_once 'path/to/essence/bootstrap.php';
 
 $Essence = new Essence\Essence( );
@@ -30,13 +28,11 @@ $Media = $Essence->embed( 'http://www.youtube.com/watch?v=39e3KYAmXK4' );
 if ( $Media ) {
 	// That's all, you're good to go !
 }
-
-?>
 ```
 
 Then, just do anything you want with the data:
 
-```php
+```html+php
 <article>
 	<header>
 		<h1><?php echo $Media->title; ?></h1>
@@ -80,24 +76,21 @@ Therefore, based on such standards, these properties are a solid starting point.
 However, some providers could also provide some other properties that you want to get.
 Don't worry, all these "non-standard" properties can also be stored in a Media object.
 
-```php
-<?php
+Here is how you can manipulate the Media properties:
 
+```php
+// through dedicated methods
 if ( !$Media->has( 'foo' )) {
 	$Media->set( 'foo', 'bar' );
 }
 
 $value = $Media->get( 'foo' );
 
-// Or through the $properties array
-
+// through the $properties attribute
 $Media->properties['foo'] = 'bar';
 
-// Or directly like a class attribute
-
+// or directly like a class attribute
 $Media->customValue = 12;
-
-?>
 ```
 
 While some open graph properties do not exactly match the Oembed specification, Essence ensures that the html variable is always available. Please note where a page contains multiple media types, Essence creates the html variable based on the assumption that videos are preferred over images which are preferred over links.
@@ -114,8 +107,6 @@ Essence currently supports 36 specialized providers:
 You can customize the Essence behavior by passing a configuration array:
 
 ```php
-<?php
-
 $Essence = new Essence\Essence(
 	array(
 		// the OpenGraph provider will try to embed any URL that matches the filter
@@ -133,8 +124,6 @@ $Essence = new Essence\Essence(
 		)
 	)
 );
-
-?>
 ```
 
 You can use custom providers by specifying a FQCN (Fully-Qualified Class Name) in the 'class' option.
@@ -151,31 +140,23 @@ First, the extract( ) method lets you extract embeddable URLs from a web page.
 For example, say you want to get the URL of all videos in a blog post:
 
 ```php
-<?php
-
 $urls = $Essence->extract( 'http://www.blog.com/article' );
 
 //	array(
 //		'http://www.youtube.com/watch?v=123456'
 //		'http://www.dailymotion.com/video/a1b2c_lolcat-fun'
 //	)
-
-?>
 ```
 
 Now that you've got those URLs, there is a good chance you want to embed them:
 
 ```php
-<?php
-
 $medias = $Essence->embedAll( $urls );
 
 //	array(
 //		'http://www.youtube.com/watch?v=123456' => Media( ... )
 //		'http://www.dailymotion.com/video/a1b2c_lolcat-fun' => Media( ... )
 //	)
-
-?>
 ```
 
 ### Replacing URLs in text
@@ -184,26 +165,16 @@ Essence can replace any embeddable URL in a text by informations about it.
 By default, any URL will be replaced by the html property of the found Media.
 
 ```php
-<?php
-
 $text = 'Check out this awesome video: http://www.youtube.com/watch?v=123456'
 
 echo $Essence->replace( $text );
 
-?>
-```
-
-This call should print something like:
-
-```html
-Check out this awesome video: <iframe src="http://www.youtube.com/embed/123456"></iframe>
+//	Check out this awesome video: <iframe src="http://www.youtube.com/embed/123456"></iframe>
 ```
 
 But you can do more by passing a callback to control which informations will replace the URL:
 
 ```php
-<?php
-
 echo $Essence->replace( $text, function( $Media ) {
 	return sprintf(
 		'<p class="title">%s</p><div class="player">%s</div>',
@@ -212,17 +183,11 @@ echo $Essence->replace( $text, function( $Media ) {
 	);
 });
 
-?>
-```
-
-Which should print something like:
-
-```html
-Check out this awesome video:
-<p class="title">Video title</p>
-<div class="player">
-	<iframe src="http://www.youtube.com/embed/123456"></iframe>
-<div>
+//	Check out this awesome video:
+//	<p class="title">Video title</p>
+//	<div class="player">
+//		<iframe src="http://www.youtube.com/embed/123456"></iframe>
+//	<div>
 ```
 
 This should make it easy to build rich templates or even integrate a templating engine.
@@ -234,8 +199,6 @@ It is possible to pass some options to the providers.
 For example, OEmbed providers accepts the `maxwidth` and `maxheight` parameters, as specified in the OEmbed spec.
 
 ```php
-<?php
-
 $Media = $Essence->embed(
 	$url,
 	array(
@@ -260,8 +223,6 @@ $Media = $Essence->extract(
 		'maxheight' => 600
 	)
 );
-
-?>
 ```
 
 Other providers will just ignore the options they don't handle.
@@ -277,8 +238,6 @@ If you're interested in embedding videos, you should take a look at the [Multipl
 It allows you to build customizable embed codes painlessly:
 
 ```php
-<?php
-
 $Multiplayer = new Multiplayer\Multiplayer( );
 
 if ( $Media->type === 'video' ) {
@@ -290,6 +249,4 @@ if ( $Media->type === 'video' ) {
 		)
 	);
 }
-
-?>
 ```
