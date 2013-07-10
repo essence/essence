@@ -76,8 +76,8 @@ class OpenGraph extends Provider {
 
 	protected function _extractInformations( $url ) {
 
-		$attributes = $this->_dom( )->extractAttributes(
-			$this->_http( )->get( $url ),
+		$attributes = $this->_domParser( )->extractAttributes(
+			$this->_httpClient( )->get( $url ),
 			array(
 				'meta' => array(
 					'property' => '#^og:.+#i',

@@ -2,18 +2,18 @@
 
 /**
  *	@author Félix Girault <felix.girault@gmail.com>
- *	@license FreeBSD License (Dom://opensource.org/licenses/BSD-2-Clause)
+ *	@license FreeBSD License (http://opensource.org/licenses/BSD-2-Clause)
  */
 
 namespace Essence\Dom;
 
-use Essence\Dom;
+use Essence\Dom\Parser;
 use Essence\Dom\Parser\Native;
 
 
 
 /**
- *	Basic functionnalities for DOM parser consumers.
+ *	A DOM parser consumer.
  *
  *	@package fg.Essence.Dom
  */
@@ -23,22 +23,22 @@ trait Consumer {
 	/**
 	 *	The internal DOM parser.
 	 *
-	 *	@var Essence\Dom
+	 *	@var Essence\Dom\Parser
 	 */
 
-	protected $_Dom = null;
+	protected $_domParser = null;
 
 
 
 	/**
 	 *	Sets the internal DOM parser.
 	 *
-	 *	@param Essence\Dom $Dom DOM parser.
+	 *	@param Essence\Dom\Parser $Parser DOM parser.
 	 */
 
-	public function setDom( Dom &$Dom ) {
+	public function setDomParser( Parser &$Parser ) {
 
-		$this->_Dom =& $Dom;
+		$this->_domParser =& $Parser;
 	}
 
 
@@ -46,15 +46,15 @@ trait Consumer {
 	/**
 	 *	Returns the internal DOM parser.
 	 *
-	 *	@return Essence\Dom DOM parser.
+	 *	@return Essence\Dom\Parser DOM parser.
 	 */
 
-	public function &_dom( ) {
+	public function &_domParser( ) {
 
-		if ( $this->_Dom === null ) {
-			$this->_Dom = new Native( );
+		if ( $this->_domParser === null ) {
+			$this->_domParser = new Native( );
 		}
 
-		return $this->_Dom;
+		return $this->_domParser;
 	}
 }

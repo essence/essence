@@ -166,8 +166,8 @@ class OEmbed extends Provider {
 
 	protected function _extractEndpoint( $url ) {
 
-		$attributes = $this->_dom( )->extractAttributes(
-			$this->_http( )->get( $url ),
+		$attributes = $this->_domParser( )->extractAttributes(
+			$this->_httpClient( )->get( $url ),
 			array(
 				'link' => array(
 					'rel' => '#alternate#i',
@@ -205,7 +205,7 @@ class OEmbed extends Provider {
 
 	protected function _embedEndpoint( $endpoint, $format, $options ) {
 
-		$response = $this->_http( )->get(
+		$response = $this->_httpClient( )->get(
 			$this->_completeEndpoint( $endpoint, $options )
 		);
 

@@ -13,7 +13,7 @@ use Essence\Cache\Engine\Volatile;
 
 
 /**
- *	Basic functionnalities for cache consumers.
+ *	A cache engine consumer.
  *
  *	@package fg.Essence.Cache
  */
@@ -21,40 +21,40 @@ use Essence\Cache\Engine\Volatile;
 trait Consumer {
 
 	/**
-	 *	The internal cache.
+	 *	The internal cache engine.
 	 *
-	 *	@var Essence\Cache
+	 *	@var Essence\Cache\Engine
 	 */
 
-	protected $_Cache = null;
+	protected $_cacheEngine = null;
 
 
 
 	/**
-	 *	Sets the internal cache.
+	 *	Sets the internal cache engine.
 	 *
 	 *	@param Essence\Cache\Engine $Engine Cache engine.
 	 */
 
-	public function setCache( Engine &$Engine ) {
+	public function setCacheEngine( Engine &$Engine ) {
 
-		$this->_Cache =& $Engine;
+		$this->_cacheEngine =& $Engine;
 	}
 
 
 
 	/**
-	 *	Returns the internal cache.
+	 *	Returns the internal cache engine.
 	 *
-	 *	@return Essence\Cache Cache.
+	 *	@return Essence\Cache\Engine Cache.
 	 */
 
-	public function &_cache( ) {
+	public function &_cacheEngine( ) {
 
-		if ( $this->_Cache === null ) {
-			$this->_Cache = new Volatile( );
+		if ( $this->_cacheEngine === null ) {
+			$this->_cacheEngine = new Volatile( );
 		}
 
-		return $this->_Cache;
+		return $this->_cacheEngine;
 	}
 }

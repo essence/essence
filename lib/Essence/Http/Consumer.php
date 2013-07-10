@@ -13,7 +13,7 @@ use Essence\Http\Client\Native;
 
 
 /**
- *	Basic functionnalities for HTTP client consumers.
+ *	An HTTP client consumer.
  *
  *	@package fg.Essence.Http
  */
@@ -23,22 +23,22 @@ trait Consumer {
 	/**
 	 *	The internal HTTP client.
 	 *
-	 *	@var Essence\Http
+	 *	@var Essence\Http\Client
 	 */
 
-	protected $_Http = null;
+	protected $_httpClient = null;
 
 
 
 	/**
 	 *	Sets the internal HTTP client.
 	 *
-	 *	@param Essence\Http $Http HTTP client.
+	 *	@param Essence\Http\Client $Client HTTP client.
 	 */
 
-	public function setHttp( Http &$Http ) {
+	public function setHttpClient( Client &$Client ) {
 
-		$this->_Http =& $Http;
+		$this->_httpClient =& $Client;
 	}
 
 
@@ -46,15 +46,15 @@ trait Consumer {
 	/**
 	 *	Returns the internal HTTP client.
 	 *
-	 *	@return Essence\Http HTTP client.
+	 *	@return Essence\Http\Client HTTP client.
 	 */
 
-	public function &_http( ) {
+	public function &_httpClient( ) {
 
-		if ( $this->_Http === null ) {
-			$this->_Http = new Native( );
+		if ( $this->_httpClient === null ) {
+			$this->_httpClient = new Native( );
 		}
 
-		return $this->_Http;
+		return $this->_httpClient;
 	}
 }

@@ -87,9 +87,9 @@ class Essence {
 
 		$key = 'extract' . $source;
 
-		return $this->_cache( )->has( $key )
-			? $this->_cache( )->get( $key )
-			: $this->_cache( )->set( $key, $this->_extract( $source ));
+		return $this->_cacheEngine( )->has( $key )
+			? $this->_cacheEngine( )->get( $key )
+			: $this->_cacheEngine( )->set( $key, $this->_extract( $source ));
 	}
 
 
@@ -105,7 +105,7 @@ class Essence {
 				return array( $source );
 			}
 
-			$source = $this->_http( )->get( $source );
+			$source = $this->_httpClient( )->get( $source );
 		}
 
 		$urls = $this->_extractUrls( $source );
@@ -137,7 +137,7 @@ class Essence {
 			'iframe' => 'src'
 		);
 
-		$attributes = $this->_dom( )->extractAttributes( $html, $options );
+		$attributes = $this->_domParser( )->extractAttributes( $html, $options );
 		$urls = array( );
 
 		foreach ( $options as $tagName => $attributeName ) {
@@ -173,9 +173,9 @@ class Essence {
 			$key .= json_encode( $options );
 		}
 
-		return $this->_cache( )->has( $key )
-			? $this->_cache( )->get( $key )
-			: $this->_cache( )->set( $key, $this->_embed( $url, $options ));
+		return $this->_cacheEngine( )->has( $key )
+			? $this->_cacheEngine( )->get( $key )
+			: $this->_cacheEngine( )->set( $key, $this->_embed( $url, $options ));
 	}
 
 
