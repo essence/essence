@@ -228,10 +228,13 @@ return array(
 		'format' => OEmbed::json,
 		'prepare' => function( $url ) {
 
-			// Refactors URLs like these :
-			// - http://player.vimeo.com/video/20830433
-			// in such form :
-			// - http://www.vimeo.com/20830433
+			/**
+			 *	Refactors URLs like these:
+			 *	- http://player.vimeo.com/video/20830433
+			 *
+			 *	in such form:
+			 *	- http://www.vimeo.com/20830433
+			 */
 
 			$url = OEmbed::prepare( $url );
 
@@ -255,13 +258,16 @@ return array(
 		'format' => OEmbed::json,
 		'prepare' => function( $url ) {
 
-			// Refactors URLs like these :
-			// - http://www.youtube.com/watch?v=oHg5SJYRHA0&noise=noise
-			// - http://www.youtube.com/v/oHg5SJYRHA0
-			// - http://www.youtube.com/embed/oHg5SJYRHA0
-			// - http://youtu.be/oHg5SJYRHA0
-			// in such form :
-			// - http://www.youtube.com/watch?v=oHg5SJYRHA0
+			/**
+			 *	Refactors URLs like these:
+			 *	- http://www.youtube.com/watch?v=oHg5SJYRHA0&noise=noise
+			 *	- http://www.youtube.com/v/oHg5SJYRHA0
+			 *	- http://www.youtube.com/embed/oHg5SJYRHA0
+			 *	- http://youtu.be/oHg5SJYRHA0
+			 *
+			 *	in such form:
+			 *	- http://www.youtube.com/watch?v=oHg5SJYRHA0
+			 */
 
 			$url = OEmbed::prepare( $url );
 
@@ -273,18 +279,15 @@ return array(
 		}
 	)
 
-	// generic OEmbed
+	/**
+	 *	The following providers will try to embed any URL.
+	 */
 
 	/*
 	'OEmbed' => array(
 		'class' => 'OEmbed',
 		'pattern' => '#.*#'
 	),
-	*/
-
-	// generic OpenGraph
-
-	/*
 	'OpenGraph' => array(
 		'class' => 'OpenGraph',
 		'pattern' => '#.*#'
