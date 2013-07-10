@@ -111,41 +111,34 @@ Essence currently supports 36 specialized providers:
 23hq, Bandcamp, Blip.tv, Cacoo, CanalPlus, Chirb.it, Clikthrough, CollegeHumour, Dailymotion, Deviantart, Dipity, Flickr, Funnyordie, Howcast, Huffduffer, Hulu, Ifixit, Imgur, Instagram, Mobypicture, Official.fm, Polldaddy, Qik, Revision3, Scribd, Shoudio, Sketchfab, Slideshare, SoundCloud, Ted, Twitter, Vhx, Viddler, Vimeo, Yfrog and Youtube.
 ```
 
-And two generic ones which will try to get informations about any page.
-
-If you know which providers you will have to query, or simply want to exclude some of them, you can tell Essence which ones you want to use:
+You can customize the Essence behavior by passing a configuration array:
 
 ```php
 <?php
 
 $Essence = new Essence\Essence(
 	array(
-		'OEmbed/Youtube',
-		'OEmbed/Dailymotion',
-		'OpenGraph/Ted',
-		'\YourCustomProvider'
+		// the OpenGraph provider will try to embed any URL that matches the filter
+		'Ted' => array(
+			'class' => 'OpenGraph',
+			'filter' => '#ted\.com/talks/.*#i'
+		),
+
+		// the OEmbed provider will query the endpoint, %s beeing replaced by
+		// the requested URL.
+		'Youtube' => array(
+			'class' => 'OEmbed',
+			'filter' => '#youtube\.com/.*#',
+			'endpoint' => 'http://www.youtube.com/oembed?format=json&url=%s'
+		)
 	)
 );
 
 ?>
 ```
 
-You can add custom providers by adding a FQCN (Fully-Qualified Class Name) to the list of providers.
-
-When given an array of providers, the constructor might throw an exception if a provider couldn't be found or loaded.
-If you want to make your code rock solid, you should better wrap that up in a try/catch statement:
-
-```php
-<?php
-
-try {
-	$Essence = new Essence\Essence( array( ... ));
-} catch ( Essence\Exception $Exception ) {
-	...
-}
-
-?>
-```
+You can use custom providers by specifying a FQCN (Fully-Qualified Class Name) in the 'class' option.
+The default configuration (loaded when Essence isn't configured) sits in lib/config.php.
 
 Advanced usage
 --------------
@@ -162,14 +155,10 @@ For example, say you want to get the URL of all videos in a blog post:
 
 $urls = $Essence->extract( 'http://www.blog.com/article' );
 
-/**
- *	$urls now contains all URLs that can be extracted by Essence:
- *
- *	array(
- *		'http://www.youtube.com/watch?v=123456'
- *		'http://www.dailymotion.com/video/a1b2c_lolcat-fun'
- *	)
- */
+//	array(
+//		'http://www.youtube.com/watch?v=123456'
+//		'http://www.dailymotion.com/video/a1b2c_lolcat-fun'
+//	)
 
 ?>
 ```
@@ -181,14 +170,10 @@ Now that you've got those URLs, there is a good chance you want to embed them:
 
 $medias = $Essence->embedAll( $urls );
 
-/**
- *	$medias contains an array of Media objects indexed by URL:
- *
- *	array(
- *		'http://www.youtube.com/watch?v=123456' => Media( ... )
- *		'http://www.dailymotion.com/video/a1b2c_lolcat-fun' => Media( ... )
- *	)
- */
+//	array(
+//		'http://www.youtube.com/watch?v=123456' => Media( ... )
+//		'http://www.dailymotion.com/video/a1b2c_lolcat-fun' => Media( ... )
+//	)
 
 ?>
 ```
@@ -196,47 +181,63 @@ $medias = $Essence->embedAll( $urls );
 ### Replacing URLs in text
 
 Essence can replace any embeddable URL in a text by informations about it.
-Consider this piece of content:
-
-```html
-Check out this video: http://www.youtube.com/watch?v=123456
-```
-
-If you just pass this text to the replace( ) method, the URL will be replaced by the HTML code for the video player.
-But you can do more by defining a template to control which informations will replace the URL.
+By default, any URL will be replaced by the html property of the found Media.
 
 ```php
 <?php
 
-echo $Essence->replace( $text, '<p class="title">%title%</p><div class="player">%html%</div>' );
+$text = 'Check out this awesome video: http://www.youtube.com/watch?v=123456'
+
+echo $Essence->replace( $text );
 
 ?>
 ```
 
-This call should print something like that:
+This call should print something like:
 
 ```html
-Check out this video:
+Check out this awesome video: <iframe src="http://www.youtube.com/embed/123456"></iframe>
+```
+
+But you can do more by passing a callback to control which informations will replace the URL:
+
+```php
+<?php
+
+echo $Essence->replace( $text, function( $Media ) {
+	return sprintf(
+		'<p class="title">%s</p><div class="player">%s</div>',
+		$Media->title,
+		$Media->html
+	);
+});
+
+?>
+```
+
+Which should print something like:
+
+```html
+Check out this awesome video:
 <p class="title">Video title</p>
 <div class="player">
 	<iframe src="http://www.youtube.com/embed/123456"></iframe>
 <div>
 ```
 
-Note that you can use any property of the Media class in the template (See the [What you get](https://github.com/felixgirault/essence#what-you-get "Available properties") section).
+This should make it easy to build rich templates or even integrate a templating engine.
 
 ### Configuring providers
 
 It is possible to pass some options to the providers.
 
 For example, OEmbed providers accepts the `maxwidth` and `maxheight` parameters, as specified in the OEmbed spec.
-Other providers will just ignore the options they don't handle.
 
 ```php
 <?php
 
 $Media = $Essence->embed(
-	'http://www.youtube.com/watch?v=abcdef',
+	$url,
 	array(
 		'maxwidth' => 800,
 		'maxheight' => 600
@@ -244,10 +245,16 @@ $Media = $Essence->embed(
 );
 
 $medias = $Essence->embedAll(
+	$urls,
 	array(
-		'http://www.youtube.com/watch?v=abcdef',
-		'http://www.youtube.com/watch?v=123456'
-	),
+		'maxwidth' => 800,
+		'maxheight' => 600
+	)
+);
+
+$Media = $Essence->extract(
+	$text,
+	null,
 	array(
 		'maxwidth' => 800,
 		'maxheight' => 600
@@ -257,24 +264,7 @@ $medias = $Essence->embedAll(
 ?>
 ```
 
-### Error handling
-
-By default, Essence does all the dirty stuff for you by catching all internal exceptions, so you just have to test if an Media object is valid.
-But, in case you want more informations about an error, Essence keeps exceptions warm, and lets you access all of them:
-
-```php
-<?php
-
-$Media = $Essence->embed( 'http://www.youtube.com/watch?v=oHg5SJYRHA0' );
-
-if ( !$Media ) {
-	$Exception = $Essence->lastError( );
-
-	echo 'That\'s why you should never trust a camel: ', $Exception->getMessage( );
-}
-
-?>
-```
+Other providers will just ignore the options they don't handle.
 
 Third-party libraries
 ---------------------
