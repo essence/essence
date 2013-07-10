@@ -19,7 +19,11 @@ require_once dirname( __FILE__ )
  */
 
 if ( !defined( 'ESSENCE_LIB' )) {
-	define( 'ESSENCE_LIB', dirname( __FILE__ ));
+	define( 'ESSENCE_LIB', dirname( __FILE__ ) . DIRECTORY_SEPARATOR );
+}
+
+if ( !defined( 'ESSENCE_DEFAULT_CONFIG' )) {
+	define( 'ESSENCE_DEFAULT_CONFIG', ESSENCE_LIB . 'config.php' );
 }
 
 if ( !defined( 'ESSENCE_BOOTSTRAPED' )) {

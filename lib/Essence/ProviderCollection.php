@@ -48,30 +48,21 @@ class ProviderCollection {
 	 *	Loads the given providers.
 	 *
 	 *	@see load( )
-	 *	@param array $providers An array of provider configurations, or the
-	 *		path to a file returning such a configuration.
+	 *	@param array|string $providers An array of provider configurations,
+	 *		or the path to a file returning such a configuration.
 	 */
 
 	public function __construct( $config = array( )) {
 
+		if ( empty( $config )) {
+			$config = ESSENCE_DEFAULT_CONFIG;
+		}
+
 		if ( is_array( $config )) {
 			$this->_config = $config;
 		} else if ( file_exists( $config )) {
-			$this->load( $config );
+			$this->_config = include $config;
 		}
-	}
-
-
-
-	/**
-	 *	Loads a configuration file.
-	 *
-	 *	@param string $path Path to the file.
-	 */
-
-	public function load( $path ) {
-
-		$this->_config = include $path;
 	}
 
 

@@ -253,6 +253,7 @@ class Essence {
 		return preg_replace_callback(
 			$this->_config['urlPattern'],
 			function ( $matches ) use ( $callback, $options ) {
+
 				$Media = $this->embed( $matches['url'], $options );
 
 				if ( $Media === null ) {

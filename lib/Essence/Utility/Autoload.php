@@ -25,16 +25,19 @@ class Autoload {
 
 	public static function setup( $basePath ) {
 
-		spl_autoload_register( function( $className ) use ( $basePath ) {
+		$basePath = rtrim( $basePath, DIRECTORY_SEPARATOR );
 
-			$path = $basePath
-				. DIRECTORY_SEPARATOR
-				. str_replace( '\\', DIRECTORY_SEPARATOR, $className )
-				. '.php';
+		spl_autoload_register(
+			function( $className ) use ( $basePath ) {
+				$path = $basePath
+					. DIRECTORY_SEPARATOR
+					. str_replace( '\\', DIRECTORY_SEPARATOR, $className )
+					. '.php';
 
-			if ( file_exists( $path )) {
-				require_once $path;
+				if ( file_exists( $path )) {
+					require_once $path;
+				}
 			}
-		});
+		);
 	}
 }
