@@ -2,7 +2,7 @@
 	"name": "fg/essence",
 	"type": "library",
 	"description": "Extracts informations about medias on the web, like youtube videos, twitter statuses or blog articles.",
-	"version": "1.4.1",
+	"version": "2.0.0",
 	"authors": [{
 		"name": "Félix Girault",
 		"email": "felix.girault@gmail.com",
@@ -18,7 +18,7 @@
 	"licence": "BSD-2-Clause",
 	"homepage": "http://github.com/felixgirault/essence",
 	"require": {
-		"php": ">=5.3.0",
+		"php": ">=5.4.0",
 		"ext-curl": "*"
 	},
 	"autoload": {
