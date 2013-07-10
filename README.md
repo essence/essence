@@ -23,7 +23,7 @@ Using the main class of the library, you can retrieve informations in just those
 
 require_once 'path/to/essence/bootstrap.php';
 
-$Essence = new fg\Essence\Essence( );
+$Essence = new Essence\Essence( );
 
 $Media = $Essence->embed( 'http://www.youtube.com/watch?v=39e3KYAmXK4' );
 
@@ -118,7 +118,7 @@ If you know which providers you will have to query, or simply want to exclude so
 ```php
 <?php
 
-$Essence = new fg\Essence\Essence(
+$Essence = new Essence\Essence(
 	array(
 		'OEmbed/Youtube',
 		'OEmbed/Dailymotion',
@@ -139,8 +139,8 @@ If you want to make your code rock solid, you should better wrap that up in a tr
 <?php
 
 try {
-	$Essence = new fg\Essence\Essence( array( ... ));
-} catch ( fg\Essence\Exception $Exception ) {
+	$Essence = new Essence\Essence( array( ... ));
+} catch ( Essence\Exception $Exception ) {
 	...
 }
 
@@ -289,7 +289,7 @@ It allows you to build customizable embed codes painlessly:
 ```php
 <?php
 
-$Multiplayer = new fg\Multiplayer\Multiplayer( );
+$Multiplayer = new Multiplayer\Multiplayer( );
 
 if ( $Media->type === 'video' ) {
 	echo $Multiplayer->html(
