@@ -24,7 +24,7 @@ class ProviderCollection {
 	 *
 	 *	- 'name' string Name of the provider.
 	 *		- 'class' string The provider class.
-	 *		- 'pattern' string A regex to test URLs.
+	 *		- 'filter' string A regex to test URLs.
 	 *		- ... mixed Provider specific options.
 	 *
 	 *	@var array
@@ -77,7 +77,7 @@ class ProviderCollection {
 	public function hasProvider( $url ) {
 
 		foreach ( $this->_config as $options ) {
-			if ( preg_match( $options['pattern'], $url )) {
+			if ( preg_match( $options['filter'], $url )) {
 				return true;
 			}
 		}
@@ -100,7 +100,7 @@ class ProviderCollection {
 		$providers = array( );
 
 		foreach ( $this->_config as $name => $options ) {
-			if ( preg_match( $options['pattern'], $url )) {
+			if ( preg_match( $options['filter'], $url )) {
 				$providers[ ] = $this->_provider( $name, $options );
 			}
 		}

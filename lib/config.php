@@ -19,181 +19,181 @@ use Essence\Provider\OEmbed;
 return array(
 	'23hq' => array(
 		'class' => 'OEmbed',
-		'pattern' => '#23hq.com/.+/photo/.+#i',
+		'filter' => '#23hq.com/.+/photo/.+#i',
 		'endpoint' => 'http://www.23hq.com/23/oembed?format=json&url=%s',
 	),
 	'Bandcamp' => array(
 		'class' => 'OpenGraph',
-		'pattern' => '#bandcamp\.com/(album|track)/#i'
+		'filter' => '#bandcamp\.com/(album|track)/#i'
 	),
 	'Blip.tv' => array(
 		'class' => 'OEmbed',
-		'pattern' => '#blip.tv/.+#i',
+		'filter' => '#blip.tv/.+#i',
 		'endpoint' => 'http://blip.tv/oembed?format=json&url=%s',
 	),
 	'Cacoo' => array(
 		'class' => 'OEmbed',
-		'pattern' => '#cacoo.com/.+#i',
+		'filter' => '#cacoo.com/.+#i',
 		'endpoint' => 'http://cacoo.com/oembed.json?url=%s',
 	),
 	'CanalPlus' => array(
 		'class' => 'OpenGraph',
-		'pattern' => '#canalplus\.fr#i'
+		'filter' => '#canalplus\.fr#i'
 	),
 	'Chirb.it' => array(
 		'class' => 'OEmbed',
-		'pattern' => '#chirb.it/.+#i',
+		'filter' => '#chirb.it/.+#i',
 		'endpoint' => 'http://chirb.it/oembed.json?url=%s',
 	),
 	'Clikthrough' => array(
 		'class' => 'OEmbed',
-		'pattern' => '#clikthrough\.com/theater/video/\d+#i',
+		'filter' => '#clikthrough\.com/theater/video/\d+#i',
 		'endpoint' => 'http://clikthrough.com/services/oembed?format=json&url=%s',
 	),
 	'CollegeHumorOEmbed' => array(
 		'class' => 'OEmbed',
-		'pattern' => '#collegehumor.com/(video|embed)/.*#i',
+		'filter' => '#collegehumor.com/(video|embed)/.*#i',
 		'endpoint' => 'http://www.collegehumor.com/oembed.json?url=%s',
 	),
 	'CollegeHumorOpenGraph' => array(
 		'class' => 'OpenGraph',
-		'pattern' => '#collegehumor.com/(picture|article)/.+#i'
+		'filter' => '#collegehumor.com/(picture|article)/.+#i'
 	),
 	'Dailymotion' => array(
 		'class' => 'OEmbed',
-		'pattern' => '#dailymotion\.com#i',
+		'filter' => '#dailymotion\.com#i',
 		'endpoint' => 'http://www.dailymotion.com/services/oembed?format=json&url=%s',
 	),
 	'Deviantart' => array(
 		'class' => 'OEmbed',
-		'pattern' => '#deviantart.com/.+#i',
+		'filter' => '#deviantart.com/.+#i',
 		'endpoint' => 'http://backend.deviantart.com/oembed?format=json&url=%s',
 	),
 	'Dipity' => array(
 		'class' => 'OEmbed',
-		'pattern' => '#dipity.com/.+#i',
+		'filter' => '#dipity.com/.+#i',
 		'endpoint' => 'http://www.dipity.com/oembed/timeline?format=json&url=%s',
 	),
 	'Flickr' => array(
 		'class' => 'OEmbed',
-		'pattern' => '#flickr\.com/photos/[a-zA-Z0-9@\\._]+/[0-9]+#i',
+		'filter' => '#flickr\.com/photos/[a-zA-Z0-9@\\._]+/[0-9]+#i',
 		'endpoint' => 'http://flickr.com/services/oembed?format=json&url=%s',
 	),
 	'FunnyOrDie' => array(
 		'class' => 'OEmbed',
-		'pattern' => '#funnyordie\.com/videos/.*#i',
+		'filter' => '#funnyordie\.com/videos/.*#i',
 		'endpoint' => 'http://www.funnyordie.com/oembed?format=json&url=%s',
 	),
 	'HowCast' => array(
 		'class' => 'OpenGraph',
-		'pattern' => '#howcast\.com/.+/.+#i'
+		'filter' => '#howcast\.com/.+/.+#i'
 	),
 	'Huffduffer' => array(
 		'class' => 'OEmbed',
-		'pattern' => '#huffduffer.com/[-.\w@]+/\d+#i',
+		'filter' => '#huffduffer.com/[-.\w@]+/\d+#i',
 		'endpoint' => 'http://huffduffer.com/oembed?format=json&url=%s',
 	),
 	'Hulu' => array(
 		'class' => 'OEmbed',
-		'pattern' => '#hulu\.com/watch/.+#i',
+		'filter' => '#hulu\.com/watch/.+#i',
 		'endpoint' => 'http://www.hulu.com/api/oembed.json?url=%s',
 	),
 	'Ifixit' => array(
 		'class' => 'OEmbed',
-		'pattern' => '#ifixit.com/.*#i',
+		'filter' => '#ifixit.com/.*#i',
 		'endpoint' => 'http://www.ifixit.com/Embed?format=json&url=%s',
 	),
 	'Imgur' => array(
 		'class' => 'OEmbed',
-		'pattern' => '#(imgur\.com/(gallery|a)/.+|imgur\.com/.+)#i',
+		'filter' => '#(imgur\.com/(gallery|a)/.+|imgur\.com/.+)#i',
 		'endpoint' => 'http://api.imgur.com/oembed?format=json&url=%s',
 	),
 	'Instagram' => array(
 		'class' => 'OEmbed',
-		'pattern' => '#instagr(\.am|am\.com)/p/.*#i',
+		'filter' => '#instagr(\.am|am\.com)/p/.*#i',
 		'endpoint' => 'http://api.instagram.com/oembed?format=json&url=%s',
 	),
 	'Mobypicture' => array(
 		'class' => 'OEmbed',
-		'pattern' => '#mobypicture.com/user/.+/view/.+#','moby.to/.+#i',
+		'filter' => '#mobypicture.com/user/.+/view/.+#','moby.to/.+#i',
 		'endpoint' => 'http://api.mobypicture.com/oEmbed?format=json&url=%s',
 	),
 	'Official.fm' => array(
 		'class' => 'OEmbed',
-		'pattern' => '#official.fm/.+#i',
+		'filter' => '#official.fm/.+#i',
 		'endpoint' => 'http://official.fm/services/oembed?format=json&url=%s',
 	),
 	'Polldaddy' => array(
 		'class' => 'OEmbed',
-		'pattern' => '#polldaddy\.com/.*#i',
+		'filter' => '#polldaddy\.com/.*#i',
 		'endpoint' => 'http://polldaddy.com/oembed?format=json&url=%s',
 	),
 	'Prezi' => array(
 		'class' => 'OpenGraph',
-		'pattern' => '#prezi\.com/.+/.+#i'
+		'filter' => '#prezi\.com/.+/.+#i'
 	),
 	'Qik' => array(
 		'class' => 'OEmbed',
-		'pattern' => '#qik\.com/\w+#i',
+		'filter' => '#qik\.com/\w+#i',
 		'endpoint' => 'http://qik.com/api/oembed.json?url=%s',
 	),
 	'Revision3' => array(
 		'class' => 'OEmbed',
-		'pattern' => '#revision3\.com/[a-z0-9]+/.+#i',
+		'filter' => '#revision3\.com/[a-z0-9]+/.+#i',
 		'endpoint' => 'http://revision3.com/api/oembed?format=json&url=%s',
 	),
 	'Scribd' => array(
 		'class' => 'OEmbed',
-		'pattern' => '#scribd\.com/doc/[0-9]+/.+#i',
+		'filter' => '#scribd\.com/doc/[0-9]+/.+#i',
 		'endpoint' => 'http://www.scribd.com/services/oembed?format=json&url=%s',
 	),
 	'Shoudio' => array(
 		'class' => 'OEmbed',
-		'pattern' => '#(shoudio.com/.+|shoud.io/.+)#i',
+		'filter' => '#(shoudio.com/.+|shoud.io/.+)#i',
 		'endpoint' => 'http://shoudio.com/api/oembed?format=json&url=%s',
 	),
 	'Sketchfab' => array(
 		'class' => 'OEmbed',
-		'pattern' => '#sketchfab.com/show/.+#i',
+		'filter' => '#sketchfab.com/show/.+#i',
 		'endpoint' => 'http://sketchfab.com/oembed?format=json&url=%s',
 	),
 	'SlideShare' => array(
 		'class' => 'OEmbed',
-		'pattern' => '#slideshare\.net/.+/.+#i',
+		'filter' => '#slideshare\.net/.+/.+#i',
 		'endpoint' => 'http://www.slideshare.net/api/oembed/2?format=json&url=%s',
 	),
 	'SoundCloud' => array(
 		'class' => 'OEmbed',
-		'pattern' => '#soundcloud\.com/[a-zA-Z0-9-]+/[a-zA-Z0-9-]+#i',
+		'filter' => '#soundcloud\.com/[a-zA-Z0-9-]+/[a-zA-Z0-9-]+#i',
 		'endpoint' => 'http://soundcloud.com/oembed?format=json&url=%s',
 	),
 	'TedOEmbed' => array(
 		'class' => 'OEmbed',
-		'pattern' => '#ted.com/talks/*+#i',
+		'filter' => '#ted.com/talks/*+#i',
 		'endpoint' => 'http://www.ted.com/talks/oembed.json?url=%s',
 	),
 	'TedOpenGraph' => array(
 		'class' => 'OpenGraph',
-		'pattern' => '#ted\.com/talks#i'
+		'filter' => '#ted\.com/talks#i'
 	),
 	'Twitter' => array(
 		'class' => 'OEmbed',
-		'pattern' => '#twitter\.com/[a-zA-Z0-9_]+/status/.+#i',
+		'filter' => '#twitter\.com/[a-zA-Z0-9_]+/status/.+#i',
 		'endpoint' => 'https://api.twitter.com/1/statuses/oembed.json?url=%s',
 	),
 	'Vhx' => array(
 		'class' => 'OEmbed',
-		'pattern' => '#vhx.tv/.+#i',
+		'filter' => '#vhx.tv/.+#i',
 		'endpoint' => 'http://vhx.tv/services/oembed.json?url=%s',
 	),
 	'Viddler' => array(
 		'class' => 'OEmbed',
-		'pattern' => '#viddler.com/.+#i',
+		'filter' => '#viddler.com/.+#i',
 		'endpoint' => 'http://www.viddler.com/oembed/?url=%s',
 	),
 	'Vimeo' => array(
 		'class' => 'OEmbed',
-		'pattern' => '#vimeo\.com#i',
+		'filter' => '#vimeo\.com#i',
 		'endpoint' => 'http://vimeo.com/api/oembed.json?url=%s',
 		'prepare' => function( $url ) {
 
@@ -216,12 +216,12 @@ return array(
 	),
 	'Yfrog' => array(
 		'class' => 'OEmbed',
-		'pattern' => '#yfrog\.(com|ru|com\.tr|it|fr|co\.il|co\.uk|com\.pl|pl|eu|us)/.+#i',
+		'filter' => '#yfrog\.(com|ru|com\.tr|it|fr|co\.il|co\.uk|com\.pl|pl|eu|us)/.+#i',
 		'endpoint' => 'http://www.yfrog.com/api/oembed?format=json&url=%s',
 	),
 	'Youtube' => array(
 		'class' => 'OEmbed',
-		'pattern' => '#youtube\.com|youtu\.be#i',
+		'filter' => '#youtube\.com|youtu\.be#i',
 		'endpoint' => 'http://www.youtube.com/oembed?format=json&url=%s',
 		'prepare' => function( $url ) {
 
@@ -253,11 +253,11 @@ return array(
 	/*
 	'OEmbed' => array(
 		'class' => 'OEmbed',
-		'pattern' => '#.*#'
+		'filter' => '#.*#'
 	),
 	'OpenGraph' => array(
 		'class' => 'OpenGraph',
-		'pattern' => '#.*#'
+		'filter' => '#.*#'
 	),
 	*/
 );

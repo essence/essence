@@ -38,11 +38,11 @@ class ProviderCollectionTest extends \PHPUnit_Framework_TestCase {
 			array(
 				'Foo' => array(
 					'class' => 'OEmbed',
-					'pattern' => '#^foo$#'
+					'filter' => '#^foo$#'
 				),
 				'Bar' => array(
 					'class' => 'OpenGraph',
-					'pattern' => '#^bar$#'
+					'filter' => '#^bar$#'
 				)
 			)
 		);
