@@ -190,7 +190,13 @@ echo $Essence->replace( $text, function( $Media ) {
 //	<div>
 ```
 
-This should make it easy to build rich templates or even integrate a templating engine.
+This makes it easy to build rich templates or even to integrate a templating engine:
+
+```php
+echo $Essence->replace( $text, function( $Media ) use ( $TwigTemplate ) {
+	return $TwigTemplate->render( $Media->properties );
+});
+```
 
 ### Configuring providers
 
