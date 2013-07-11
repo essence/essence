@@ -139,12 +139,10 @@ class ProviderCollection {
 	protected function _provider( $name, $options ) {
 
 		if ( !isset( $this->_providers[ $name ])) {
-			$class = $options[ 'class' ];
+			$class = $options['class'];
 
 			if ( $class[ 0 ] !== '\\' ) {
-				$class = __NAMESPACE__
-					. '\\Provider\\'
-					. str_replace( '/', '\\', $class );
+				$class = "\\Essence\\Provider\\$class";
 			}
 
 			$this->_providers[ $name ] = new $class( $options );
