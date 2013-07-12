@@ -189,6 +189,22 @@ class Media implements \IteratorAggregate {
 
 
 	/**
+	 *	Sets the value of a property if it is empty.
+	 *
+	 *	@param string $property Property name.
+	 *	@param string $default Default value.
+	 */
+
+	public function setDefault( $property, $default ) {
+
+		if ( !$this->has( $property )) {
+			$this->set( $property, $default );
+		}
+	}
+
+
+
+	/**
 	 *	Returns an iterator for the media properties.
 	 *
 	 *	@return ArrayIterator Iterator.
