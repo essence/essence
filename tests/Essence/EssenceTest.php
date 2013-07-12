@@ -82,7 +82,7 @@ class EssenceTest extends \PHPUnit_Framework_TestCase {
 
 		$this->Collection->expects( $this->any( ))
 			->method( 'hasProvider' )
-			->will( $this->onConsecutiveCalls( false, true, false, true, true ));
+			->will( $this->onConsecutiveCalls( true, false, true, true ));
 
 		$this->assertEquals(
 			array(
@@ -92,22 +92,6 @@ class EssenceTest extends \PHPUnit_Framework_TestCase {
 			),
 			$this->Essence->extract( 'file://' . ESSENCE_HTTP . 'valid.html' )
 		);
-	}
-
-
-
-	/**
-	 *
-	 */
-
-	public function testExtractEmbeddable( ) {
-
-		$this->Collection->expects( $this->any( ))
-			->method( 'hasProvider' )
-			->will( $this->returnValue( true ));
-
-		$url = 'file://' . ESSENCE_HTTP . 'valid.html';
-		$this->assertEquals( array( $url ), $this->Essence->extract( $url ));
 	}
 
 

@@ -101,10 +101,6 @@ class Essence {
 	protected function _extract( $source ) {
 
 		if ( filter_var( $source, FILTER_VALIDATE_URL )) {
-			if ( $this->_Collection->hasProvider( $source )) {
-				return array( $source );
-			}
-
 			$source = $this->_httpClient( )->get( $source );
 		}
 
