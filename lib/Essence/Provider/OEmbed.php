@@ -13,7 +13,8 @@ use Essence\Provider;
 use Essence\Dom\Consumer as DomConsumer;
 use Essence\Http\Consumer as HttpConsumer;
 use Essence\Utility\Hash;
-use SimpleXmlIterator;
+use Essence\Utility\Json;
+use Essence\Utility\Xml;
 
 
 
@@ -62,23 +63,6 @@ class OEmbed extends Provider {
 		'prepare' => 'OEmbed::prepare',
 		'endpoint' => '',
 		'format' => self::json
-	);
-
-
-
-	/**
-	 *	JSON error messages.
-	 *
-	 *	@var array
-	 */
-
-	protected $_jsonErrors = array(
-		JSON_ERROR_NONE => 'no error',
-		JSON_ERROR_DEPTH => 'depth error',
-		JSON_ERROR_STATE_MISMATCH => 'state mismatch error',
-		JSON_ERROR_CTRL_CHAR => 'control character error',
-		JSON_ERROR_SYNTAX => 'syntax error',
-		JSON_ERROR_UTF8 => 'UTF-8 error'
 	);
 
 
@@ -212,11 +196,11 @@ class OEmbed extends Provider {
 
 		switch ( $format ) {
 			case self::json:
-				$data = $this->_parseJson( $response );
+				$data = Json::parse( $response );
 				break;
 
 			case self::xml:
-				$data = $this->_parseXml( $response );
+				$data = Xml::parse( $response );
 				break;
 
 			default:
@@ -267,52 +251,5 @@ class OEmbed extends Provider {
 		}
 
 		return $endpoint;
-	}
-
-
-
-	/**
-	 *	Parses a JSON response and returns an array of data.
-	 *
-	 *	@param string $json JSON document.
-	 *	@return array Data.
-	 */
-
-	protected function _parseJson( $json ) {
-
-		$data = json_decode( $json, true );
-
-		if ( $data === null ) {
-			throw new Exception(
-				'Error parsing JSON response: '
-				. $this->_jsonErrors[ json_last_error( )]
-				. '.'
-			);
-		}
-
-		return $data;
-	}
-
-
-
-	/**
-	 *	Parses an XML response and returns an array of data.
-	 *
-	 *	@param string $xml XML document.
-	 *	@return array Data.
-	 */
-
-	protected function _parseXml( $xml ) {
-
-		$internal = libxml_use_internal_errors( true );
-		$data = array( );
-		$it = new SimpleXmlIterator( $xml, null );
-
-		foreach ( $it as $key => $value ) {
-			$data[ $key ] = strval( $value );
-		}
-
-		libxml_use_internal_errors( $internal );
-		return $data;
 	}
 }
