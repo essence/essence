@@ -10,6 +10,8 @@ namespace Essence\Dom\Parser;
 use Essence\Dom\Parser;
 use Essence\Exception;
 use Essence\Utility\Hash;
+use DomDocument;
+use DomNode;
 
 
 
@@ -28,7 +30,7 @@ class Native implements Parser {
 	public function extractAttributes( $html, array $options ) {
 
 		$reporting = error_reporting( 0 );
-		$Document = \DomDocument::loadHTML( $html );
+		$Document = DomDocument::loadHTML( $html );
 		error_reporting( $reporting );
 
 		if ( $Document === false ) {
@@ -45,7 +47,10 @@ class Native implements Parser {
 
 			foreach ( $tags as $Tag ) {
 				if ( $Tag->hasAttributes( )) {
-					$attributes = $this->_extractAttributesFromTag( $Tag, $required );
+					$attributes = $this->_extractAttributesFromTag(
+						$Tag,
+						$required
+					);
 
 					if ( !empty( $attributes )) {
 						$data[ $name ][ ] = $attributes;
@@ -62,12 +67,12 @@ class Native implements Parser {
 	/**
 	 *	Extracts attributes from the given tag.
 	 *
-	 *	@param \DOMNode $Tag Tag to extract attributes from.
+	 *	@param DOMNode $Tag Tag to extract attributes from.
 	 *	@param array $required Required attributes.
 	 *	@return array Extracted attributes.
 	 */
 
-	protected function _extractAttributesFromTag( \DOMNode $Tag, array $required ) {
+	protected function _extractAttributesFromTag( DOMNode $Tag, array $required ) {
 
 		$attributes = array( );
 

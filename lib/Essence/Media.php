@@ -7,6 +7,9 @@
 
 namespace Essence;
 
+use ArrayIterator;
+use IteratorAggregate;
+
 
 
 /**
@@ -17,7 +20,7 @@ namespace Essence;
  *	@package fg.Essence
  */
 
-class Media implements \IteratorAggregate {
+class Media implements IteratorAggregate {
 
 	/**
 	 *	Embed data, indexed by property name. Providers must try to fill these
@@ -212,6 +215,6 @@ class Media implements \IteratorAggregate {
 
 	public function getIterator( ) {
 
-		return new \ArrayIterator( $this->properties );
+		return new ArrayIterator( $this->properties );
 	}
 }

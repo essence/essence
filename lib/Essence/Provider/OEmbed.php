@@ -13,6 +13,7 @@ use Essence\Provider;
 use Essence\Dom\Consumer as DomConsumer;
 use Essence\Http\Consumer as HttpConsumer;
 use Essence\Utility\Hash;
+use SimpleXmlIterator;
 
 
 
@@ -305,7 +306,7 @@ class OEmbed extends Provider {
 
 		$internal = libxml_use_internal_errors( true );
 		$data = array( );
-		$it = new \SimpleXmlIterator( $xml, null );
+		$it = new SimpleXmlIterator( $xml, null );
 
 		foreach ( $it as $key => $value ) {
 			$data[ $key ] = strval( $value );
