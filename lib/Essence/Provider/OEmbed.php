@@ -112,7 +112,7 @@ class OEmbed extends Provider {
 
 	public static function strip( &$string, $delimiter ) {
 
-		$position = strpos( $string, $delimiter );
+		$position = strrpos( $string, $delimiter );
 		$found = ( $position !== false );
 
 		if ( $found ) {
@@ -260,7 +260,7 @@ class OEmbed extends Provider {
 			);
 
 			if ( !empty( $params )) {
-				$endpoint .= ( strpos( $endpoint, '?' ) === false ) ? '?' : '&';
+				$endpoint .= ( strrpos( $endpoint, '?' ) === false ) ? '?' : '&';
 				$endpoint .= http_build_query( $params );
 			}
 		}
