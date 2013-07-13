@@ -29,14 +29,7 @@ class Native implements Parser {
 
 	public function extractAttributes( $html, array $options ) {
 
-		$reporting = error_reporting( 0 );
-		$Document = DomDocument::loadHTML( $html );
-		error_reporting( $reporting );
-
-		if ( $Document === false ) {
-			throw new Exception( 'Unable to load HTML document.' );
-		}
-
+		$Document = $this->_document( $html );
 		$options = Hash::normalize( $options, array( ));
 		$data = array( );
 
@@ -60,6 +53,28 @@ class Native implements Parser {
 		}
 
 		return $data;
+	}
+
+
+
+	/**
+	 *	Builds and returns a DomDocument from the given HTML source.
+	 *
+	 *	@param string $html HTML source.
+	 *	@return DomDocument DomDocument.
+	 */
+
+	protected function _document( $html ) {
+
+		$reporting = error_reporting( 0 );
+		$Document = DomDocument::loadHTML( $html );
+		error_reporting( $reporting );
+
+		if ( $Document === false ) {
+			throw new Exception( 'Unable to load HTML document.' );
+		}
+
+		return $Document;
 	}
 
 
