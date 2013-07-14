@@ -121,12 +121,12 @@ class OEmbed extends Provider {
 		$Media = null;
 
 		if ( empty( $this->_options['endpoint'])) {
-			$endpoint = $this->_extractEndpoint( $url );
+			list( $endpoint, $format ) = $this->_extractEndpoint( $url );
 
 			if ( $endpoint ) {
 				$Media = $this->_embedEndpoint(
-					$endpoint['url'],
-					$endpoint['format'],
+					$endpoint,
+					$format,
 					$options
 				);
 			}
@@ -162,20 +162,18 @@ class OEmbed extends Provider {
 			)
 		);
 
-		$endpoint = false;
+		$endpoint = '';
+		$format = '';
 
 		foreach ( $attributes['link'] as $link ) {
 			if ( preg_match( '#(?<format>json|xml)#i', $link['type'], $matches )) {
-				$endpoint = array(
-					'url' => $link['href'],
-					'format' => $matches['format']
-				);
-
+				$endpoint = $link['href'];
+				$format = $matches['format'];
 				break;
 			}
 		}
 
-		return $endpoint;
+		return array( $endpoint, $url );
 	}
 
 
