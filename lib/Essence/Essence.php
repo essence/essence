@@ -112,7 +112,7 @@ class Essence {
 		$embeddable = array( );
 
 		foreach ( $urls as $url ) {
-			if (	$this->_Collection->hasProvider( $url )) {
+			if ( $this->_Collection->hasProvider( $url )) {
 				$embeddable[ ] = $url;
 			}
 		}
