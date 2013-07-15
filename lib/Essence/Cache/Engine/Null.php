@@ -45,8 +45,6 @@ class Null implements Engine {
 	 *	{@inheritDoc}
 	 */
 
-	public function set( $key, $data ) {
+	public function set( $key, $data ) { }
 
-		return $data;
-	}
 }

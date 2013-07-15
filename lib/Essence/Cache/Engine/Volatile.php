@@ -60,6 +60,5 @@ class Volatile implements Engine {
 	public function set( $key, $data ) {
 
 		$this->_data[ $key ] = $data;
-		return $data;
 	}
 }
