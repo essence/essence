@@ -50,12 +50,4 @@ interface Engine {
 
 	public function set( $key, $data );
 
-
-
-	/**
-	 *	Deletes all cached data.
-	 */
-
-	public function clear( );
-
 }

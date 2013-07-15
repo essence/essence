@@ -62,15 +62,4 @@ class Volatile implements Engine {
 		$this->_data[ $key ] = $data;
 		return $data;
 	}
-
-
-
-	/**
-	 *	{@inheritDoc}
-	 */
-
-	public function clear( ) {
-
-		$this->_data = array( );
-	}
 }

@@ -49,13 +49,4 @@ class Null implements Engine {
 
 		return $data;
 	}
-
-
-
-	/**
-	 *	{@inheritDoc}
-	 */
-
-	public function clear( ) { }
-
 }

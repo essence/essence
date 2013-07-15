@@ -65,18 +65,4 @@ class VolatileTest extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals( 'value', $this->Volatile->set( 'key', 'value' ));
 		$this->assertEquals( 'value', $this->Volatile->get( 'key' ));
 	}
-
-
-
-	/**
-	 *
-	 */
-
-	public function testClear( ) {
-
-		$this->Volatile->set( 'key', 'value' );
-		$this->Volatile->clear( );
-
-		$this->assertNull( $this->Volatile->get( 'key' ));
-	}
 }
