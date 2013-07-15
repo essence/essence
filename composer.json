@@ -23,7 +23,7 @@
 	},
 	"autoload": {
 		"psr-0": {
-			"fg": "lib/"
+			"Essence": "lib/"
 		}
 	}
 }
