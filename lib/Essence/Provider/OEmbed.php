@@ -146,7 +146,8 @@ class OEmbed extends Provider {
 	/**
 	 *	Extracts an oEmbed endpoint from the given URL.
 	 *
-	 *	@param string $url
+	 *	@param string $url URL from which to extract an endpoint.
+	 *	@return array An array containing the endpoint URL and format.
 	 */
 
 	protected function _extractEndpoint( $url ) {
@@ -162,18 +163,16 @@ class OEmbed extends Provider {
 			)
 		);
 
-		$endpoint = '';
-		$format = '';
-
 		foreach ( $attributes['link'] as $link ) {
 			if ( preg_match( '#(?<format>json|xml)#i', $link['type'], $matches )) {
-				$endpoint = $link['href'];
-				$format = $matches['format'];
-				break;
+				return array(
+					$link['href'],
+					$matches['format']
+				);
 			}
 		}
 
-		return array( $endpoint, $url );
+		return array( '', '' );
 	}
 
 
