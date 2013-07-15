@@ -7,6 +7,7 @@
 
 namespace Essence;
 
+use Essence\Cacheable;
 use Essence\Configurable;
 use Essence\Cache\Consumer as CacheConsumer;
 use Essence\Dom\Consumer as DomConsumer;
@@ -22,6 +23,7 @@ use Essence\Http\Consumer as HttpConsumer;
 
 class Essence {
 
+	use Cacheable;
 	use Configurable;
 	use CacheConsumer;
 	use DomConsumer;
@@ -87,11 +89,11 @@ class Essence {
 
 	public function extract( $source ) {
 
-		$key = 'extract' . $source;
-
-		return $this->_cacheEngine( )->has( $key )
-			? $this->_cacheEngine( )->get( $key )
-			: $this->_cacheEngine( )->set( $key, $this->_extract( $source ));
+		return $this->_cached(
+			$this->_cacheEngine( ),
+			'_extract',
+			$source
+		);
 	}
 
 
@@ -165,15 +167,12 @@ class Essence {
 
 	public function embed( $url, array $options = array( )) {
 
-		$key = 'embed' . $url;
-
-		if ( $options ) {
-			$key .= json_encode( $options );
-		}
-
-		return $this->_cacheEngine( )->has( $key )
-			? $this->_cacheEngine( )->get( $key )
-			: $this->_cacheEngine( )->set( $key, $this->_embed( $url, $options ));
+		return $this->_cached(
+			$this->_cacheEngine( ),
+			'_embed',
+			$url,
+			$options
+		);
 	}
 
 
