@@ -53,12 +53,10 @@ trait Cacheable {
 
 
 	/**
-	 *	Returns the cached result of a method call.
+	 *	Generates a key from the given signature.
 	 *
-	 *	@param Essence\Cache\Engine $Engine Cache engine.
-	 *	@param string $method The method to cache.
-	 *	@param ... mixed Parameters to be passed to the method.
-	 *	@return mixed Cached result.
+	 *	@param string $key Method signature.
+	 *	@return string Generated key.
 	 */
 
 	protected function _cacheKey( $signature ) {
