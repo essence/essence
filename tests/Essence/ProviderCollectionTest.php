@@ -7,11 +7,6 @@
 
 namespace Essence;
 
-if ( !defined( 'ESSENCE_BOOTSTRAPPED' )) {
-	require_once dirname( dirname( __FILE__ ))
-		. DIRECTORY_SEPARATOR . 'bootstrap.php';
-}
-
 
 
 /**

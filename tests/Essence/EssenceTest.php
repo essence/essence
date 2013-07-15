@@ -7,11 +7,6 @@
 
 namespace Essence;
 
-if ( !defined( 'ESSENCE_BOOTSTRAPPED' )) {
-	require_once dirname( dirname( __FILE__ ))
-		. DIRECTORY_SEPARATOR . 'bootstrap.php';
-}
-
 
 
 /**
@@ -69,6 +64,7 @@ class EssenceTest extends \PHPUnit_Framework_TestCase {
 	public function setUp( ) {
 
 		$this->Collection = $this->getMock( '\\Essence\\ProviderCollection' );
+		$this->Client = $this->getMock( '\\Essence\\Http\\Client' );
 		$this->Essence = new Essence( $this->Collection );
 	}
 

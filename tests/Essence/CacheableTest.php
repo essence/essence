@@ -10,11 +10,6 @@ namespace Essence;
 use Essence\Cache\Engine;
 use Essence\Cache\Engine\Volatile;
 
-if ( !defined( 'ESSENCE_BOOTSTRAPPED' )) {
-	require_once dirname( dirname( __FILE__ ))
-		. DIRECTORY_SEPARATOR . 'bootstrap.php';
-}
-
 
 
 /**
