@@ -215,7 +215,7 @@ class OEmbed extends Provider {
 					'cache_age' => 'cacheAge',
 					'thumbnail_url' => 'thumbnailUrl',
 					'thumbnail_width' => 'thumbnailWidth',
-					'thumbnail_height' => 'thumbnailHeight',
+					'thumbnail_height' => 'thumbnailHeight'
 				)
 			)
 		);
