@@ -7,6 +7,8 @@
 
 namespace Essence;
 
+use Essence\Configurable;
+
 
 
 /**
@@ -16,6 +18,10 @@ namespace Essence;
  */
 
 class ProviderCollection {
+
+	use Configurable;
+
+
 
 	/**
 	 *	A list of provider configurations.
@@ -31,7 +37,7 @@ class ProviderCollection {
 	 *	@var array
 	 */
 
-	protected $_config = array( );
+	protected $_properties = array( );
 
 
 
@@ -46,24 +52,45 @@ class ProviderCollection {
 
 
 	/**
-	 *	Loads the given providers.
+	 *	Constructor.
 	 *
 	 *	@see load( )
 	 *	@param array|string $providers An array of provider configurations,
 	 *		or the path to a file returning such a configuration.
 	 */
 
-	public function __construct( $config = array( )) {
+	public function __construct( $properties = array( )) {
 
-		if ( empty( $config )) {
-			$config = ESSENCE_DEFAULT_CONFIG;
+		if ( empty( $properties )) {
+			$properties = ESSENCE_DEFAULT_CONFIG;
 		}
 
-		if ( is_array( $config )) {
-			$this->_config = $config;
-		} else if ( file_exists( $config )) {
-			$this->_config = include $config;
+		if ( is_array( $properties )) {
+			$this->setProperties( $properties );
+		} else if ( file_exists( $properties )) {
+			$this->load( $properties );
 		}
+	}
+
+
+
+	/**
+	 *	Loads configuration properties from the given file.
+	 *
+	 *	@param string $file File path.
+	 */
+
+	public function load( $file ) {
+
+		$properties = include $file;
+
+		if ( !is_array( $properties )) {
+			throw new Exception(
+				'The configuration file must return an array of properties.'
+			);
+		}
+
+		$this->setProperties( $properties );
 	}
 
 
@@ -77,8 +104,8 @@ class ProviderCollection {
 
 	public function hasProvider( $url ) {
 
-		foreach ( $this->_config as $options ) {
-			if ( $this->_filter( $options['filter'], $url )) {
+		foreach ( $this->_properties as $config ) {
+			if ( $this->_filter( $config['filter'], $url )) {
 				return true;
 			}
 		}
@@ -100,9 +127,9 @@ class ProviderCollection {
 
 		$providers = array( );
 
-		foreach ( $this->_config as $name => $options ) {
-			if ( $this->_filter( $options['filter'], $url )) {
-				$providers[ ] = $this->_provider( $name, $options );
+		foreach ( $this->_properties as $name => $config ) {
+			if ( $this->_filter( $config['filter'], $url )) {
+				$providers[ ] = $this->_provider( $name, $config );
 			}
 		}
 
@@ -132,20 +159,20 @@ class ProviderCollection {
 	 *	Lazy loads a provider given its name and configuration.
 	 *
 	 *	@param string $name Name.
-	 *	@param string $name Configuration.
+	 *	@param string $config Configuration.
 	 *	@return Provider Instance.
 	 */
 
-	protected function _provider( $name, $options ) {
+	protected function _provider( $name, $config ) {
 
 		if ( !isset( $this->_providers[ $name ])) {
-			$class = $options['class'];
+			$class = $config['class'];
 
 			if ( $class[ 0 ] !== '\\' ) {
 				$class = "\\Essence\\Provider\\$class";
 			}
 
-			$this->_providers[ $name ] = new $class( $options );
+			$this->_providers[ $name ] = new $class( $config );
 		}
 
 		return $this->_providers[ $name ];

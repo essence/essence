@@ -7,6 +7,7 @@
 
 namespace Essence;
 
+use Essence\Configurable;
 use Essence\Cache\Volatile;
 
 
@@ -19,6 +20,10 @@ use Essence\Cache\Volatile;
 
 abstract class Provider {
 
+	use Configurable;
+
+
+
 	/**
 	 *	Configuration options.
 	 *
@@ -29,7 +34,7 @@ abstract class Provider {
 	 *	@var array
 	 */
 
-	protected $_options = array(
+	protected $_properties = array(
 		'prepare' => 'trim'
 	);
 
@@ -38,12 +43,12 @@ abstract class Provider {
 	/**
 	 *	Constructs the Provider with a set of options to configure its behavior.
 	 *
-	 *	@param array $options Configuration options.
+	 *	@param array $properties Configuration options.
 	 */
 
-	public function __construct( array $options = array( )) {
+	public function __construct( array $properties = array( )) {
 
-		$this->_options = array_merge( $this->_options, $options );
+		$this->mergeProperties( $properties );
 	}
 
 
@@ -59,10 +64,8 @@ abstract class Provider {
 
 	public final function embed( $url, array $options = array( )) {
 
-		$prepare = $this->_options['prepare'];
-
-		if ( is_callable( $prepare )) {
-			$url = call_user_func( $prepare, $url );
+		if ( is_callable( $this->prepare )) {
+			$url = call_user_func( $this->prepare, $url );
 		}
 
 		$Media = $this->_embed( $url, $options );

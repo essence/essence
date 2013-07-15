@@ -7,6 +7,7 @@
 
 namespace Essence;
 
+use Essence\Configurable;
 use Essence\Cache\Consumer as CacheConsumer;
 use Essence\Dom\Consumer as DomConsumer;
 use Essence\Http\Consumer as HttpConsumer;
@@ -21,6 +22,7 @@ use Essence\Http\Consumer as HttpConsumer;
 
 class Essence {
 
+	use Configurable;
 	use CacheConsumer;
 	use DomConsumer;
 	use HttpConsumer;
@@ -47,7 +49,7 @@ class Essence {
 	 *	@var array
 	 */
 
-	protected $_config = array(
+	protected $_properties = array(
 		// http://daringfireball.net/2010/07/improved_regex_for_matching_urls
 		'urlPattern' => '#(?<!=["\'])(?<url>(?:https?://|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:\'"\.,<>?«»“”‘’]))#i',
 	);
@@ -60,16 +62,16 @@ class Essence {
 	 *	@param Essence\ProviderCollection|array|string $providers An instance
 	 *		of ProviderCollection, or a configuration array/file to pass to a
 	 *		new instance.
-	 *	@param array $config Essence configuration.
+	 *	@param array $properties Essence configuration.
 	 */
 
-	public function __construct( $providers = array( ), array $config = array( )) {
+	public function __construct( $providers = array( ), array $properties = array( )) {
 
 		$this->_Collection = ( $providers instanceof ProviderCollection )
 			? $providers
 			: new ProviderCollection( $providers );
 
-		$this->_config = array_merge( $this->_config, $config );
+		$this->mergeProperties( $properties );
 	}
 
 
@@ -259,7 +261,7 @@ class Essence {
 		};
 
 		return preg_replace_callback(
-			$this->_config['urlPattern'],
+			$this->urlPattern,
 			$replacer,
 			$text
 		);

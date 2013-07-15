@@ -24,17 +24,6 @@ class TestableOEmbed extends OEmbed {
 	 *
 	 */
 
-	public function setOption( $name, $value ) {
-
-		$this->_options[ $name ] = $value;
-	}
-
-
-
-	/**
-	 *
-	 */
-
 	public function completeEndpoint( $endpoint, $options ) {
 
 		return $this->_completeEndpoint( $endpoint, $options );
@@ -155,8 +144,8 @@ class OEmbedTest extends \PHPUnit_Framework_TestCase {
 
 	public function testEmbedXml( ) {
 
-		$this->OEmbed->setOption( 'endpoint', 'file://' . ESSENCE_HTTP . '%s.xml' );
-		$this->OEmbed->setOption( 'format', OEmbed::xml );
+		$this->OEmbed->set( 'endpoint', 'file://' . ESSENCE_HTTP . '%s.xml' );
+		$this->OEmbed->set( 'format', OEmbed::xml );
 
 		$this->assertNotNull( $this->OEmbed->embed( 'valid' ));
 	}
@@ -169,8 +158,8 @@ class OEmbedTest extends \PHPUnit_Framework_TestCase {
 
 	public function testEmbedInvalidXml( ) {
 
-		$this->OEmbed->setOption( 'endpoint', 'file://' . ESSENCE_HTTP . '%s.xml' );
-		$this->OEmbed->setOption( 'format', OEmbed::xml );
+		$this->OEmbed->set( 'endpoint', 'file://' . ESSENCE_HTTP . '%s.xml' );
+		$this->OEmbed->set( 'format', OEmbed::xml );
 
 		try {
 			$this->OEmbed->embed( 'invalid' );
@@ -189,7 +178,7 @@ class OEmbedTest extends \PHPUnit_Framework_TestCase {
 
 	public function testEmbedUnsupportedFormat( ) {
 
-		$this->OEmbed->setOption( 'format', 'unsupported' );
+		$this->OEmbed->set( 'format', 'unsupported' );
 
 		try {
 			$this->OEmbed->embed( 'valid' );
@@ -208,7 +197,7 @@ class OEmbedTest extends \PHPUnit_Framework_TestCase {
 
 	public function testEmbedGeneric( ) {
 
-		$this->OEmbed->setOption( 'endpoint', '' );
+		$this->OEmbed->set( 'endpoint', '' );
 
 		$this->assertNotNull(
 			$this->OEmbed->embed( 'file://' . ESSENCE_HTTP . 'valid.html' )

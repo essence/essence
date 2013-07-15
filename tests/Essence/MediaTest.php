@@ -59,82 +59,6 @@ class MediaTest extends \PHPUnit_Framework_TestCase {
 
 	public function testConstruct( ) {
 
-		$this->assertEquals(
-			$this->properties['title'],
-			$this->Media->title
-		);
-	}
-
-
-
-	/**
-	 *
-	 */
-
-	public function testConstructCustom( ) {
-
-		$this->assertEquals(
-			$this->properties['custom'],
-			$this->Media->custom
-		);
-	}
-
-
-
-	/**
-	 *
-	 */
-
-	public function testMagicIsSet( ) {
-
-		$this->assertTrue( isset( $this->Media->custom ));
-	}
-
-
-
-	/**
-	 *
-	 */
-
-	public function testMagicIsntSet( ) {
-
-		$this->assertFalse( isset( $this->Media->unknown ));
-	}
-
-
-
-	/**
-	 *
-	 */
-
-	public function testMagicGet( ) {
-
-		$this->assertEquals(
-			$this->properties['custom'],
-			$this->Media->custom
-		);
-	}
-
-
-
-	/**
-	 *
-	 */
-
-	public function testMagicSet( ) {
-
-		$this->Media->foo = 'bar';
-		$this->assertEquals( 'bar', $this->Media->foo );
-	}
-
-
-
-	/**
-	 *
-	 */
-
-	public function testHas( ) {
-
 		$this->assertTrue( $this->Media->has( 'custom' ));
 	}
 
@@ -144,45 +68,8 @@ class MediaTest extends \PHPUnit_Framework_TestCase {
 	 *
 	 */
 
-	public function testHasnt( ) {
+	public function testIterator( ) {
 
-		$this->assertFalse( $this->Media->has( 'unknown' ));
-	}
-
-
-
-	/**
-	 *
-	 */
-
-	public function testGet( ) {
-
-		$this->assertEquals(
-			$this->properties['custom'],
-			$this->Media->get( 'custom' )
-		);
-	}
-
-
-
-	/**
-	 *
-	 */
-
-	public function testGetUnknown( ) {
-
-		$this->assertEmpty( $this->Media->get( 'unknown' ));
-	}
-
-
-
-	/**
-	 *
-	 */
-
-	public function testSet( ) {
-
-		$this->Media->set( 'foo', 'bar' );
-		$this->assertEquals( 'bar', $this->Media->foo );
+		foreach ( $this->Media as $property => $value ) { }
 	}
 }

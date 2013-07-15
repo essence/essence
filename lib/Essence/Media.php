@@ -9,6 +9,7 @@ namespace Essence;
 
 use ArrayIterator;
 use IteratorAggregate;
+use Essence\Configurable;
 
 
 
@@ -22,6 +23,10 @@ use IteratorAggregate;
 
 class Media implements IteratorAggregate {
 
+	use Configurable;
+
+
+
 	/**
 	 *	Embed data, indexed by property name. Providers must try to fill these
 	 *	default properties with appropriate data before adding their own, to
@@ -34,7 +39,7 @@ class Media implements IteratorAggregate {
 	 *	@var array
 	 */
 
-	public $properties = array(
+	protected $_properties = array(
 
 		// OEmbed type
 		// OG type
@@ -101,108 +106,13 @@ class Media implements IteratorAggregate {
 	/**
 	 *	Constructs a Media from the given dataset.
 	 *
-	 *	@see Media::$properties
+	 *	@see $properties
 	 *	@param array $properties An array of media informations.
 	 */
 
 	public function __construct( array $properties ) {
 
-		$this->properties = array_merge( $this->properties, $properties );
-	}
-
-
-
-	/**
-	 *	@see has( )
-	 */
-
-	public function __isset( $name ) {
-
-		return $this->has( $name );
-	}
-
-
-
-	/**
-	 *	@see get( )
-	 */
-
-	public function __get( $name ) {
-
-		return $this->get( $name );
-	}
-
-
-
-	/**
-	 *	@see set( )
-	 */
-
-	public function __set( $name, $value ) {
-
-		return $this->set( $name, $value );
-	}
-
-
-
-	/**
-	 *	Returns if there is any value for the given property.
-	 *
-	 *	@param string $property Property name.
-	 *	@param boolean True if the property exists, otherwise false.
-	 */
-
-	public function has( $property ) {
-
-		return !empty( $this->properties[ $property ]);
-	}
-
-
-
-	/**
-	 *	Returns the value of the given property.
-	 *
-	 *	@param string $property Property name.
-	 *	@param mixed $default Default value to be returned in case the property
-	 *		doesn't exists.
-	 *	@return mixed The property value, or $default.
-	 */
-
-	public function get( $property, $default = '' ) {
-
-		return $this->has( $property )
-			? $this->properties[ $property ]
-			: $default;
-	}
-
-
-
-	/**
-	 *	Sets the value of a property.
-	 *
-	 *	@param string $property Property name.
-	 *	@param string $value New value.
-	 */
-
-	public function set( $property, $value ) {
-
-		$this->properties[ $property ] = $value;
-	}
-
-
-
-	/**
-	 *	Sets the value of a property if it is empty.
-	 *
-	 *	@param string $property Property name.
-	 *	@param string $default Default value.
-	 */
-
-	public function setDefault( $property, $default ) {
-
-		if ( !$this->has( $property )) {
-			$this->set( $property, $default );
-		}
+		$this->mergeProperties( $properties );
 	}
 
 
@@ -215,6 +125,6 @@ class Media implements IteratorAggregate {
 
 	public function getIterator( ) {
 
-		return new ArrayIterator( $this->properties );
+		return new ArrayIterator( $this->_properties );
 	}
 }

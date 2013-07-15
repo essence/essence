@@ -7,6 +7,7 @@
 
 namespace Essence\Provider;
 
+use Essence\Configurable;
 use Essence\Exception;
 use Essence\Media;
 use Essence\Provider;
@@ -27,6 +28,7 @@ use Essence\Utility\Xml;
 
 class OEmbed extends Provider {
 
+	use Configurable;
 	use DomConsumer;
 	use HttpConsumer;
 
@@ -59,7 +61,7 @@ class OEmbed extends Provider {
 	 *	- 'format' string The expected response format.
 	 */
 
-	protected $_options = array(
+	protected $_properties = array(
 		'prepare' => 'OEmbed::prepare',
 		'endpoint' => '',
 		'format' => self::json
@@ -120,7 +122,13 @@ class OEmbed extends Provider {
 
 		$Media = null;
 
-		if ( empty( $this->_options['endpoint'])) {
+		if ( $this->endpoint ) {
+			$Media = $this->_embedEndpoint(
+				sprintf( $this->endpoint, urlencode( $url )),
+				$this->format,
+				$options
+			);
+		} else {
 			list( $endpoint, $format ) = $this->_extractEndpoint( $url );
 
 			if ( $endpoint ) {
@@ -130,12 +138,6 @@ class OEmbed extends Provider {
 					$options
 				);
 			}
-		} else {
-			$Media = $this->_embedEndpoint(
-				sprintf( $this->_options['endpoint'], urlencode( $url )),
-				$this->_options['format'],
-				$options
-			);
 		}
 
 		return $Media;
