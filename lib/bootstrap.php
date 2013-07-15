@@ -26,10 +26,6 @@ if ( !defined( 'ESSENCE_DEFAULT_CONFIG' )) {
 	define( 'ESSENCE_DEFAULT_CONFIG', ESSENCE_LIB . 'config.php' );
 }
 
-if ( !defined( 'ESSENCE_BOOTSTRAPED' )) {
-	define( 'ESSENCE_BOOTSTRAPED', true );
-}
-
 
 
 /**
