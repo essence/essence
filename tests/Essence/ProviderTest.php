@@ -18,7 +18,7 @@ if ( !defined( 'ESSENCE_BOOTSTRAPPED' )) {
  *
  */
 
-class ConcreteProvider extends Provider {
+class ProviderImplementation extends Provider {
 
 	/**
 	 *
@@ -52,7 +52,7 @@ class ProviderTest extends \PHPUnit_Framework_TestCase {
 
 	public function setup( ) {
 
-		$this->Provider = new ConcreteProvider( );
+		$this->Provider = new ProviderImplementation( );
 	}
 
 
