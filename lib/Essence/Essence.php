@@ -130,7 +130,10 @@ class Essence {
 					return include ESSENCE_DEFAULT_CONFIG;
 				},
 				'Collection' => function( $C ) {
-					return new ProviderCollection( $C->get( 'providers' ));
+					$Collection = new ProviderCollection( $C );
+					$Collection->setProperties( $C->get( 'providers' ));
+
+					return $Collection;
 				},
 				'Cache' => function( ) {
 					return new VolatileCacheEngine( );

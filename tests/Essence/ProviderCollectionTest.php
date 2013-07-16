@@ -7,6 +7,8 @@
 
 namespace Essence;
 
+use Essence\Di\Container;
+
 
 
 /**
@@ -29,7 +31,8 @@ class ProviderCollectionTest extends \PHPUnit_Framework_TestCase {
 
 	public function setUp( ) {
 
-		$this->Collection = new ProviderCollection(
+		$this->Collection = new ProviderCollection( new Container( ));
+		$this->Collection->setProperties(
 			array(
 				'Foo' => array(
 					'class' => 'OEmbed',
@@ -72,7 +75,7 @@ class ProviderCollectionTest extends \PHPUnit_Framework_TestCase {
 			$this->fail( 'There should be one provider.' );
 		} else {
 			$this->assertEquals(
-				'Essence\Provider\OEmbed',
+				'Essence\\Provider\\OEmbed',
 				get_class( array_shift( $providers ))
 			);
 		}

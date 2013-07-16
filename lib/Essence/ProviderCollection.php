@@ -8,6 +8,7 @@
 namespace Essence;
 
 use Essence\Configurable;
+use Essence\Di\Container;
 
 
 
@@ -20,6 +21,16 @@ use Essence\Configurable;
 class ProviderCollection {
 
 	use Configurable;
+
+
+
+	/**
+	 *	Dependency injection container.
+	 *
+	 *	@var Essence\Di\Container
+	 */
+
+	protected $_Container = null;
 
 
 
@@ -54,43 +65,13 @@ class ProviderCollection {
 	/**
 	 *	Constructor.
 	 *
-	 *	@see load( )
-	 *	@param array|string $providers An array of provider configurations,
-	 *		or the path to a file returning such a configuration.
+	 *	@param Essence\Di\Container $Container Dependency injection container
+	 *		used to build providers.
 	 */
 
-	public function __construct( $properties = array( )) {
+	public function __construct( Container $Container ) {
 
-		if ( empty( $properties )) {
-			$properties = ESSENCE_DEFAULT_CONFIG;
-		}
-
-		if ( is_array( $properties )) {
-			$this->setProperties( $properties );
-		} else if ( file_exists( $properties )) {
-			$this->load( $properties );
-		}
-	}
-
-
-
-	/**
-	 *	Loads configuration properties from the given file.
-	 *
-	 *	@param string $file File path.
-	 */
-
-	public function load( $file ) {
-
-		$properties = include $file;
-
-		if ( !is_array( $properties )) {
-			throw new Exception(
-				'The configuration file must return an array of properties.'
-			);
-		}
-
-		$this->setProperties( $properties );
+		$this->_Container = $Container;
 	}
 
 
@@ -172,7 +153,12 @@ class ProviderCollection {
 				$class = "\\Essence\\Provider\\$class";
 			}
 
-			$this->_providers[ $name ] = new $class( $config );
+			$Provider = $this->_Container->has( $class )
+				? $this->_Container->get( $class )
+				: new $class( $config );
+
+			$Provider->mergeProperties( $config );
+			$this->_providers[ $name ] = $Provider;
 		}
 
 		return $this->_providers[ $name ];
