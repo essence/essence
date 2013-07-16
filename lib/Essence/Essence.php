@@ -9,15 +9,10 @@ namespace Essence;
 
 use Essence\Cacheable;
 use Essence\Configurable;
+use Essence\Di\Container\Standard as StandardContainer;
 use Essence\Cache\Engine as CacheEngine;
-use Essence\Cache\Engine\Volatile as VolatileCacheEngine;
-use Essence\Di\Container;
 use Essence\Dom\Parser as DomParser;
-use Essence\Dom\Parser\Native as NativeDomParser;
 use Essence\Http\Client as HttpClient;
-use Essence\Http\Client\Curl as CurlHttpClient;
-use Essence\Provider\OEmbed;
-use Essence\Provider\OpenGraph;
 
 
 
@@ -115,60 +110,12 @@ class Essence {
 
 
 	/**
-	 *	Builds an instance of Essence,
-	 *
-	 *	@param Essence\Di\Container $Container A pre-configured container.
+	 *	Builds an instance of Essence.
 	 */
 
-	public static function instance( Container $Container = null ) {
+	public static function instance( ) {
 
-		if ( $Container === null ) {
-			$Container = new Container( );
-		}
-
-		$Container->setDefaults(
-			array(
-				'providers' => function( ) {
-					return include ESSENCE_DEFAULT_CONFIG;
-				},
-				'Cache' => Container::unique( function( ) {
-					return new VolatileCacheEngine( );
-				}),
-				'Http' => Container::unique( function( ) {
-					return new CurlHttpClient( );
-				}),
-				'Dom' => Container::unique( function( ) {
-					return new NativeDomParser( );
-				}),
-				'OEmbed' => function( $C ) {
-					return new OEmbed(
-						$C->get( 'Http' ),
-						$C->get( 'Dom' )
-					);
-				},
-				'OpenGraph' => function( $C ) {
-					return new OpenGraph(
-						$C->get( 'Http' ),
-						$C->get( 'Dom' )
-					);
-				},
-				'Collection' => function( $C ) {
-					$Collection = new ProviderCollection( $C );
-					$Collection->setProperties( $C->get( 'providers' ));
-
-					return $Collection;
-				},
-				'Essence' => function( $C ) {
-					return new Essence(
-						$C->get( 'Collection' ),
-						$C->get( 'Cache' ),
-						$C->get( 'Http' ),
-						$C->get( 'Dom' )
-					);
-				}
-			)
-		);
-
+		$Container = new StandardContainer( );
 		return $Container->get( 'Essence' );
 	}
 
