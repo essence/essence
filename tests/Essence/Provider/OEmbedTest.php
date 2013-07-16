@@ -21,7 +21,8 @@ class TestableOEmbed extends OEmbed {
 
 	public function completeEndpoint( $endpoint, $options ) {
 
-		return $this->_completeEndpoint( $endpoint, $options );
+		$this->_completeEndpoint( $endpoint, $options );
+		return $endpoint;
 	}
 }
 
@@ -103,7 +104,9 @@ class OEmbedTest extends \PHPUnit_Framework_TestCase {
 			'url?param=value&maxwidth=120',
 			$this->OEmbed->completeEndpoint(
 				'url?param=value',
-				array( 'maxwidth' => 120 )
+				array(
+					'maxwidth' => 120
+				)
 			)
 		);
 	}

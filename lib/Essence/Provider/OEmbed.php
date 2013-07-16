@@ -125,7 +125,11 @@ class OEmbed extends Provider {
 			return null;
 		}
 
-		return $this->_embedEndpoint( $endpoint, $format, $options );
+		if ( $options ) {
+			$this->_completeEndpoint( $endpoint, $options );
+		}
+
+		return $this->_embedEndpoint( $endpoint, $format );
 	}
 
 
@@ -166,6 +170,31 @@ class OEmbed extends Provider {
 
 
 	/**
+	 *	Appends a set of options as parameters to the given endpoint URL.
+	 *
+	 *	@param string $endpoint Endpoint URL.
+	 *	@param array $options Options to append.
+	 */
+
+	protected function _completeEndpoint( &$endpoint, $options ) {
+
+		$params = array_intersect_key(
+			$options,
+			array(
+				'maxwidth' => '',
+				'maxheight' => ''
+			)
+		);
+
+		if ( $params ) {
+			$endpoint .= ( strrpos( $endpoint, '?' ) === false ) ? '?' : '&';
+			$endpoint .= http_build_query( $params );
+		}
+	}
+
+
+
+	/**
 	 *	Fetches embed information from the given endpoint.
 	 *
 	 *	@param string $endpoint Endpoint to fetch informations from.
@@ -173,11 +202,9 @@ class OEmbed extends Provider {
 	 *	@return Media Embed informations.
 	 */
 
-	protected function _embedEndpoint( $endpoint, $format, $options ) {
+	protected function _embedEndpoint( $endpoint, $format ) {
 
-		$response = $this->_httpClient( )->get(
-			$this->_completeEndpoint( $endpoint, $options )
-		);
+		$response = $this->_httpClient( )->get( $endpoint );
 
 		switch ( $format ) {
 			case self::json:
@@ -207,34 +234,5 @@ class OEmbed extends Provider {
 				)
 			)
 		);
-	}
-
-
-
-	/**
-	 *	If some options were specified, append them to the endpoint URL.
-	 *
-	 *	@param string $endpoint Endpoint URL.
-	 *	@return string Completed endpoint URL.
-	 */
-
-	protected function _completeEndpoint( $endpoint, $options ) {
-
-		if ( !empty( $options )) {
-			$params = array_intersect_key(
-				$options,
-				array(
-					'maxwidth' => '',
-					'maxheight' => ''
-				)
-			);
-
-			if ( !empty( $params )) {
-				$endpoint .= ( strrpos( $endpoint, '?' ) === false ) ? '?' : '&';
-				$endpoint .= http_build_query( $params );
-			}
-		}
-
-		return $endpoint;
 	}
 }
