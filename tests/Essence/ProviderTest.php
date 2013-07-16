@@ -10,24 +10,6 @@ namespace Essence;
 
 
 /**
- *
- */
-
-class ProviderImplementation extends Provider {
-
-	/**
-	 *
-	 */
-
-	protected function _embed( $url, $options ) {
-
-		return new Media( array( 'title' => 'Title' ));
-	}
-}
-
-
-
-/**
  *	Test case for Provider.
  */
 
@@ -47,7 +29,13 @@ class ProviderTest extends \PHPUnit_Framework_TestCase {
 
 	public function setup( ) {
 
-		$this->Provider = new ProviderImplementation( );
+		$Media = new Media( array( 'title' => 'Title' ));
+
+		$this->Provider = $this->getMockForAbstractClass( '\\Essence\\Provider' );
+		$this->Provider
+			->expects( $this->any( ))
+			->method( '_embed' )
+			->will( $this->returnValue( $Media ));
 	}
 
 
