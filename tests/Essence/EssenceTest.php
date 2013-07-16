@@ -15,32 +15,6 @@ use Essence\Http\Client\Native as NativeHttpClient;
 
 
 /**
- *
- */
-
-class TestableProvider extends Provider {
-
-	/**
-	 *
-	 */
-
-	public $mediaProperties = array( );
-
-
-
-	/**
-	 *	{@inheritDoc}
-	 */
-
-	protected function _embed( $url, $options ) {
-
-		return new Media( $this->mediaProperties );
-	}
-}
-
-
-
-/**
  *	Test case for Essence.
  */
 
@@ -60,11 +34,18 @@ class EssenceTest extends \PHPUnit_Framework_TestCase {
 
 	public function setUp( ) {
 
-		$Provider = new TestableProvider( );
-		$Provider->mediaProperties = array(
-			'title' => 'Title',
-			'html' => 'HTML'
+		$Media = new Media(
+			array(
+				'title' => 'Title',
+				'html' => 'HTML'
+			)
 		);
+
+		$Provider = $this->getMockForAbstractClass( '\\Essence\\Provider' );
+		$Provider
+			->expects( $this->any( ))
+			->method( '_embed' )
+			->will( $this->returnValue( $Media ));
 
 		$Collection = $this->getMock(
 			'\\Essence\\Provider\\Collection',
