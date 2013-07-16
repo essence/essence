@@ -7,6 +7,10 @@
 
 namespace Essence;
 
+use Essence\Cache\Engine\Null as NullCacheEngine;
+use Essence\Dom\Parser\Native as NativeDomParser;
+use Essence\Http\Client\Native as NativeHttpClient;
+
 
 
 /**
@@ -72,7 +76,12 @@ class EssenceTest extends \PHPUnit_Framework_TestCase {
 			->method( 'providers' )
 			->will( $this->returnValue( array( $Provider )));
 
-		$this->Essence = new Essence( $Collection );
+		$this->Essence = new Essence(
+			$Collection,
+			new NullCacheEngine( ),
+			new NativeHttpClient( ),
+			new NativeDomParser( )
+		);
 	}
 
 

@@ -9,9 +9,13 @@ namespace Essence;
 
 use Essence\Cacheable;
 use Essence\Configurable;
-use Essence\Cache\Consumer as CacheConsumer;
-use Essence\Dom\Consumer as DomConsumer;
-use Essence\Http\Consumer as HttpConsumer;
+use Essence\Cache\Engine as CacheEngine;
+use Essence\Cache\Engine\Volatile as VolatileCacheEngine;
+use Essence\Di\Container;
+use Essence\Dom\Parser as DomParser;
+use Essence\Dom\Parser\Native as NativeDomParser;
+use Essence\Http\Client as HttpClient;
+use Essence\Http\Client\Curl as CurlHttpClient;
 
 
 
@@ -25,9 +29,6 @@ class Essence {
 
 	use Cacheable;
 	use Configurable;
-	use CacheConsumer;
-	use DomConsumer;
-	use HttpConsumer;
 
 
 
@@ -38,6 +39,36 @@ class Essence {
 	 */
 
 	protected $_Collection = null;
+
+
+
+	/**
+	 *	Internal cache engine.
+	 *
+	 *	@var Essence\Cache\Engine
+	 */
+
+	protected $_Cache = null;
+
+
+
+	/**
+	 *	Internal HTTP client.
+	 *
+	 *	@var Essence\Http\Client
+	 */
+
+	protected $_Http = null;
+
+
+
+	/**
+	 *	Internal DOM parser.
+	 *
+	 *	@var Essence\Dom\Parser
+	 */
+
+	protected $_Dom = null;
 
 
 
@@ -61,19 +92,67 @@ class Essence {
 	/**
 	 *	Constructor.
 	 *
-	 *	@param Essence\ProviderCollection|array|string $providers An instance
-	 *		of ProviderCollection, or a configuration array/file to pass to a
-	 *		new instance.
-	 *	@param array $properties Essence configuration.
+	 *	@param Essence\ProviderCollection $Collection Provider collection.
+	 *	@param Essence\Cache\Engine $Cache Cache engine.
+	 *	@param Essence\Http\Client $Http Http client.
+	 *	@param Essence\Dom\Parser $Cache Dom parser.
 	 */
 
-	public function __construct( $providers = array( ), array $properties = array( )) {
+	public function __construct(
+		ProviderCollection $Collection,
+		CacheEngine $Cache,
+		HttpClient $Http,
+		DomParser $Dom
+	) {
+		$this->_Collection = $Collection;
+		$this->_Cache = $Cache;
+		$this->_Http = $Http;
+		$this->_Dom = $Dom;
+	}
 
-		$this->_Collection = ( $providers instanceof ProviderCollection )
-			? $providers
-			: new ProviderCollection( $providers );
 
-		$this->mergeProperties( $properties );
+
+	/**
+	 *	Builds an instance of Essence,
+	 *
+	 *	@param Essence\Di\Container $Container A pre-configured container.
+	 */
+
+	public static function instance( Container $Container = null ) {
+
+		if ( $Container === null ) {
+			$Container = new Container( );
+		}
+
+		$Container->setDefaults(
+			array(
+				'providers' => function( ) {
+					return include ESSENCE_DEFAULT_CONFIG;
+				},
+				'Collection' => function( $C ) {
+					return new ProviderCollection( $C->get( 'providers' ));
+				},
+				'Cache' => function( ) {
+					return new VolatileCacheEngine( );
+				},
+				'Http' => Container::unique( function( ) {
+					return new CurlHttpClient( );
+				}),
+				'Dom' => Container::unique( function( ) {
+					return new NativeDomParser( );
+				}),
+				'Essence' => function( $C ) {
+					return new Essence(
+						$C->get( 'Collection' ),
+						$C->get( 'Cache' ),
+						$C->get( 'Http' ),
+						$C->get( 'Dom' )
+					);
+				}
+			)
+		);
+
+		return $Container->get( 'Essence' );
 	}
 
 
@@ -89,11 +168,7 @@ class Essence {
 
 	public function extract( $source ) {
 
-		return $this->_cached(
-			$this->_cacheEngine( ),
-			'_extract',
-			$source
-		);
+		return $this->_cached( $this->_Cache, '_extract', $source );
 	}
 
 
@@ -105,7 +180,7 @@ class Essence {
 	protected function _extract( $source ) {
 
 		if ( filter_var( $source, FILTER_VALIDATE_URL )) {
-			$source = $this->_httpClient( )->get( $source );
+			$source = $this->_Http->get( $source );
 		}
 
 		$urls = $this->_extractUrls( $source );
@@ -137,7 +212,7 @@ class Essence {
 			'iframe' => 'src'
 		);
 
-		$attributes = $this->_domParser( )->extractAttributes( $html, $options );
+		$attributes = $this->_Dom->extractAttributes( $html, $options );
 		$urls = array( );
 
 		foreach ( $options as $tagName => $attributeName ) {
@@ -167,12 +242,7 @@ class Essence {
 
 	public function embed( $url, array $options = array( )) {
 
-		return $this->_cached(
-			$this->_cacheEngine( ),
-			'_embed',
-			$url,
-			$options
-		);
+		return $this->_cached( $this->_Cache, '_embed', $url, $options );
 	}
 
 
