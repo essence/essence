@@ -123,6 +123,22 @@ trait Configurable {
 
 
 	/**
+	 *	Sets default values.
+	 *
+	 *	@see setDefault( )
+	 *	@param string $properties Default properties.
+	 */
+
+	public function setDefaults( $properties ) {
+
+		foreach ( $properties as $name => $value ) {
+			$this->setDefault( $name, $value );
+		}
+	}
+
+
+
+	/**
 	 *	Returns the entire set of properties.
 	 *
 	 *	@return array Properties.

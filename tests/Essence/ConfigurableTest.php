@@ -124,4 +124,38 @@ class ConfigurableTest extends \PHPUnit_Framework_TestCase {
 		$this->Configurable->set( 'foo', 'bar' );
 		$this->assertEquals( 'bar', $this->Configurable->foo );
 	}
+
+
+
+	/**
+	 *
+	 */
+
+	public function testSetDefault( ) {
+
+		$this->Configurable->setDefault( 'one', 2 );
+		$this->assertEquals( 1, $this->Configurable->get( 'one' ));
+
+		$this->Configurable->setDefault( 'three', 3 );
+		$this->assertEquals( 3, $this->Configurable->get( 'three' ));
+	}
+
+
+
+	/**
+	 *
+	 */
+
+	public function testSetDefaults( ) {
+
+		$this->Configurable->setDefaults(
+			array(
+				'one' => 2,
+				'three' => 3
+			)
+		);
+
+		$this->assertEquals( 1, $this->Configurable->get( 'one' ));
+		$this->assertEquals( 3, $this->Configurable->get( 'three' ));
+	}
 }
