@@ -5,7 +5,7 @@
  *	@license FreeBSD License (http://opensource.org/licenses/BSD-2-Clause)
  */
 
-namespace Essence;
+namespace Essence\Provider;
 
 use Essence\Configurable;
 use Essence\Di\Container;
@@ -15,10 +15,10 @@ use Essence\Di\Container;
 /**
  *	A collection of providers which can find the provider of an url.
  *
- *	@package fg.Essence
+ *	@package fg.Essence.Provider
  */
 
-class ProviderCollection {
+class Collection {
 
 	use Configurable;
 

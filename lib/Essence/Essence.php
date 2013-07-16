@@ -13,6 +13,7 @@ use Essence\Di\Container\Standard as StandardContainer;
 use Essence\Cache\Engine as CacheEngine;
 use Essence\Dom\Parser as DomParser;
 use Essence\Http\Client as HttpClient;
+use Essence\Provider\Collection;
 
 
 
@@ -96,7 +97,7 @@ class Essence {
 	 */
 
 	public function __construct(
-		ProviderCollection $Collection,
+		Collection $Collection,
 		CacheEngine $Cache,
 		HttpClient $Http,
 		DomParser $Dom

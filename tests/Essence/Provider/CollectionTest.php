@@ -5,7 +5,7 @@
  *	@license FreeBSD License (http://opensource.org/licenses/BSD-2-Clause)
  */
 
-namespace Essence;
+namespace Essence\Provider;
 
 use Essence\Provider;
 use Essence\Provider\OEmbed;
@@ -17,7 +17,7 @@ use Essence\Di\Container;
  *
  */
 
-class CollectionProviderImplementation extends Provider {
+class ProviderImplementation extends Provider {
 
 	/**
 	 *
@@ -30,10 +30,10 @@ class CollectionProviderImplementation extends Provider {
 
 
 /**
- *	Test case for ProviderCollection.
+ *	Test case for Collection.
  */
 
-class ProviderCollectionTest extends \PHPUnit_Framework_TestCase {
+class CollectionTest extends \PHPUnit_Framework_TestCase {
 
 	/**
 	 *
@@ -57,12 +57,12 @@ class ProviderCollectionTest extends \PHPUnit_Framework_TestCase {
 
 	public function setUp( ) {
 
-		$this->Provider = new CollectionProviderImplementation( );
+		$this->Provider = new ProviderImplementation( );
 
 		$Container = new Container( );
 		$Container->set( 'OEmbed', $this->Provider );
 
-		$this->Collection = new ProviderCollection( $Container );
+		$this->Collection = new Collection( $Container );
 		$this->Collection->setProperties(
 			array(
 				'Foo' => array(
