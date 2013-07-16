@@ -118,27 +118,14 @@ class OEmbed extends Provider {
 
 	protected function _embed( $url, $options ) {
 
-		$Media = null;
-
 		if ( $this->endpoint ) {
-			$Media = $this->_embedEndpoint(
-				sprintf( $this->endpoint, urlencode( $url )),
-				$this->format,
-				$options
-			);
-		} else {
-			list( $endpoint, $format ) = $this->_extractEndpoint( $url );
-
-			if ( $endpoint ) {
-				$Media = $this->_embedEndpoint(
-					$endpoint,
-					$format,
-					$options
-				);
-			}
+			$endpoint = sprintf( $this->endpoint, urlencode( $url ));
+			$format = $this->format;
+		} else if ( !$this->_extractEndpoint( $url, $endpoint, $format )) {
+			return null;
 		}
 
-		return $Media;
+		return $this->_embedEndpoint( $endpoint, $format, $options );
 	}
 
 
@@ -147,10 +134,12 @@ class OEmbed extends Provider {
 	 *	Extracts an oEmbed endpoint from the given URL.
 	 *
 	 *	@param string $url URL from which to extract an endpoint.
-	 *	@return array An array containing the endpoint URL and format.
+	 *	@param string $endpoint The extracted endpoint.
+	 *	@param string $format The extracted format.
+	 *	@return boolean If an endpoint was extracted.
 	 */
 
-	protected function _extractEndpoint( $url ) {
+	protected function _extractEndpoint( $url, &$endpoint, &$format ) {
 
 		$attributes = $this->_domParser( )->extractAttributes(
 			$this->_httpClient( )->get( $url ),
@@ -165,14 +154,13 @@ class OEmbed extends Provider {
 
 		foreach ( $attributes['link'] as $link ) {
 			if ( preg_match( '#(?<format>json|xml)#i', $link['type'], $matches )) {
-				return array(
-					$link['href'],
-					$matches['format']
-				);
+				$endpoint = $link['href'];
+				$format = $matches['format'];
+				return true;
 			}
 		}
 
-		return array( '', '' );
+		return false;
 	}
 
 
