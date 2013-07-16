@@ -7,6 +7,9 @@
 
 namespace Essence\Provider;
 
+use Essence\Dom\Parser\Native as NativeDomParser;
+use Essence\Http\Client\Native as NativeHttpClient;
+
 
 
 /**
@@ -49,6 +52,11 @@ class OEmbedTest extends \PHPUnit_Framework_TestCase {
 	public function setup( ) {
 
 		$this->OEmbed = new TestableOEmbed(
+			new NativeHttpClient( ),
+			new NativeDomParser( )
+		);
+
+		$this->OEmbed->mergeProperties(
 			array(
 				'endpoint' => 'file://' . ESSENCE_HTTP . '%s.json',
 				'format' => OEmbed::json

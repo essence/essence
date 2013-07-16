@@ -11,8 +11,8 @@ namespace Essence\Provider;
 use Essence\Exception;
 use Essence\Media;
 use Essence\Provider;
-use Essence\Dom\Consumer as DomConsumer;
-use Essence\Http\Consumer as HttpConsumer;
+use Essence\Dom\Parser as DomParser;
+use Essence\Http\Client as HttpClient;
 use Essence\Utility\Hash;
 
 
@@ -26,8 +26,38 @@ use Essence\Utility\Hash;
 
 class OpenGraph extends Provider {
 
-	use DomConsumer;
-	use HttpConsumer;
+	/**
+	 *	Internal HTTP client.
+	 *
+	 *	@var Essence\Http\Client
+	 */
+
+	protected $_Http = null;
+
+
+
+	/**
+	 *	Internal DOM parser.
+	 *
+	 *	@var Essence\Dom\Parser
+	 */
+
+	protected $_Dom = null;
+
+
+
+	/**
+	 *	Constructor.
+	 *
+	 *	@param Essence\Http\Client $Http Http client.
+	 *	@param Essence\Dom\Parser $Cache Dom parser.
+	 */
+
+	public function __construct( HttpClient $Http, DomParser $Dom ) {
+
+		$this->_Http = $Http;
+		$this->_Dom = $Dom;
+	}
 
 
 
@@ -76,8 +106,8 @@ class OpenGraph extends Provider {
 
 	protected function _extractInformations( $url ) {
 
-		$attributes = $this->_domParser( )->extractAttributes(
-			$this->_httpClient( )->get( $url ),
+		$attributes = $this->_Dom->extractAttributes(
+			$this->_Http->get( $url ),
 			array(
 				'meta' => array(
 					'property' => '#^og:.+#i',

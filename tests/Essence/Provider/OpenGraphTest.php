@@ -7,6 +7,9 @@
 
 namespace Essence\Provider;
 
+use Essence\Dom\Parser\Native as NativeDomParser;
+use Essence\Http\Client\Native as NativeHttpClient;
+
 
 
 /**
@@ -29,7 +32,10 @@ class OpenGraphTest extends \PHPUnit_Framework_TestCase {
 
 	public function setUp( ) {
 
-		$this->OpenGraph = new OpenGraph( );
+		$this->OpenGraph = new OpenGraph(
+			new NativeHttpClient( ),
+			new NativeDomParser( )
+		);
 	}
 
 

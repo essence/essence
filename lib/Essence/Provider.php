@@ -41,19 +41,6 @@ abstract class Provider {
 
 
 	/**
-	 *	Constructs the Provider with a set of options to configure its behavior.
-	 *
-	 *	@param array $properties Configuration options.
-	 */
-
-	public function __construct( array $properties = array( )) {
-
-		$this->mergeProperties( $properties );
-	}
-
-
-
-	/**
 	 *	Fetches embed information from the given URL.
 	 *
 	 *	@param string $url URL to fetch informations from.
