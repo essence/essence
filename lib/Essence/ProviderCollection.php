@@ -148,14 +148,17 @@ class ProviderCollection {
 
 		if ( !isset( $this->_providers[ $name ])) {
 			$class = $config['class'];
+			$Provider = null;
 
-			if ( $class[ 0 ] !== '\\' ) {
-				$class = "\\Essence\\Provider\\$class";
+			if ( $this->_Container->has( $class )) {
+				$Provider = $this->_Container->get( $class );
+			} else {
+				if ( $class[ 0 ] !== '\\' ) {
+					$class = "\\Essence\\Provider\\$class";
+				}
+
+				$Provider = new $class( );
 			}
-
-			$Provider = $this->_Container->has( $class )
-				? $this->_Container->get( $class )
-				: new $class( $config );
 
 			$Provider->mergeProperties( $config );
 			$this->_providers[ $name ] = $Provider;

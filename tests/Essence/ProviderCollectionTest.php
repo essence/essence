@@ -7,7 +7,25 @@
 
 namespace Essence;
 
+use Essence\Provider;
+use Essence\Provider\OEmbed;
 use Essence\Di\Container;
+
+
+
+/**
+ *
+ */
+
+class CollectionProviderImplementation extends Provider {
+
+	/**
+	 *
+	 */
+
+	protected function _embed( $url, $options ) { }
+
+}
 
 
 
@@ -16,6 +34,14 @@ use Essence\Di\Container;
  */
 
 class ProviderCollectionTest extends \PHPUnit_Framework_TestCase {
+
+	/**
+	 *
+	 */
+
+	public $Provider = null;
+
+
 
 	/**
 	 *
@@ -31,7 +57,12 @@ class ProviderCollectionTest extends \PHPUnit_Framework_TestCase {
 
 	public function setUp( ) {
 
-		$this->Collection = new ProviderCollection( new Container( ));
+		$this->Provider = new CollectionProviderImplementation( );
+
+		$Container = new Container( );
+		$Container->set( 'OEmbed', $this->Provider );
+
+		$this->Collection = new ProviderCollection( $Container );
 		$this->Collection->setProperties(
 			array(
 				'Foo' => array(
@@ -74,10 +105,7 @@ class ProviderCollectionTest extends \PHPUnit_Framework_TestCase {
 		if ( empty( $providers )) {
 			$this->fail( 'There should be one provider.' );
 		} else {
-			$this->assertEquals(
-				'Essence\\Provider\\OEmbed',
-				get_class( array_shift( $providers ))
-			);
+			$this->assertEquals( $this->Provider, array_shift( $providers ));
 		}
 	}
 }
