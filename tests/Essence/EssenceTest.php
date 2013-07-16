@@ -45,14 +45,6 @@ class EssenceTest extends \PHPUnit_Framework_TestCase {
 	 *
 	 */
 
-	public $Collection = null;
-
-
-
-	/**
-	 *
-	 */
-
 	public $Essence = null;
 
 
@@ -63,9 +55,24 @@ class EssenceTest extends \PHPUnit_Framework_TestCase {
 
 	public function setUp( ) {
 
-		$this->Collection = $this->getMock( '\\Essence\\ProviderCollection' );
-		$this->Client = $this->getMock( '\\Essence\\Http\\Client' );
-		$this->Essence = new Essence( $this->Collection );
+		$Provider = new TestableProvider( );
+		$Provider->mediaProperties = array(
+			'title' => 'Title',
+			'html' => 'HTML'
+		);
+
+		$Collection = $this->getMock( '\\Essence\\ProviderCollection' );
+		$Collection
+			->expects( $this->any( ))
+			->method( 'hasProvider' )
+			->will( $this->onConsecutiveCalls( true, false, true, true ));
+
+		$Collection
+			->expects( $this->any( ))
+			->method( 'providers' )
+			->will( $this->returnValue( array( $Provider )));
+
+		$this->Essence = new Essence( $Collection );
 	}
 
 
@@ -75,10 +82,6 @@ class EssenceTest extends \PHPUnit_Framework_TestCase {
 	 */
 
 	public function testExtract( ) {
-
-		$this->Collection->expects( $this->any( ))
-			->method( 'hasProvider' )
-			->will( $this->onConsecutiveCalls( true, false, true, true ));
 
 		$this->assertEquals(
 			array(
@@ -97,10 +100,6 @@ class EssenceTest extends \PHPUnit_Framework_TestCase {
 	 */
 
 	public function testExtractHtml( ) {
-
-		$this->Collection->expects( $this->any( ))
-			->method( 'hasProvider' )
-			->will( $this->onConsecutiveCalls( true, false, true, true ));
 
 		$html = <<<HTML
 			<a href="http://www.foo.com">Foo</a>
@@ -127,10 +126,6 @@ HTML;
 
 	public function testEmbed( ) {
 
-		$this->Collection->expects( $this->any( ))
-			->method( 'providers' )
-			->will( $this->returnValue( array( new TestableProvider( ))));
-
 		$this->assertNotNull( $this->Essence->embed( 'http://www.foo.com/bar' ));
 	}
 
@@ -142,17 +137,11 @@ HTML;
 
 	public function testEmbedAll( ) {
 
-		$this->Collection->expects( $this->any( ))
-			->method( 'providers' )
-			->will( $this->returnValue( array( new TestableProvider( ))));
+		$urls = array( 'one', 'two' );
+		$medias = $this->Essence->embedAll( array( 'one', 'two' ));
 
-		$this->assertEquals(
-			array(
-				'one' => new Media( array( 'url' => 'one' )),
-				'two' => new Media( array( 'url' => 'two' ))
-			),
-			$this->Essence->embedAll( array( 'one', 'two' ))
-		);
+		$this->assertEquals( $urls, array_keys( $medias ));
+
 	}
 
 
@@ -162,13 +151,6 @@ HTML;
 	 */
 
 	public function testReplace( ) {
-
-		$Provider = new TestableProvider( );
-		$Provider->mediaProperties = array( 'html' => 'HTML' );
-
-		$this->Collection->expects( $this->any( ))
-			->method( 'providers' )
-			->will( $this->returnValue( array( $Provider )));
 
 		$this->assertEquals(
 			'foo HTML bar',
@@ -184,13 +166,6 @@ HTML;
 
 	public function testReplaceSingleUrl( ) {
 
-		$Provider = new TestableProvider( );
-		$Provider->mediaProperties = array( 'html' => 'HTML' );
-
-		$this->Collection->expects( $this->any( ))
-			->method( 'providers' )
-			->will( $this->returnValue( array( $Provider )));
-
 		$this->assertEquals(
 			'HTML',
 			$this->Essence->replace( 'http://www.example.com' )
@@ -204,13 +179,6 @@ HTML;
 	 */
 
 	public function testReplaceTagSurroundedUrl( ) {
-
-		$Provider = new TestableProvider( );
-		$Provider->mediaProperties = array( 'html' => 'HTML' );
-
-		$this->Collection->expects( $this->any( ))
-			->method( 'providers' )
-			->will( $this->returnValue( array( $Provider )));
 
 		$this->assertEquals(
 			'<span>HTML</span>',
@@ -226,15 +194,8 @@ HTML;
 
 	public function testReplaceWithTemplate( ) {
 
-		$Provider = new TestableProvider( );
-		$Provider->mediaProperties = array( 'title' => 'Example' );
-
-		$this->Collection->expects( $this->any( ))
-			->method( 'providers' )
-			->will( $this->returnValue( array( $Provider )));
-
 		$this->assertEquals(
-			'foo <h1>Example</h1> bar',
+			'foo <h1>Title</h1> bar',
 			$this->Essence->replace( 'foo http://www.example.com bar', function( $Media ) {
 				return '<h1>' . $Media->title . '</h1>';
 			})
@@ -248,10 +209,6 @@ HTML;
 	 */
 
 	public function testDontReplaceLinks( ) {
-
-		$this->Collection->expects( $this->any( ))
-			->method( 'providers' )
-			->will( $this->returnValue( array( new TestableProvider( ))));
 
 		$link = '<a href="http://example.com">baz</a>';
 		$this->assertEquals( $link, $this->Essence->replace( $link ));
@@ -267,13 +224,6 @@ HTML;
 	 */
 
 	public function testReplaceQuotesSurroundedUrl( ) {
-
-		$Provider = new TestableProvider( );
-		$Provider->mediaProperties = array( 'html' => 'HTML' );
-
-		$this->Collection->expects( $this->any( ))
-			->method( 'providers' )
-			->will( $this->returnValue( array( $Provider )));
 
 		$this->assertEquals( '"HTML"', $this->Essence->replace( '"http://example.com"' ));
 	}
