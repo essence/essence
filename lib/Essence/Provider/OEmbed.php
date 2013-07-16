@@ -7,7 +7,6 @@
 
 namespace Essence\Provider;
 
-use Essence\Configurable;
 use Essence\Exception;
 use Essence\Media;
 use Essence\Provider;
@@ -28,7 +27,6 @@ use Essence\Utility\Xml;
 
 class OEmbed extends Provider {
 
-	use Configurable;
 	use DomConsumer;
 	use HttpConsumer;
 
