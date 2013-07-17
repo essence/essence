@@ -118,18 +118,20 @@ class OpenGraph extends Provider {
 
 		$og = array( );
 
-		foreach ( $attributes['meta'] as $meta ) {
-			if ( !isset( $og[ $meta['property']])) {
-				$og[ $meta['property']] = trim( $meta['content']);
-			}
-		}
-
-		if ( empty( $og['html'])) {
-			if ( empty( $og['og:url'])) {
-				$og['og:url'] = $url;
+		if ( !empty( $attributes['meta'])) {
+			foreach ( $attributes['meta'] as $meta ) {
+				if ( !isset( $og[ $meta['property']])) {
+					$og[ $meta['property']] = trim( $meta['content']);
+				}
 			}
 
-			$og['html'] = $this->_buildHtml( $og );
+			if ( empty( $og['html'])) {
+				if ( empty( $og['og:url'])) {
+					$og['og:url'] = $url;
+				}
+
+				$og['html'] = $this->_buildHtml( $og );
+			}
 		}
 
 		return $og;
