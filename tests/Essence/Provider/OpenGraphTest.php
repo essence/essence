@@ -64,4 +64,46 @@ class OpenGraphTest extends \PHPUnit_Framework_TestCase {
 		$this->OpenGraph->embed( 'file://' . ESSENCE_HTTP . 'invalid.html' );
 	}
 	*/
+
+
+
+	/**
+	 *
+	 */
+
+	public function testHtmlVideo( ) {
+
+		$og = array(
+			'og:url' => 'http://www.youtube.com/watch?v=123456',
+			'og:title' => 'Title',
+			'og:video' => 'http://www.youtube.com/v/123456',
+			'og:video:width' => 800,
+			'og:video:height' => 600
+		);
+
+		$this->assertStringStartsWith(
+			'<iframe src="http://www.youtube.com/v/123456" alt="Title" width="800" height="600"',
+			OpenGraph::html( $og )
+		);
+	}
+
+
+
+	/**
+	 *
+	 */
+
+	public function testHtmlLink( ) {
+
+		$og = array(
+			'og:url' => 'http://www.youtube.com/watch?v=123456',
+			'og:title' => 'Title',
+			'og:description' => 'A video'
+		);
+
+		$this->assertEquals(
+			'<a href="http://www.youtube.com/watch?v=123456" alt="A video">Title</a>',
+			OpenGraph::html( $og )
+		);
+	}
 }
