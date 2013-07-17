@@ -47,6 +47,20 @@ class OpenGraph extends Provider {
 
 
 	/**
+	 *	### Options
+	 *
+	 *	- 'html' callable( array $og ) A function to build an HTML code from
+	 *		the given OpenGraph properties.
+	 */
+
+	protected $_properties = array(
+		'prepare' => 'OpenGraph::prepare',
+		'html' => 'OpenGraph::html'
+	);
+
+
+
+	/**
 	 *	Constructor.
 	 *
 	 *	@param Essence\Http\Client $Http Http client.
@@ -125,12 +139,12 @@ class OpenGraph extends Provider {
 				}
 			}
 
-			if ( empty( $og['html'])) {
+			if ( empty( $og['html']) && is_callable( $this->_html )) {
 				if ( empty( $og['og:url'])) {
 					$og['og:url'] = $url;
 				}
 
-				$og['html'] = $this->_buildHtml( $og );
+				$og['html'] = call_user_func( $this->_html, $og );
 			}
 		}
 
@@ -146,12 +160,12 @@ class OpenGraph extends Provider {
 	 *	@return string Generated HTML.
 	 */
 
-	protected function _buildHtml( $og ) {
+	public static function html( array $og ) {
 
 		$html = '';
 		$title = isset( $og['og:title'])
 			? $og['og:title']
-			: '';
+			: $og['og:url'];
 
 		if ( isset( $og['og:video'])) {
 			$html = sprintf(
