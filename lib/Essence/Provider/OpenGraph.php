@@ -162,14 +162,15 @@ class OpenGraph extends Provider {
 
 	public static function html( array $og ) {
 
-		$html = '';
 		$title = isset( $og['og:title'])
 			? $og['og:title']
 			: $og['og:url'];
 
+		$html = '';
+
 		if ( isset( $og['og:video'])) {
 			$html = sprintf(
-				'<iframe src="%s" alt="%s" width="%s" height="%s" frameborder="0" allowfullscreen mozallowfullscreen webkitallowfullscreen></iframe>',
+				'<iframe src="%s" alt="%s" width="%d" height="%d" frameborder="0" allowfullscreen mozallowfullscreen webkitallowfullscreen></iframe>',
 				$og['og:video'],
 				$title,
 				isset( $og['og:video:width'])
@@ -183,7 +184,9 @@ class OpenGraph extends Provider {
 			$html = sprintf(
 				'<a href="%s" alt="%s">%s</a>',
 				$og['og:url'],
-				$title,
+				isset( $og['og:description'])
+					? $og['og:description']
+					: $title,
 				$title
 			);
 		}
