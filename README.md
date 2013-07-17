@@ -158,7 +158,7 @@ This makes it easy to build rich templates or even to integrate a templating eng
 
 ```php
 echo $Essence->replace( $text, function( $Media ) use ( $TwigTemplate ) {
-	return $TwigTemplate->render( $Media->properties );
+	return $TwigTemplate->render( $Media->properties( ));
 });
 ```
 
