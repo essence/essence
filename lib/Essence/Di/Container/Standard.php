@@ -35,9 +35,7 @@ class Standard extends Container {
 		$this->_properties = array(
 
 			// providers are loaded from the default config file
-			'providers' => function( ) {
-				return include ESSENCE_DEFAULT_PROVIDERS;
-			},
+			'providers' => ESSENCE_DEFAULT_PROVIDERS,
 
 			// A volatile cache engine is shared across the application
 			'Cache' => Container::unique( function( ) {
@@ -73,7 +71,7 @@ class Standard extends Container {
 			// The provider collection uses the container
 			'Collection' => function( $C ) {
 				$Collection = new Collection( $C );
-				$Collection->setProperties( $C->get( 'providers' ));
+				$Collection->load( $C->get( 'providers' ));
 
 				return $Collection;
 			},

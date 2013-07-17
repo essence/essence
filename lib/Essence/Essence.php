@@ -124,17 +124,7 @@ class Essence {
 
 		$Container = new StandardContainer( );
 
-		if ( $providers ) {
-			if ( is_string( $providers ) && file_exists( $providers )) {
-				$providers = include $providers;
-			}
-
-			if ( !is_array( $providers )) {
-				throw new Exception(
-					'The providers configuration must be an array.'
-				);
-			}
-
+		if ( $providers !== null ) {
 			$Container->set( 'providers', $providers );
 		}
 
