@@ -111,12 +111,33 @@ class Essence {
 
 
 	/**
-	 *	Builds an instance of Essence.
+	 *	Builds a fully configured instance of Essence.
+	 *
+	 *	@throws Essence\Exception If the given providers doesn't match the
+	 *		required format.
+	 *	@param string|array $providers Providers configuration. Either an array
+	 *		or the path to a configuration file returning an array.
+	 *	@return Essence\Essence Essence instance.
 	 */
 
-	public static function instance( ) {
+	public static function instance( $providers = null ) {
 
 		$Container = new StandardContainer( );
+
+		if ( $providers ) {
+			if ( is_string( $providers ) && file_exists( $providers )) {
+				$providers = include $providers;
+			}
+
+			if ( !is_array( $providers )) {
+				throw new Exception(
+					'The providers configuration must be an array.'
+				);
+			}
+
+			$Container->set( 'providers', $providers );
+		}
+
 		return $Container->get( 'Essence' );
 	}
 
