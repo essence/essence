@@ -21,7 +21,7 @@ Using the main class of the library, you can retrieve informations in just those
 ```php
 require_once 'path/to/essence/bootstrap.php';
 
-$Essence = new Essence\Essence( );
+$Essence = Essence\Essence::instance( );
 
 $Media = $Essence->embed( 'http://www.youtube.com/watch?v=39e3KYAmXK4' );
 
