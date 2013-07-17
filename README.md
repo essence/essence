@@ -263,6 +263,7 @@ $Essence = $Container->get( 'Essence' );
 Third-party libraries
 ---------------------
 
+* Interfaces to integrate other libraries: https://github.com/felixgirault/essence-interfaces
 * CakePHP plugin: https://github.com/felixgirault/cakephp-essence
 * Demo framework by Sean Steindl: https://github.com/laughingwithu/Essence_demo
 * Symfony bundle by Ka Yue Yeung: https://github.com/kayue/KayueEssenceBundle
