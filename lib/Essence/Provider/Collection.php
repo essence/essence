@@ -77,6 +77,31 @@ class Collection {
 
 
 	/**
+	 *	Loads configuration from an array or a file.
+	 *
+	 *	@throws Essence\Exception If the configuration is not an array.
+	 *	@param array|string $config A configuration array, or a configuration
+	 *		file returning such an array.
+	 */
+
+	public function load( $config ) {
+
+		if ( is_string( $config ) && file_exists( $config )) {
+			$config = include $config;
+		}
+
+		if ( !is_array( $config )) {
+			throw new Exception(
+				'The configuration must be an array.'
+			);
+		}
+
+		$this->configure( $config );
+	}
+
+
+
+	/**
 	 *	Tells if a provider was found for the given url.
 	 *
 	 *	@param string $url An url which may be embedded.
