@@ -7,6 +7,8 @@
 
 namespace Essence;
 
+use Exception as NativeException;
+
 
 
 /**
@@ -15,7 +17,7 @@ namespace Essence;
  *	@package fg.Essence
  */
 
-class Exception extends \Exception {
+class Exception extends NativeException {
 
 	/**
 	 *	An alias to fit the Essence coding style.

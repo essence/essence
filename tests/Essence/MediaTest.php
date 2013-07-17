@@ -7,13 +7,15 @@
 
 namespace Essence;
 
+use PHPUnit_Framework_TestCase;
+
 
 
 /**
  *	Test case for Media.
  */
 
-class MediaTest extends \PHPUnit_Framework_TestCase {
+class MediaTest extends PHPUnit_Framework_TestCase {
 
 	/**
 	 *

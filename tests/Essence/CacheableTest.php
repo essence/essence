@@ -7,6 +7,7 @@
 
 namespace Essence;
 
+use PHPUnit_Framework_TestCase;
 use Essence\Cache\Engine;
 use Essence\Cache\Engine\Volatile;
 
@@ -60,7 +61,7 @@ class CacheableImplementation {
  *	Test case for Cacheable.
  */
 
-class CacheableTest extends \PHPUnit_Framework_TestCase {
+class CacheableTest extends PHPUnit_Framework_TestCase {
 
 	/**
 	 *

@@ -7,6 +7,7 @@
 
 namespace Essence;
 
+use PHPUnit_Framework_TestCase;
 use Essence\Di\Container as Container;
 use Essence\Cache\Engine\Null as NullCacheEngine;
 use Essence\Dom\Parser\Native as NativeDomParser;
@@ -18,7 +19,7 @@ use Essence\Http\Client\Native as NativeHttpClient;
  *	Test case for Essence.
  */
 
-class EssenceTest extends \PHPUnit_Framework_TestCase {
+class EssenceTest extends PHPUnit_Framework_TestCase {
 
 	/**
 	 *

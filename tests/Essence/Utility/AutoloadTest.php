@@ -7,13 +7,15 @@
 
 namespace Essence\Utility;
 
+use PHPUnit_Framework_TestCase;
+
 
 
 /**
  *	Test case for Autoload.
  */
 
-class AutoloadTest extends \PHPUnit_Framework_TestCase {
+class AutoloadTest extends PHPUnit_Framework_TestCase {
 
 	/**
 	 *

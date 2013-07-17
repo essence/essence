@@ -7,6 +7,8 @@
 
 namespace Essence\Utility;
 
+use PHPUnit_Framework_TestCase;
+
 
 
 /**

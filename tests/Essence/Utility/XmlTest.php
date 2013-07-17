@@ -7,13 +7,15 @@
 
 namespace Essence\Utility;
 
+use PHPUnit_Framework_TestCase;
+
 
 
 /**
  *	Test case for Xml.
  */
 
-class XmlTest extends \PHPUnit_Framework_TestCase {
+class XmlTest extends PHPUnit_Framework_TestCase {
 
 	/**
 	 *

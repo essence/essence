@@ -7,13 +7,15 @@
 
 namespace Essence\Utility;
 
+use PHPUnit_Framework_TestCase;
+
 
 
 /**
  *	Test case for Json.
  */
 
-class JsonTest extends \PHPUnit_Framework_TestCase {
+class JsonTest extends PHPUnit_Framework_TestCase {
 
 	/**
 	 *

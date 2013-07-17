@@ -7,6 +7,8 @@
 
 namespace Essence\Http;
 
+use Essence\Exception as EssenceException;
+
 
 
 /**
@@ -15,7 +17,7 @@ namespace Essence\Http;
  *	@package fg.Essence.Http
  */
 
-class Exception extends \Essence\Exception {
+class Exception extends EssenceException {
 
 	/**
 	 *	HTTP status code.

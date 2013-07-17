@@ -7,13 +7,15 @@
 
 namespace Essence\Cache\Engine;
 
+use PHPUnit_Framework_TestCase;
+
 
 
 /**
  *	Test case for Volatile.
  */
 
-class VolatileTest extends \PHPUnit_Framework_TestCase {
+class VolatileTest extends PHPUnit_Framework_TestCase {
 
 	/**
 	 *

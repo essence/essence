@@ -7,13 +7,15 @@
 
 namespace Essence\Http\Client;
 
+use PHPUnit_Framework_TestCase;
+
 
 
 /**
  *	Test case for Native.
  */
 
-class NativeTest extends \PHPUnit_Framework_TestCase {
+class NativeTest extends PHPUnit_Framework_TestCase {
 
 	/**
 	 *

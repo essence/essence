@@ -7,6 +7,7 @@
 
 namespace Essence\Provider;
 
+use PHPUnit_Framework_TestCase;
 use Essence\Provider;
 use Essence\Provider\OEmbed;
 use Essence\Di\Container;
@@ -33,7 +34,7 @@ class ProviderImplementation extends Provider {
  *	Test case for Collection.
  */
 
-class CollectionTest extends \PHPUnit_Framework_TestCase {
+class CollectionTest extends PHPUnit_Framework_TestCase {
 
 	/**
 	 *
