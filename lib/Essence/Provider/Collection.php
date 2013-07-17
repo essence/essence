@@ -148,17 +148,10 @@ class Collection {
 
 		if ( !isset( $this->_providers[ $name ])) {
 			$class = $config['class'];
-			$Provider = null;
 
-			if ( $this->_Container->has( $class )) {
-				$Provider = $this->_Container->get( $class );
-			} else {
-				if ( $class[ 0 ] !== '\\' ) {
-					$class = "\\Essence\\Provider\\$class";
-				}
-
-				$Provider = new $class( );
-			}
+			$Provider = $this->_Container->has( $class )
+				? $this->_Container->get( $class )
+				: new $class( );
 
 			$Provider->configure( $config );
 			$this->_providers[ $name ] = $Provider;
