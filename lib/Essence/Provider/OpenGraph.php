@@ -120,7 +120,7 @@ class OpenGraph extends Provider {
 
 		foreach ( $attributes['meta'] as $meta ) {
 			if ( !isset( $og[ $meta['property']])) {
-				$og[ $meta['property']] = $meta['content'];
+				$og[ $meta['property']] = trim( $meta['content']);
 			}
 		}
 
