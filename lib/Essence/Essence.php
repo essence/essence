@@ -113,20 +113,14 @@ class Essence {
 	/**
 	 *	Builds a fully configured instance of Essence.
 	 *
-	 *	@throws Essence\Exception If the given providers doesn't match the
-	 *		required format.
-	 *	@param string|array $providers Providers configuration. Either an array
-	 *		or the path to a configuration file returning an array.
+	 *	@param array $configuration Dependency injection configuration.
 	 *	@return Essence\Essence Essence instance.
 	 */
 
-	public static function instance( $providers = null ) {
+	public static function instance( array $configuration = array( )) {
 
 		$Container = new StandardContainer( );
-
-		if ( $providers !== null ) {
-			$Container->set( 'providers', $providers );
-		}
+		$Container->configure( $configuration );
 
 		return $Container->get( 'Essence' );
 	}
