@@ -80,8 +80,8 @@ class ContainerTest extends \PHPUnit_Framework_TestCase {
 			return new Containable( );
 		});
 
-		$first = $unique( );
-		$second = $unique( );
+		$first = $unique( $this->Container );
+		$second = $unique( $this->Container );
 
 		$this->assertSame( $first, $second );
 	}
