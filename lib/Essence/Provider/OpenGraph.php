@@ -162,33 +162,61 @@ class OpenGraph extends Provider {
 
 	public static function html( array $og ) {
 
-		$title = isset( $og['og:title'])
-			? $og['og:title']
-			: $og['og:url'];
+		$og += array(
+			'og:type' => 'unknown',
+			'og:title' => $og['og:url']
+		);
 
 		$html = '';
 
-		if ( isset( $og['og:video'])) {
-			$html = sprintf(
-				'<iframe src="%s" alt="%s" width="%d" height="%d" frameborder="0" allowfullscreen mozallowfullscreen webkitallowfullscreen></iframe>',
-				$og['og:video'],
-				$title,
-				isset( $og['og:video:width'])
-					? $og['og:video:width']
-					: 560,
-				isset( $og['og:video:height'])
-					? $og['og:video:height']
-					: 315
-			);
-		} else {
-			$html = sprintf(
-				'<a href="%s" alt="%s">%s</a>',
-				$og['og:url'],
-				isset( $og['og:description'])
-					? $og['og:description']
-					: $title,
-				$title
-			);
+		switch ( $og['og:type']) {
+
+			// builds an <img> tag pointing to the photo
+			case 'photo':
+				$og += array(
+					'og:width' => 500,
+					'og:height' => 375
+				);
+
+				$html = sprintf(
+					'<img src="%s" alt="%s" width="%d" height="%d" />',
+					$og['og:url'],
+					$og['og:title'],
+					$og['og:width'],
+					$og['og:height']
+				);
+				break;
+
+			// builds an <iframe> tag pointing to the video player
+			case 'video':
+				$og += array(
+					'og:video' => $og['og:url'],
+					'og:video:width' => 560,
+					'og:video:height' => 315
+				);
+
+				$html = sprintf(
+					'<iframe src="%s" alt="%s" width="%d" height="%d" frameborder="0" allowfullscreen mozallowfullscreen webkitallowfullscreen></iframe>',
+					$og['og:video'],
+					$og['og:title'],
+					$og['og:video:width'],
+					$og['og:video:height']
+				);
+				break;
+
+			// builds an <a> tag pointing to the original resource
+			default:
+				$og += array(
+					'og:description' => $og['og:title']
+				);
+
+				$html = sprintf(
+					'<a href="%s" alt="%s">%s</a>',
+					$og['og:url'],
+					$og['og:description'],
+					$og['og:title']
+				);
+				break;
 		}
 
 		return $html;

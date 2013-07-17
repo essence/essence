@@ -71,19 +71,42 @@ class OpenGraphTest extends \PHPUnit_Framework_TestCase {
 	 *
 	 */
 
+	public function testHtmlPhoto( ) {
+
+		$this->assertEquals(
+			'<img src="http://static.foo.com/photos/123456.jpg" alt="Title" width="1024" height="768" />',
+			OpenGraph::html(
+				array(
+					'og:type' => 'photo',
+					'og:url' => 'http://static.foo.com/photos/123456.jpg',
+					'og:title' => 'Title',
+					'og:width' => 1024,
+					'og:height' => 768
+				)
+			)
+		);
+	}
+
+
+
+	/**
+	 *
+	 */
+
 	public function testHtmlVideo( ) {
 
-		$og = array(
-			'og:url' => 'http://www.youtube.com/watch?v=123456',
-			'og:title' => 'Title',
-			'og:video' => 'http://www.youtube.com/v/123456',
-			'og:video:width' => 800,
-			'og:video:height' => 600
-		);
-
 		$this->assertStringStartsWith(
-			'<iframe src="http://www.youtube.com/v/123456" alt="Title" width="800" height="600"',
-			OpenGraph::html( $og )
+			'<iframe src="http://www.youtube.com/v/123456" alt="Title" width="1024" height="768"',
+			OpenGraph::html(
+				array(
+					'og:type' => 'video',
+					'og:url' => 'http://www.youtube.com/watch?v=123456',
+					'og:title' => 'Title',
+					'og:video' => 'http://www.youtube.com/v/123456',
+					'og:video:width' => 1024,
+					'og:video:height' => 768
+				)
+			)
 		);
 	}
 
@@ -95,15 +118,15 @@ class OpenGraphTest extends \PHPUnit_Framework_TestCase {
 
 	public function testHtmlLink( ) {
 
-		$og = array(
-			'og:url' => 'http://www.youtube.com/watch?v=123456',
-			'og:title' => 'Title',
-			'og:description' => 'A video'
-		);
-
 		$this->assertEquals(
 			'<a href="http://www.youtube.com/watch?v=123456" alt="A video">Title</a>',
-			OpenGraph::html( $og )
+			OpenGraph::html(
+				array(
+					'og:url' => 'http://www.youtube.com/watch?v=123456',
+					'og:title' => 'Title',
+					'og:description' => 'A video'
+				)
+			)
 		);
 	}
 }
