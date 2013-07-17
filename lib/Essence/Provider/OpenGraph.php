@@ -125,7 +125,11 @@ class OpenGraph extends Provider {
 		}
 
 		if ( empty( $og['html'])) {
-			$og['html'] = $this->_buildHtml( $og, $url );
+			if ( empty( $og['og:url'])) {
+				$og['og:url'] = $url;
+			}
+
+			$og['html'] = $this->_buildHtml( $og );
 		}
 
 		return $og;
@@ -137,11 +141,10 @@ class OpenGraph extends Provider {
 	 *	Builds an HTML code from OpenGraph properties.
 	 *
 	 *	@param array $og OpenGraph properties.
-	 *	@param string $url URL from which informations were fetched.
 	 *	@return string Generated HTML.
 	 */
 
-	protected function _buildHtml( $og, $url ) {
+	protected function _buildHtml( $og ) {
 
 		$html = '';
 		$title = isset( $og['og:title'])
@@ -163,9 +166,7 @@ class OpenGraph extends Provider {
 		} else {
 			$html = sprintf(
 				'<a href="%s" alt="%s">%s</a>',
-				isset( $og['og:url'])
-					? $og['og:url']
-					: $url,
+				$og['og:url'],
 				$title,
 				$title
 			);
