@@ -160,7 +160,7 @@ class Collection {
 				$Provider = new $class( );
 			}
 
-			$Provider->mergeProperties( $config );
+			$Provider->configure( $config );
 			$this->_providers[ $name ] = $Provider;
 		}
 

@@ -56,7 +56,7 @@ class OEmbedTest extends \PHPUnit_Framework_TestCase {
 			new NativeDomParser( )
 		);
 
-		$this->OEmbed->mergeProperties(
+		$this->OEmbed->configure(
 			array(
 				'endpoint' => 'file://' . ESSENCE_HTTP . '%s.json',
 				'format' => OEmbed::json

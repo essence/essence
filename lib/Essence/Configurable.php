@@ -170,7 +170,7 @@ trait Configurable {
 	 *	@param array $properties Properties to merge.
 	 */
 
-	public function mergeProperties( array $properties ) {
+	public function configure( array $properties ) {
 
 		$this->_properties = array_merge( $this->_properties, $properties );
 	}

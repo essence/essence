@@ -112,7 +112,7 @@ class Media implements IteratorAggregate {
 
 	public function __construct( array $properties ) {
 
-		$this->mergeProperties( $properties );
+		$this->configure( $properties );
 	}
 
 
