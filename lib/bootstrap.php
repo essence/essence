@@ -22,8 +22,8 @@ if ( !defined( 'ESSENCE_LIB' )) {
 	define( 'ESSENCE_LIB', dirname( __FILE__ ) . DIRECTORY_SEPARATOR );
 }
 
-if ( !defined( 'ESSENCE_DEFAULT_CONFIG' )) {
-	define( 'ESSENCE_DEFAULT_CONFIG', ESSENCE_LIB . 'config.php' );
+if ( !defined( 'ESSENCE_DEFAULT_PROVIDERS' )) {
+	define( 'ESSENCE_DEFAULT_PROVIDERS', ESSENCE_LIB . 'providers.php' );
 }
 
 

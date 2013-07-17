@@ -36,7 +36,7 @@ class Standard extends Container {
 
 			// providers are loaded from the default config file
 			'providers' => function( ) {
-				return include ESSENCE_DEFAULT_CONFIG;
+				return include ESSENCE_DEFAULT_PROVIDERS;
 			},
 
 			// A volatile cache engine is shared across the application
