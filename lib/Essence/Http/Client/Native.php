@@ -76,7 +76,7 @@ class Native implements Client {
 			}
 
 			// let's assume the file doesn't exists
-			throw new Exception( $code, $url );
+			throw new Exception( $url, $code );
 		}
 
 		return $contents;

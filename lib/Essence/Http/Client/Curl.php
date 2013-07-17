@@ -84,8 +84,8 @@ class Curl implements Client {
 
 		if ( $contents === false ) {
 			throw new Exception(
-				curl_getinfo( $this->_curl, CURLINFO_HTTP_CODE ),
-				$url
+				$url,
+				curl_getinfo( $this->_curl, CURLINFO_HTTP_CODE )
 			);
 		}
 

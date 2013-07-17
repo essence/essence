@@ -20,16 +20,6 @@ use Essence\Exception as EssenceException;
 class Exception extends EssenceException {
 
 	/**
-	 *	HTTP status code.
-	 *
-	 *	@var integer
-	 */
-
-	protected $_status = 0;
-
-
-
-	/**
 	 *	Error URL.
 	 *
 	 *	@var string
@@ -84,35 +74,22 @@ class Exception extends EssenceException {
 	 *	Constructs the exception with the given HTTP status code, and the URL
 	 *	that triggered the error.
 	 *
-	 *	@param int $status HTTP status code.
 	 *	@param string $url URL.
-	 *	@param int $code Exception code.
+	 *	@param int $code HTTP status code.
 	 *	@param Exception $Previous Previous exception.
 	 */
 
-	public function __construct( $status, $url, $code = 0, Exception $Previous = null ) {
+	public function __construct( $url, $code = 0, Exception $Previous = null ) {
 
-		$this->_status = $status;
 		$this->_url = $url;
 
-		$message = isset( $this->_messages[ $status ])
-			? $this->_messages[ $status ]
-			: 'HTTP error';
-
-		parent::__construct( $message, $code, $Previous );
-	}
-
-
-
-	/**
-	 *	Returns the Http status code.
-	 *
-	 *	@return int HTTP status code.
-	 */
-
-	public function status( ) {
-
-		return $this->_status;
+		parent::__construct(
+			isset( $this->_messages[ $code ])
+				? $this->_messages[ $code ]
+				: 'HTTP error',
+			$code,
+			$Previous
+		);
 	}
 
 
