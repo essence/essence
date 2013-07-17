@@ -243,7 +243,7 @@ The default injection settings are defined in the [Standard container class](htt
 
 To customize the Essence behavior, the easiest way is to configure the _Standard_ container:
 
-```
+```php
 $Container = new Essence\Di\Container\Standard( );
 
 // the container will return a new CustomCacheEngine each time a cache engine is needed
