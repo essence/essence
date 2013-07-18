@@ -236,7 +236,9 @@ $Essence = Essence\Essence::instance( array(
 ));
 
 // you can also load a configuration array from a file
-$Essence = Essence\Essence::instance( 'path/to/config/file.php' );
+$Essence = Essence\Essence::instance( array(
+	'providers' => 'path/to/config/file.php'
+));
 ```
 
 You can use custom providers by specifying a fully-qualified class name in the 'class' option.
