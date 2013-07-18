@@ -144,7 +144,11 @@ class Essence {
 
 
 	/**
+	 *	Implementation of the extract method.
+	 *
 	 *	@see extract( )
+	 *	@param string $source The URL or HTML source to be extracted.
+	 *	@return array An array of extracted URLs.
 	 */
 
 	protected function _extract( $source ) {
@@ -218,7 +222,12 @@ class Essence {
 
 
 	/**
+	 *	Implementation of the embed method.
+	 *
 	 *	@see embed( )
+	 *	@param string $url URL to fetch informations from.
+	 *	@param array $options Custom options to be interpreted by a provider.
+	 *	@return Media Embed informations.
 	 */
 
 	protected function _embed( $url, array $options ) {
