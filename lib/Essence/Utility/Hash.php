@@ -46,15 +46,11 @@ class Hash {
 	 *	$default as value.
 	 *
 	 *	@param array $data The array to normalize.
-	 *	@param string $default Default value.
+	 *	@param mixed $default Default value.
 	 *	@return array The normalized array.
 	 */
 
-	public static function normalize( $data, $default ) {
-
-		if ( is_string( $data )) {
-			return array( $data => $default );
-		}
+	public static function normalize( array $data, $default ) {
 
 		$normalized = array( );
 

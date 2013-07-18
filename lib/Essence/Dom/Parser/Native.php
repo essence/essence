@@ -35,7 +35,7 @@ class Native implements Parser {
 
 		foreach ( $options as $name => $required ) {
 			$tags = $Document->getElementsByTagName( $name );
-			$required = Hash::normalize( $required, '' );
+			$required = Hash::normalize(( array )$required, '' );
 			$data[ $name ] = array( );
 
 			foreach ( $tags as $Tag ) {
