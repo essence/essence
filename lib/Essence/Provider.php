@@ -8,6 +8,7 @@
 namespace Essence;
 
 use Essence\Configurable;
+use Essence\Exception;
 
 
 
@@ -54,10 +55,11 @@ abstract class Provider {
 			$url = call_user_func( $this->prepare, $url );
 		}
 
-		$Media = $this->_embed( $url, $options );
-
-		if ( $Media ) {
+		try {
+			$Media = $this->_embed( $url, $options );
 			$Media->setDefault( 'url', $url );
+		} catch ( Exception $Exception ) {
+			$Media = null;
 		}
 
 		return $Media;

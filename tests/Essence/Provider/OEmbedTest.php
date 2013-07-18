@@ -139,8 +139,7 @@ class OEmbedTest extends PHPUnit_Framework_TestCase {
 
 	public function testEmbedInvalidJson( ) {
 
-		$this->setExpectedException( '\\Essence\\Exception' );
-		$this->OEmbed->embed( 'invalid' );
+		$this->assertNull( $this->OEmbed->embed( 'invalid' ));
 	}
 
 
@@ -185,10 +184,9 @@ class OEmbedTest extends PHPUnit_Framework_TestCase {
 
 	public function testEmbedUnsupportedFormat( ) {
 
-		$this->setExpectedException( '\\Essence\\Exception' );
-
 		$this->OEmbed->set( 'format', 'unsupported' );
-		$this->OEmbed->embed( 'valid' );
+
+		$this->assertNull( $this->OEmbed->embed( 'valid' ));
 	}
 
 
