@@ -8,7 +8,6 @@
 namespace Essence;
 
 use Essence\Configurable;
-use Essence\Cache\Volatile;
 
 
 
