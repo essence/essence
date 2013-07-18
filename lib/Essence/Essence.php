@@ -92,8 +92,8 @@ class Essence {
 	 *
 	 *	@param Essence\ProviderCollection $Collection Provider collection.
 	 *	@param Essence\Cache\Engine $Cache Cache engine.
-	 *	@param Essence\Http\Client $Http Http client.
-	 *	@param Essence\Dom\Parser $Cache Dom parser.
+	 *	@param Essence\Http\Client $Http HTTP client.
+	 *	@param Essence\Dom\Parser $Cache DOM parser.
 	 */
 
 	public function __construct(
