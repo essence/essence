@@ -6,6 +6,8 @@ Essence
 
 Essence is a simple PHP library to extract media informations from websites, like youtube videos, twitter statuses or blog articles.
 
+If you were already using Essence 1.x.x, you should take a look at [the migration guide](https://github.com/felixgirault/essence/wiki/Migrating-from-1.x.x-to-2.x.x).
+
 * [Example](#example)
 * [What you get](#what-you-get)
 * [Advanced usage](#advanced-usage)
