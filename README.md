@@ -241,23 +241,24 @@ Almost everything in Essence can be configured through dependency injection.
 Under the hoods, the Essence::instance( ) method uses a dependency injection container to return a fully configured instance of Essence.
 The default injection settings are defined in the [Standard container class](https://github.com/felixgirault/essence/blob/master/lib/Essence/Di/Container/Standard.php).
 
-To customize the Essence behavior, the easiest way is to configure the _Standard_ container:
+To customize the Essence behavior, the easiest way is to configure injection settings when building Essence:
 
 ```php
-$Container = new Essence\Di\Container\Standard( );
+$Essence = Essence\Essence::instance(
+	array(
+		// the container will return a new CustomCacheEngine each time a cache
+		// engine is needed
+		'Cache' => function( ) {
+			return new CustomCacheEngine( );
+		},
 
-// the container will return a new CustomCacheEngine each time a cache engine is needed
-$Container->set( 'Cache', function( ) {
-	return new CustomCacheEngine( );
-});
-
-// the container will return a unique instance of CustomHttpClient each time an HTTP client is needed
-$Container->set( 'Http', Essence\Di\Container::unique( function( ) {
-	return new CustomHttpClient( );
-}));
-
-// returns a fully configured Essence instance
-$Essence = $Container->get( 'Essence' );
+		// the container will return a unique instance of CustomHttpClient
+		// each time an HTTP client is needed
+		'Http' => Essence\Di\Container::unique( function( ) {
+			return new CustomHttpClient( );
+		})
+	)
+);
 ```
 
 Third-party libraries
