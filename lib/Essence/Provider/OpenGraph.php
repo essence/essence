@@ -81,17 +81,9 @@ class OpenGraph extends Provider {
 
 	protected function _embed( $url, $options ) {
 
-		$og = $this->_extractInformations( $url );
-
-		if ( empty( $og )) {
-			throw new Exception(
-				'Unable to extract OpenGraph data.'
-			);
-		}
-
 		return new Media(
 			Hash::reindex(
-				$og,
+				$this->_extractInformations( $url ),
 				array(
 					'og:type' => 'type',
 					'og:title' => 'title',
@@ -132,7 +124,11 @@ class OpenGraph extends Provider {
 
 		$og = array( );
 
-		if ( !empty( $attributes['meta'])) {
+		if ( empty( $attributes['meta'])) {
+			throw new Exception(
+				"Unable to extract OpenGraph data from '$url'."
+			);
+		} else {
 			foreach ( $attributes['meta'] as $meta ) {
 				if ( !isset( $og[ $meta['property']])) {
 					$og[ $meta['property']] = trim( $meta['content']);

@@ -185,15 +185,10 @@ class OEmbedTest extends PHPUnit_Framework_TestCase {
 
 	public function testEmbedUnsupportedFormat( ) {
 
+		$this->setExpectedException( '\\Essence\\Exception' );
+
 		$this->OEmbed->set( 'format', 'unsupported' );
-
-		try {
-			$this->OEmbed->embed( 'valid' );
-		} catch ( \Exception $e ) {
-			return;
-		}
-
-		$this->fail( 'An expected exception has not been raised.' );
+		$this->OEmbed->embed( 'valid' );
 	}
 
 

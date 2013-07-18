@@ -144,6 +144,7 @@ class OEmbed extends Provider {
 	 *
 	 *	@note If no endpoint was specified in the configuration, the page at
 	 *		the given URL will be parsed to find one.
+	 *	@throws Essence\Exception If the parsed page doesn't provide any endpoint.
 	 */
 
 	protected function _embed( $url, $options ) {
@@ -152,7 +153,9 @@ class OEmbed extends Provider {
 			$endpoint = sprintf( $this->endpoint, urlencode( $url ));
 			$format = $this->format;
 		} else if ( !$this->_extractEndpoint( $url, $endpoint, $format )) {
-			return null;
+			throw new Exception(
+				"Unable to extract any endpoint from '$url'."
+			);
 		}
 
 		if ( $options ) {
@@ -246,7 +249,7 @@ class OEmbed extends Provider {
 				break;
 
 			default:
-				throw new Exception( 'Unsupported format.' );
+				throw new Exception( 'Unsupported response format.' );
 		}
 
 		return new Media(
