@@ -26,7 +26,8 @@ class Autoload {
 	public static function setup( $basePath ) {
 
 		$basePath = rtrim( $basePath, DIRECTORY_SEPARATOR );
-		$loader = function( $className ) use ( $basePath ) {
+
+		spl_autoload_register( function( $className ) use ( $basePath ) {
 			$path = $basePath
 				. DIRECTORY_SEPARATOR
 				. str_replace( '\\', DIRECTORY_SEPARATOR, $className )
@@ -35,8 +36,6 @@ class Autoload {
 			if ( file_exists( $path )) {
 				require_once $path;
 			}
-		};
-
-		spl_autoload_register( $loader );
+		});
 	}
 }

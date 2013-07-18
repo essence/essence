@@ -296,21 +296,19 @@ class Essence {
 
 	public function replace( $text, $callback = null, array $options = array( )) {
 
-		$replacer = function ( $matches ) use ( $callback, $options ) {
-			$Media = $this->embed( $matches['url'], $options );
-
-			if ( $Media === null ) {
-				return $matches['url'];
-			}
-
-			return is_callable( $callback )
-				? call_user_func( $callback, $Media )
-				: $Media->get( 'html' );
-		};
-
 		return preg_replace_callback(
 			$this->urlPattern,
-			$replacer,
+			function ( $matches ) use ( $callback, $options ) {
+				$Media = $this->embed( $matches['url'], $options );
+
+				if ( $Media === null ) {
+					return $matches['url'];
+				}
+
+				return is_callable( $callback )
+					? call_user_func( $callback, $Media )
+					: $Media->get( 'html' );
+			},
 			$text
 		);
 	}
