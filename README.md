@@ -209,23 +209,25 @@ Essence currently supports 36 specialized providers:
 You can customize the Essence behavior by passing a configuration array:
 
 ```php
-$Essence = Essence\Essence::instance(
-	array(
-		// the OpenGraph provider will try to embed any URL that matches the filter
+$Essence = Essence\Essence::instance( array(
+	'providers' => array(
+
+		// the OpenGraph provider will try to embed any URL that matches
+		// the filter
 		'Ted' => array(
 			'class' => 'OpenGraph',
 			'filter' => '#ted\.com/talks/.*#i'
 		),
 
-		// the OEmbed provider will query the endpoint, %s beeing replaced by
-		// the requested URL.
+		// the OEmbed provider will query the endpoint, %s beeing replaced
+		// by the requested URL.
 		'Youtube' => array(
 			'class' => 'OEmbed',
 			'filter' => '#youtube\.com/.*#',
 			'endpoint' => 'http://www.youtube.com/oembed?format=json&url=%s'
 		)
 	)
-);
+));
 
 // you could also load a configuration array from a file
 $Essence = Essence\Essence::instance( 'path/to/config/file.php' );
@@ -244,21 +246,20 @@ The default injection settings are defined in the [Standard container class](htt
 To customize the Essence behavior, the easiest way is to configure injection settings when building Essence:
 
 ```php
-$Essence = Essence\Essence::instance(
-	array(
-		// the container will return a new CustomCacheEngine each time a cache
-		// engine is needed
-		'Cache' => function( ) {
-			return new CustomCacheEngine( );
-		},
+$Essence = Essence\Essence::instance( array(
 
-		// the container will return a unique instance of CustomHttpClient
-		// each time an HTTP client is needed
-		'Http' => Essence\Di\Container::unique( function( ) {
-			return new CustomHttpClient( );
-		})
-	)
-);
+	// the container will return a new CustomCacheEngine each time a cache
+	// engine is needed
+	'Cache' => function( ) {
+		return new CustomCacheEngine( );
+	},
+
+	// the container will return a unique instance of CustomHttpClient
+	// each time an HTTP client is needed
+	'Http' => Essence\Di\Container::unique( function( ) {
+		return new CustomHttpClient( );
+	})
+));
 ```
 
 Third-party libraries
