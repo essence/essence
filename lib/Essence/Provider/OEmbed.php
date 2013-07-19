@@ -75,7 +75,8 @@ class OEmbed extends Provider {
 	 */
 
 	protected $_properties = array(
-		'prepare' => 'OEmbed::prepare',
+		'prepare' => 'self::prepareUrl',
+		'complete' => 'self::completeMedia',
 		'endpoint' => '',
 		'format' => self::json
 	);
@@ -104,7 +105,7 @@ class OEmbed extends Provider {
 	 *	@return string Prepared url.
 	 */
 
-	public static function prepare( $url ) {
+	public static function prepareUrl( $url ) {
 
 		$url = trim( $url );
 

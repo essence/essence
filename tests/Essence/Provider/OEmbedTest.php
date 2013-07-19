@@ -73,9 +73,9 @@ class OEmbedTest extends PHPUnit_Framework_TestCase {
 
 	public function testPrepare( ) {
 
-		$this->assertEquals( 'valid', OEmbed::prepare( 'valid#anchor' ));
-		$this->assertEquals( 'valid', OEmbed::prepare( 'valid?argument=value' ));
-		$this->assertEquals( 'valid', OEmbed::prepare( 'valid?argument=value#anchor' ));
+		$this->assertEquals( 'valid', OEmbed::prepareUrl( 'valid#anchor' ));
+		$this->assertEquals( 'valid', OEmbed::prepareUrl( 'valid?argument=value' ));
+		$this->assertEquals( 'valid', OEmbed::prepareUrl( 'valid?argument=value#anchor' ));
 	}
 
 

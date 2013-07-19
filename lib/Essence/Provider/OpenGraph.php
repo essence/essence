@@ -47,20 +47,6 @@ class OpenGraph extends Provider {
 
 
 	/**
-	 *	### Options
-	 *
-	 *	- 'html' callable( array $og ) A function to build an HTML code from
-	 *		the given OpenGraph properties.
-	 */
-
-	protected $_properties = array(
-		'prepare' => 'OpenGraph::prepare',
-		'html' => 'OpenGraph::html'
-	);
-
-
-
-	/**
 	 *	Constructor.
 	 *
 	 *	@param Essence\Http\Client $Http Http client.
@@ -134,88 +120,9 @@ class OpenGraph extends Provider {
 					$og[ $meta['property']] = trim( $meta['content']);
 				}
 			}
-
-			if ( empty( $og['html']) && is_callable( $this->_html )) {
-				if ( empty( $og['og:url'])) {
-					$og['og:url'] = $url;
-				}
-
-				$og['html'] = call_user_func( $this->_html, $og );
-			}
 		}
 
 		return $og;
-	}
-
-
-
-	/**
-	 *	Builds an HTML code from OpenGraph properties.
-	 *
-	 *	@param array $og OpenGraph properties.
-	 *	@return string Generated HTML.
-	 */
-
-	public static function html( array $og ) {
-
-		$og += array(
-			'og:type' => 'unknown',
-			'og:title' => $og['og:url']
-		);
-
-		$html = '';
-
-		switch ( $og['og:type']) {
-
-			// builds an <img> tag pointing to the photo
-			case 'photo':
-				$og += array(
-					'og:width' => 500,
-					'og:height' => 375
-				);
-
-				$html = sprintf(
-					'<img src="%s" alt="%s" width="%d" height="%d" />',
-					$og['og:url'],
-					$og['og:title'],
-					$og['og:width'],
-					$og['og:height']
-				);
-				break;
-
-			// builds an <iframe> tag pointing to the video player
-			case 'video':
-				$og += array(
-					'og:video' => $og['og:url'],
-					'og:video:width' => 560,
-					'og:video:height' => 315
-				);
-
-				$html = sprintf(
-					'<iframe src="%s" alt="%s" width="%d" height="%d" frameborder="0" allowfullscreen mozallowfullscreen webkitallowfullscreen></iframe>',
-					$og['og:video'],
-					$og['og:title'],
-					$og['og:video:width'],
-					$og['og:video:height']
-				);
-				break;
-
-			// builds an <a> tag pointing to the original resource
-			default:
-				$og += array(
-					'og:description' => $og['og:title']
-				);
-
-				$html = sprintf(
-					'<a href="%s" alt="%s">%s</a>',
-					$og['og:url'],
-					$og['og:description'],
-					$og['og:title']
-				);
-				break;
-		}
-
-		return $html;
 	}
 }
 
