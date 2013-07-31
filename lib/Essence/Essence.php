@@ -41,16 +41,6 @@ class Essence {
 
 
 	/**
-	 *	Internal cache engine.
-	 *
-	 *	@var Essence\Cache\Engine
-	 */
-
-	protected $_Cache = null;
-
-
-
-	/**
 	 *	Internal HTTP client.
 	 *
 	 *	@var Essence\Http\Client
@@ -146,7 +136,7 @@ class Essence {
 
 	public function extract( $source ) {
 
-		return $this->_cached( $this->_Cache, '_extract', $source );
+		return $this->_cached( '_extract', $source );
 	}
 
 
@@ -224,7 +214,7 @@ class Essence {
 
 	public function embed( $url, array $options = array( )) {
 
-		return $this->_cached( $this->_Cache, '_embed', $url, $options );
+		return $this->_cached( '_embed', $url, $options );
 	}
 
 

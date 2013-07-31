@@ -27,6 +27,17 @@ class CacheableImplementation {
 	 *
 	 */
 
+	public function __construct( Engine $Engine ) {
+
+		$this->_Cache = $Engine;
+	}
+
+
+
+	/**
+	 *
+	 */
+
 	protected function _cacheKey( $signature ) {
 
 		return 'key';
@@ -38,9 +49,9 @@ class CacheableImplementation {
 	 *
 	 */
 
-	public function cachedMethod( Engine $Engine, $arg ) {
+	public function cachedMethod( $arg ) {
 
-		return $this->_cached( $Engine, '_cachedMethod', $arg );
+		return $this->_cached( '_cachedMethod', $arg );
 	}
 
 
@@ -86,7 +97,7 @@ class CacheableTest extends PHPUnit_Framework_TestCase {
 	public function setUp( ) {
 
 		$this->Engine = new Volatile( );
-		$this->Cacheable = new CacheableImplementation( );
+		$this->Cacheable = new CacheableImplementation( $this->Engine );
 	}
 
 
@@ -98,7 +109,7 @@ class CacheableTest extends PHPUnit_Framework_TestCase {
 	public function testCached( ) {
 
 		$this->assertFalse( $this->Engine->has( 'key' ));
-		$this->assertEquals( 'result', $this->Cacheable->cachedMethod( $this->Engine, 'result' ));
+		$this->assertEquals( 'result', $this->Cacheable->cachedMethod( 'result' ));
 		$this->assertEquals( 'result', $this->Engine->get( 'key' ));
 	}
 }

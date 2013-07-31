@@ -20,6 +20,16 @@ use Essence\Cache\Engine;
 trait Cacheable {
 
 	/**
+	 *	Internal cache engine.
+	 *
+	 *	@var Essence\Cache\Engine
+	 */
+
+	protected $_Cache = null;
+
+
+
+	/**
 	 *	Returns the cached result of a method call.
 	 *
 	 *	@param Essence\Cache\Engine $Engine Cache engine.
@@ -28,24 +38,24 @@ trait Cacheable {
 	 *	@return mixed Cached result.
 	 */
 
-	protected function _cached( Engine $Engine, $method ) {
+	protected function _cached( $method ) {
 
 		$signature = $method;
 		$args = array( );
 
-		if ( func_num_args( ) > 2 ) {
-			$args = array_slice( func_get_args( ), 2 );
+		if ( func_num_args( ) > 1 ) {
+			$args = array_slice( func_get_args( ), 1 );
 			$signature .= json_encode( $args );
 		}
 
 		$key = $this->_cacheKey( $signature );
 
-		if ( $Engine->has( $key )) {
-			return $Engine->get( $key );
+		if ( $this->_Cache->has( $key )) {
+			return $this->_Cache->get( $key );
 		}
 
 		$result = call_user_func_array( array( $this, $method ), $args );
-		$Engine->set( $key, $result );
+		$this->_Cache->set( $key, $result );
 
 		return $result;
 	}
