@@ -136,7 +136,13 @@ class Essence {
 
 	public function extract( $source ) {
 
-		return $this->_cached( '_extract', $source );
+		try {
+			$urls = $this->_cached( '_extract', $source );
+		} catch ( Exception $Exception ) {
+			$urls = array( );
+		}
+
+		return $urls;
 	}
 
 
@@ -214,7 +220,13 @@ class Essence {
 
 	public function embed( $url, array $options = array( )) {
 
-		return $this->_cached( '_embed', $url, $options );
+		try {
+			$Media = $this->_cached( '_embed', $url, $options );
+		} catch ( Exception $Exception ) {
+			$Media = null;
+		}
+
+		return $Media;
 	}
 
 
