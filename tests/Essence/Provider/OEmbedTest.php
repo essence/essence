@@ -167,13 +167,7 @@ class OEmbedTest extends PHPUnit_Framework_TestCase {
 		$this->OEmbed->set( 'endpoint', 'file://' . ESSENCE_HTTP . '%s.xml' );
 		$this->OEmbed->set( 'format', OEmbed::xml );
 
-		try {
-			$this->OEmbed->embed( 'invalid' );
-		} catch ( \Exception $e ) {
-			return;
-		}
-
-		$this->fail( 'An expected exception has not been raised.' );
+		$this->assertNull( $this->OEmbed->embed( 'invalid' ));
 	}
 
 
