@@ -21,15 +21,12 @@ class XmlTest extends PHPUnit_Framework_TestCase {
 	 *
 	 */
 
-	public $valid = <<<VALID
-<?xml version="1.0" encoding="utf-8"?>
-
+	public $valid =
+		'<?xml version="1.0" encoding="utf-8"?>
 		<oembed>
 			<title>Title</title>
 			<type>video</type>
-		</oembed>
-
-VALID;
+		</oembed>';
 
 
 
@@ -37,11 +34,10 @@ VALID;
 	 *
 	 */
 
-	public $invalid = <<<VALID
-		<oembed>
+	public $invalid =
+		'<oembed>
 			<title>Title
-			<type>video</type>
-VALID;
+			<type>video</type>';
 
 
 
@@ -68,7 +64,7 @@ VALID;
 
 	public function testParseInvalid( ) {
 
-		$this->setExpectedException( '\\Exception' );
+		$this->setExpectedException( 'Essence\\Exception' );
 
 		Xml::parse( $this->invalid );
 	}

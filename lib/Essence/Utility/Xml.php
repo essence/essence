@@ -7,6 +7,8 @@
 
 namespace Essence\Utility;
 
+use Essence\Exception;
+use Exception as NativeException;
 use SimpleXmlIterator;
 
 
@@ -30,9 +32,18 @@ class Xml {
 
 		$internal = libxml_use_internal_errors( true );
 		$data = array( );
-		$it = new SimpleXmlIterator( $xml, null );
 
-		foreach ( $it as $key => $value ) {
+		try {
+			$iterator = new SimpleXmlIterator( $xml, null );
+		} catch ( NativeException $Exception ) {
+			throw new Exception(
+				$Exception->getMessage( ),
+				$Exception->getCode( ),
+				$Exception
+			);
+		}
+
+		foreach ( $iterator as $key => $value ) {
 			$data[ $key ] = strval( $value );
 		}
 
