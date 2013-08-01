@@ -136,13 +136,7 @@ class Essence {
 
 	public function extract( $source ) {
 
-		try {
-			$urls = $this->_cached( '_extract', $source );
-		} catch ( Exception $Exception ) {
-			$urls = array( );
-		}
-
-		return $urls;
+		return $this->_cached( '_extract', $source );
 	}
 
 
@@ -158,10 +152,21 @@ class Essence {
 	protected function _extract( $source ) {
 
 		if ( filter_var( $source, FILTER_VALIDATE_URL )) {
-			$source = $this->_Http->get( $source );
+			try {
+				$source = $this->_Http->get( $source );
+			} catch ( Exception $Exception ) {
+				// Unable to fetch $source
+				return array( );
+			}
 		}
 
-		$urls = $this->_extractUrls( $source );
+		try {
+			$urls = $this->_extractUrls( $source );
+		} catch ( Exception $Exception ) {
+			// Unable to extract URLs from $source
+			return array( );
+		}
+
 		$embeddable = array( );
 
 		foreach ( $urls as $url ) {
@@ -220,13 +225,7 @@ class Essence {
 
 	public function embed( $url, array $options = array( )) {
 
-		try {
-			$Media = $this->_cached( '_embed', $url, $options );
-		} catch ( Exception $Exception ) {
-			$Media = null;
-		}
-
-		return $Media;
+		return $this->_cached( '_embed', $url, $options );
 	}
 
 
