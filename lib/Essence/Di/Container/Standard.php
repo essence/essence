@@ -52,19 +52,26 @@ class Standard extends Container {
 				return new NativeDomParser( );
 			}),
 
-			// The OEmbed provider uses the shared HTTP client and DOM parser.
+			// A null logger is shared across the application
+			'Log' => null,
+
+			// The OEmbed provider uses the shared HTTP client, DOM parser
+			// and logger.
 			'OEmbed' => function( $C ) {
 				return new OEmbed(
 					$C->get( 'Http' ),
-					$C->get( 'Dom' )
+					$C->get( 'Dom' ),
+					$C->get( 'Log' )
 				);
 			},
 
-			// The OpenGraph provider uses the shared HTTP client and DOM parser.
+			// The OpenGraph provider uses the shared HTTP client, DOM parser
+			// and logger.
 			'OpenGraph' => function( $C ) {
 				return new OpenGraph(
 					$C->get( 'Http' ),
-					$C->get( 'Dom' )
+					$C->get( 'Dom' ),
+					$C->get( 'Log' )
 				);
 			},
 
@@ -83,7 +90,8 @@ class Standard extends Container {
 					$C->get( 'Collection' ),
 					$C->get( 'Cache' ),
 					$C->get( 'Http' ),
-					$C->get( 'Dom' )
+					$C->get( 'Dom' ),
+					$C->get( 'Log' )
 				);
 			}
 		);
