@@ -13,6 +13,7 @@ use Essence\Di\Container\Standard as StandardContainer;
 use Essence\Cache\Engine as CacheEngine;
 use Essence\Dom\Parser as DomParser;
 use Essence\Http\Client as HttpClient;
+use Essence\Log\Logger;
 use Essence\Provider\Collection;
 
 
@@ -61,6 +62,16 @@ class Essence {
 
 
 	/**
+	 *	Internal Logger.
+	 *
+	 *	@var Essence\Log\Logger
+	 */
+
+	protected $_Log = null;
+
+
+
+	/**
 	 *	Configuration options.
 	 *
 	 *	### Options
@@ -92,18 +103,21 @@ class Essence {
 	 *	@param Essence\Cache\Engine $Cache Cache engine.
 	 *	@param Essence\Http\Client $Http HTTP client.
 	 *	@param Essence\Dom\Parser $Cache DOM parser.
+	 *	@param Essence\Log\Logger $Log Logger.
 	 */
 
 	public function __construct(
 		Collection $Collection,
 		CacheEngine $Cache,
 		HttpClient $Http,
-		DomParser $Dom
+		DomParser $Dom,
+		Logger $Log = null
 	) {
 		$this->_Collection = $Collection;
 		$this->_Cache = $Cache;
 		$this->_Http = $Http;
 		$this->_Dom = $Dom;
+		$this->_Log = $Log;
 	}
 
 
@@ -153,18 +167,21 @@ class Essence {
 			try {
 				$source = $this->_Http->get( $source );
 			} catch ( Exception $Exception ) {
-				// Unable to fetch $source
+				if ( $this->_Log ) {
+					$this->_Log->log(
+						Logger::notice,
+						"Unable to fetch $source",
+						array(
+							'exception' => $Exception
+						)
+					);
+				}
+
 				return array( );
 			}
 		}
 
-		try {
-			$urls = $this->_extractUrls( $source );
-		} catch ( Exception $Exception ) {
-			// Unable to extract URLs from $source
-			return array( );
-		}
-
+		$urls = $this->_extractUrls( $source );
 		$embeddable = array( );
 
 		foreach ( $urls as $url ) {
@@ -193,7 +210,23 @@ class Essence {
 			'iframe' => 'src'
 		);
 
-		$attributes = $this->_Dom->extractAttributes( $html, $options );
+		try {
+			$attributes = $this->_Dom->extractAttributes( $html, $options );
+		} catch ( Exception $Exception ) {
+			if ( $this->_Log ) {
+				$this->_Log->log(
+					Logger::notice,
+					'Error parsing HTML source',
+					array(
+						'exception' => $Exception,
+						'html' => $html
+					)
+				);
+			}
+
+			return array( );
+		}
+
 		$urls = array( );
 
 		foreach ( $options as $tagName => $attributeName ) {

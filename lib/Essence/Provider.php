@@ -10,6 +10,7 @@ namespace Essence;
 use Essence\Configurable;
 use Essence\Exception;
 use Essence\Media;
+use Essence\Log\Logger;
 
 
 
@@ -22,6 +23,16 @@ use Essence\Media;
 abstract class Provider {
 
 	use Configurable;
+
+
+
+	/**
+	 *	Internal logger.
+	 *
+	 *	@var Essence\Log\Logger
+	 */
+
+	protected $_Log = null;
 
 
 
@@ -41,6 +52,19 @@ abstract class Provider {
 		'prepare' => 'trim',
 		'complete' => 'self::completeMedia'
 	);
+
+
+
+	/**
+	 *	Constructor.
+	 *
+	 *	@param Essence\Log\Logger $Log Logger.
+	 */
+
+	public function __construct( Logger $Log = null ) {
+
+		$this->_Log = $Log;
+	}
 
 
 
@@ -67,6 +91,16 @@ abstract class Provider {
 				$Media = call_user_func( $this->complete, $Media );
 			}
 		} catch ( Exception $Exception ) {
+			if ( $this->_Log ) {
+				$this->_Log->log(
+					Logger::notice,
+					"Unable to embed $url",
+					array(
+						'exception' => $Exception
+					)
+				);
+			}
+
 			$Media = null;
 		}
 
