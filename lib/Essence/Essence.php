@@ -127,8 +127,6 @@ class Essence {
 
 	/**
 	 *	Extracts embeddable URLs from either an URL or an HTML source.
-	 *	If the URL can be parsed directly by one of the registered providers,
-	 *	it is returned as is. Otherwise, the page is parsed to find such URLs.
 	 *
 	 *	@param string $source The URL or HTML source to be extracted.
 	 *	@return array An array of extracted URLs.
