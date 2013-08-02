@@ -8,6 +8,7 @@
 namespace Essence\Http\Client;
 
 use Essence\Http\Client;
+use Essence\Http\Exception;
 
 
 
