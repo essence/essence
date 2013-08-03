@@ -6,10 +6,13 @@ Essence
 
 Essence is a simple PHP library to extract media informations from websites, like youtube videos, twitter statuses or blog articles.
 
+If you were already using Essence 1.x.x, you should take a look at [the migration guide](https://github.com/felixgirault/essence/wiki/Migrating-from-1.x.x-to-2.x.x).
+
 * [Example](#example)
 * [What you get](#what-you-get)
-* [Configuration](#configuration)
 * [Advanced usage](#advanced-usage)
+* [Configuration](#configuration)
+* [Customization](#customization)
 * [Third-party libraries](#third-party-libraries)
 
 Example
@@ -19,24 +22,20 @@ Essence is designed to be really easy to use.
 Using the main class of the library, you can retrieve informations in just those few lines:
 
 ```php
-<?php
-
 require_once 'path/to/essence/bootstrap.php';
 
-$Essence = new fg\Essence\Essence( );
+$Essence = Essence\Essence::instance( );
 
 $Media = $Essence->embed( 'http://www.youtube.com/watch?v=39e3KYAmXK4' );
 
 if ( $Media ) {
 	// That's all, you're good to go !
 }
-
-?>
 ```
 
 Then, just do anything you want with the data:
 
-```php
+```html+php
 <article>
 	<header>
 		<h1><?php echo $Media->title; ?></h1>
@@ -52,7 +51,7 @@ Then, just do anything you want with the data:
 What you get
 ------------
 
-With Essence, you will mainly interact with Media objects.
+Using Essence, you will mainly interact with Media objects.
 Media is a simple container for all the informations that are fetched from an URL.
 
 Here are the default properties it provides:
@@ -75,168 +74,105 @@ Here are the default properties it provides:
 * height
 
 These properties were gathered from the OEmbed and OpenGraph specifications, and merged together in a united interface.
-Therefore, based on such standards, these properties are a solid starting point.
+Based on such standards, these properties should be a solid starting point.
 
-However, some providers could also provide some other properties that you want to get.
-Don't worry, all these "non-standard" properties can also be stored in a Media object.
+However, "non-standard" properties can and will also be setted.
+
+Here is how you can manipulate the Media properties:
 
 ```php
-<?php
-
+// through dedicated methods
 if ( !$Media->has( 'foo' )) {
 	$Media->set( 'foo', 'bar' );
 }
 
 $value = $Media->get( 'foo' );
 
-// Or through the $properties array
-
-$Media->properties['foo'] = 'bar';
-
-// Or directly like a class attribute
-
+// or directly like a class attribute
 $Media->customValue = 12;
-
-?>
 ```
 
-While some open graph properties do not exactly match the Oembed specification, Essence ensures that the html variable is always available. Please note where a page contains multiple media types, Essence creates the html variable based on the assumption that videos are preferred over images which are preferred over links.
-
-Configuration
--------------
-
-Essence currently supports 36 specialized providers:
-
-```
-23hq, Bandcamp, Blip.tv, Cacoo, CanalPlus, Chirb.it, Clikthrough, CollegeHumour, Dailymotion, Deviantart, Dipity, Flickr, Funnyordie, Howcast, Huffduffer, Hulu, Ifixit, Imgur, Instagram, Mobypicture, Official.fm, Polldaddy, Qik, Revision3, Scribd, Shoudio, Sketchfab, Slideshare, SoundCloud, Ted, Twitter, Vhx, Viddler, Vimeo, Yfrog and Youtube.
-```
-
-And two generic ones which will try to get informations about any page.
-
-If you know which providers you will have to query, or simply want to exclude some of them, you can tell Essence which ones you want to use:
-
-```php
-<?php
-
-$Essence = new fg\Essence\Essence(
-	array(
-		'OEmbed/Youtube',
-		'OEmbed/Dailymotion',
-		'OpenGraph/Ted',
-		'\YourCustomProvider'
-	)
-);
-
-?>
-```
-
-You can add custom providers by adding a FQCN (Fully-Qualified Class Name) to the list of providers.
-
-When given an array of providers, the constructor might throw an exception if a provider couldn't be found or loaded.
-If you want to make your code rock solid, you should better wrap that up in a try/catch statement:
-
-```php
-<?php
-
-try {
-	$Essence = new fg\Essence\Essence( array( ... ));
-} catch ( fg\Essence\Exception $Exception ) {
-	...
-}
-
-?>
-```
+Note that Essence will always try to fill the `html` property when it is not available.
 
 Advanced usage
 --------------
 
-### Extracting URLs
-
 The Essence class provides some useful utility function to ensure you will get some informations.
 
-First, the extract( ) method lets you extract embeddable URLs from a web page.
-For example, say you want to get the URL of all videos in a blog post:
+### Extracting URLs
+
+The `extract( )` method lets you extract embeddable URLs from a web page.
+
+For example, here is how you could get the URL of all videos in a blog post:
 
 ```php
-<?php
-
 $urls = $Essence->extract( 'http://www.blog.com/article' );
 
-/**
- *	$urls now contains all URLs that can be extracted by Essence:
- *
- *	array(
- *		'http://www.youtube.com/watch?v=123456'
- *		'http://www.dailymotion.com/video/a1b2c_lolcat-fun'
- *	)
- */
-
-?>
+//	array(
+//		'http://www.youtube.com/watch?v=123456'
+//		'http://www.dailymotion.com/video/a1b2c_lolcat-fun'
+//	)
 ```
 
-Now that you've got those URLs, there is a good chance you want to embed them:
+You can then get informations from all the extracted URLs:
 
 ```php
-<?php
-
 $medias = $Essence->embedAll( $urls );
 
-/**
- *	$medias contains an array of Media objects indexed by URL:
- *
- *	array(
- *		'http://www.youtube.com/watch?v=123456' => Media( ... )
- *		'http://www.dailymotion.com/video/a1b2c_lolcat-fun' => Media( ... )
- *	)
- */
-
-?>
+//	array(
+//		'http://www.youtube.com/watch?v=123456' => Media( ... )
+//		'http://www.dailymotion.com/video/a1b2c_lolcat-fun' => Media( ... )
+//	)
 ```
 
 ### Replacing URLs in text
 
 Essence can replace any embeddable URL in a text by informations about it.
-Consider this piece of content:
-
-```html
-Check out this video: http://www.youtube.com/watch?v=123456
-```
-
-If you just pass this text to the replace( ) method, the URL will be replaced by the HTML code for the video player.
-But you can do more by defining a template to control which informations will replace the URL.
+By default, any URL will be replaced by the `html` property of the found Media.
 
 ```php
-<?php
+$text = 'Check out this awesome video: http://www.youtube.com/watch?v=123456'
 
-echo $Essence->replace( $text, '<p class="title">%title%</p><div class="player">%html%</div>' );
+echo $Essence->replace( $text );
 
-?>
+//	Check out this awesome video: <iframe src="http://www.youtube.com/embed/123456"></iframe>
 ```
 
-This call should print something like that:
+But you can do more by passing a callback to control which informations will replace the URL:
 
-```html
-Check out this video:
-<p class="title">Video title</p>
-<div class="player">
-	<iframe src="http://www.youtube.com/embed/123456"></iframe>
-<div>
+```php
+echo $Essence->replace( $text, function( $Media ) {
+	return sprintf(
+		'<p class="title">%s</p><div class="player">%s</div>',
+		$Media->title,
+		$Media->html
+	);
+});
+
+//	Check out this awesome video:
+//	<p class="title">Video title</p>
+//	<div class="player">
+//		<iframe src="http://www.youtube.com/embed/123456"></iframe>
+//	<div>
 ```
 
-Note that you can use any property of the Media class in the template (See the [What you get](https://github.com/felixgirault/essence#what-you-get "Available properties") section).
+This makes it easy to build rich templates or even to integrate a templating engine:
+
+```php
+echo $Essence->replace( $text, function( $Media ) use ( $TwigTemplate ) {
+	return $TwigTemplate->render( $Media->properties( ));
+});
+```
 
 ### Configuring providers
 
 It is possible to pass some options to the providers.
 
 For example, OEmbed providers accepts the `maxwidth` and `maxheight` parameters, as specified in the OEmbed spec.
-Other providers will just ignore the options they don't handle.
 
 ```php
-<?php
-
 $Media = $Essence->embed(
-	'http://www.youtube.com/watch?v=abcdef',
+	$url,
 	array(
 		'maxwidth' => 800,
 		'maxheight' => 600
@@ -244,41 +180,102 @@ $Media = $Essence->embed(
 );
 
 $medias = $Essence->embedAll(
-	array(
-		'http://www.youtube.com/watch?v=abcdef',
-		'http://www.youtube.com/watch?v=123456'
-	),
+	$urls,
 	array(
 		'maxwidth' => 800,
 		'maxheight' => 600
 	)
 );
 
-?>
+$Media = $Essence->extract(
+	$text,
+	null,
+	array(
+		'maxwidth' => 800,
+		'maxheight' => 600
+	)
+);
 ```
 
-### Error handling
+Other providers will just ignore the options they don't handle.
 
-By default, Essence does all the dirty stuff for you by catching all internal exceptions, so you just have to test if an Media object is valid.
-But, in case you want more informations about an error, Essence keeps exceptions warm, and lets you access all of them:
+Configuration
+-------------
+
+Essence currently supports 36 specialized providers:
+
+```
+23hq, Bandcamp, Blip.tv, Cacoo, CanalPlus, Chirb.it, Clikthrough, CollegeHumour,
+Dailymotion, Deviantart, Dipity, Flickr, Funnyordie, Howcast, Huffduffer, Hulu,
+Ifixit, Imgur, Instagram, Mobypicture, Official.fm, Polldaddy, Qik, Revision3,
+Scribd, Shoudio, Sketchfab, Slideshare, SoundCloud, Ted, Twitter, Vhx, Viddler,
+Vimeo, Yfrog and Youtube.
+```
+
+You can configure these providers by passing a configuration array:
 
 ```php
-<?php
+$Essence = Essence\Essence::instance( array(
+	'providers' => array(
 
-$Media = $Essence->embed( 'http://www.youtube.com/watch?v=oHg5SJYRHA0' );
+		// the OpenGraph provider will try to embed any URL that matches
+		// the filter
+		'Ted' => array(
+			'class' => 'OpenGraph',
+			'filter' => '#ted\.com/talks/.*#i'
+		),
 
-if ( !$Media ) {
-	$Exception = $Essence->lastError( );
+		// the OEmbed provider will query the endpoint, %s beeing replaced
+		// by the requested URL.
+		'Youtube' => array(
+			'class' => 'OEmbed',
+			'filter' => '#youtube\.com/.*#',
+			'endpoint' => 'http://www.youtube.com/oembed?format=json&url=%s'
+		)
+	)
+));
 
-	echo 'That\'s why you should never trust a camel: ', $Exception->getMessage( );
-}
-
-?>
+// you can also load a configuration array from a file
+$Essence = Essence\Essence::instance( array(
+	'providers' => 'path/to/config/file.php'
+));
 ```
+
+You can use custom providers by specifying a fully-qualified class name in the 'class' option.
+
+If no configuration is provided, the default configuration will be loaded from the `lib/providers.php` file.
+
+Customization
+-------------
+
+Almost everything in Essence can be configured through dependency injection.
+Under the hoods, the `instance( )` method uses a dependency injection container to return a fully configured instance of Essence.
+
+To customize the Essence behavior, the easiest way is to configure injection settings when building Essence:
+
+```php
+$Essence = Essence\Essence::instance( array(
+
+	// the container will return a new CustomCacheEngine each time a cache
+	// engine is needed
+	'Cache' => function( ) {
+		return new CustomCacheEngine( );
+	},
+
+	// the container will return a unique instance of CustomHttpClient
+	// each time an HTTP client is needed
+	'Http' => Essence\Di\Container::unique( function( ) {
+		return new CustomHttpClient( );
+	})
+));
+```
+
+The default injection settings are defined in the [Standard](https://github.com/felixgirault/essence/blob/master/lib/Essence/Di/Container/Standard.php) container class.
 
 Third-party libraries
 ---------------------
 
+* Interfaces to integrate other libraries: https://github.com/felixgirault/essence-interfaces
 * CakePHP plugin: https://github.com/felixgirault/cakephp-essence
 * Demo framework by Sean Steindl: https://github.com/laughingwithu/Essence_demo
 * Symfony bundle by Ka Yue Yeung: https://github.com/kayue/KayueEssenceBundle
@@ -287,9 +284,7 @@ If you're interested in embedding videos, you should take a look at the [Multipl
 It allows you to build customizable embed codes painlessly:
 
 ```php
-<?php
-
-$Multiplayer = new fg\Multiplayer\Multiplayer( );
+$Multiplayer = new Multiplayer\Multiplayer( );
 
 if ( $Media->type === 'video' ) {
 	echo $Multiplayer->html(
@@ -300,6 +295,4 @@ if ( $Media->type === 'video' ) {
 		)
 	);
 }
-
-?>
 ```
