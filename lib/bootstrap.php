@@ -5,14 +5,12 @@
  *	@license FreeBSD License (http://opensource.org/licenses/BSD-2-Clause)
  */
 
-use fg\Essence\Utility\ClassLoader;
+use Essence\Utility\Autoload;
 
-require_once
-	dirname( __FILE__ )
-	. DIRECTORY_SEPARATOR . 'fg'
+require_once dirname( __FILE__ )
 	. DIRECTORY_SEPARATOR . 'Essence'
 	. DIRECTORY_SEPARATOR . 'Utility'
-	. DIRECTORY_SEPARATOR . 'ClassLoader.php';
+	. DIRECTORY_SEPARATOR . 'Autoload.php';
 
 
 
@@ -21,11 +19,11 @@ require_once
  */
 
 if ( !defined( 'ESSENCE_LIB' )) {
-	define( 'ESSENCE_LIB', dirname( __FILE__ ));
+	define( 'ESSENCE_LIB', dirname( __FILE__ ) . DIRECTORY_SEPARATOR );
 }
 
-if ( !defined( 'ESSENCE_BOOTSTRAPED' )) {
-	define( 'ESSENCE_BOOTSTRAPED', true );
+if ( !defined( 'ESSENCE_DEFAULT_PROVIDERS' )) {
+	define( 'ESSENCE_DEFAULT_PROVIDERS', ESSENCE_LIB . 'providers.php' );
 }
 
 
@@ -34,5 +32,4 @@ if ( !defined( 'ESSENCE_BOOTSTRAPED' )) {
  *	Autoload.
  */
 
-$ClassLoader = new ClassLoader( ESSENCE_LIB );
-$ClassLoader->register( );
+Autoload::setup( ESSENCE_LIB );
