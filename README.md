@@ -22,8 +22,6 @@ Essence is designed to be really easy to use.
 Using the main class of the library, you can retrieve informations in just those few lines:
 
 ```php
-require_once 'path/to/essence/bootstrap.php';
-
 $Essence = Essence\Essence::instance( );
 
 $Media = $Essence->embed( 'http://www.youtube.com/watch?v=39e3KYAmXK4' );
@@ -46,6 +44,13 @@ Then, just do anything you want with the data:
 		<?php echo $Media->html; ?>
 	</div>
 </article>
+```
+
+If you aren't using composer, you should run the Essence bootstrap before using it:
+
+```php
+
+require_once 'path/to/essence/bootstrap.php';
 ```
 
 What you get
