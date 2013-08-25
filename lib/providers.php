@@ -205,7 +205,7 @@ return array(
 			 *	- http://www.vimeo.com/20830433
 			 */
 
-			$url = OEmbed::prepare( $url );
+			$url = OEmbed::prepareUrl( $url );
 
 			if ( preg_match( '#player\.vimeo\.com/video/(?<id>[0-9]+)#i', $url, $matches )) {
 				$url = 'http://www.vimeo.com/' . $matches['id'];
@@ -236,7 +236,7 @@ return array(
 			 *	- http://www.youtube.com/watch?v=oHg5SJYRHA0
 			 */
 
-			$url = OEmbed::prepare( $url );
+			$url = trim( $url );
 
 			if ( preg_match( '#(?:v=|v/|embed/|youtu\.be/)(?<id>[a-z0-9_-]+)#i', $url, $matches )) {
 				$url = 'http://www.youtube.com/watch?v=' . $matches['id'];
