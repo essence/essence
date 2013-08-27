@@ -69,4 +69,18 @@ class MediaTest extends PHPUnit_Framework_TestCase {
 
 		foreach ( $this->Media as $property => $value ) { }
 	}
+
+
+
+	/**
+	 *
+	 */
+
+	public function testSerialize( ) {
+
+		$this->assertEquals(
+			json_encode( $this->Media->properties( )),
+			json_encode( $this->Media )
+		);
+	}
 }

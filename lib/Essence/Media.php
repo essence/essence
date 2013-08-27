@@ -9,6 +9,7 @@ namespace Essence;
 
 use ArrayIterator;
 use IteratorAggregate;
+use JsonSerializable;
 use Essence\Configurable;
 
 
@@ -21,7 +22,7 @@ use Essence\Configurable;
  *	@package fg.Essence
  */
 
-class Media implements IteratorAggregate {
+class Media implements IteratorAggregate, JsonSerializable {
 
 	use Configurable;
 
@@ -126,5 +127,18 @@ class Media implements IteratorAggregate {
 	public function getIterator( ) {
 
 		return new ArrayIterator( $this->_properties );
+	}
+
+
+
+	/**
+	 *	Returns serialized properties.
+	 *
+	 *	@return string JSON representation.
+	 */
+
+	public function jsonSerialize( ) {
+
+		return $this->_properties;
 	}
 }
