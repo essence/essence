@@ -9,7 +9,6 @@ namespace Essence\Di;
 
 use Essence\Configurable;
 use Closure;
-use ReflectionClass;
 
 
 

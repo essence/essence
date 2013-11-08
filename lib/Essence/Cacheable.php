@@ -7,8 +7,6 @@
 
 namespace Essence;
 
-use Essence\Cache\Engine;
-
 
 
 /**
@@ -32,7 +30,6 @@ trait Cacheable {
 	/**
 	 *	Returns the cached result of a method call.
 	 *
-	 *	@param Essence\Cache\Engine $Engine Cache engine.
 	 *	@param string $method The method to cache.
 	 *	@param ... mixed Parameters to be passed to the method.
 	 *	@return mixed Cached result.
