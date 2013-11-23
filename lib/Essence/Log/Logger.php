@@ -7,8 +7,6 @@
 
 namespace Essence\Log;
 
-use Essence\Log;
-
 
 
 /**

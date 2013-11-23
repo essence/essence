@@ -15,7 +15,7 @@
 		"opengraph",
 		"media"
 	],
-	"licence": "BSD-2-Clause",
+	"license": "BSD-2-Clause",
 	"homepage": "http://github.com/felixgirault/essence",
 	"require": {
 		"php": ">=5.4.0",
