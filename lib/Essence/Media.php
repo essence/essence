@@ -141,4 +141,43 @@ class Media implements IteratorAggregate, JsonSerializable {
 
 		return $this->_properties;
 	}
+
+
+
+	/**
+	 *	Completes the possibly missing informations.
+	 */
+
+	public function complete( ) {
+
+		if ( !$this->has( 'html' )) {
+			$title = htmlspecialchars( $this->get( 'title', $this->url ));
+			$description = $this->has( 'description' )
+				? htmlspecialchars( $this->description )
+				: $title;
+
+			switch ( $this->type ) {
+				// builds an <img> tag pointing to the photo
+				case 'photo':
+					$this->set( 'html', sprintf(
+						'<img src="%s" alt="%s" width="%d" height="%d" />',
+						$this->url,
+						$description,
+						$this->get( 'width', 500 ),
+						$this->get( 'height', 375 )
+					));
+					break;
+
+				// builds an <a> tag pointing to the original resource
+				default:
+					$this->set( 'html', sprintf(
+						'<a href="%s" alt="%s">%s</a>',
+						$this->url,
+						$description,
+						$title
+					));
+					break;
+			}
+		}
+	}
 }
