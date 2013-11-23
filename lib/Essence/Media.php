@@ -168,6 +168,16 @@ class Media implements IteratorAggregate, JsonSerializable {
 					));
 					break;
 
+				// builds an <iframe> tag pointing to the video
+				case 'video':
+					$this->set( 'html', sprintf(
+						'<iframe src="%s" width="%d" height="%d" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen />',
+						$this->url,
+						$this->get( 'width', 640 ),
+						$this->get( 'height', 390 )
+					));
+					break;
+
 				// builds an <a> tag pointing to the original resource
 				default:
 					$this->set( 'html', sprintf(

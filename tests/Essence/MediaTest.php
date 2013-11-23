@@ -108,6 +108,23 @@ class MediaTest extends PHPUnit_Framework_TestCase {
 	 *
 	 */
 
+	public function testCompleteVideo( ) {
+
+		$this->Media->set( 'type', 'video' );
+		$this->Media->complete( );
+
+		$this->assertEquals(
+			'<iframe src="http://foo.bar.com/resource" width="800" height="600" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen />',
+			$this->Media->html
+		);
+	}
+
+
+
+	/**
+	 *
+	 */
+
 	public function testCompleteDefault( ) {
 
 		$this->Media->complete( );
