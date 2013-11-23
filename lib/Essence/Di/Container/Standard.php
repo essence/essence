@@ -12,6 +12,7 @@ use Essence\Di\Container;
 use Essence\Cache\Engine\Volatile as VolatileCacheEngine;
 use Essence\Dom\Parser\Native as NativeDomParser;
 use Essence\Http\Client\Curl as CurlHttpClient;
+use Essence\Log\Logger\Null as NullLogger;
 use Essence\Provider\Collection;
 use Essence\Provider\OEmbed;
 use Essence\Provider\OpenGraph;
@@ -53,7 +54,9 @@ class Standard extends Container {
 			}),
 
 			// A null logger is shared across the application
-			'Log' => null,
+			'Log' => Container::unique( function( ) {
+				return new NullLogger( );
+			}),
 
 			// The OEmbed provider uses the shared HTTP client, DOM parser
 			// and logger.

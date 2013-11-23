@@ -32,7 +32,7 @@ abstract class Provider {
 	 *	@var Essence\Log\Logger
 	 */
 
-	protected $_Log = null;
+	protected $_Logger = null;
 
 
 
@@ -58,12 +58,12 @@ abstract class Provider {
 	/**
 	 *	Constructor.
 	 *
-	 *	@param Essence\Log\Logger $Log Logger.
+	 *	@param Essence\Log\Logger $Logger Logger.
 	 */
 
-	public function __construct( Logger $Log = null ) {
+	public function __construct( Logger $Logger ) {
 
-		$this->_Log = $Log;
+		$this->_Logger = $Logger;
 	}
 
 
@@ -91,15 +91,13 @@ abstract class Provider {
 				$Media = call_user_func( $this->complete, $Media );
 			}
 		} catch ( Exception $Exception ) {
-			if ( $this->_Log ) {
-				$this->_Log->log(
-					Logger::notice,
-					"Unable to embed $url",
-					array(
-						'exception' => $Exception
-					)
-				);
-			}
+			$this->_Logger->log(
+				Logger::notice,
+				"Unable to embed $url",
+				array(
+					'exception' => $Exception
+				)
+			);
 
 			$Media = null;
 		}

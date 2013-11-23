@@ -8,6 +8,7 @@
 namespace Essence;
 
 use PHPUnit_Framework_TestCase;
+use Essence\Log\Logger\Null as NullLogger;
 
 
 
@@ -33,7 +34,11 @@ class ProviderTest extends PHPUnit_Framework_TestCase {
 
 		$Media = new Media( array( 'title' => 'Title' ));
 
-		$this->Provider = $this->getMockForAbstractClass( '\\Essence\\Provider' );
+		$this->Provider = $this->getMockForAbstractClass(
+			'\\Essence\\Provider',
+			array( new NullLogger( ))
+		);
+
 		$this->Provider
 			->expects( $this->any( ))
 			->method( '_embed' )

@@ -67,7 +67,7 @@ class Essence {
 	 *	@var Essence\Log\Logger
 	 */
 
-	protected $_Log = null;
+	protected $_Logger = null;
 
 
 
@@ -103,7 +103,7 @@ class Essence {
 	 *	@param Essence\Cache\Engine $Cache Cache engine.
 	 *	@param Essence\Http\Client $Http HTTP client.
 	 *	@param Essence\Dom\Parser $Cache DOM parser.
-	 *	@param Essence\Log\Logger $Log Logger.
+	 *	@param Essence\Log\Logger $Logger Logger.
 	 */
 
 	public function __construct(
@@ -111,13 +111,13 @@ class Essence {
 		CacheEngine $Cache,
 		HttpClient $Http,
 		DomParser $Dom,
-		Logger $Log = null
+		Logger $Logger
 	) {
 		$this->_Collection = $Collection;
 		$this->_Cache = $Cache;
 		$this->_Http = $Http;
 		$this->_Dom = $Dom;
-		$this->_Log = $Log;
+		$this->_Logger = $Logger;
 	}
 
 
@@ -167,15 +167,13 @@ class Essence {
 			try {
 				$source = $this->_Http->get( $source );
 			} catch ( Exception $Exception ) {
-				if ( $this->_Log ) {
-					$this->_Log->log(
-						Logger::notice,
-						"Unable to fetch $source",
-						array(
-							'exception' => $Exception
-						)
-					);
-				}
+				$this->_Logger->log(
+					Logger::notice,
+					"Unable to fetch $source",
+					array(
+						'exception' => $Exception
+					)
+				);
 
 				return array( );
 			}
@@ -213,16 +211,14 @@ class Essence {
 		try {
 			$attributes = $this->_Dom->extractAttributes( $html, $options );
 		} catch ( Exception $Exception ) {
-			if ( $this->_Log ) {
-				$this->_Log->log(
-					Logger::notice,
-					'Error parsing HTML source',
-					array(
-						'exception' => $Exception,
-						'html' => $html
-					)
-				);
-			}
+			$this->_Logger->log(
+				Logger::notice,
+				'Error parsing HTML source',
+				array(
+					'exception' => $Exception,
+					'html' => $html
+				)
+			);
 
 			return array( );
 		}
