@@ -15,6 +15,7 @@ use Essence\Dom\Parser as DomParser;
 use Essence\Http\Client as HttpClient;
 use Essence\Log\Logger;
 use Essence\Provider\Collection;
+use Essence\Exception;
 
 
 

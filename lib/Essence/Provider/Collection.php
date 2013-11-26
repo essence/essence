@@ -9,6 +9,7 @@ namespace Essence\Provider;
 
 use Essence\Configurable;
 use Essence\Di\Container;
+use Essence\Exception;
 
 
 
