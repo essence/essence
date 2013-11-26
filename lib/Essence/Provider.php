@@ -32,7 +32,7 @@ abstract class Provider {
 	 *	@var Essence\Log\Logger
 	 */
 
-	protected $_Log = null;
+	protected $_Logger = null;
 
 
 
@@ -42,15 +42,12 @@ abstract class Provider {
 	 *	### Options
 	 *
 	 *	- 'prepare' callable( string $url ) A function to prepare the given URL.
-	 *	- 'complete' callable( Essence\Media $Media ) A function to complete
-	 *		the given media properties.
 	 *
 	 *	@var array
 	 */
 
 	protected $_properties = array(
-		'prepare' => 'trim',
-		'complete' => 'self::completeMedia'
+		'prepare' => 'trim'
 	);
 
 
@@ -58,12 +55,12 @@ abstract class Provider {
 	/**
 	 *	Constructor.
 	 *
-	 *	@param Essence\Log\Logger $Log Logger.
+	 *	@param Essence\Log\Logger $Logger Logger.
 	 */
 
-	public function __construct( Logger $Log = null ) {
+	public function __construct( Logger $Logger ) {
 
-		$this->_Log = $Log;
+		$this->_Logger = $Logger;
 	}
 
 
@@ -86,20 +83,15 @@ abstract class Provider {
 		try {
 			$Media = $this->_embed( $url, $options );
 			$Media->setDefault( 'url', $url );
-
-			if ( is_callable( $this->complete )) {
-				$Media = call_user_func( $this->complete, $Media );
-			}
+			$Media->complete( );
 		} catch ( Exception $Exception ) {
-			if ( $this->_Log ) {
-				$this->_Log->log(
-					Logger::notice,
-					"Unable to embed $url",
-					array(
-						'exception' => $Exception
-					)
-				);
-			}
+			$this->_Logger->log(
+				Logger::notice,
+				"Unable to embed $url",
+				array(
+					'exception' => $Exception
+				)
+			);
 
 			$Media = null;
 		}
@@ -120,47 +112,4 @@ abstract class Provider {
 
 	abstract protected function _embed( $url, $options );
 
-
-
-	/**
-	 *	Builds an HTML code from the given media properties to fill its 'html'
-	 *	property.
-	 *
-	 *	@param Essence\Media $Media Media.
-	 *	@return Essence\Media Completed media.
-	 */
-
-	public static function completeMedia( Media $Media ) {
-
-		if ( !$Media->has( 'html' )) {
-			$title = htmlspecialchars( $Media->get( 'title', $Media->url ));
-
-			switch ( $Media->type ) {
-				// builds an <img> tag pointing to the photo
-				case 'photo':
-					$Media->set( 'html', sprintf(
-						'<img src="%s" alt="%s" width="%d" height="%d" />',
-						$Media->url,
-						$title,
-						$Media->get( 'width', 500 ),
-						$Media->get( 'height', 375 )
-					));
-					break;
-
-				// builds an <a> tag pointing to the original resource
-				default:
-					$Media->set( 'html', sprintf(
-						'<a href="%s" alt="%s">%s</a>',
-						$Media->url,
-						$Media->has( 'description' )
-							? htmlspecialchars( $Media->description )
-							: $title,
-						$title
-					));
-					break;
-			}
-		}
-
-		return $Media;
-	}
 }

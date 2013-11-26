@@ -12,6 +12,7 @@ use Essence\Di\Container as Container;
 use Essence\Cache\Engine\Null as NullCacheEngine;
 use Essence\Dom\Parser\Native as NativeDomParser;
 use Essence\Http\Client\Native as NativeHttpClient;
+use Essence\Log\Logger\Null as NullLogger;
 
 
 
@@ -42,7 +43,11 @@ class EssenceTest extends PHPUnit_Framework_TestCase {
 			)
 		);
 
-		$Provider = $this->getMockForAbstractClass( '\\Essence\\Provider' );
+		$Provider = $this->getMockForAbstractClass(
+			'\\Essence\\Provider',
+			array( new NullLogger( ))
+		);
+
 		$Provider
 			->expects( $this->any( ))
 			->method( '_embed' )
@@ -68,7 +73,8 @@ class EssenceTest extends PHPUnit_Framework_TestCase {
 			$Collection,
 			new NullCacheEngine( ),
 			new NativeHttpClient( ),
-			new NativeDomParser( )
+			new NativeDomParser( ),
+			new NullLogger( )
 		);
 	}
 
