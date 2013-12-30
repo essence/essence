@@ -319,8 +319,8 @@ class Essence {
 	 *
 	 *	This behavior should make it easy to integrate third party templating
 	 *	engines.
-	 *	The pattern to match urls can be configured the 'urlPattern' configuration
-	 *	option.
+	 *	The pattern to match urls can be configured using the 'urlPattern'
+	 *	configuration option.
 	 *
 	 *	Thanks to Stefano Zoffoli (https://github.com/stefanozoffoli) for his
 	 *	idea (https://github.com/felixgirault/essence/issues/4).
@@ -336,9 +336,7 @@ class Essence {
 		return preg_replace_callback(
 			$this->urlPattern,
 			function ( $matches ) use ( $callback, $options ) {
-				$Media = $this->embed( $matches['url'], $options );
-
-				if ( $Media === null ) {
+				if ( !( $Media = $this->embed( $matches['url'], $options ))) {
 					return $matches['url'];
 				}
 
