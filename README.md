@@ -8,13 +8,6 @@ Essence is a simple PHP library to extract media informations from websites, lik
 
 If you were already using Essence 1.x.x, you should take a look at [the migration guide](https://github.com/felixgirault/essence/wiki/Migrating-from-1.x.x-to-2.x.x).
 
-* [Example](#example)
-* [What you get](#what-you-get)
-* [Advanced usage](#advanced-usage)
-* [Configuration](#configuration)
-* [Customization](#customization)
-* [Third-party libraries](#third-party-libraries)
-
 Example
 -------
 
@@ -276,6 +269,20 @@ $Essence = Essence\Essence::instance( array(
 ```
 
 The default injection settings are defined in the [Standard](https://github.com/felixgirault/essence/blob/master/lib/Essence/Di/Container/Standard.php) container class.
+
+Try it out
+----------
+
+Once you've installed essence, you should try to run `./cli/essence.php` in a terminal.
+This script allows you to test Essence quickly:
+
+```
+# will fetch and print informations about the video
+./cli/essence.php embed http://www.youtube.com/watch?v=4S_NHY9c8uM
+
+# will fetch and print all embeddable URLs found at the given HTML page
+./cli/essence.php extract http://www.youtube.com/watch?v=4S_NHY9c8uM
+```
 
 Third-party libraries
 ---------------------
