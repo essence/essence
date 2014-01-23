@@ -47,7 +47,7 @@ abstract class Provider {
 	 */
 
 	protected $_properties = array(
-		'prepare' => 'trim',
+		'prepare' => 'self::prepareUrl',
 		'complete' => 'self::completeMedia'
 	);
 
@@ -78,7 +78,7 @@ abstract class Provider {
 	public final function embed( $url, array $options = array( )) {
 
 		if ( is_callable( $this->prepare )) {
-			$url = call_user_func( $this->prepare, $url );
+			$url = call_user_func( $this->prepare, $url, $options );
 		}
 
 		try {
@@ -86,7 +86,7 @@ abstract class Provider {
 			$Media->setDefault( 'url', $url );
 
 			if ( is_callable( $this->complete )) {
-				call_user_func( $this->complete, $Media );
+				call_user_func( $this->complete, $Media, $options );
 			}
 		} catch ( Exception $Exception ) {
 			$this->_Logger->log(
@@ -119,13 +119,29 @@ abstract class Provider {
 
 
 	/**
+	 *	Trims and returns the given string.
+	 *
+	 *	@param string $url URL.
+	 *	@param array $options Embed options.
+	 *	@return string Trimmed URL.
+	 */
+
+	public static function prepareUrl( $url, array $options = array( )) {
+
+		return trim( $url );
+	}
+
+
+
+	/**
 	 *	Builds an HTML code from the given media's properties to fill its
 	 *	'html' property.
 	 *
 	 *	@param Essence\Media $Media A reference to the Media.
+	 *	@param array $options Embed options.
 	 */
 
-	public static function completeMedia( Media $Media ) {
+	public static function completeMedia( Media $Media, array $options = array( )) {
 
 		if ( !$Media->has( 'html' )) {
 			$title = htmlspecialchars( $Media->get( 'title', $Media->url ));
