@@ -23,6 +23,7 @@ class ProviderTest extends PHPUnit_Framework_TestCase {
 	 */
 
 	public $Provider = null;
+	public $Media = null;
 
 
 
@@ -32,17 +33,18 @@ class ProviderTest extends PHPUnit_Framework_TestCase {
 
 	public function setup( ) {
 
-		$Media = new Media( array( 'title' => 'Title' ));
+		$this->Media = new Media( array(
+			'url' => 'http://foo.bar.com/resource',
+			'title' => 'Title',
+			'description' => 'Description',
+			'width' => 800,
+			'height' => 600
+		));
 
 		$this->Provider = $this->getMockForAbstractClass(
 			'\\Essence\\Provider',
 			array( new NullLogger( ))
 		);
-
-		$this->Provider
-			->expects( $this->any( ))
-			->method( '_embed' )
-			->will( $this->returnValue( $Media ));
 	}
 
 
@@ -53,12 +55,66 @@ class ProviderTest extends PHPUnit_Framework_TestCase {
 
 	public function testEmbed( ) {
 
-		$Media = new Media( array(
-			'title' => 'Title',
-			'url' => 'http://foo.bar'
-		));
+		$this->Provider
+			->expects( $this->any( ))
+			->method( '_embed' )
+			->will( $this->returnValue( $this->Media ));
 
-		$Media->complete( );
-		$this->assertEquals( $Media, $this->Provider->embed( '  http://foo.bar  ' ));
+		Provider::completeMedia( $this->Media );
+
+		$this->assertEquals(
+			$this->Media,
+			$this->Provider->embed( '  http://foo.bar  ' )
+		);
+	}
+
+
+
+	/**
+	 *
+	 */
+
+	public function testCompletePhoto( ) {
+
+		$this->Media->set( 'type', 'photo' );
+		Provider::completeMedia( $this->Media );
+
+		$this->assertEquals(
+			'<img src="http://foo.bar.com/resource" alt="Description" width="800" height="600" />',
+			$this->Media->html
+		);
+	}
+
+
+
+	/**
+	 *
+	 */
+
+	public function testCompleteVideo( ) {
+
+		$this->Media->set( 'type', 'video' );
+		Provider::completeMedia( $this->Media );
+
+		$this->assertEquals(
+			'<iframe src="http://foo.bar.com/resource" width="800" height="600" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen />',
+			$this->Media->html
+		);
+	}
+
+
+
+	/**
+	 *
+	 */
+
+	public function testCompleteDefault( ) {
+
+		Provider::completeMedia( $this->Media );
+
+		$this->assertEquals(
+			'<a href="http://foo.bar.com/resource" alt="Description">Title</a>',
+			$this->Media->html
+		);
 	}
 }

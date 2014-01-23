@@ -47,7 +47,8 @@ abstract class Provider {
 	 */
 
 	protected $_properties = array(
-		'prepare' => 'trim'
+		'prepare' => 'trim',
+		'complete' => 'self::completeMedia'
 	);
 
 
@@ -83,7 +84,10 @@ abstract class Provider {
 		try {
 			$Media = $this->_embed( $url, $options );
 			$Media->setDefault( 'url', $url );
-			$Media->complete( );
+
+			if ( is_callable( $this->complete )) {
+				call_user_func( $this->complete, $Media );
+			}
 		} catch ( Exception $Exception ) {
 			$this->_Logger->log(
 				Logger::notice,
@@ -112,4 +116,55 @@ abstract class Provider {
 
 	abstract protected function _embed( $url, $options );
 
+
+
+	/**
+	 *	Builds an HTML code from the given media's properties to fill its
+	 *	'html' property.
+	 *
+	 *	@param Essence\Media $Media A reference to the Media.
+	 */
+
+	public static function completeMedia( Media $Media ) {
+
+		if ( !$Media->has( 'html' )) {
+			$title = htmlspecialchars( $Media->get( 'title', $Media->url ));
+			$description = $Media->has( 'description' )
+				? htmlspecialchars( $Media->description )
+				: $title;
+
+			switch ( $Media->type ) {
+				// builds an <img> tag pointing to the photo
+				case 'photo':
+					$Media->set( 'html', sprintf(
+						'<img src="%s" alt="%s" width="%d" height="%d" />',
+						$Media->url,
+						$description,
+						$Media->get( 'width', 500 ),
+						$Media->get( 'height', 375 )
+					));
+					break;
+
+				// builds an <iframe> tag pointing to the video
+				case 'video':
+					$Media->set( 'html', sprintf(
+						'<iframe src="%s" width="%d" height="%d" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen />',
+						$Media->url,
+						$Media->get( 'width', 640 ),
+						$Media->get( 'height', 390 )
+					));
+					break;
+
+				// builds an <a> tag pointing to the original resource
+				default:
+					$Media->set( 'html', sprintf(
+						'<a href="%s" alt="%s">%s</a>',
+						$Media->url,
+						$description,
+						$title
+					));
+					break;
+			}
+		}
+	}
 }

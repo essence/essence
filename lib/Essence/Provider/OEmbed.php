@@ -77,6 +77,7 @@ class OEmbed extends Provider {
 
 	protected $_properties = array(
 		'prepare' => 'self::prepareUrl',
+		'complete' => 'self::completeMedia',
 		'endpoint' => '',
 		'format' => self::json
 	);
