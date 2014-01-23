@@ -102,7 +102,7 @@ Note that Essence will always try to fill the `html` property when it is not ava
 Advanced usage
 --------------
 
-The Essence class provides some useful utility function to ensure you will get some informations.
+The Essence class provides some useful utility functions to ensure you will get some informations.
 
 ### Extracting URLs
 
