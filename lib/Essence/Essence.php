@@ -336,13 +336,13 @@ class Essence {
 		return preg_replace_callback(
 			$this->urlPattern,
 			function ( $matches ) use ( $callback, $options ) {
-				if ( !( $Media = $this->embed( $matches['url'], $options ))) {
-					return $matches['url'];
+				if ( $Media = $this->embed( $matches['url'], $options )) {
+					return is_callable( $callback )
+						? call_user_func( $callback, $Media )
+						: $Media->get( 'html' );
 				}
 
-				return is_callable( $callback )
-					? call_user_func( $callback, $Media )
-					: $Media->get( 'html' );
+				return $matches['url'];
 			},
 			$text
 		);
