@@ -112,7 +112,7 @@ class OEmbed extends Provider {
 	 *	@return string Prepared url.
 	 */
 
-	public static function prepareUrl( $url ) {
+	public static function prepareUrl( $url, array $options = array( )) {
 
 		$url = trim( $url );
 
