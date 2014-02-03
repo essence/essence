@@ -216,6 +216,9 @@ HTML;
 		$link = '<a href="http://example.com">baz</a>';
 		$this->assertEquals( $link, $this->Essence->replace( $link ));
 
+		$link = '<a href="http://www.youtube.com/watch?v=emgJtr9tIME">baz</a>';
+		$this->assertEquals( $link, $this->Essence->replace( $link ));
+
 		$link = '<a href=\'http://example.com\'>baz</a>';
 		$this->assertEquals( $link, $this->Essence->replace( $link ));
 	}
@@ -228,6 +231,6 @@ HTML;
 
 	public function testReplaceQuotesSurroundedUrl( ) {
 
-		$this->assertEquals( '"HTML"', $this->Essence->replace( '"http://example.com"' ));
+		$this->assertEquals( '"HTML"', $this->Essence->replace( '"http://toto.com"' ));
 	}
 }
