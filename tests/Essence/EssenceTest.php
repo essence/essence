@@ -215,6 +215,9 @@ HTML;
 
 		$link = '<a href="http://example.com">baz</a>';
 		$this->assertEquals( $link, $this->Essence->replace( $link ));
+		
+		$link = '<a href="http://www.youtube.com/watch?v=emgJtr9tIME">baz</a>';
+		$this->assertEquals( $link, $this->Essence->replace( $link ));
 
 		$link = '<a href=\'http://example.com\'>baz</a>';
 		$this->assertEquals( $link, $this->Essence->replace( $link ));
