@@ -23,7 +23,7 @@ use Essence\Provider\OpenGraph;
 /**
  *	Contains the default injection properties.
  *
- *	@package fg.Essence.Di.Container
+ *	@package Essence.Di.Container
  */
 
 class Standard extends Container {

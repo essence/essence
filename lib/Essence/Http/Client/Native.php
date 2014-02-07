@@ -15,7 +15,7 @@ use Essence\Http\Exception;
 /**
  *	Handles HTTP related operations through file_get_contents( ).
  *
- *	@package fg.Essence.Http.Client
+ *	@package Essence.Http.Client
  */
 
 class Native implements Client {

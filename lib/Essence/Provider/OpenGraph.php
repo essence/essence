@@ -22,7 +22,7 @@ use Essence\Utility\Hash;
  *	Base class for an OpenGraph provider.
  *	This kind of provider extracts embed informations from OpenGraph meta tags.
  *
- *	@package fg.Essence.Provider
+ *	@package Essence.Provider
  */
 
 class OpenGraph extends Provider {

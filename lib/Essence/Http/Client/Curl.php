@@ -15,7 +15,7 @@ use Essence\Http\Exception;
 /**
  *	Handles HTTP related operations through cURL.
  *
- *	@package fg.Essence.Http.Client
+ *	@package Essence.Http.Client
  */
 
 class Curl implements Client {

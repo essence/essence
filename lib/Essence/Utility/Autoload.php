@@ -12,7 +12,7 @@ namespace Essence\Utility;
 /**
  *	A simple PSR-0 compliant class loader.
  *
- *	@package fg.Essence.Utility
+ *	@package Essence.Utility
  */
 
 class Autoload {

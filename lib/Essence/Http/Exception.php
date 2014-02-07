@@ -14,7 +14,7 @@ use Essence\Exception as EssenceException;
 /**
  *	An HTTP related exception.
  *
- *	@package fg.Essence.Http
+ *	@package Essence.Http
  */
 
 class Exception extends EssenceException {

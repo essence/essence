@@ -13,7 +13,7 @@ namespace Essence\Log;
  *	A very basic logger.
  *	Inspired by PSR log (https://github.com/php-fig/log).
  *
- *	@package fg.Essence.Log
+ *	@package Essence.Log
  */
 
 interface Logger {

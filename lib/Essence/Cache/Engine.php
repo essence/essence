@@ -12,7 +12,7 @@ namespace Essence\Cache;
 /**
  *	Handles caching.
  *
- *	@package fg.Essence.Cache
+ *	@package Essence.Cache
  */
 
 interface Engine {

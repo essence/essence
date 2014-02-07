@@ -14,7 +14,7 @@ use Essence\Cache\Engine;
 /**
  *	Does absolutely nothing.
  *
- *	@package fg.Essence.Cache.Engine
+ *	@package Essence.Cache.Engine
  */
 
 class Null implements Engine {

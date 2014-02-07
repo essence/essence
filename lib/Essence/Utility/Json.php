@@ -14,7 +14,7 @@ use Essence\Exception;
 /**
  *	A simple JSON parser.
  *
- *	@package fg.Essence.Utility
+ *	@package Essence.Utility
  */
 
 class Json {

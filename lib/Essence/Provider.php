@@ -17,7 +17,7 @@ use Essence\Log\Logger;
 /**
  *	Base class for a Provider.
  *
- *	@package fg.Essence
+ *	@package Essence
  */
 
 abstract class Provider {

@@ -12,7 +12,7 @@ namespace Essence;
 /**
  *	Allows an object to cache method calls.
  *
- *	@package fg.Essence
+ *	@package Essence
  */
 
 trait Cacheable {

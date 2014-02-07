@@ -22,7 +22,7 @@ use Essence\Exception;
 /**
  *	Gathers embed informations from URLs.
  *
- *	@package fg.Essence
+ *	@package Essence
  */
 
 class Essence {

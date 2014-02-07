@@ -12,7 +12,7 @@ namespace Essence\Http;
 /**
  *	Handles HTTP related operations.
  *
- *	@package fg.Essence.Http
+ *	@package Essence.Http
  */
 
 interface Client {

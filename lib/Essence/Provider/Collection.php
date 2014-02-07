@@ -16,7 +16,7 @@ use Essence\Exception;
 /**
  *	A collection of providers which can find the provider of an url.
  *
- *	@package fg.Essence.Provider
+ *	@package Essence.Provider
  */
 
 class Collection {

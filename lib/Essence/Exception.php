@@ -14,7 +14,7 @@ use Exception as NativeException;
 /**
  *	The base exception class of the Essence API.
  *
- *	@package fg.Essence
+ *	@package Essence
  */
 
 class Exception extends NativeException {

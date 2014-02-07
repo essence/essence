@@ -14,7 +14,7 @@ use Essence\Cache\Engine;
 /**
  *	Handles caching for a single session.
  *
- *	@package fg.Essence.Cache.Engine
+ *	@package Essence.Cache.Engine
  */
 
 class Volatile implements Engine {

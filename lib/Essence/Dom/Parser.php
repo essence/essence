@@ -12,7 +12,7 @@ namespace Essence\Dom;
 /**
  *	Handles HTML related operations.
  *
- *	@package fg.Essence.Dom
+ *	@package Essence.Dom
  */
 
 interface Parser {

@@ -12,7 +12,7 @@ namespace Essence;
 /**
  *	Makes a class configurable.
  *
- *	@package fg.Essence
+ *	@package Essence
  */
 
 trait Configurable {

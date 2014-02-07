@@ -16,7 +16,7 @@ use SimpleXmlIterator;
 /**
  *	A simple XML parser.
  *
- *	@package fg.Essence.Utility
+ *	@package Essence.Utility
  */
 
 class Xml {

@@ -16,7 +16,7 @@ use Closure;
  *	A simple dependency injection container.
  *	Inspired by Pimple (https://github.com/fabpot/Pimple).
  *
- *	@package fg.Essence.Di
+ *	@package Essence.Di
  */
 
 class Container {

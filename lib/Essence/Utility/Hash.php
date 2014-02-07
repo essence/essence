@@ -12,7 +12,7 @@ namespace Essence\Utility;
 /**
  *	An utility class to manipulate data sets.
  *
- *	@package fg.Essence.Utility
+ *	@package Essence.Utility
  */
 
 class Hash {

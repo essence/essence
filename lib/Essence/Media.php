@@ -19,7 +19,7 @@ use Essence\Configurable;
  *	This class is useful to ensure that any response from any provider will
  *	follow the same conventions.
  *
- *	@package fg.Essence
+ *	@package Essence
  */
 
 class Media implements IteratorAggregate, JsonSerializable {
