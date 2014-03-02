@@ -77,6 +77,8 @@ abstract class Provider {
 
 	public final function embed( $url, array $options = array( )) {
 
+		$Media = null;
+
 		if ( is_callable( $this->prepare )) {
 			$url = call_user_func( $this->prepare, $url, $options );
 		}
@@ -96,8 +98,6 @@ abstract class Provider {
 					'exception' => $Exception
 				)
 			);
-
-			$Media = null;
 		}
 
 		return $Media;
@@ -143,44 +143,46 @@ abstract class Provider {
 
 	public static function completeMedia( Media $Media, array $options = array( )) {
 
-		if ( !$Media->has( 'html' )) {
-			$title = htmlspecialchars( $Media->get( 'title', $Media->url ));
-			$description = $Media->has( 'description' )
-				? htmlspecialchars( $Media->description )
-				: $title;
+		if ( $Media->has( 'html' )) {
+			return;
+		}
 
-			switch ( $Media->type ) {
-				// builds an <img> tag pointing to the photo
-				case 'photo':
-					$Media->set( 'html', sprintf(
-						'<img src="%s" alt="%s" width="%d" height="%d" />',
-						$Media->url,
-						$description,
-						$Media->get( 'width', 500 ),
-						$Media->get( 'height', 375 )
-					));
-					break;
+		$title = htmlspecialchars( $Media->get( 'title', $Media->url ));
+		$description = $Media->has( 'description' )
+			? htmlspecialchars( $Media->description )
+			: $title;
 
-				// builds an <iframe> tag pointing to the video
-				case 'video':
-					$Media->set( 'html', sprintf(
-						'<iframe src="%s" width="%d" height="%d" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen />',
-						$Media->url,
-						$Media->get( 'width', 640 ),
-						$Media->get( 'height', 390 )
-					));
-					break;
+		switch ( $Media->type ) {
+			// builds an <img> tag pointing to the photo
+			case 'photo':
+				$Media->set( 'html', sprintf(
+					'<img src="%s" alt="%s" width="%d" height="%d" />',
+					$Media->url,
+					$description,
+					$Media->get( 'width', 500 ),
+					$Media->get( 'height', 375 )
+				));
+				break;
 
-				// builds an <a> tag pointing to the original resource
-				default:
-					$Media->set( 'html', sprintf(
-						'<a href="%s" alt="%s">%s</a>',
-						$Media->url,
-						$description,
-						$title
-					));
-					break;
-			}
+			// builds an <iframe> tag pointing to the video
+			case 'video':
+				$Media->set( 'html', sprintf(
+					'<iframe src="%s" width="%d" height="%d" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen />',
+					$Media->url,
+					$Media->get( 'width', 640 ),
+					$Media->get( 'height', 390 )
+				));
+				break;
+
+			// builds an <a> tag pointing to the original resource
+			default:
+				$Media->set( 'html', sprintf(
+					'<a href="%s" alt="%s">%s</a>',
+					$Media->url,
+					$description,
+					$title
+				));
+				break;
 		}
 	}
 }
