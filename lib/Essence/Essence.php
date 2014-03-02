@@ -249,7 +249,7 @@ class Essence {
 	 *
 	 *	@param string $url URL to fetch informations from.
 	 *	@param array $options Custom options to be interpreted by a provider.
-	 *	@return Media Embed informations.
+	 *	@return Essence\Media Embed informations.
 	 */
 
 	public function embed( $url, array $options = array( )) {
@@ -265,7 +265,7 @@ class Essence {
 	 *	@see embed( )
 	 *	@param string $url URL to fetch informations from.
 	 *	@param array $options Custom options to be interpreted by a provider.
-	 *	@return Media Embed informations.
+	 *	@return Essence\Media Embed informations.
 	 */
 
 	protected function _embed( $url, array $options ) {
