@@ -131,9 +131,7 @@ trait Configurable {
 
 	public function setDefaults( $properties ) {
 
-		foreach ( $properties as $name => $value ) {
-			$this->setDefault( $name, $value );
-		}
+		$this->_properties += $properties;
 	}
 
 
