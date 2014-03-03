@@ -1,7 +1,7 @@
 Essence
 =======
 
-[![Build status](https://secure.travis-ci.org/felixgirault/essence.png)](http://travis-ci.org/felixgirault/essence)
+[![Build status](https://secure.travis-ci.org/felixgirault/essence.png?branch=master)](http://travis-ci.org/felixgirault/essence)
 [![Scrutinizer Quality Score](https://scrutinizer-ci.com/g/felixgirault/essence/badges/quality-score.png?s=464b060a5623fa2124308bfc8a41aa8fa6a0ed05)](https://scrutinizer-ci.com/g/felixgirault/essence/)
 [![Total downloads](https://poser.pugx.org/fg/essence/d/total.png)](https://packagist.org/packages/fg/essence)
 
