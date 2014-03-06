@@ -102,12 +102,9 @@ class CollectionTest extends PHPUnit_Framework_TestCase {
 
 	public function testProviders( ) {
 
-		$providers = $this->Collection->providers( 'foo' );
-
-		if ( empty( $providers )) {
-			$this->fail( 'There should be one provider.' );
-		} else {
-			$this->assertEquals( $this->Provider, array_shift( $providers ));
-		}
+		$this->assertEquals(
+			array( $this->Provider ),
+			$this->Collection->providers( 'foo' )
+		);
 	}
 }
