@@ -133,9 +133,7 @@ class Essence {
 
 	public static function instance( array $configuration = array( )) {
 
-		$Container = new StandardContainer( );
-		$Container->configure( $configuration );
-
+		$Container = new StandardContainer( $configuration );
 		return $Container->get( 'Essence' );
 	}
 
