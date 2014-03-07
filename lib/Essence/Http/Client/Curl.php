@@ -23,7 +23,7 @@ class Curl implements Client {
 	/**
 	 *	CURL handle.
 	 *
-	 *	@var Dunno LOL
+	 *	@var resource
 	 */
 
 	protected $_curl = null;
