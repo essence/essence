@@ -38,7 +38,7 @@ trait Cacheable {
 	protected function _cached( $method ) {
 
 		$signature = $method;
-		$args = array( );
+		$args = [ ];
 
 		if ( func_num_args( ) > 1 ) {
 			$args = array_slice( func_get_args( ), 1 );
@@ -51,7 +51,7 @@ trait Cacheable {
 			return $this->_Cache->get( $key );
 		}
 
-		$result = call_user_func_array( array( $this, $method ), $args );
+		$result = call_user_func_array( [ $this, $method ], $args );
 		$this->_Cache->set( $key, $result );
 
 		return $result;

@@ -75,22 +75,19 @@ class OpenGraph extends Provider {
 	protected function _embed( $url, $options ) {
 
 		return new Media(
-			Hash::reindex(
-				$this->_extractInformations( $url ),
-				array(
-					'og:type' => 'type',
-					'og:title' => 'title',
-					'og:description' => 'description',
-					'og:site_name' => 'providerName',
-					'og:image' => 'thumbnailUrl',
-					'og:image:url' => 'thumbnailUrl',
-					'og:image:width' => 'width',
-					'og:image:height' => 'height',
-					'og:video:width' => 'width',
-					'og:video:height' => 'height',
-					'og:url' => 'url'
-				)
-			)
+			Hash::reindex( $this->_extractInformations( $url ), [
+				'og:type' => 'type',
+				'og:title' => 'title',
+				'og:description' => 'description',
+				'og:site_name' => 'providerName',
+				'og:image' => 'thumbnailUrl',
+				'og:image:url' => 'thumbnailUrl',
+				'og:image:width' => 'width',
+				'og:image:height' => 'height',
+				'og:video:width' => 'width',
+				'og:video:height' => 'height',
+				'og:url' => 'url'
+			])
 		);
 	}
 
@@ -105,17 +102,14 @@ class OpenGraph extends Provider {
 
 	protected function _extractInformations( $url ) {
 
-		$attributes = $this->_Dom->extractAttributes(
-			$this->_Http->get( $url ),
-			array(
-				'meta' => array(
-					'property' => '#^og:.+#i',
-					'content'
-				)
-			)
-		);
+		$attributes = $this->_Dom->extractAttributes( $this->_Http->get( $url ), [
+			'meta' => [
+				'property' => '#^og:.+#i',
+				'content'
+			]
+		]);
 
-		$og = array( );
+		$og = [ ];
 
 		if ( empty( $attributes['meta'])) {
 			throw new Exception(

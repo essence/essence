@@ -54,7 +54,7 @@ function dumpMedia( Essence\Media $Media ) {
 		return;
 	}
 
-	$data = array( );
+	$data = [ ];
 
 	foreach ( $Media as $key => $value ) {
 		if ( $value ) {

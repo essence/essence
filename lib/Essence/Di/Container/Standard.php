@@ -32,9 +32,9 @@ class Standard extends Container {
 	 *	Sets the default properties.
 	 */
 
-	public function __construct( array $properties = array( )) {
+	public function __construct( array $properties = [ ]) {
 
-		$this->_properties = $properties + array(
+		$this->_properties = $properties + [
 
 			// Providers are loaded from the default config file
 			'providers' => ESSENCE_DEFAULT_PROVIDERS,
@@ -101,6 +101,6 @@ class Standard extends Container {
 					$C->get( 'Log' )
 				);
 			}
-		);
+		];
 	}
 }

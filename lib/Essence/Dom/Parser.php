@@ -23,7 +23,7 @@ interface Parser {
 	 *	Getting all attributes of all img tags in the document:
 	 *
 	 *	@code
-	 *	$attributes = Parser::extractAttributes( $html, array( 'img' ));
+	 *	$attributes = Parser::extractAttributes( $html, [ 'img' ]);
 	 *	@endcode
 	 *
 	 *	Getting src attribute of all img tags in the document:
@@ -31,7 +31,7 @@ interface Parser {
 	 *	account)
 	 *
 	 *	@code
-	 *	$attributes = Parser::extractAttributes( $html, array( 'img' => 'src' ));
+	 *	$attributes = Parser::extractAttributes( $html, [ 'img' => 'src' ]);
 	 *	@endcode
 	 *
 	 *	Getting src and alt attributes of all img tags in the document:
@@ -39,15 +39,12 @@ interface Parser {
 	 *	into account)
 	 *
 	 *	@code
-	 *	$attributes = Parser::extractAttributes(
-	 *		$html,
-	 *		array(
-	 *			'img' => array(
-	 *				'src',
-	 *				'alt'
-	 *			)
-	 *		)
-	 *	);
+	 *	$attributes = Parser::extractAttributes( $html, [
+	 *		'img' => [
+	 *			'src',
+	 *			'alt'
+	 *		]
+	 *	]);
 	 *	@endcode
 	 *
 	 *	Getting src attribute of all img tags in the document, where their
@@ -56,43 +53,37 @@ interface Parser {
 	 *	not be taken into account)
 	 *
 	 *	@code
-	 *	$attributes = Parser::extractAttributes(
-	 *		$html,
-	 *		array(
-	 *			'img' => array(
-	 *				'src' => '/foo/i',
-	 *				'alt'
-	 *			)
-	 *		)
-	 *	);
+	 *	$attributes = Parser::extractAttributes( $html, [
+	 *		'img' => [
+	 *			'src' => '/foo/i',
+	 *			'alt'
+	 *		]
+	 *	]);
 	 *	@endcode
 	 *
 	 *	Example result:
 	 *
 	 *	@code
-	 *	$attributes = Parser::extractAttributes(
-	 *		$html,
-	 *		array(
-	 *			'img' => 'src',
-	 *			'a' => array(
-	 *				'href' => '/foo/i',
-	 *				'alt'
-	 *			)
-	 *		)
-	 *	);
+	 *	$attributes = Parser::extractAttributes( $html, [
+	 *		'img' => 'src',
+	 *		'a' => [
+	 *			'href' => '/foo/i',
+	 *			'alt'
+	 *		]
+	 *	]);
 	 *
-	 *	$attributes = array(
-	 *		'img' => array(
-	 *			array( 'src' => 'http://www.website.com/foo.png' ),
-	 *			array( 'src' => 'http://www.website.com/bar.png' ),
-	 *		),
-	 *		'a' => array(
-	 *			array(
+	 *	=> [
+	 *		'img' => [
+	 *			[ 'src' => 'http://www.website.com/foo.png' ],
+	 *			[ 'src' => 'http://www.website.com/bar.png' ],
+	 *		],
+	 *		'a' => [
+	 *			[
 	 *				'href' => 'http://www.foo.com',
 	 *				'alt' => 'foo'
-	 *			)
-	 *		)
-	 *	)
+	 *			]
+	 *		]
+	 *	]
 	 *	@endcode
 	 *
 	 *	@param string $html An HTML document.

@@ -20,7 +20,7 @@ trait Configurable {
 	/**
 	 *	An array of properties, to be defined in classes using the trait.
 	 *
-	 *	@var array( )
+	 *	@var array
 	 */
 
 	// protected $_properties = array( );

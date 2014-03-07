@@ -47,13 +47,10 @@ class XmlTest extends PHPUnit_Framework_TestCase {
 
 	public function testParse( ) {
 
-		$this->assertEquals(
-			array(
-				'title' => 'Title',
-				'type' => 'video'
-			),
-			Xml::parse( $this->valid )
-		);
+		$this->assertEquals([
+			'title' => 'Title',
+			'type' => 'video'
+		], Xml::parse( $this->valid ));
 	}
 
 

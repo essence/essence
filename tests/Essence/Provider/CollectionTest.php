@@ -65,20 +65,18 @@ class CollectionTest extends PHPUnit_Framework_TestCase {
 		$Container->set( 'OEmbed', $this->Provider );
 
 		$this->Collection = new Collection( $Container );
-		$this->Collection->setProperties(
-			array(
-				'Foo' => array(
-					'class' => 'OEmbed',
-					'filter' => '#^foo$#'
-				),
-				'Bar' => array(
-					'class' => 'OpenGraph',
-					'filter' => function ( $url ) {
-						return ( $url === 'bar' );
-					}
-				)
-			)
-		);
+		$this->Collection->setProperties([
+			'Foo' => [
+				'class' => 'OEmbed',
+				'filter' => '#^foo$#'
+			],
+			'Bar' => [
+				'class' => 'OpenGraph',
+				'filter' => function ( $url ) {
+					return ( $url === 'bar' );
+				}
+			]
+		]);
 	}
 
 
@@ -103,7 +101,7 @@ class CollectionTest extends PHPUnit_Framework_TestCase {
 	public function testProviders( ) {
 
 		$this->assertEquals(
-			array( $this->Provider ),
+			[ $this->Provider ],
 			$this->Collection->providers( 'foo' )
 		);
 	}

@@ -46,10 +46,10 @@ abstract class Provider {
 	 *	@var array
 	 */
 
-	protected $_properties = array(
+	protected $_properties = [
 		'prepare' => 'self::prepareUrl',
 		'complete' => 'self::completeMedia'
-	);
+	];
 
 
 
@@ -75,7 +75,7 @@ abstract class Provider {
 	 *		fetched.
 	 */
 
-	public final function embed( $url, array $options = array( )) {
+	public final function embed( $url, array $options = [ ]) {
 
 		$Media = null;
 
@@ -94,9 +94,7 @@ abstract class Provider {
 			$this->_Logger->log(
 				Logger::notice,
 				"Unable to embed $url",
-				array(
-					'exception' => $Exception
-				)
+				[ 'exception' => $Exception ]
 			);
 		}
 
@@ -126,7 +124,7 @@ abstract class Provider {
 	 *	@return string Trimmed URL.
 	 */
 
-	public static function prepareUrl( $url, array $options = array( )) {
+	public static function prepareUrl( $url, array $options = [ ]) {
 
 		return trim( $url );
 	}
@@ -141,7 +139,7 @@ abstract class Provider {
 	 *	@param array $options Embed options.
 	 */
 
-	public static function completeMedia( Media $Media, array $options = array( )) {
+	public static function completeMedia( Media $Media, array $options = [ ]) {
 
 		if ( $Media->has( 'html' )) {
 			return;

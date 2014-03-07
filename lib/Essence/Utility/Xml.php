@@ -31,7 +31,7 @@ class Xml {
 	public static function parse( $xml ) {
 
 		$internal = libxml_use_internal_errors( true );
-		$data = array( );
+		$data = [ ];
 
 		try {
 			$iterator = new SimpleXmlIterator( $xml, null );

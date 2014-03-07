@@ -25,10 +25,10 @@ class ConfigurableImplementation {
 	 *
 	 */
 
-	protected $_properties = array(
+	protected $_properties = [
 		'one' => 1,
 		'two' => 2
-	);
+	];
 }
 
 
@@ -150,12 +150,10 @@ class ConfigurableTest extends PHPUnit_Framework_TestCase {
 
 	public function testSetDefaults( ) {
 
-		$this->Configurable->setDefaults(
-			array(
-				'one' => 2,
-				'three' => 3
-			)
-		);
+		$this->Configurable->setDefaults([
+			'one' => 2,
+			'three' => 3
+		]);
 
 		$this->assertEquals( 1, $this->Configurable->get( 'one' ));
 		$this->assertEquals( 3, $this->Configurable->get( 'three' ));

@@ -33,17 +33,17 @@ class ProviderTest extends PHPUnit_Framework_TestCase {
 
 	public function setup( ) {
 
-		$this->Media = new Media( array(
+		$this->Media = new Media( [
 			'url' => 'http://foo.bar.com/resource',
 			'title' => 'Title',
 			'description' => 'Description',
 			'width' => 800,
 			'height' => 600
-		));
+		]);
 
 		$this->Provider = $this->getMockForAbstractClass(
 			'\\Essence\\Provider',
-			array( new NullLogger( ))
+			[ new NullLogger( )]
 		);
 	}
 

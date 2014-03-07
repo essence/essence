@@ -49,7 +49,7 @@ class Collection {
 	 *	@var array
 	 */
 
-	protected $_properties = array( );
+	protected $_properties = [ ];
 
 
 
@@ -59,7 +59,7 @@ class Collection {
 	 *	@var array
 	 */
 
-	protected $_providers = array( );
+	protected $_providers = [ ];
 
 
 
@@ -132,7 +132,7 @@ class Collection {
 
 	public function providers( $url ) {
 
-		$providers = array( );
+		$providers = [ ];
 
 		foreach ( $this->_properties as $name => $config ) {
 			if ( $this->_matches( $config['filter'], $url )) {

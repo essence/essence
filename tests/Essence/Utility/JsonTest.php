@@ -46,13 +46,10 @@ VALID;
 
 	public function testParse( ) {
 
-		$this->assertEquals(
-			array(
-				'title' => 'Title',
-				'type' => 'video'
-			),
-			Json::parse( $this->valid )
-		);
+		$this->assertEquals([
+			'title' => 'Title',
+			'type' => 'video'
+		], Json::parse( $this->valid ));
 	}
 
 
