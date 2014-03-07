@@ -193,13 +193,20 @@ Configuration
 
 Essence currently supports 36 specialized providers:
 
+```html
+23hq             Dipity          Official.fm     Ted
+Bandcamp         Flickr          Polldaddy       Twitter
+Blip.tv          FunnyOrDie      Prezi           Vhx
+Cacoo            HowCast         Qik             Viddler
+CanalPlus        Huffduffer      Revision3       Vimeo
+Chirb.it         Hulu            Scribd          Yfrog
+Clikthrough      Ifixit          Shoudio         Youtube
+CollegeHumor     Imgur           Sketchfab
+Dailymotion      Instagram       SlideShare
+Deviantart       Mobypicture     SoundCloud
 ```
-23hq, Bandcamp, Blip.tv, Cacoo, CanalPlus, Chirb.it, Clikthrough, CollegeHumour,
-Dailymotion, Deviantart, Dipity, Flickr, Funnyordie, Howcast, Huffduffer, Hulu,
-Ifixit, Imgur, Instagram, Mobypicture, Official.fm, Polldaddy, Qik, Revision3,
-Scribd, Shoudio, Sketchfab, Slideshare, SoundCloud, Ted, Twitter, Vhx, Viddler,
-Vimeo, Yfrog and Youtube.
-```
+
+Plus the `OEmbed` and `OpenGraph` providers, which can be used to embed any URL.
 
 You can configure these providers by passing a configuration array:
 
