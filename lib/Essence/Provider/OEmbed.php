@@ -155,7 +155,7 @@ class OEmbed extends Provider {
 	 *	@throws Essence\Exception If the parsed page doesn't provide any endpoint.
 	 */
 
-	protected function _embed( $url, $options ) {
+	protected function _embed( $url, array $options ) {
 
 		if ( $this->endpoint ) {
 			$endpoint = sprintf( $this->endpoint, urlencode( $url ));

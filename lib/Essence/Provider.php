@@ -112,7 +112,7 @@ abstract class Provider {
 	 *	@throws Essence\Exception
 	 */
 
-	abstract protected function _embed( $url, $options );
+	abstract protected function _embed( $url, array $options );
 
 
 

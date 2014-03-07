@@ -25,7 +25,7 @@ class ProviderImplementation extends Provider {
 	 *
 	 */
 
-	protected function _embed( $url, $options ) { }
+	protected function _embed( $url, array $options ) { }
 
 }
 

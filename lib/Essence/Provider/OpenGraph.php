@@ -72,7 +72,7 @@ class OpenGraph extends Provider {
 	 *	{@inheritDoc}
 	 */
 
-	protected function _embed( $url, $options ) {
+	protected function _embed( $url, array $options ) {
 
 		return new Media(
 			Hash::reindex( $this->_extractInformations( $url ), [
