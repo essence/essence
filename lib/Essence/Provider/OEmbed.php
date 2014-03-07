@@ -95,7 +95,7 @@ class OEmbed extends Provider {
 	public function __construct(
 		HttpClient $Http,
 		DomParser $Dom,
-		Logger $Log = null
+		Logger $Log
 	) {
 		$this->_Http = $Http;
 		$this->_Dom = $Dom;
