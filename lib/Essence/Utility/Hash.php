@@ -52,7 +52,7 @@ class Hash {
 
 	public static function normalize( array $data, $default ) {
 
-		$normalized = array( );
+		$normalized = [ ];
 
 		foreach ( $data as $key => $value ) {
 			if ( is_numeric( $key )) {

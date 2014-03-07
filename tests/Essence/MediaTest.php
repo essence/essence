@@ -31,9 +31,9 @@ class MediaTest extends PHPUnit_Framework_TestCase {
 
 	public function setUp( ) {
 
-		$this->Media = new Media( array(
+		$this->Media = new Media( [
 			'property' => 'value'
-		));
+		]);
 	}
 
 

@@ -23,6 +23,6 @@ class Null implements Logger {
 	 *	{@inheritDoc}
 	 */
 
-	public function log( $level, $message, array $context = array( )) { }
+	public function log( $level, $message, array $context = [ ]) { }
 
 }

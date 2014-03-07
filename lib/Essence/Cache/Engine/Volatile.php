@@ -25,7 +25,7 @@ class Volatile implements Engine {
 	 *	@var array
 	 */
 
-	protected $_data = array( );
+	protected $_data = [ ];
 
 
 

@@ -25,14 +25,14 @@ class Json {
 	 *	@var array
 	 */
 
-	protected static $_errors = array(
+	protected static $_errors = [
 		JSON_ERROR_NONE => 'no error',
 		JSON_ERROR_DEPTH => 'depth error',
 		JSON_ERROR_STATE_MISMATCH => 'state mismatch error',
 		JSON_ERROR_CTRL_CHAR => 'control character error',
 		JSON_ERROR_SYNTAX => 'syntax error',
 		JSON_ERROR_UTF8 => 'UTF-8 error'
-	);
+	];
 
 
 

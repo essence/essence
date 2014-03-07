@@ -107,10 +107,10 @@ For example, here is how you could get the URL of all videos in a blog post:
 ```php
 $urls = $Essence->extract( 'http://www.blog.com/article' );
 
-//	array(
+//	[
 //		'http://www.youtube.com/watch?v=123456'
 //		'http://www.dailymotion.com/video/a1b2c_lolcat-fun'
-//	)
+//	]
 ```
 
 You can then get informations from all the extracted URLs:
@@ -118,10 +118,10 @@ You can then get informations from all the extracted URLs:
 ```php
 $medias = $Essence->embedAll( $urls );
 
-//	array(
+//	[
 //		'http://www.youtube.com/watch?v=123456' => Media( ... )
 //		'http://www.dailymotion.com/video/a1b2c_lolcat-fun' => Media( ... )
-//	)
+//	]
 ```
 
 ### Replacing URLs in text
@@ -170,30 +170,20 @@ It is possible to pass some options to the providers.
 For example, OEmbed providers accepts the `maxwidth` and `maxheight` parameters, as specified in the OEmbed spec.
 
 ```php
-$Media = $Essence->embed(
-	$url,
-	array(
-		'maxwidth' => 800,
-		'maxheight' => 600
-	)
-);
+$Media = $Essence->embed( $url, [
+	'maxwidth' => 800,
+	'maxheight' => 600
+]);
 
-$medias = $Essence->embedAll(
-	$urls,
-	array(
-		'maxwidth' => 800,
-		'maxheight' => 600
-	)
-);
+$medias = $Essence->embedAll( $urls, [
+	'maxwidth' => 800,
+	'maxheight' => 600
+]);
 
-$Media = $Essence->extract(
-	$text,
-	null,
-	array(
-		'maxwidth' => 800,
-		'maxheight' => 600
-	)
-);
+$Media = $Essence->extract( $text, null, [
+	'maxwidth' => 800,
+	'maxheight' => 600
+]);
 ```
 
 Other providers will just ignore the options they don't handle.
@@ -214,30 +204,30 @@ Vimeo, Yfrog and Youtube.
 You can configure these providers by passing a configuration array:
 
 ```php
-$Essence = Essence\Essence::instance( array(
-	'providers' => array(
+$Essence = Essence\Essence::instance([
+	'providers' => [
 
 		// the OpenGraph provider will try to embed any URL that matches
 		// the filter
-		'Ted' => array(
+		'Ted' => [
 			'class' => 'OpenGraph',
 			'filter' => '#ted\.com/talks/.*#i'
-		),
+		],
 
 		// the OEmbed provider will query the endpoint, %s beeing replaced
 		// by the requested URL.
-		'Youtube' => array(
+		'Youtube' => [
 			'class' => 'OEmbed',
 			'filter' => '#youtube\.com/.*#',
 			'endpoint' => 'http://www.youtube.com/oembed?format=json&url=%s'
-		)
-	)
-));
+		]
+	]
+]);
 
 // you can also load a configuration array from a file
-$Essence = Essence\Essence::instance( array(
+$Essence = Essence\Essence::instance([
 	'providers' => 'path/to/config/file.php'
-));
+]);
 ```
 
 You can use custom providers by specifying a fully-qualified class name in the 'class' option.
@@ -253,7 +243,7 @@ Under the hoods, the `instance( )` method uses a dependency injection container 
 To customize the Essence behavior, the easiest way is to configure injection settings when building Essence:
 
 ```php
-$Essence = Essence\Essence::instance( array(
+$Essence = Essence\Essence::instance([
 
 	// the container will return a new CustomCacheEngine each time a cache
 	// engine is needed
@@ -266,7 +256,7 @@ $Essence = Essence\Essence::instance( array(
 	'Http' => Essence\Di\Container::unique( function( ) {
 		return new CustomHttpClient( );
 	})
-));
+]);
 ```
 
 The default injection settings are defined in the [Standard](https://github.com/felixgirault/essence/blob/master/lib/Essence/Di/Container/Standard.php) container class.
@@ -300,12 +290,9 @@ It allows you to build customizable embed codes painlessly:
 $Multiplayer = new Multiplayer\Multiplayer( );
 
 if ( $Media->type === 'video' ) {
-	echo $Multiplayer->html(
-		$Media->url,
-		array(
-			'autoPlay' => true,
-			'highlightColor' => 'BADA55'
-		)
-	);
+	echo $Multiplayer->html( $Media->url, [
+		'autoPlay' => true,
+		'highlightColor' => 'BADA55'
+	]);
 }
 ```

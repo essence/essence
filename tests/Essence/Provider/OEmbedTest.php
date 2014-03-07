@@ -59,12 +59,10 @@ class OEmbedTest extends PHPUnit_Framework_TestCase {
 			new NullLogger( )
 		);
 
-		$this->OEmbed->configure(
-			array(
-				'endpoint' => 'file://' . ESSENCE_HTTP . '%s.json',
-				'format' => OEmbed::json
-			)
-		);
+		$this->OEmbed->configure([
+			'endpoint' => 'file://' . ESSENCE_HTTP . '%s.json',
+			'format' => OEmbed::json
+		]);
 	}
 
 
@@ -91,34 +89,25 @@ class OEmbedTest extends PHPUnit_Framework_TestCase {
 
 		$this->assertEquals(
 			'url?maxwidth=120&maxheight=60',
-			$this->OEmbed->completeEndpoint(
-				'url',
-				array(
-					'maxwidth' => 120,
-					'maxheight' => 60
-				)
-			)
+			$this->OEmbed->completeEndpoint( 'url', [
+				'maxwidth' => 120,
+				'maxheight' => 60
+			])
 		);
 
 		$this->assertEquals(
 			'url?maxwidth=120',
-			$this->OEmbed->completeEndpoint(
-				'url',
-				array(
-					'maxwidth' => 120,
-					'unsupported' => 'unsupported'
-				)
-			)
+			$this->OEmbed->completeEndpoint( 'url', [
+				'maxwidth' => 120,
+				'unsupported' => 'unsupported'
+			])
 		);
 
 		$this->assertEquals(
 			'url?param=value&maxwidth=120',
-			$this->OEmbed->completeEndpoint(
-				'url?param=value',
-				array(
-					'maxwidth' => 120
-				)
-			)
+			$this->OEmbed->completeEndpoint( 'url?param=value', [
+				'maxwidth' => 120
+			])
 		);
 	}
 

@@ -36,19 +36,19 @@ class EssenceTest extends PHPUnit_Framework_TestCase {
 
 	public function setUp( ) {
 
-		$Container = new StandardContainer( array(
+		$Container = new StandardContainer([
 			'Cache' => new NullCacheEngine( ),
 			'Http' => new NativeHttpClient( ),
 			'Dom' => new NativeDomParser( ),
 			'Log' => new NullLogger( ),
-			'Media' => new Media( array(
+			'Media' => new Media([
 				'title' => 'Title',
 				'html' => 'HTML'
-			)),
+			]),
 			'Provider' => function( $C ) {
 				$Provider = $this->getMockForAbstractClass(
 					'\\Essence\\Provider',
-					array( $C->get( 'Log' ))
+					[ $C->get( 'Log' )]
 				);
 
 				$Provider
@@ -58,13 +58,13 @@ class EssenceTest extends PHPUnit_Framework_TestCase {
 
 				return $Provider;
 			},
-			'providers' => array(
-				'provider' => array(
+			'providers' => [
+				'provider' => [
 					'class' => 'Provider',
 					'filter' => '#pass#i'
-				)
-			)
-		));
+				]
+			]
+		]);
 
 		$this->Essence = $Container->get( 'Essence' );
 	}
@@ -77,14 +77,11 @@ class EssenceTest extends PHPUnit_Framework_TestCase {
 
 	public function testExtract( ) {
 
-		$this->assertEquals(
-			array(
-				'http://pass.foo.com',
-				'http://pass.embed.com',
-				'http://pass.iframe.com'
-			),
-			$this->Essence->extract( 'file://' . ESSENCE_HTTP . 'valid.html' )
-		);
+		$this->assertEquals([
+			'http://pass.foo.com',
+			'http://pass.embed.com',
+			'http://pass.iframe.com'
+		], $this->Essence->extract( 'file://' . ESSENCE_HTTP . 'valid.html' ));
 	}
 
 
@@ -102,14 +99,11 @@ class EssenceTest extends PHPUnit_Framework_TestCase {
 			<iframe src="http://pass.iframe.com"></iframe>
 HTML;
 
-		$this->assertEquals(
-			array(
-				'http://pass.foo.com',
-				'http://pass.embed.com',
-				'http://pass.iframe.com'
-			),
-			$this->Essence->extract( $html )
-		);
+		$this->assertEquals([
+			'http://pass.foo.com',
+			'http://pass.embed.com',
+			'http://pass.iframe.com'
+		], $this->Essence->extract( $html ));
 	}
 
 
@@ -131,7 +125,7 @@ HTML;
 
 	public function testEmbedAll( ) {
 
-		$urls = array( 'one', 'two' );
+		$urls = [ 'one', 'two' ];
 		$medias = $this->Essence->embedAll( $urls );
 
 		$this->assertEquals( $urls, array_keys( $medias ));

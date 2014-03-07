@@ -36,6 +36,6 @@ interface Logger {
 	 *	@param array $context Context.
 	 */
 
-	public function log( $level, $message, array $context = array( ));
+	public function log( $level, $message, array $context = [ ]);
 
 }

@@ -30,13 +30,13 @@ class Native implements Parser {
 	public function extractAttributes( $html, array $options ) {
 
 		$Document = $this->_document( $html );
-		$options = Hash::normalize( $options, array( ));
-		$data = array( );
+		$options = Hash::normalize( $options, [ ]);
+		$data = [ ];
 
 		foreach ( $options as $name => $required ) {
 			$tags = $Document->getElementsByTagName( $name );
 			$required = Hash::normalize(( array )$required, '' );
-			$data[ $name ] = array( );
+			$data[ $name ] = [ ];
 
 			foreach ( $tags as $Tag ) {
 				if ( $Tag->hasAttributes( )) {
@@ -89,7 +89,7 @@ class Native implements Parser {
 
 	protected function _extractAttributesFromTag( DOMNode $Tag, array $required ) {
 
-		$attributes = array( );
+		$attributes = [ ];
 
 		foreach ( $Tag->attributes as $name => $Attribute ) {
 			if ( !empty( $required )) {
@@ -97,7 +97,7 @@ class Native implements Parser {
 					$pattern = $required[ $name ];
 
 					if ( $pattern && !preg_match( $pattern, $Attribute->value )) {
-						return array( );
+						return [ ];
 					}
 				} else {
 					continue;
@@ -111,6 +111,6 @@ class Native implements Parser {
 
 		return empty( $diff )
 			? $attributes
-			: array( );
+			: [ ];
 	}
 }

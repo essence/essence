@@ -40,7 +40,7 @@ class Media implements IteratorAggregate, JsonSerializable {
 	 *	@var array
 	 */
 
-	protected $_properties = array(
+	protected $_properties = [
 
 		// OEmbed type
 		// OG type
@@ -100,7 +100,7 @@ class Media implements IteratorAggregate, JsonSerializable {
 		// OEmbed url
 		// OG url
 		'url' => ''
-	);
+	];
 
 
 

@@ -24,12 +24,12 @@ class HashTest {
 	public function testReindex( ) {
 
 		$data = Hash::reindex(
-			array( 'one' => 'value' ),
-			array( 'one' => 'two' )
+			[ 'one' => 'value' ],
+			[ 'one' => 'two' ]
 		);
 
 		$this->assertEquals(
-			array( 'two' => 'value' ),
+			[ 'two' => 'value' ],
 			$data
 		);
 	}
@@ -42,22 +42,16 @@ class HashTest {
 
 	public function testNormalize( ) {
 
-		$data = Hash::normalize(
-			array(
-				'one',
-				'two' => 'three',
-				'four'
-			),
-			'default'
-		);
+		$data = Hash::normalize([
+			'one',
+			'two' => 'three',
+			'four'
+		], 'default' );
 
-		$this->assertEquals(
-			array(
-				'one' => 'default',
-				'two' => 'three',
-				'four' => 'default'
-			),
-			$data
-		);
+		$this->assertEquals([
+			'one' => 'default',
+			'two' => 'three',
+			'four' => 'default'
+		], $data );
 	}
 }

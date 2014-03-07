@@ -82,7 +82,7 @@ class Essence {
 	 *	@var array
 	 */
 
-	protected $_properties = array(
+	protected $_properties = [
 		// http://daringfireball.net/2010/07/improved_regex_for_matching_urls
 		'urlPattern' =>
 			'#
@@ -94,7 +94,7 @@ class Essence {
 					(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:\'"\.,<>?«»“”‘’])
 				)
 			#ix'
-	);
+	];
 
 
 
@@ -131,7 +131,7 @@ class Essence {
 	 *	@return Essence\Essence Essence instance.
 	 */
 
-	public static function instance( array $configuration = array( )) {
+	public static function instance( array $configuration = [ ]) {
 
 		$Container = new StandardContainer( $configuration );
 		return $Container->get( 'Essence' );
@@ -170,17 +170,15 @@ class Essence {
 				$this->_Logger->log(
 					Logger::notice,
 					"Unable to fetch $source",
-					array(
-						'exception' => $Exception
-					)
+					[ 'exception' => $Exception ]
 				);
 
-				return array( );
+				return [ ];
 			}
 		}
 
 		$urls = $this->_extractUrls( $source );
-		$embeddable = array( );
+		$embeddable = [ ];
 
 		foreach ( $urls as $url ) {
 			if ( $this->_Collection->hasProvider( $url )) {
@@ -202,11 +200,11 @@ class Essence {
 
 	protected function _extractUrls( $html ) {
 
-		$options = array(
+		$options = [
 			'a' => 'href',
 			'embed' => 'src',
 			'iframe' => 'src'
-		);
+		];
 
 		try {
 			$attributes = $this->_Dom->extractAttributes( $html, $options );
@@ -214,16 +212,13 @@ class Essence {
 			$this->_Logger->log(
 				Logger::notice,
 				'Error parsing HTML source',
-				array(
-					'exception' => $Exception,
-					'html' => $html
-				)
+				[ 'exception' => $Exception, 'html' => $html ]
 			);
 
-			return array( );
+			return [ ];
 		}
 
-		$urls = array( );
+		$urls = [ ];
 
 		foreach ( $options as $tagName => $attributeName ) {
 			foreach ( $attributes[ $tagName ] as $tag ) {
@@ -250,7 +245,7 @@ class Essence {
 	 *	@return Essence\Media Embed informations.
 	 */
 
-	public function embed( $url, array $options = array( )) {
+	public function embed( $url, array $options = [ ]) {
 
 		return $this->_cached( '_embed', $url, $options );
 	}
@@ -290,9 +285,9 @@ class Essence {
 	 *	@return array An array of embed informations, indexed by URL.
 	 */
 
-	public function embedAll( array $urls, array $options = array( )) {
+	public function embedAll( array $urls, array $options = [ ]) {
 
-		$medias = array( );
+		$medias = [ ];
 
 		foreach ( $urls as $url ) {
 			$medias[ $url ] = $this->embed( $url, $options );
@@ -330,7 +325,7 @@ class Essence {
 	 *	@return string Text with replaced URLs.
 	 */
 
-	public function replace( $text, $callback = null, array $options = array( )) {
+	public function replace( $text, $callback = null, array $options = [ ]) {
 
 		return preg_replace_callback(
 			$this->urlPattern,
