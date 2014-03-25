@@ -21,6 +21,9 @@
 		"php": ">=5.4.0",
 		"ext-curl": "*"
 	},
+	"suggest": {
+		"felixgirault/essence-interfaces": "Allows better integration with different frameworks."
+	},
 	"autoload": {
 		"files": [
 			"lib/bootstrap.php"
