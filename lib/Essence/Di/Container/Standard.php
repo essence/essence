@@ -16,6 +16,8 @@ use Essence\Http\Client\Native as NativeHttpClient;
 use Essence\Log\Logger\Null as NullLogger;
 use Essence\Provider\Collection;
 use Essence\Provider\OEmbed;
+use Essence\Provider\OEmbed\Vimeo;
+use Essence\Provider\OEmbed\Youtube;
 use Essence\Provider\OpenGraph;
 
 
@@ -66,6 +68,26 @@ class Standard extends Container {
 			// and logger.
 			'OEmbed' => function( $C ) {
 				return new OEmbed(
+					$C->get( 'Http' ),
+					$C->get( 'Dom' ),
+					$C->get( 'Log' )
+				);
+			},
+
+			// The Vimeo provider uses the shared HTTP client, DOM parser
+			// and logger.
+			'Vimeo' => function( $C ) {
+				return new Vimeo(
+					$C->get( 'Http' ),
+					$C->get( 'Dom' ),
+					$C->get( 'Log' )
+				);
+			},
+
+			// The Youtube provider uses the shared HTTP client, DOM parser
+			// and logger.
+			'Youtube' => function( $C ) {
+				return new Youtube(
 					$C->get( 'Http' ),
 					$C->get( 'Dom' ),
 					$C->get( 'Log' )
