@@ -5,14 +5,12 @@
  *	@license FreeBSD License (http://opensource.org/licenses/BSD-2-Clause)
  */
 
-use Essence\Provider\OEmbed;
-
 
 
 /**
  *	Default providers configuration.
  *
- *	@see Essence\ProviderCollection::$_config
+ *	@see Essence\Provider\Collection::$_properties
  *	@var array
  */
 
@@ -332,27 +330,9 @@ return [
 		'endpoint' => 'http://www.videojug.com/oembed.json?url=%s'
 	],
 	'Vimeo' => [
-		'class' => 'OEmbed',
+		'class' => 'Vimeo',
 		'filter' => '#vimeo\.com#i',
-		'endpoint' => 'http://vimeo.com/api/oembed.json?url=%s',
-		'prepare' => function( $url ) {
-
-			/**
-			 *	Refactors URLs like these:
-			 *	- http://player.vimeo.com/video/20830433
-			 *
-			 *	in such form:
-			 *	- http://www.vimeo.com/20830433
-			 */
-
-			$url = OEmbed::prepareUrl( $url );
-
-			if ( preg_match( '#player\.vimeo\.com/video/(?<id>[0-9]+)#i', $url, $matches )) {
-				$url = 'http://www.vimeo.com/' . $matches['id'];
-			}
-
-			return $url;
-		}
+		'endpoint' => 'http://vimeo.com/api/oembed.json?url=%s'
 	],
 	'WordPress' => [
 		'class' => 'OEmbed',
@@ -365,30 +345,9 @@ return [
 		'endpoint' => 'http://www.yfrog.com/api/oembed?format=json&url=%s'
 	],
 	'Youtube' => [
-		'class' => 'OEmbed',
+		'class' => 'Youtube',
 		'filter' => '#youtube\.com|youtu\.be#i',
-		'endpoint' => 'http://www.youtube.com/oembed?format=json&url=%s',
-		'prepare' => function( $url ) {
-
-			/**
-			 *	Refactors URLs like these:
-			 *	- http://www.youtube.com/watch?v=oHg5SJYRHA0&noise=noise
-			 *	- http://www.youtube.com/v/oHg5SJYRHA0
-			 *	- http://www.youtube.com/embed/oHg5SJYRHA0
-			 *	- http://youtu.be/oHg5SJYRHA0
-			 *
-			 *	in such form:
-			 *	- http://www.youtube.com/watch?v=oHg5SJYRHA0
-			 */
-
-			$url = trim( $url );
-
-			if ( preg_match( '#(?:v=|v/|embed/|youtu\.be/)(?<id>[a-z0-9_-]+)#i', $url, $matches )) {
-				$url = 'http://www.youtube.com/watch?v=' . $matches['id'];
-			}
-
-			return $url;
-		}
+		'endpoint' => 'http://www.youtube.com/oembed?format=json&url=%s'
 	]
 
 	/**
