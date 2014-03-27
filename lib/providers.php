@@ -10,7 +10,7 @@
 /**
  *	Default providers configuration.
  *
- *	@see Essence\ProviderCollection::$_config
+ *	@see Essence\Provider\Collection::$_properties
  *	@var array
  */
 
