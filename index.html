@@ -38,8 +38,11 @@
           <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></span>
         </div>
 
-        <p><a href="http://travis-ci.org/felixgirault/essence"><img src="https://secure.travis-ci.org/felixgirault/essence.png" alt="Build status"></a>
+        <p><a href="http://travis-ci.org/felixgirault/essence"><img src="https://secure.travis-ci.org/felixgirault/essence.png?branch=master" alt="Build status"></a>
+<a href="https://scrutinizer-ci.com/g/felixgirault/essence/"><img src="https://scrutinizer-ci.com/g/felixgirault/essence/badges/quality-score.png?s=464b060a5623fa2124308bfc8a41aa8fa6a0ed05" alt="Scrutinizer Quality Score"></a>
 <a href="https://packagist.org/packages/fg/essence"><img src="https://poser.pugx.org/fg/essence/d/total.png" alt="Total downloads"></a></p>
+
+<p>Essence is a simple PHP library to extract media informations from websites, like youtube videos, twitter statuses or blog articles.</p>
 
 <p>If you were already using Essence 1.x.x, you should take a look at <a href="https://github.com/felixgirault/essence/wiki/Migrating-from-1.x.x-to-2.x.x">the migration guide</a>.</p>
 
@@ -49,9 +52,7 @@
 <p>Essence is designed to be really easy to use.
 Using the main class of the library, you can retrieve informations in just those few lines:</p>
 
-<div class="highlight"><pre><span class="k">require_once</span> <span class="s1">'path/to/essence/bootstrap.php'</span><span class="p">;</span>
-
-<span class="nv">$Essence</span> <span class="o">=</span> <span class="nx">Essence\Essence</span><span class="o">::</span><span class="na">instance</span><span class="p">(</span> <span class="p">);</span>
+<div class="highlight highlight-php"><pre><span class="nv">$Essence</span> <span class="o">=</span> <span class="nx">Essence\Essence</span><span class="o">::</span><span class="na">instance</span><span class="p">(</span> <span class="p">);</span>
 
 <span class="nv">$Media</span> <span class="o">=</span> <span class="nv">$Essence</span><span class="o">-&gt;</span><span class="na">embed</span><span class="p">(</span> <span class="s1">'http://www.youtube.com/watch?v=39e3KYAmXK4'</span> <span class="p">);</span>
 
@@ -62,7 +63,7 @@ Using the main class of the library, you can retrieve informations in just those
 
 <p>Then, just do anything you want with the data:</p>
 
-<div class="highlight"><pre><span class="nt">&lt;article&gt;</span>
+<div class="highlight highlight-html+php"><pre><span class="nt">&lt;article&gt;</span>
     <span class="nt">&lt;header&gt;</span>
         <span class="nt">&lt;h1&gt;</span><span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$Media</span><span class="o">-&gt;</span><span class="na">title</span><span class="p">;</span> <span class="cp">?&gt;</span><span class="nt">&lt;/h1&gt;</span>
         <span class="nt">&lt;p&gt;</span>By <span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$Media</span><span class="o">-&gt;</span><span class="na">authorName</span><span class="p">;</span> <span class="cp">?&gt;</span><span class="nt">&lt;/p&gt;</span>
@@ -72,6 +73,12 @@ Using the main class of the library, you can retrieve informations in just those
         <span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$Media</span><span class="o">-&gt;</span><span class="na">html</span><span class="p">;</span> <span class="cp">?&gt;</span>
     <span class="nt">&lt;/div&gt;</span>
 <span class="nt">&lt;/article&gt;</span>
+</pre></div>
+
+<p>If you aren't using composer, you should run the Essence bootstrap before using it:</p>
+
+<div class="highlight highlight-php"><pre>
+<span class="k">require_once</span> <span class="s1">'path/to/essence/bootstrap.php'</span><span class="p">;</span>
 </pre></div>
 
 <h2>
@@ -106,7 +113,7 @@ Based on such standards, these properties should be a solid starting point.</p>
 
 <p>Here is how you can manipulate the Media properties:</p>
 
-<div class="highlight"><pre><span class="c1">// through dedicated methods</span>
+<div class="highlight highlight-php"><pre><span class="c1">// through dedicated methods</span>
 <span class="k">if</span> <span class="p">(</span> <span class="o">!</span><span class="nv">$Media</span><span class="o">-&gt;</span><span class="na">has</span><span class="p">(</span> <span class="s1">'foo'</span> <span class="p">))</span> <span class="p">{</span>
     <span class="nv">$Media</span><span class="o">-&gt;</span><span class="na">set</span><span class="p">(</span> <span class="s1">'foo'</span><span class="p">,</span> <span class="s1">'bar'</span> <span class="p">);</span>
 <span class="p">}</span>
@@ -122,7 +129,7 @@ Based on such standards, these properties should be a solid starting point.</p>
 <h2>
 <a name="advanced-usage" class="anchor" href="#advanced-usage"><span class="octicon octicon-link"></span></a>Advanced usage</h2>
 
-<p>The Essence class provides some useful utility function to ensure you will get some informations.</p>
+<p>The Essence class provides some useful utility functions to ensure you will get some informations.</p>
 
 <h3>
 <a name="extracting-urls" class="anchor" href="#extracting-urls"><span class="octicon octicon-link"></span></a>Extracting URLs</h3>
@@ -131,22 +138,22 @@ Based on such standards, these properties should be a solid starting point.</p>
 
 <p>For example, here is how you could get the URL of all videos in a blog post:</p>
 
-<div class="highlight"><pre><span class="nv">$urls</span> <span class="o">=</span> <span class="nv">$Essence</span><span class="o">-&gt;</span><span class="na">extract</span><span class="p">(</span> <span class="s1">'http://www.blog.com/article'</span> <span class="p">);</span>
+<div class="highlight highlight-php"><pre><span class="nv">$urls</span> <span class="o">=</span> <span class="nv">$Essence</span><span class="o">-&gt;</span><span class="na">extract</span><span class="p">(</span> <span class="s1">'http://www.blog.com/article'</span> <span class="p">);</span>
 
-<span class="c1">//  array(</span>
+<span class="c1">//  [</span>
 <span class="c1">//      'http://www.youtube.com/watch?v=123456'</span>
 <span class="c1">//      'http://www.dailymotion.com/video/a1b2c_lolcat-fun'</span>
-<span class="c1">//  )</span>
+<span class="c1">//  ]</span>
 </pre></div>
 
 <p>You can then get informations from all the extracted URLs:</p>
 
-<div class="highlight"><pre><span class="nv">$medias</span> <span class="o">=</span> <span class="nv">$Essence</span><span class="o">-&gt;</span><span class="na">embedAll</span><span class="p">(</span> <span class="nv">$urls</span> <span class="p">);</span>
+<div class="highlight highlight-php"><pre><span class="nv">$medias</span> <span class="o">=</span> <span class="nv">$Essence</span><span class="o">-&gt;</span><span class="na">embedAll</span><span class="p">(</span> <span class="nv">$urls</span> <span class="p">);</span>
 
-<span class="c1">//  array(</span>
+<span class="c1">//  [</span>
 <span class="c1">//      'http://www.youtube.com/watch?v=123456' =&gt; Media( ... )</span>
 <span class="c1">//      'http://www.dailymotion.com/video/a1b2c_lolcat-fun' =&gt; Media( ... )</span>
-<span class="c1">//  )</span>
+<span class="c1">//  ]</span>
 </pre></div>
 
 <h3>
@@ -155,7 +162,7 @@ Based on such standards, these properties should be a solid starting point.</p>
 <p>Essence can replace any embeddable URL in a text by informations about it.
 By default, any URL will be replaced by the <code>html</code> property of the found Media.</p>
 
-<div class="highlight"><pre><span class="nv">$text</span> <span class="o">=</span> <span class="s1">'Check out this awesome video: http://www.youtube.com/watch?v=123456'</span>
+<div class="highlight highlight-php"><pre><span class="nv">$text</span> <span class="o">=</span> <span class="s1">'Check out this awesome video: http://www.youtube.com/watch?v=123456'</span>
 
 <span class="k">echo</span> <span class="nv">$Essence</span><span class="o">-&gt;</span><span class="na">replace</span><span class="p">(</span> <span class="nv">$text</span> <span class="p">);</span>
 
@@ -164,7 +171,7 @@ By default, any URL will be replaced by the <code>html</code> property of the fo
 
 <p>But you can do more by passing a callback to control which informations will replace the URL:</p>
 
-<div class="highlight"><pre><span class="k">echo</span> <span class="nv">$Essence</span><span class="o">-&gt;</span><span class="na">replace</span><span class="p">(</span> <span class="nv">$text</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span> <span class="nv">$Media</span> <span class="p">)</span> <span class="p">{</span>
+<div class="highlight highlight-php"><pre><span class="k">echo</span> <span class="nv">$Essence</span><span class="o">-&gt;</span><span class="na">replace</span><span class="p">(</span> <span class="nv">$text</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span> <span class="nv">$Media</span> <span class="p">)</span> <span class="p">{</span>
     <span class="k">return</span> <span class="nb">sprintf</span><span class="p">(</span>
         <span class="s1">'&lt;p class="title"&gt;%s&lt;/p&gt;&lt;div class="player"&gt;%s&lt;/div&gt;'</span><span class="p">,</span>
         <span class="nv">$Media</span><span class="o">-&gt;</span><span class="na">title</span><span class="p">,</span>
@@ -181,7 +188,7 @@ By default, any URL will be replaced by the <code>html</code> property of the fo
 
 <p>This makes it easy to build rich templates or even to integrate a templating engine:</p>
 
-<div class="highlight"><pre><span class="k">echo</span> <span class="nv">$Essence</span><span class="o">-&gt;</span><span class="na">replace</span><span class="p">(</span> <span class="nv">$text</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span> <span class="nv">$Media</span> <span class="p">)</span> <span class="k">use</span> <span class="p">(</span> <span class="nv">$TwigTemplate</span> <span class="p">)</span> <span class="p">{</span>
+<div class="highlight highlight-php"><pre><span class="k">echo</span> <span class="nv">$Essence</span><span class="o">-&gt;</span><span class="na">replace</span><span class="p">(</span> <span class="nv">$text</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span> <span class="nv">$Media</span> <span class="p">)</span> <span class="k">use</span> <span class="p">(</span> <span class="nv">$TwigTemplate</span> <span class="p">)</span> <span class="p">{</span>
     <span class="k">return</span> <span class="nv">$TwigTemplate</span><span class="o">-&gt;</span><span class="na">render</span><span class="p">(</span> <span class="nv">$Media</span><span class="o">-&gt;</span><span class="na">properties</span><span class="p">(</span> <span class="p">));</span>
 <span class="p">});</span>
 </pre></div>
@@ -193,30 +200,20 @@ By default, any URL will be replaced by the <code>html</code> property of the fo
 
 <p>For example, OEmbed providers accepts the <code>maxwidth</code> and <code>maxheight</code> parameters, as specified in the OEmbed spec.</p>
 
-<div class="highlight"><pre><span class="nv">$Media</span> <span class="o">=</span> <span class="nv">$Essence</span><span class="o">-&gt;</span><span class="na">embed</span><span class="p">(</span>
-    <span class="nv">$url</span><span class="p">,</span>
-    <span class="k">array</span><span class="p">(</span>
-        <span class="s1">'maxwidth'</span> <span class="o">=&gt;</span> <span class="mi">800</span><span class="p">,</span>
-        <span class="s1">'maxheight'</span> <span class="o">=&gt;</span> <span class="mi">600</span>
-    <span class="p">)</span>
-<span class="p">);</span>
+<div class="highlight highlight-php"><pre><span class="nv">$Media</span> <span class="o">=</span> <span class="nv">$Essence</span><span class="o">-&gt;</span><span class="na">embed</span><span class="p">(</span> <span class="nv">$url</span><span class="p">,</span> <span class="p">[</span>
+    <span class="s1">'maxwidth'</span> <span class="o">=&gt;</span> <span class="mi">800</span><span class="p">,</span>
+    <span class="s1">'maxheight'</span> <span class="o">=&gt;</span> <span class="mi">600</span>
+<span class="p">]);</span>
 
-<span class="nv">$medias</span> <span class="o">=</span> <span class="nv">$Essence</span><span class="o">-&gt;</span><span class="na">embedAll</span><span class="p">(</span>
-    <span class="nv">$urls</span><span class="p">,</span>
-    <span class="k">array</span><span class="p">(</span>
-        <span class="s1">'maxwidth'</span> <span class="o">=&gt;</span> <span class="mi">800</span><span class="p">,</span>
-        <span class="s1">'maxheight'</span> <span class="o">=&gt;</span> <span class="mi">600</span>
-    <span class="p">)</span>
-<span class="p">);</span>
+<span class="nv">$medias</span> <span class="o">=</span> <span class="nv">$Essence</span><span class="o">-&gt;</span><span class="na">embedAll</span><span class="p">(</span> <span class="nv">$urls</span><span class="p">,</span> <span class="p">[</span>
+    <span class="s1">'maxwidth'</span> <span class="o">=&gt;</span> <span class="mi">800</span><span class="p">,</span>
+    <span class="s1">'maxheight'</span> <span class="o">=&gt;</span> <span class="mi">600</span>
+<span class="p">]);</span>
 
-<span class="nv">$Media</span> <span class="o">=</span> <span class="nv">$Essence</span><span class="o">-&gt;</span><span class="na">extract</span><span class="p">(</span>
-    <span class="nv">$text</span><span class="p">,</span>
-    <span class="k">null</span><span class="p">,</span>
-    <span class="k">array</span><span class="p">(</span>
-        <span class="s1">'maxwidth'</span> <span class="o">=&gt;</span> <span class="mi">800</span><span class="p">,</span>
-        <span class="s1">'maxheight'</span> <span class="o">=&gt;</span> <span class="mi">600</span>
-    <span class="p">)</span>
-<span class="p">);</span>
+<span class="nv">$Media</span> <span class="o">=</span> <span class="nv">$Essence</span><span class="o">-&gt;</span><span class="na">extract</span><span class="p">(</span> <span class="nv">$text</span><span class="p">,</span> <span class="k">null</span><span class="p">,</span> <span class="p">[</span>
+    <span class="s1">'maxwidth'</span> <span class="o">=&gt;</span> <span class="mi">800</span><span class="p">,</span>
+    <span class="s1">'maxheight'</span> <span class="o">=&gt;</span> <span class="mi">600</span>
+<span class="p">]);</span>
 </pre></div>
 
 <p>Other providers will just ignore the options they don't handle.</p>
@@ -226,39 +223,46 @@ By default, any URL will be replaced by the <code>html</code> property of the fo
 
 <p>Essence currently supports 36 specialized providers:</p>
 
-<pre><code>23hq, Bandcamp, Blip.tv, Cacoo, CanalPlus, Chirb.it, Clikthrough, CollegeHumour,
-Dailymotion, Deviantart, Dipity, Flickr, Funnyordie, Howcast, Huffduffer, Hulu,
-Ifixit, Imgur, Instagram, Mobypicture, Official.fm, Polldaddy, Qik, Revision3,
-Scribd, Shoudio, Sketchfab, Slideshare, SoundCloud, Ted, Twitter, Vhx, Viddler,
-Vimeo, Yfrog and Youtube.
-</code></pre>
+<div class="highlight highlight-html"><pre>23hq             Dipity          Official.fm     Ted
+Bandcamp         Flickr          Polldaddy       Twitter
+Blip.tv          FunnyOrDie      Prezi           Vhx
+Cacoo            HowCast         Qik             Viddler
+CanalPlus        Huffduffer      Revision3       Vimeo
+Chirb.it         Hulu            Scribd          Yfrog
+Clikthrough      Ifixit          Shoudio         Youtube
+CollegeHumor     Imgur           Sketchfab
+Dailymotion      Instagram       SlideShare
+Deviantart       Mobypicture     SoundCloud
+</pre></div>
+
+<p>Plus the <code>OEmbed</code> and <code>OpenGraph</code> providers, which can be used to embed any URL.</p>
 
 <p>You can configure these providers by passing a configuration array:</p>
 
-<div class="highlight"><pre><span class="nv">$Essence</span> <span class="o">=</span> <span class="nx">Essence\Essence</span><span class="o">::</span><span class="na">instance</span><span class="p">(</span> <span class="k">array</span><span class="p">(</span>
-    <span class="s1">'providers'</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+<div class="highlight highlight-php"><pre><span class="nv">$Essence</span> <span class="o">=</span> <span class="nx">Essence\Essence</span><span class="o">::</span><span class="na">instance</span><span class="p">([</span>
+    <span class="s1">'providers'</span> <span class="o">=&gt;</span> <span class="p">[</span>
 
         <span class="c1">// the OpenGraph provider will try to embed any URL that matches</span>
         <span class="c1">// the filter</span>
-        <span class="s1">'Ted'</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+        <span class="s1">'Ted'</span> <span class="o">=&gt;</span> <span class="p">[</span>
             <span class="s1">'class'</span> <span class="o">=&gt;</span> <span class="s1">'OpenGraph'</span><span class="p">,</span>
             <span class="s1">'filter'</span> <span class="o">=&gt;</span> <span class="s1">'#ted\.com/talks/.*#i'</span>
-        <span class="p">),</span>
+        <span class="p">],</span>
 
         <span class="c1">// the OEmbed provider will query the endpoint, %s beeing replaced</span>
         <span class="c1">// by the requested URL.</span>
-        <span class="s1">'Youtube'</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+        <span class="s1">'Youtube'</span> <span class="o">=&gt;</span> <span class="p">[</span>
             <span class="s1">'class'</span> <span class="o">=&gt;</span> <span class="s1">'OEmbed'</span><span class="p">,</span>
             <span class="s1">'filter'</span> <span class="o">=&gt;</span> <span class="s1">'#youtube\.com/.*#'</span><span class="p">,</span>
             <span class="s1">'endpoint'</span> <span class="o">=&gt;</span> <span class="s1">'http://www.youtube.com/oembed?format=json&amp;url=%s'</span>
-        <span class="p">)</span>
-    <span class="p">)</span>
-<span class="p">));</span>
+        <span class="p">]</span>
+    <span class="p">]</span>
+<span class="p">]);</span>
 
 <span class="c1">// you can also load a configuration array from a file</span>
-<span class="nv">$Essence</span> <span class="o">=</span> <span class="nx">Essence\Essence</span><span class="o">::</span><span class="na">instance</span><span class="p">(</span> <span class="k">array</span><span class="p">(</span>
+<span class="nv">$Essence</span> <span class="o">=</span> <span class="nx">Essence\Essence</span><span class="o">::</span><span class="na">instance</span><span class="p">([</span>
     <span class="s1">'providers'</span> <span class="o">=&gt;</span> <span class="s1">'path/to/config/file.php'</span>
-<span class="p">));</span>
+<span class="p">]);</span>
 </pre></div>
 
 <p>You can use custom providers by specifying a fully-qualified class name in the 'class' option.</p>
@@ -273,7 +277,7 @@ Under the hoods, the <code>instance( )</code> method uses a dependency injection
 
 <p>To customize the Essence behavior, the easiest way is to configure injection settings when building Essence:</p>
 
-<div class="highlight"><pre><span class="nv">$Essence</span> <span class="o">=</span> <span class="nx">Essence\Essence</span><span class="o">::</span><span class="na">instance</span><span class="p">(</span> <span class="k">array</span><span class="p">(</span>
+<div class="highlight highlight-php"><pre><span class="nv">$Essence</span> <span class="o">=</span> <span class="nx">Essence\Essence</span><span class="o">::</span><span class="na">instance</span><span class="p">([</span>
 
     <span class="c1">// the container will return a new CustomCacheEngine each time a cache</span>
     <span class="c1">// engine is needed</span>
@@ -286,10 +290,23 @@ Under the hoods, the <code>instance( )</code> method uses a dependency injection
     <span class="s1">'Http'</span> <span class="o">=&gt;</span> <span class="nx">Essence\Di\Container</span><span class="o">::</span><span class="na">unique</span><span class="p">(</span> <span class="k">function</span><span class="p">(</span> <span class="p">)</span> <span class="p">{</span>
         <span class="k">return</span> <span class="k">new</span> <span class="nx">CustomHttpClient</span><span class="p">(</span> <span class="p">);</span>
     <span class="p">})</span>
-<span class="p">));</span>
+<span class="p">]);</span>
 </pre></div>
 
 <p>The default injection settings are defined in the <a href="https://github.com/felixgirault/essence/blob/master/lib/Essence/Di/Container/Standard.php">Standard</a> container class.</p>
+
+<h2>
+<a name="try-it-out" class="anchor" href="#try-it-out"><span class="octicon octicon-link"></span></a>Try it out</h2>
+
+<p>Once you've installed essence, you should try to run <code>./cli/essence.php</code> in a terminal.
+This script allows you to test Essence quickly:</p>
+
+<pre><code># will fetch and print informations about the video
+./cli/essence.php embed http://www.youtube.com/watch?v=4S_NHY9c8uM
+
+# will fetch and print all embeddable URLs found at the given HTML page
+./cli/essence.php extract http://www.youtube.com/watch?v=4S_NHY9c8uM
+</code></pre>
 
 <h2>
 <a name="third-party-libraries" class="anchor" href="#third-party-libraries"><span class="octicon octicon-link"></span></a>Third-party libraries</h2>
@@ -306,16 +323,13 @@ Under the hoods, the <code>instance( )</code> method uses a dependency injection
 </ul><p>If you're interested in embedding videos, you should take a look at the <a href="https://github.com/felixgirault/multiplayer">Multiplayer</a> lib.
 It allows you to build customizable embed codes painlessly:</p>
 
-<div class="highlight"><pre><span class="nv">$Multiplayer</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Multiplayer\Multiplayer</span><span class="p">(</span> <span class="p">);</span>
+<div class="highlight highlight-php"><pre><span class="nv">$Multiplayer</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Multiplayer\Multiplayer</span><span class="p">(</span> <span class="p">);</span>
 
 <span class="k">if</span> <span class="p">(</span> <span class="nv">$Media</span><span class="o">-&gt;</span><span class="na">type</span> <span class="o">===</span> <span class="s1">'video'</span> <span class="p">)</span> <span class="p">{</span>
-    <span class="k">echo</span> <span class="nv">$Multiplayer</span><span class="o">-&gt;</span><span class="na">html</span><span class="p">(</span>
-        <span class="nv">$Media</span><span class="o">-&gt;</span><span class="na">url</span><span class="p">,</span>
-        <span class="k">array</span><span class="p">(</span>
-            <span class="s1">'autoPlay'</span> <span class="o">=&gt;</span> <span class="k">true</span><span class="p">,</span>
-            <span class="s1">'highlightColor'</span> <span class="o">=&gt;</span> <span class="s1">'BADA55'</span>
-        <span class="p">)</span>
-    <span class="p">);</span>
+    <span class="k">echo</span> <span class="nv">$Multiplayer</span><span class="o">-&gt;</span><span class="na">html</span><span class="p">(</span> <span class="nv">$Media</span><span class="o">-&gt;</span><span class="na">url</span><span class="p">,</span> <span class="p">[</span>
+        <span class="s1">'autoPlay'</span> <span class="o">=&gt;</span> <span class="k">true</span><span class="p">,</span>
+        <span class="s1">'highlightColor'</span> <span class="o">=&gt;</span> <span class="s1">'BADA55'</span>
+    <span class="p">]);</span>
 <span class="p">}</span>
 </pre></div>
       </section>
