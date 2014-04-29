@@ -306,7 +306,7 @@ return [
 	],
 	'Twitter' => [
 		'class' => 'OEmbed',
-		'filter' => '#twitter\.com/[a-zA-Z0-9_]+/status/.+#i',
+		'filter' => '#twitter\.com/[a-zA-Z0-9_]+/status(es)?/.+#i',
 		'endpoint' => 'https://api.twitter.com/1/statuses/oembed.json?url=%s'
 	],
 	'Ustream' => [
