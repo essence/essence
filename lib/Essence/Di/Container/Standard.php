@@ -19,7 +19,8 @@ use Essence\Provider\OEmbed;
 use Essence\Provider\OEmbed\Vimeo;
 use Essence\Provider\OEmbed\Youtube;
 use Essence\Provider\OpenGraph;
-
+use Essence\Provider\OpenGraph\Bandcamp;
+use Essence\Provider\OpenGraph\Vine;
 
 
 /**
@@ -98,6 +99,26 @@ class Standard extends Container {
 			// and logger.
 			'OpenGraph' => function( $C ) {
 				return new OpenGraph(
+					$C->get( 'Http' ),
+					$C->get( 'Dom' ),
+					$C->get( 'Log' )
+				);
+			},
+
+			// The Bandcamp provider uses the shared HTTP client, DOM parser
+			// and logger.
+			'Bandcamp' => function( $C ) {
+				return new Bandcamp(
+					$C->get( 'Http' ),
+					$C->get( 'Dom' ),
+					$C->get( 'Log' )
+				);
+			},
+
+			// The Vine provider uses the shared HTTP client, DOM parser
+			// and logger.
+			'Vine' => function( $C ) {
+				return new Vine(
 					$C->get( 'Http' ),
 					$C->get( 'Dom' ),
 					$C->get( 'Log' )
