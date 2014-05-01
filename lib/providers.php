@@ -41,8 +41,10 @@ return [
 		'endpoint' => 'http://api.bambuser.com/oembed.json?url=%s'
 	],
 	'Bandcamp' => [
-		'class' => 'OpenGraph',
-		'filter' => '#bandcamp\.com/(album|track)/#i'
+		'class' => 'Bandcamp',
+		// OpenGraph subclasses should strictly match the start of the URL
+		// to prevent spoofing.
+		'filter' => '#^https?://(?:[^\.]+\.)?bandcamp\.com/(album|track)/#i'
 	],
 	'Blip.tv' => [
 		'class' => 'OEmbed',
@@ -306,7 +308,7 @@ return [
 	],
 	'Twitter' => [
 		'class' => 'OEmbed',
-		'filter' => '#twitter\.com/[a-zA-Z0-9_]+/status/.+#i',
+		'filter' => '#twitter\.com/[a-zA-Z0-9_]+/status(es)?/.+#i',
 		'endpoint' => 'https://api.twitter.com/1/statuses/oembed.json?url=%s'
 	],
 	'Ustream' => [
@@ -333,6 +335,12 @@ return [
 		'class' => 'Vimeo',
 		'filter' => '#vimeo\.com#i',
 		'endpoint' => 'http://vimeo.com/api/oembed.json?url=%s'
+	],
+	'Vine' => [
+		'class' => 'Vine',
+		// OpenGraph subclasses should strictly match the start of the URL
+		// to prevent spoofing.
+		'filter' => '#^https?://vine.co/v/[a-zA-Z0-9]+#i'
 	],
 	'WordPress' => [
 		'class' => 'OEmbed',
