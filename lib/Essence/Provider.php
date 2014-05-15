@@ -10,6 +10,7 @@ namespace Essence;
 use Essence\Configurable;
 use Essence\Exception;
 use Essence\Media;
+use Essence\Media\Preparator;
 use Essence\Log\Logger;
 
 
