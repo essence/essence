@@ -19,8 +19,10 @@ use Essence\Provider\OEmbed;
 use Essence\Provider\OEmbed\Vimeo;
 use Essence\Provider\OEmbed\Youtube;
 use Essence\Provider\OpenGraph;
-use Essence\Provider\OpenGraph\Bandcamp;
-use Essence\Provider\OpenGraph\Vine;
+use Essence\Media\Preparator;
+use Essence\Media\Preparator\Bandcamp as BandcampPreparator;
+use Essence\Media\Preparator\Vine as VinePreparator;
+use Essence\Media\Preparator\Youtube as YoutubePreparator;
 
 
 /**
@@ -65,13 +67,19 @@ class Standard extends Container {
 				return new NullLogger( );
 			}),
 
+			//
+			'Preparator' => Container::unique( function( ) {
+				return new Preparator( );
+			}),
+
 			// The OEmbed provider uses the shared HTTP client, DOM parser
 			// and logger.
 			'OEmbed' => function( $C ) {
 				return new OEmbed(
 					$C->get( 'Http' ),
 					$C->get( 'Dom' ),
-					$C->get( 'Log' )
+					$C->get( 'Log' ),
+					$C->get( 'Preparator' )
 				);
 			},
 
@@ -81,9 +89,15 @@ class Standard extends Container {
 				return new Vimeo(
 					$C->get( 'Http' ),
 					$C->get( 'Dom' ),
-					$C->get( 'Log' )
+					$C->get( 'Log' ),
+					$C->get( 'Preparator' )
 				);
 			},
+
+			//
+			'YoutubePreparator' => Container::unique( function( ) {
+				return new YoutubePreparator( );
+			}),
 
 			// The Youtube provider uses the shared HTTP client, DOM parser
 			// and logger.
@@ -91,7 +105,8 @@ class Standard extends Container {
 				return new Youtube(
 					$C->get( 'Http' ),
 					$C->get( 'Dom' ),
-					$C->get( 'Log' )
+					$C->get( 'Log' ),
+					$C->get( 'Preparator' )
 				);
 			},
 
@@ -101,27 +116,40 @@ class Standard extends Container {
 				return new OpenGraph(
 					$C->get( 'Http' ),
 					$C->get( 'Dom' ),
-					$C->get( 'Log' )
+					$C->get( 'Log' ),
+					$C->get( 'Preparator' )
 				);
 			},
+
+			//
+			'BandcampPreparator' => Container::unique( function( ) {
+				return new BandcampPreparator( );
+			}),
 
 			// The Bandcamp provider uses the shared HTTP client, DOM parser
 			// and logger.
 			'Bandcamp' => function( $C ) {
-				return new Bandcamp(
+				return new OpenGraph(
 					$C->get( 'Http' ),
 					$C->get( 'Dom' ),
-					$C->get( 'Log' )
+					$C->get( 'Log' ),
+					$C->get( 'BandcampPreparator' )
 				);
 			},
+
+			//
+			'VinePreparator' => Container::unique( function( ) {
+				return new VinePreparator( );
+			}),
 
 			// The Vine provider uses the shared HTTP client, DOM parser
 			// and logger.
 			'Vine' => function( $C ) {
-				return new Vine(
+				return new OpenGraph(
 					$C->get( 'Http' ),
 					$C->get( 'Dom' ),
-					$C->get( 'Log' )
+					$C->get( 'Log' ),
+					$C->get( 'VinePreparator' )
 				);
 			},
 

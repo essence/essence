@@ -44,44 +44,4 @@ class YoutubeTest extends PHPUnit_Framework_TestCase {
 			Youtube::prepareUrl( 'http://youtu.be/oHg5SJYRHA0' )
 		);
 	}
-
-
-
-	/**
-	 *
-	 */
-
-	public function testCompleteMediaWithSmallThumbnailUrl( ) {
-
-		$Media = new Media([
-			'thumbnailUrl' => 'http://i1.ytimg.com/vi/r0dBPI4etvI/hqdefault.jpg'
-		]);
-
-		Youtube::completeMedia( $Media, [ 'thumbnailFormat' => 'small' ]);
-
-		$this->assertEquals(
-			'http://i1.ytimg.com/vi/r0dBPI4etvI/default.jpg',
-			$Media->get( 'thumbnailUrl' )
-		);
-	}
-
-
-
-	/**
-	 *
-	 */
-
-	public function testCompleteMediaWithMediumThumbnailUrl( ) {
-
-		$Media = new Media([
-			'thumbnailUrl' => 'http://i1.ytimg.com/vi/r0dBPI4etvI/hqdefault.jpg'
-		]);
-
-		Youtube::completeMedia( $Media, [ 'thumbnailFormat' => 'medium' ]);
-
-		$this->assertEquals(
-			'http://i1.ytimg.com/vi/r0dBPI4etvI/mqdefault.jpg',
-			$Media->get( 'thumbnailUrl' )
-		);
-	}
 }

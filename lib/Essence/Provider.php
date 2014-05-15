@@ -37,6 +37,16 @@ abstract class Provider {
 
 
 	/**
+	 *	Media preparator.
+	 *
+	 *	@var Essence\Media\Preparator
+	 */
+
+	protected $_Preparator = null;
+
+
+
+	/**
 	 *	Configuration options.
 	 *
 	 *	### Options
@@ -47,8 +57,7 @@ abstract class Provider {
 	 */
 
 	protected $_properties = [
-		'prepare' => 'self::prepareUrl',
-		'complete' => 'self::completeMedia'
+		'prepare' => 'self::prepareUrl'
 	];
 
 
@@ -57,11 +66,13 @@ abstract class Provider {
 	 *	Constructor.
 	 *
 	 *	@param Essence\Log\Logger $Logger Logger.
+	 *	@param Essence\Log\Preparator $Preparator Preparator.
 	 */
 
-	public function __construct( Logger $Logger ) {
+	public function __construct( Logger $Logger, Preparator $Preparator = null ) {
 
 		$this->_Logger = $Logger;
+		$this->_Preparator = $Preparator;
 	}
 
 
@@ -87,8 +98,8 @@ abstract class Provider {
 			$Media = $this->_embed( $url, $options );
 			$Media->setDefault( 'url', $url );
 
-			if ( is_callable( $this->complete )) {
-				call_user_func( $this->complete, $Media, $options );
+			if ( $this->_Preparator ) {
+				$this->_Preparator->complete( $Media, $options );
 			}
 		} catch ( Exception $Exception ) {
 			$this->_Logger->log(
@@ -127,60 +138,5 @@ abstract class Provider {
 	public static function prepareUrl( $url, array $options = [ ]) {
 
 		return trim( $url );
-	}
-
-
-
-	/**
-	 *	Builds an HTML code from the given media's properties to fill its
-	 *	'html' property.
-	 *
-	 *	@param Essence\Media $Media A reference to the Media.
-	 *	@param array $options Embed options.
-	 */
-
-	public static function completeMedia( Media $Media, array $options = [ ]) {
-
-		if ( $Media->has( 'html' )) {
-			return;
-		}
-
-		$title = htmlspecialchars( $Media->get( 'title', $Media->url ));
-		$description = $Media->has( 'description' )
-			? htmlspecialchars( $Media->description )
-			: $title;
-
-		switch ( $Media->type ) {
-			// builds an <img> tag pointing to the photo
-			case 'photo':
-				$Media->set( 'html', sprintf(
-					'<img src="%s" alt="%s" width="%d" height="%d" />',
-					$Media->url,
-					$description,
-					$Media->get( 'width', 500 ),
-					$Media->get( 'height', 375 )
-				));
-				break;
-
-			// builds an <iframe> tag pointing to the video
-			case 'video':
-				$Media->set( 'html', sprintf(
-					'<iframe src="%s" width="%d" height="%d" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen />',
-					$Media->url,
-					$Media->get( 'width', 640 ),
-					$Media->get( 'height', 390 )
-				));
-				break;
-
-			// builds an <a> tag pointing to the original resource
-			default:
-				$Media->set( 'html', sprintf(
-					'<a href="%s" alt="%s">%s</a>',
-					$Media->url,
-					$description,
-					$title
-				));
-				break;
-		}
 	}
 }

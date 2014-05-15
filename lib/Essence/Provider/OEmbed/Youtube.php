@@ -43,40 +43,4 @@ class Youtube extends OEmbed {
 
 		return $url;
 	}
-
-
-
-	/**
-	 *
-	 *
-	 *	@param Essence\Media $Media A reference to the Media.
-	 *	@param array $options Embed options.
-	 *		- 'thumbnailFormat' string
-	 */
-
-	public static function completeMedia( Media $Media, array $options = [ ]) {
-
-		if ( isset( $options['thumbnailFormat'])) {
-			$url = $Media->get( 'thumbnailUrl' );
-
-			switch ( $options['thumbnailFormat']) {
-				case 'small':
-					$url = str_replace( 'hqdefault', 'default', $url );
-					break;
-
-				case 'medium':
-					$url = str_replace( 'hqdefault', 'mqdefault', $url );
-					break;
-
-				case 'large':
-				default:
-					// unchanged
-					break;
-			}
-
-			$Media->set( 'thumbnailUrl', $url );
-		}
-
-		return parent::completeMedia( $Media, $options );
-	}
 }

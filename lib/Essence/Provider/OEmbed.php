@@ -77,7 +77,6 @@ class OEmbed extends Provider {
 
 	protected $_properties = [
 		'prepare' => 'static::prepareUrl',
-		'complete' => 'static::completeMedia',
 		'endpoint' => '',
 		'format' => self::json
 	];
@@ -90,17 +89,19 @@ class OEmbed extends Provider {
 	 *	@param Essence\Http\Client $Http HTTP client.
 	 *	@param Essence\Dom\Parser $Dom DOM parser.
 	 *	@param Essence\Log\Logger $Log Logger.
+	 *	@param Essence\Log\Preparator $Preparator Preparator.
 	 */
 
 	public function __construct(
 		HttpClient $Http,
 		DomParser $Dom,
-		Logger $Log
+		Logger $Log,
+		Preparator $Preparator = null
 	) {
 		$this->_Http = $Http;
 		$this->_Dom = $Dom;
 
-		parent::__construct( $Log );
+		parent::__construct( $Log, $Preparator );
 	}
 
 
