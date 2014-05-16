@@ -27,7 +27,7 @@ class Youtube extends Preparator {
 	 *		- 'thumbnailFormat' string
 	 */
 
-	public function complete( Media $Media, array $options ) {
+	public function complete( Media $Media, array $options = [ ]) {
 
 		parent::complete( $Media, $options );
 

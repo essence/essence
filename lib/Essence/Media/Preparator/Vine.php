@@ -24,7 +24,7 @@ class Vine extends Preparator {
 	 *	{@inheritDoc}
 	 */
 
-	public function complete( Media $Media, array $options ) {
+	public function complete( Media $Media, array $options = [ ]) {
 
 		parent::complete( $Media, $options );
 
