@@ -205,7 +205,7 @@ return [
 	],
 	'Mobypicture' => [
 		'class' => 'OEmbed',
-		'filter' => '#mobypicture\.com/user/.+/view/.+#','moby.to/.+#i',
+		'filter' => '#(moby.to|mobypicture\.com/user/.+/view)/.+#i',
 		'endpoint' => 'http://api.mobypicture.com/oEmbed?format=json&url=%s'
 	],
 	'Nfb' => [
@@ -299,7 +299,7 @@ return [
 	],
 	'TedOEmbed' => [
 		'class' => 'OEmbed',
-		'filter' => '#ted\.com/talks/*+#i',
+		'filter' => '#ted\.com/talks/.+#i',
 		'endpoint' => 'http://www.ted.com/talks/oembed.json?url=%s'
 	],
 	'TedOpenGraph' => [
