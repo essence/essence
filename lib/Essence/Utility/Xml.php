@@ -36,11 +36,7 @@ class Xml {
 		try {
 			$iterator = new SimpleXmlIterator( $xml );
 		} catch ( NativeException $Exception ) {
-			throw new Exception(
-				$Exception->getMessage( ),
-				$Exception->getCode( ),
-				$Exception
-			);
+			throw Exception::wrap( $Exception );
 		}
 
 		foreach ( $iterator as $key => $value ) {
