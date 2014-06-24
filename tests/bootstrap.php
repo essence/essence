@@ -15,10 +15,8 @@ require_once dirname( dirname( __FILE__ ))
  *	Definitions
  */
 
-if ( !defined( 'ESSENCE_TEST' )) {
-	define( 'ESSENCE_TEST', dirname( __FILE__ ) . DIRECTORY_SEPARATOR );
-}
+defined( 'ESSENCE_TEST' )
+or define( 'ESSENCE_TEST', dirname( __FILE__ ) . DIRECTORY_SEPARATOR );
 
-if ( !defined( 'ESSENCE_HTTP' )) {
-	define( 'ESSENCE_HTTP', ESSENCE_TEST . 'http' . DIRECTORY_SEPARATOR );
-}
+defined( 'ESSENCE_HTTP' )
+or define( 'ESSENCE_HTTP', ESSENCE_TEST . 'http' . DIRECTORY_SEPARATOR );
