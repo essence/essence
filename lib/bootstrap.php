@@ -10,6 +10,6 @@ if ( !defined( 'ESSENCE_DEFAULT_PROVIDERS' )) {
 		'ESSENCE_DEFAULT_PROVIDERS',
 		dirname( dirname( __FILE__ ))
 		. DIRECTORY_SEPARATOR . 'config'
-		. DIRECTORY_SEPARATOR . 'providers.php'
+		. DIRECTORY_SEPARATOR . 'providers.json'
 	);
 }

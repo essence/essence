@@ -9,6 +9,7 @@ namespace Essence\Provider;
 
 use Essence\Configurable;
 use Essence\Di\Container;
+use Essence\Utility\Json;
 
 
 
@@ -79,14 +80,15 @@ class Collection {
 	/**
 	 *	Loads configuration from an array or a file.
 	 *
-	 *	@param array|string $config A configuration array, or a configuration
-	 *		file returning such an array.
+	 *	@param array|string $config A configuration array, or a JSON
+	 *		configuration file.
 	 */
 
 	public function load( $config ) {
 
 		if ( is_string( $config ) && file_exists( $config )) {
-			$config = include $config;
+			$json = file_get_contents( $config );
+			$config = Json::parse( $json );
 		}
 
 		$this->configure( $config );
