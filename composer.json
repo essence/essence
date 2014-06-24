@@ -25,6 +25,9 @@
 		"felixgirault/essence-interfaces": "Allows better integration with different frameworks."
 	},
 	"autoload": {
+		"psr-4": {
+			"Essence\\": "lib/Essence"
+		},
 		"files": [
 			"lib/bootstrap.php"
 		]

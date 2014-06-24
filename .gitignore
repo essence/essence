@@ -1,6 +1,4 @@
-vendor
-
+/vendor
 .buildpath
 .settings
 .project
-
