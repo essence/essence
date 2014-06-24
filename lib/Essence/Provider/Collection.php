@@ -9,7 +9,6 @@ namespace Essence\Provider;
 
 use Essence\Configurable;
 use Essence\Di\Container;
-use Essence\Exception;
 
 
 
@@ -80,7 +79,6 @@ class Collection {
 	/**
 	 *	Loads configuration from an array or a file.
 	 *
-	 *	@throws Essence\Exception If the configuration is not an array.
 	 *	@param array|string $config A configuration array, or a configuration
 	 *		file returning such an array.
 	 */
@@ -89,12 +87,6 @@ class Collection {
 
 		if ( is_string( $config ) && file_exists( $config )) {
 			$config = include $config;
-		}
-
-		if ( !is_array( $config )) {
-			throw new Exception(
-				'The configuration must be an array.'
-			);
 		}
 
 		$this->configure( $config );
