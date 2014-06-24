@@ -6,7 +6,9 @@
  *	@license FreeBSD License (http://opensource.org/licenses/BSD-2-Clause)
  */
 
-require_once dirname( dirname( __FILE__ )) . '/lib/bootstrap.php';
+require_once dirname( dirname( __FILE__ ))
+	. DIRECTORY_SEPARATOR . 'vendor'
+	. DIRECTORY_SEPARATOR . 'autoload.php';
 
 
 
