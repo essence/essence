@@ -2,5 +2,9 @@ language: php
 
 php:
   - 5.4
+  - 5.5
+
+before_install:
+  - composer dump-autoload
 
 script: phpunit
