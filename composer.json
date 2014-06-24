@@ -27,9 +27,6 @@
 	"autoload": {
 		"psr-4": {
 			"Essence\\": "lib/Essence"
-		},
-		"files": [
-			"lib/bootstrap.php"
-		]
+		}
 	}
 }

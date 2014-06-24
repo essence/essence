@@ -25,6 +25,7 @@ use Essence\Media\Preparator\Vine as VinePreparator;
 use Essence\Media\Preparator\Youtube as YoutubePreparator;
 
 
+
 /**
  *	Contains the default injection properties.
  *
@@ -42,7 +43,9 @@ class Standard extends Container {
 		$this->_properties = $properties + [
 
 			// Providers are loaded from the default config file
-			'providers' => ESSENCE_DEFAULT_PROVIDERS,
+			'providers' => dirname( dirname( dirname( dirname( dirname( __FILE__ )))))
+				. DIRECTORY_SEPARATOR . 'config'
+				. DIRECTORY_SEPARATOR . 'providers.json',
 
 			// A volatile cache engine is shared across the application
 			'Cache' => Container::unique( function( ) {
