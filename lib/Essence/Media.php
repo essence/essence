@@ -18,8 +18,6 @@ use Essence\Configurable;
  *	Stores informations about an embed response.
  *	This class is useful to ensure that any response from any provider will
  *	follow the same conventions.
- *
- *	@package Essence
  */
 
 class Media implements IteratorAggregate, JsonSerializable {

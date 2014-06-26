@@ -13,8 +13,6 @@ use Essence\Exception;
 
 /**
  *	A simple JSON parser.
- *
- *	@package Essence.Utility
  */
 
 class Json {

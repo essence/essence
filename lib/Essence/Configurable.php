@@ -11,8 +11,6 @@ namespace Essence;
 
 /**
  *	Makes a class configurable.
- *
- *	@package Essence
  */
 
 trait Configurable {

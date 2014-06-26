@@ -16,8 +16,6 @@ use Essence\Media\Preparator;
 
 /**
  *	Base class for a Provider.
- *
- *	@package Essence
  */
 
 abstract class Provider {

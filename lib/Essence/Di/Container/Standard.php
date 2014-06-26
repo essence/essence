@@ -26,8 +26,6 @@ use Essence\Media\Preparator\Youtube as YoutubePreparator;
 
 /**
  *	Contains the default injection properties.
- *
- *	@package Essence.Di.Container
  */
 
 class Standard extends Container {

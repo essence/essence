@@ -14,8 +14,6 @@ use Essence\Media;
 
 /**
  *	Builds an HTML code for the Bandcamp player.
- *
- *	@package Essence.Media.Preparator
  */
 
 class Bandcamp extends Preparator {

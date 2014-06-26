@@ -11,8 +11,6 @@ namespace Essence\Http;
 
 /**
  *	Handles HTTP related operations.
- *
- *	@package Essence.Http
  */
 
 interface Client {

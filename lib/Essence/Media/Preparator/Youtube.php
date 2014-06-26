@@ -14,8 +14,6 @@ use Essence\Media;
 
 /**
  *	Handles custom thumbnail formats.
- *
- *	@package Essence.Media.Preparator
  */
 
 class Youtube extends Preparator {

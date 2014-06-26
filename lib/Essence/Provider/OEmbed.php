@@ -22,8 +22,6 @@ use Essence\Utility\Xml;
 /**
  *	Base class for an OEmbed provider.
  *	This kind of provider extracts embed informations through the OEmbed protocol.
- *
- *	@package Essence.Provider
  */
 
 class OEmbed extends Provider {

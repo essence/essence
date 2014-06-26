@@ -14,8 +14,6 @@ use Essence\Media;
 
 /**
  *	Builds an HTML code for the Vine player.
- *
- *	@package Essence.Media.Preparator
  */
 
 class Vine extends Preparator {

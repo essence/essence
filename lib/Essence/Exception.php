@@ -13,8 +13,6 @@ use Exception as NativeException;
 
 /**
  *	The base exception class of the Essence API.
- *
- *	@package Essence
  */
 
 class Exception extends NativeException {

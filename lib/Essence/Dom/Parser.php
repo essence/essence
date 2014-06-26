@@ -11,8 +11,6 @@ namespace Essence\Dom;
 
 /**
  *	Handles HTML related operations.
- *
- *	@package Essence.Dom
  */
 
 interface Parser {

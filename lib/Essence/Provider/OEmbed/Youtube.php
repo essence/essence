@@ -13,8 +13,7 @@ use Essence\Provider\OEmbed;
 
 
 /**
- *
- *	@package Essence.Provider.OEmbed
+ *	Youtube provider.
  */
 
 class Youtube extends OEmbed {

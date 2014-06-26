@@ -13,8 +13,6 @@ use Essence\Exception as EssenceException;
 
 /**
  *	An HTTP related exception.
- *
- *	@package Essence.Http
  */
 
 class Exception extends EssenceException {

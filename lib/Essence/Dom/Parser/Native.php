@@ -17,8 +17,6 @@ use DomNode;
 
 /**
  *	Handles HTML related operations through DomDocument.
- *
- *	@package Essence.Dom.Parser
  */
 
 class Native implements Parser {

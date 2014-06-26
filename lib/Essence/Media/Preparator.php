@@ -12,9 +12,7 @@ use Essence\Media;
 
 
 /**
- *
- *
- *	@package Essence.Media
+ *	Media preparator.
  */
 
 class Preparator {

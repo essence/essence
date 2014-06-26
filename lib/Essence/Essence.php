@@ -19,8 +19,6 @@ use Essence\Exception;
 
 /**
  *	Gathers embed informations from URLs.
- *
- *	@package Essence
  */
 
 class Essence {

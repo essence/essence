@@ -11,8 +11,6 @@ namespace Essence\Utility;
 
 /**
  *	An utility class to manipulate data sets.
- *
- *	@package Essence.Utility
  */
 
 class Hash {

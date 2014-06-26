@@ -15,8 +15,6 @@ use Essence\Utility\Json;
 
 /**
  *	A collection of providers which can find the provider of an url.
- *
- *	@package Essence.Provider
  */
 
 class Collection {

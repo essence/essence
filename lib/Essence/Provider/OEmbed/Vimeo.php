@@ -12,9 +12,7 @@ use Essence\Provider\OEmbed;
 
 
 /**
- *
- *
- *	@package Essence.Provider.OEmbed
+ *	Vimeo provider.
  */
 
 class Vimeo extends OEmbed {
