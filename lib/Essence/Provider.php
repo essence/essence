@@ -95,19 +95,11 @@ abstract class Provider {
 			$url = call_user_func( $this->prepare, $url, $options );
 		}
 
-		try {
-			$Media = $this->_embed( $url, $options );
-			$Media->setDefault( 'url', $url );
+		$Media = $this->_embed( $url, $options );
+		$Media->setDefault( 'url', $url );
 
-			if ( $this->_Preparator ) {
-				$this->_Preparator->complete( $Media, $options );
-			}
-		} catch ( Exception $Exception ) {
-			$this->_Logger->log(
-				Logger::notice,
-				"Unable to embed $url",
-				[ 'exception' => $Exception ]
-			);
+		if ( $this->_Preparator ) {
+			$this->_Preparator->complete( $Media, $options );
 		}
 
 		return $Media;

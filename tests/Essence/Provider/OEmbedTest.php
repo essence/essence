@@ -86,7 +86,6 @@ class OEmbedTest extends PHPUnit_Framework_TestCase {
 
 	public function testCompleteEndpoint( ) {
 
-
 		$this->assertEquals(
 			'url?maxwidth=120&maxheight=60',
 			$this->OEmbed->completeEndpoint( 'url', [
@@ -130,7 +129,8 @@ class OEmbedTest extends PHPUnit_Framework_TestCase {
 
 	public function testEmbedInvalidJson( ) {
 
-		$this->assertNull( $this->OEmbed->embed( 'invalid' ));
+		$this->setExpectedException( 'Essence\\Exception' );
+		$this->OEmbed->embed( 'invalid' );
 	}
 
 
@@ -158,7 +158,8 @@ class OEmbedTest extends PHPUnit_Framework_TestCase {
 		$this->OEmbed->set( 'endpoint', 'file://' . ESSENCE_HTTP . '%s.xml' );
 		$this->OEmbed->set( 'format', OEmbed::xml );
 
-		$this->assertNull( $this->OEmbed->embed( 'invalid' ));
+		$this->setExpectedException( 'Essence\\Exception' );
+		$this->OEmbed->embed( 'invalid' );
 	}
 
 
@@ -171,7 +172,8 @@ class OEmbedTest extends PHPUnit_Framework_TestCase {
 
 		$this->OEmbed->set( 'format', 'unsupported' );
 
-		$this->assertNull( $this->OEmbed->embed( 'valid' ));
+		$this->setExpectedException( 'Essence\\Exception' );
+		$this->OEmbed->embed( 'valid' );
 	}
 
 

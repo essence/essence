@@ -164,17 +164,7 @@ class Essence {
 	protected function _extract( $source ) {
 
 		if ( filter_var( $source, FILTER_VALIDATE_URL )) {
-			try {
-				$source = $this->_Http->get( $source );
-			} catch ( Exception $Exception ) {
-				$this->_Logger->log(
-					Logger::notice,
-					"Unable to fetch $source",
-					[ 'exception' => $Exception ]
-				);
-
-				return [ ];
-			}
+			$source = $this->_Http->get( $source );
 		}
 
 		$urls = $this->_extractUrls( $source );
@@ -206,18 +196,7 @@ class Essence {
 			'iframe' => 'src'
 		];
 
-		try {
-			$attributes = $this->_Dom->extractAttributes( $html, $options );
-		} catch ( Exception $Exception ) {
-			$this->_Logger->log(
-				Logger::notice,
-				'Error parsing HTML source',
-				[ 'exception' => $Exception, 'html' => $html ]
-			);
-
-			return [ ];
-		}
-
+		$attributes = $this->_Dom->extractAttributes( $html, $options );
 		$urls = [ ];
 
 		foreach ( $options as $tagName => $attributeName ) {
