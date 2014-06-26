@@ -9,7 +9,6 @@ namespace Essence;
 
 use PHPUnit_Framework_TestCase;
 use Essence\Di\Container\Standard as StandardContainer;
-use Essence\Cache\Engine\Null as NullCacheEngine;
 use Essence\Dom\Parser\Native as NativeDomParser;
 use Essence\Http\Client\Native as NativeHttpClient;
 
@@ -36,7 +35,6 @@ class EssenceTest extends PHPUnit_Framework_TestCase {
 	public function setUp( ) {
 
 		$Container = new StandardContainer([
-			'Cache' => new NullCacheEngine( ),
 			'Http' => new NativeHttpClient( ),
 			'Dom' => new NativeDomParser( ),
 			'Media' => new Media([

@@ -9,7 +9,6 @@ namespace Essence\Di\Container;
 
 use Essence\Essence;
 use Essence\Di\Container;
-use Essence\Cache\Engine\Volatile as VolatileCacheEngine;
 use Essence\Dom\Parser\Native as NativeDomParser;
 use Essence\Http\Client\Curl as CurlHttpClient;
 use Essence\Http\Client\Native as NativeHttpClient;
@@ -45,11 +44,6 @@ class Standard extends Container {
 			'providers' => dirname( dirname( dirname( dirname( dirname( __FILE__ )))))
 				. DIRECTORY_SEPARATOR . 'config'
 				. DIRECTORY_SEPARATOR . 'providers.json',
-
-			// A volatile cache engine is shared across the application
-			'Cache' => Container::unique( function( ) {
-				return new VolatileCacheEngine( );
-			}),
 
 			// A cURL HTTP client is shared across the application
 			// If cURL isn't available, a native client is used
@@ -146,12 +140,11 @@ class Standard extends Container {
 				return $Collection;
 			},
 
-			// Essence uses the provider collection, and the shared cache engine,
-			// HTTP client and DOM parser.
+			// Essence uses the provider collection, and the shared HTTP client
+			// and DOM parser.
 			'Essence' => function( $C ) {
 				return new Essence(
 					$C->get( 'Collection' ),
-					$C->get( 'Cache' ),
 					$C->get( 'Http' ),
 					$C->get( 'Dom' )
 				);

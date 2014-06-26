@@ -10,7 +10,6 @@ namespace Essence;
 use Essence\Cacheable;
 use Essence\Configurable;
 use Essence\Di\Container\Standard as StandardContainer;
-use Essence\Cache\Engine as CacheEngine;
 use Essence\Dom\Parser as DomParser;
 use Essence\Http\Client as HttpClient;
 use Essence\Provider\Collection;
@@ -90,19 +89,16 @@ class Essence {
 	 *	Constructor.
 	 *
 	 *	@param Essence\ProviderCollection $Collection Provider collection.
-	 *	@param Essence\Cache\Engine $Cache Cache engine.
 	 *	@param Essence\Http\Client $Http HTTP client.
 	 *	@param Essence\Dom\Parser $Cache DOM parser.
 	 */
 
 	public function __construct(
 		Collection $Collection,
-		CacheEngine $Cache,
 		HttpClient $Http,
 		DomParser $Dom
 	) {
 		$this->_Collection = $Collection;
-		$this->_Cache = $Cache;
 		$this->_Http = $Http;
 		$this->_Dom = $Dom;
 	}
