@@ -7,7 +7,7 @@
 
 namespace Essence\Media;
 
-use PHPUnit_Framework_TestCase;
+use PHPUnit_Framework_TestCase as TestCase;
 
 
 
@@ -15,7 +15,7 @@ use PHPUnit_Framework_TestCase;
  *	Test case for Preparator.
  */
 
-class PreparatorTest extends PHPUnit_Framework_TestCase {
+class PreparatorTest extends TestCase {
 
 	/**
 	 *

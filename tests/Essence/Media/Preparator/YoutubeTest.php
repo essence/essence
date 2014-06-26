@@ -7,7 +7,7 @@
 
 namespace Essence\Media\Preparator;
 
-use PHPUnit_Framework_TestCase;
+use PHPUnit_Framework_TestCase as TestCase;
 use Essence\Media;
 
 
@@ -16,7 +16,7 @@ use Essence\Media;
  *	Test case for Youtube.
  */
 
-class YoutubeTest extends PHPUnit_Framework_TestCase {
+class YoutubeTest extends TestCase {
 
 	/**
 	 *

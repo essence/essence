@@ -7,7 +7,7 @@
 
 namespace Essence;
 
-use PHPUnit_Framework_TestCase;
+use PHPUnit_Framework_TestCase as TestCase;
 
 
 
@@ -37,7 +37,7 @@ class ConfigurableImplementation {
  *	Test case for Configurable.
  */
 
-class ConfigurableTest extends PHPUnit_Framework_TestCase {
+class ConfigurableTest extends TestCase {
 
 	/**
 	 *

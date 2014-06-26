@@ -7,7 +7,7 @@
 
 namespace Essence\Di;
 
-use PHPUnit_Framework_TestCase;
+use PHPUnit_Framework_TestCase as TestCase;
 
 
 
@@ -23,7 +23,7 @@ class Containable { }
  *	Test case for Container.
  */
 
-class ContainerTest extends PHPUnit_Framework_TestCase {
+class ContainerTest extends TestCase {
 
 	/**
 	 *

@@ -7,7 +7,7 @@
 
 namespace Essence;
 
-use PHPUnit_Framework_TestCase;
+use PHPUnit_Framework_TestCase as TestCase;
 
 
 
@@ -15,7 +15,7 @@ use PHPUnit_Framework_TestCase;
  *	Test case for Provider.
  */
 
-class ProviderTest extends PHPUnit_Framework_TestCase {
+class ProviderTest extends TestCase {
 
 	/**
 	 *

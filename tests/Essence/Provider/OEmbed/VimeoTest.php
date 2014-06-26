@@ -7,7 +7,7 @@
 
 namespace Essence\Provider\OEmbed;
 
-use PHPUnit_Framework_TestCase;
+use PHPUnit_Framework_TestCase as TestCase;
 
 
 
@@ -15,7 +15,7 @@ use PHPUnit_Framework_TestCase;
  *	Test case for Vimeo.
  */
 
-class VimeoTest extends PHPUnit_Framework_TestCase {
+class VimeoTest extends TestCase {
 
 	/**
 	 *

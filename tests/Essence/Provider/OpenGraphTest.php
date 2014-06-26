@@ -7,7 +7,7 @@
 
 namespace Essence\Provider;
 
-use PHPUnit_Framework_TestCase;
+use PHPUnit_Framework_TestCase as TestCase;
 use Essence\Dom\Parser\Native as NativeDomParser;
 use Essence\Http\Client\Native as NativeHttpClient;
 
@@ -17,7 +17,7 @@ use Essence\Http\Client\Native as NativeHttpClient;
  *	Test case for OpenGraph.
  */
 
-class OpenGraphTest extends PHPUnit_Framework_TestCase {
+class OpenGraphTest extends TestCase {
 
 	/**
 	 *
