@@ -26,7 +26,6 @@ use Essence\Exception;
 
 class Essence {
 
-	use Cacheable;
 	use Configurable;
 
 
@@ -134,21 +133,6 @@ class Essence {
 
 	public function extract( $source ) {
 
-		return $this->_cached( '_extract', $source );
-	}
-
-
-
-	/**
-	 *	Implementation of the extract method.
-	 *
-	 *	@see extract( )
-	 *	@param string $source The URL or HTML source to be extracted.
-	 *	@return array An array of extracted URLs.
-	 */
-
-	protected function _extract( $source ) {
-
 		if ( filter_var( $source, FILTER_VALIDATE_URL )) {
 			$source = $this->_Http->get( $source );
 		}
@@ -211,22 +195,6 @@ class Essence {
 	 */
 
 	public function embed( $url, array $options = [ ]) {
-
-		return $this->_cached( '_embed', $url, $options );
-	}
-
-
-
-	/**
-	 *	Implementation of the embed method.
-	 *
-	 *	@see embed( )
-	 *	@param string $url URL to fetch informations from.
-	 *	@param array $options Custom options to be interpreted by a provider.
-	 *	@return Essence\Media Embed informations.
-	 */
-
-	protected function _embed( $url, array $options ) {
 
 		$providers = $this->_Collection->providers( $url );
 
