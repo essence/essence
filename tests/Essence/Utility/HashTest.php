@@ -7,7 +7,7 @@
 
 namespace Essence\Utility;
 
-use PHPUnit_Framework_TestCase;
+use PHPUnit_Framework_TestCase as TestCase;
 
 
 
@@ -15,7 +15,7 @@ use PHPUnit_Framework_TestCase;
  *	Test case for Hash.
  */
 
-class HashTest {
+class HashTest extends TestCase {
 
 	/**
 	 *
@@ -28,10 +28,10 @@ class HashTest {
 			[ 'one' => 'two' ]
 		);
 
-		$this->assertEquals(
-			[ 'two' => 'value' ],
-			$data
-		);
+		$this->assertEquals([
+			'one' => 'value',
+			'two' => 'value'
+		], $data );
 	}
 
 
