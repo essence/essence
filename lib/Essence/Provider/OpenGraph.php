@@ -14,7 +14,6 @@ use Essence\Media\Preparator;
 use Essence\Provider;
 use Essence\Dom\Parser as DomParser;
 use Essence\Http\Client as HttpClient;
-use Essence\Log\Logger;
 use Essence\Utility\Hash;
 
 
@@ -53,20 +52,18 @@ class OpenGraph extends Provider {
 	 *
 	 *	@param Essence\Http\Client $Http HTTP client.
 	 *	@param Essence\Dom\Parser $Dom DOM parser.
-	 *	@param Essence\Log\Logger $Log Logger.
 	 *	@param Essence\Log\Preparator $Preparator Preparator.
 	 */
 
 	public function __construct(
 		HttpClient $Http,
 		DomParser $Dom,
-		Logger $Log,
 		Preparator $Preparator = null
 	) {
 		$this->_Http = $Http;
 		$this->_Dom = $Dom;
 
-		parent::__construct( $Log, $Preparator );
+		parent::__construct( $Preparator );
 	}
 
 

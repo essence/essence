@@ -13,7 +13,6 @@ use Essence\Cache\Engine\Volatile as VolatileCacheEngine;
 use Essence\Dom\Parser\Native as NativeDomParser;
 use Essence\Http\Client\Curl as CurlHttpClient;
 use Essence\Http\Client\Native as NativeHttpClient;
-use Essence\Log\Logger\Null as NullLogger;
 use Essence\Provider\Collection;
 use Essence\Provider\OEmbed;
 use Essence\Provider\OEmbed\Vimeo;
@@ -65,34 +64,25 @@ class Standard extends Container {
 				return new NativeDomParser( );
 			}),
 
-			// A null logger is shared across the application
-			'Log' => Container::unique( function( ) {
-				return new NullLogger( );
-			}),
-
 			//
 			'Preparator' => Container::unique( function( ) {
 				return new Preparator( );
 			}),
 
-			// The OEmbed provider uses the shared HTTP client, DOM parser
-			// and logger.
+			// The OEmbed provider uses the shared HTTP client and DOM parser.
 			'OEmbed' => function( $C ) {
 				return new OEmbed(
 					$C->get( 'Http' ),
 					$C->get( 'Dom' ),
-					$C->get( 'Log' ),
 					$C->get( 'Preparator' )
 				);
 			},
 
-			// The Vimeo provider uses the shared HTTP client, DOM parser
-			// and logger.
+			// The Vimeo provider uses the shared HTTP client and DOM parser.
 			'Vimeo' => function( $C ) {
 				return new Vimeo(
 					$C->get( 'Http' ),
 					$C->get( 'Dom' ),
-					$C->get( 'Log' ),
 					$C->get( 'Preparator' )
 				);
 			},
@@ -102,24 +92,20 @@ class Standard extends Container {
 				return new YoutubePreparator( );
 			}),
 
-			// The Youtube provider uses the shared HTTP client, DOM parser
-			// and logger.
+			// The Youtube provider uses the shared HTTP client and DOM parser.
 			'Youtube' => function( $C ) {
 				return new Youtube(
 					$C->get( 'Http' ),
 					$C->get( 'Dom' ),
-					$C->get( 'Log' ),
 					$C->get( 'Preparator' )
 				);
 			},
 
-			// The OpenGraph provider uses the shared HTTP client, DOM parser
-			// and logger.
+			// The OpenGraph provider uses the shared HTTP client and DOM parser.
 			'OpenGraph' => function( $C ) {
 				return new OpenGraph(
 					$C->get( 'Http' ),
 					$C->get( 'Dom' ),
-					$C->get( 'Log' ),
 					$C->get( 'Preparator' )
 				);
 			},
@@ -129,13 +115,11 @@ class Standard extends Container {
 				return new BandcampPreparator( );
 			}),
 
-			// The Bandcamp provider uses the shared HTTP client, DOM parser
-			// and logger.
+			// The Bandcamp provider uses the shared HTTP client and DOM parser.
 			'Bandcamp' => function( $C ) {
 				return new OpenGraph(
 					$C->get( 'Http' ),
 					$C->get( 'Dom' ),
-					$C->get( 'Log' ),
 					$C->get( 'BandcampPreparator' )
 				);
 			},
@@ -145,13 +129,11 @@ class Standard extends Container {
 				return new VinePreparator( );
 			}),
 
-			// The Vine provider uses the shared HTTP client, DOM parser
-			// and logger.
+			// The Vine provider uses the shared HTTP client and DOM parser.
 			'Vine' => function( $C ) {
 				return new OpenGraph(
 					$C->get( 'Http' ),
 					$C->get( 'Dom' ),
-					$C->get( 'Log' ),
 					$C->get( 'VinePreparator' )
 				);
 			},
@@ -171,8 +153,7 @@ class Standard extends Container {
 					$C->get( 'Collection' ),
 					$C->get( 'Cache' ),
 					$C->get( 'Http' ),
-					$C->get( 'Dom' ),
-					$C->get( 'Log' )
+					$C->get( 'Dom' )
 				);
 			}
 		];

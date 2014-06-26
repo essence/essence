@@ -11,7 +11,6 @@ use Essence\Configurable;
 use Essence\Exception;
 use Essence\Media;
 use Essence\Media\Preparator;
-use Essence\Log\Logger;
 
 
 
@@ -24,16 +23,6 @@ use Essence\Log\Logger;
 abstract class Provider {
 
 	use Configurable;
-
-
-
-	/**
-	 *	Internal logger.
-	 *
-	 *	@var Essence\Log\Logger
-	 */
-
-	protected $_Logger = null;
 
 
 
@@ -66,13 +55,11 @@ abstract class Provider {
 	/**
 	 *	Constructor.
 	 *
-	 *	@param Essence\Log\Logger $Logger Logger.
 	 *	@param Essence\Log\Preparator $Preparator Preparator.
 	 */
 
-	public function __construct( Logger $Logger, Preparator $Preparator = null ) {
+	public function __construct( Preparator $Preparator = null ) {
 
-		$this->_Logger = $Logger;
 		$this->_Preparator = $Preparator;
 	}
 

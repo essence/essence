@@ -13,7 +13,6 @@ use Essence\Di\Container\Standard as StandardContainer;
 use Essence\Cache\Engine as CacheEngine;
 use Essence\Dom\Parser as DomParser;
 use Essence\Http\Client as HttpClient;
-use Essence\Log\Logger;
 use Essence\Provider\Collection;
 use Essence\Exception;
 
@@ -63,16 +62,6 @@ class Essence {
 
 
 	/**
-	 *	Internal Logger.
-	 *
-	 *	@var Essence\Log\Logger
-	 */
-
-	protected $_Logger = null;
-
-
-
-	/**
 	 *	Configuration options.
 	 *
 	 *	### Options
@@ -105,21 +94,18 @@ class Essence {
 	 *	@param Essence\Cache\Engine $Cache Cache engine.
 	 *	@param Essence\Http\Client $Http HTTP client.
 	 *	@param Essence\Dom\Parser $Cache DOM parser.
-	 *	@param Essence\Log\Logger $Logger Logger.
 	 */
 
 	public function __construct(
 		Collection $Collection,
 		CacheEngine $Cache,
 		HttpClient $Http,
-		DomParser $Dom,
-		Logger $Logger
+		DomParser $Dom
 	) {
 		$this->_Collection = $Collection;
 		$this->_Cache = $Cache;
 		$this->_Http = $Http;
 		$this->_Dom = $Dom;
-		$this->_Logger = $Logger;
 	}
 
 
@@ -243,15 +229,22 @@ class Essence {
 	protected function _embed( $url, array $options ) {
 
 		$providers = $this->_Collection->providers( $url );
-		$Media = null;
 
 		foreach ( $providers as $Provider ) {
-			if ( $Media = $Provider->embed( $url, $options )) {
-				break;
+			$Media = null;
+
+			try {
+				$Media = $Provider->embed( $url, $options );
+			} catch ( Exception $Exception ) {
+
+			}
+
+			if ( $Media ) {
+				return $Media;
 			}
 		}
 
-		return $Media;
+		return null;
 	}
 
 

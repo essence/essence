@@ -11,7 +11,6 @@ use PHPUnit_Framework_TestCase;
 use Essence\Provider;
 use Essence\Provider\OEmbed;
 use Essence\Di\Container;
-use Essence\Log\Logger\Null as NullLogger;
 
 
 
@@ -59,7 +58,7 @@ class CollectionTest extends PHPUnit_Framework_TestCase {
 
 	public function setUp( ) {
 
-		$this->Provider = new ProviderImplementation( new NullLogger( ));
+		$this->Provider = new ProviderImplementation( );
 
 		$Container = new Container( );
 		$Container->set( 'OEmbed', $this->Provider );

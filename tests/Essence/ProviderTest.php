@@ -8,7 +8,6 @@
 namespace Essence;
 
 use PHPUnit_Framework_TestCase;
-use Essence\Log\Logger\Null as NullLogger;
 
 
 
@@ -42,8 +41,7 @@ class ProviderTest extends PHPUnit_Framework_TestCase {
 		]);
 
 		$this->Provider = $this->getMockForAbstractClass(
-			'\\Essence\\Provider',
-			[ new NullLogger( )]
+			'\\Essence\\Provider'
 		);
 	}
 
