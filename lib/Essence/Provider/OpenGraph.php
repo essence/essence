@@ -50,18 +50,20 @@ class OpenGraph extends Provider {
 	 *
 	 *	@param Essence\Http\Client $Http HTTP client.
 	 *	@param Essence\Dom\Parser $Dom DOM parser.
+	 *	@param array $preparators Preparator.
 	 *	@param array $presenters Presenters.
 	 */
 
 	public function __construct(
 		HttpClient $Http,
 		DomParser $Dom,
+		array $preparators = [ ],
 		array $presenters = [ ]
 	) {
 		$this->_Http = $Http;
 		$this->_Dom = $Dom;
 
-		parent::__construct( $presenters );
+		parent::__construct( $preparators, $presenters );
 	}
 
 
