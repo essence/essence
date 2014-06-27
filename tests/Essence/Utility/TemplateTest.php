@@ -24,10 +24,16 @@ class TemplateTest extends TestCase {
 	public function testCompile( ) {
 
 		$template = Template::compile( ':foo {:bar}', [
-			'foo' => 'text',
-			'bar' => '<html>'
+			'foo' => 'foo',
+			'bar' => 'bar'
 		]);
 
-		$this->assertEquals( 'text &lt;html&gt;', $template );
+		$this->assertEquals( 'foo bar', $template );
+
+		$template = Template::compile( ':html', [
+			'html' => '<html>',
+		], 'htmlspecialchars' );
+
+		$this->assertEquals( '&lt;html&gt;', $template );
 	}
 }

@@ -28,19 +28,27 @@ class Template {
 	 *
 	 *	@param string $template Template.
 	 *	@param array $variables Variables.
+	 *	@param callable $filter Filter function.
 	 *	@return string Compiled template.
 	 */
 
-	public static function compile( $template, array $variables ) {
+	public static function compile( $template, array $variables, $filter = false ) {
 
 		return preg_replace_callback(
 			self::variable,
-			function ( $matches ) use ( $variables ) {
+			function ( $matches ) use ( $variables, $filter ) {
 				$name = $matches['variable'];
+				$value = '';
 
-				return isset( $variables[ $name ])
-					? htmlspecialchars( $variables[ $name ])
-					: '';
+				if ( isset( $variables[ $name ])) {
+					$value = $variables[ $name ];
+
+					if ( $filter ) {
+						$value = call_user_func( $filter, $value );
+					}
+				}
+
+				return $value;
 			},
 			$template
 		);
