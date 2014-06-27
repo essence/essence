@@ -74,7 +74,6 @@ class OEmbed extends Provider {
 	 */
 
 	protected $_properties = [
-		'prepare' => 'static::prepareUrl',
 		'endpoint' => '',
 		'format' => self::json
 	];
@@ -98,48 +97,6 @@ class OEmbed extends Provider {
 		$this->_Dom = $Dom;
 
 		parent::__construct( $presenters );
-	}
-
-
-
-	/**
-	 *	Strips arguments and anchors from the given URL.
-	 *
-	 *	@param string $url Url to prepare.
-	 *	@return string Prepared url.
-	 */
-
-	public static function prepareUrl( $url, array $options = [ ]) {
-
-		$url = trim( $url );
-
-		if ( !self::strip( $url, '?' )) {
-			self::strip( $url, '#' );
-		}
-
-		return $url;
-	}
-
-
-
-	/**
-	 *	Strips the end of a string after a delimiter.
-	 *
-	 *	@param string $string The string to strip.
-	 *	@param string $delimiter The delimiter from which to strip the string.
-	 *	@return boolean True if the string was modified, otherwise false.
-	 */
-
-	public static function strip( &$string, $delimiter ) {
-
-		$position = strrpos( $string, $delimiter );
-		$found = ( $position !== false );
-
-		if ( $found ) {
-			$string = substr( $string, 0, $position );
-		}
-
-		return $found;
 	}
 
 

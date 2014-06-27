@@ -25,6 +25,16 @@ abstract class Provider {
 
 
 	/**
+	 *	Preparators.
+	 *
+	 *	@var Essence\Filter\Cascade
+	 */
+
+	protected $_Preparators = null;
+
+
+
+	/**
 	 *	Presenters.
 	 *
 	 *	@var Essence\Filter\Cascade
@@ -37,27 +47,25 @@ abstract class Provider {
 	/**
 	 *	Configuration options.
 	 *
-	 *	### Options
-	 *
-	 *	- 'prepare' callable( string $url ) A function to prepare the given URL.
-	 *
 	 *	@var array
 	 */
 
-	protected $_properties = [
-		'prepare' => 'self::prepareUrl'
-	];
+	protected $_properties = [ ];
 
 
 
 	/**
 	 *	Constructor.
 	 *
+	 *	@param array $preparators Preparators.
 	 *	@param array $presenters Presenters.
 	 */
 
-	public function __construct( array $presenters = [ ]) {
-
+	public function __construct(
+		array $preparators = [ ],
+		array $presenters = [ ]
+	) {
+		$this->_Preparators = new Cascade( $preparators );
 		$this->_Presenters = new Cascade( $presenters );
 	}
 
@@ -74,9 +82,7 @@ abstract class Provider {
 
 	public final function embed( $url, array $options = [ ]) {
 
-		if ( is_callable( $this->prepare )) {
-			$url = call_user_func( $this->prepare, $url, $options );
-		}
+		$this->_Preparators->filter( $url );
 
 		$Media = $this->_embed( $url, $options );
 		$Media->setDefault( 'url', $url );

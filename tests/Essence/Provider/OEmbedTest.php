@@ -69,19 +69,6 @@ class OEmbedTest extends TestCase {
 	 *
 	 */
 
-	public function testPrepare( ) {
-
-		$this->assertEquals( 'valid', OEmbed::prepareUrl( 'valid#anchor' ));
-		$this->assertEquals( 'valid', OEmbed::prepareUrl( 'valid?argument=value' ));
-		$this->assertEquals( 'valid', OEmbed::prepareUrl( 'valid?argument=value#anchor' ));
-	}
-
-
-
-	/**
-	 *
-	 */
-
 	public function testCompleteEndpoint( ) {
 
 		$this->assertEquals(
