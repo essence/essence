@@ -10,7 +10,7 @@ namespace Essence;
 use Essence\Configurable;
 use Essence\Exception;
 use Essence\Media;
-use Essence\Media\Preparator;
+use Essence\Filter\Cascade;
 
 
 
@@ -25,12 +25,12 @@ abstract class Provider {
 
 
 	/**
-	 *	Media preparator.
+	 *	Presenters.
 	 *
-	 *	@var Essence\Media\Preparator
+	 *	@var Essence\Filter\Cascade
 	 */
 
-	protected $_Preparator = null;
+	protected $_Presenters = null;
 
 
 
@@ -53,12 +53,12 @@ abstract class Provider {
 	/**
 	 *	Constructor.
 	 *
-	 *	@param Essence\Log\Preparator $Preparator Preparator.
+	 *	@param array $presenters Presenters.
 	 */
 
-	public function __construct( Preparator $Preparator = null ) {
+	public function __construct( array $presenters = [ ]) {
 
-		$this->_Preparator = $Preparator;
+		$this->_Presenters = new Cascade( $presenters );
 	}
 
 
@@ -74,8 +74,6 @@ abstract class Provider {
 
 	public final function embed( $url, array $options = [ ]) {
 
-		$Media = null;
-
 		if ( is_callable( $this->prepare )) {
 			$url = call_user_func( $this->prepare, $url, $options );
 		}
@@ -83,11 +81,7 @@ abstract class Provider {
 		$Media = $this->_embed( $url, $options );
 		$Media->setDefault( 'url', $url );
 
-		if ( $this->_Preparator ) {
-			$this->_Preparator->complete( $Media, $options );
-		}
-
-		return $Media;
+		return $this->_Presenters->filter( $Media );
 	}
 
 
