@@ -113,11 +113,11 @@ class OpenGraph extends Provider {
 			throw new Exception(
 				"Unable to extract OpenGraph data from '$url'."
 			);
-		} else {
-			foreach ( $attributes['meta'] as $meta ) {
-				if ( !isset( $og[ $meta['property']])) {
-					$og[ $meta['property']] = trim( $meta['content']);
-				}
+		}
+
+		foreach ( $attributes['meta'] as $meta ) {
+			if ( !isset( $og[ $meta['property']])) {
+				$og[ $meta['property']] = trim( $meta['content']);
 			}
 		}
 
