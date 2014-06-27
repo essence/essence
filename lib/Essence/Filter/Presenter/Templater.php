@@ -76,7 +76,8 @@ class Templater {
 				if ( preg_match( $pattern, $switch, $matches )) {
 					$Media->set( $this->_property, Template::compile(
 						$template,
-						$Media->properties( )
+						$Media->properties( ),
+						'htmlspecialchars'
 					));
 
 					break;
