@@ -21,6 +21,10 @@ use Essence\Media\Preparator;
 use Essence\Media\Preparator\Bandcamp as BandcampPreparator;
 use Essence\Media\Preparator\Vine as VinePreparator;
 use Essence\Media\Preparator\Youtube as YoutubePreparator;
+use Essence\Filter\Preparator\Refactorer;
+use Essence\Filter\Presenter\Completer;
+use Essence\Filter\Presenter\Reindexer;
+use Essence\Filter\Presenter\Templater;
 
 
 
@@ -38,11 +42,6 @@ class Standard extends Container {
 
 		$this->_properties = $properties + [
 
-			// Providers are loaded from the default config file
-			'providers' => dirname( dirname( dirname( dirname( dirname( __FILE__ )))))
-				. DIRECTORY_SEPARATOR . 'config'
-				. DIRECTORY_SEPARATOR . 'providers.json',
-
 			// A cURL HTTP client is shared across the application
 			// If cURL isn't available, a native client is used
 			'Http' => Container::unique( function( ) {
@@ -56,9 +55,55 @@ class Standard extends Container {
 				return new NativeDomParser( );
 			}),
 
+
+
+			/**
+			 *	Completer.
+			 */
+
 			//
-			'Preparator' => Container::unique( function( ) {
-				return new Preparator( );
+			'defaults' => [
+				'width' => 800,
+				'height' => 600
+			],
+
+			//
+			'Completer' => Container::unique( function( $C ) {
+				return new Completer( $C->get( 'defaults' ));
+			}),
+
+
+
+			/**
+			 *	OEmbed.
+			 */
+
+			//
+			'oEmbedMapping' => [
+				'og:type' => 'type',
+				'og:title' => 'title',
+				'og:description' => 'description',
+				'og:site_name' => 'providerName',
+				'og:image' => 'thumbnailUrl',
+				'og:image:url' => 'thumbnailUrl',
+				'og:image:width' => 'width',
+				'og:image:height' => 'height',
+				'og:video:width' => 'width',
+				'og:video:height' => 'height',
+				'og:url' => 'url'
+			],
+
+			//
+			'OEmbedReindexer' => Container::unique( function( $C ) {
+				return new Reindexer( $C->get( 'oEmbedMapping' ));
+			}),
+
+			//
+			'oEmbedPresenters' => Container::unique( function( $C ) {
+				return [
+					$C->get( 'OEmbedReindexer' ),
+					$C->get( 'Completer' )
+				];
 			}),
 
 			// The OEmbed provider uses the shared HTTP client and DOM parser.
@@ -66,22 +111,65 @@ class Standard extends Container {
 				return new OEmbed(
 					$C->get( 'Http' ),
 					$C->get( 'Dom' ),
-					$C->get( 'Preparator' )
+					[ ],
+					$C->get( 'oEmbedPresenters' )
 				);
 			},
+
+			/**
+			 *	Vimeo.
+			 */
+
+			'vimeoId' => '#player\.vimeo\.com/video/(?<id>[0-9]+)#i',
+			'vimeoUrl' => 'http://www.vimeo.com/:id',
+
+			//
+			'VimeoRefactorer' => Container::unique( function( $C ) {
+				return new Refactorer(
+					$C->get( 'vimeoId' ),
+					$C->get( 'vimeoUrl' )
+				);
+			}),
+
+			//
+			'vimeoPreparators' => Container::unique( function( $C ) {
+				return [
+					$C->get( 'VimeoRefactorer' )
+				];
+			}),
 
 			// The Vimeo provider uses the shared HTTP client and DOM parser.
 			'Vimeo' => function( $C ) {
 				return new Vimeo(
 					$C->get( 'Http' ),
 					$C->get( 'Dom' ),
-					$C->get( 'Preparator' )
+					$C->get( 'vimeoPreparators' ),
+					$C->get( 'oEmbedPresenters' )
 				);
 			},
 
+
+
+			/**
+			 *	Youtube.
+			 */
+
+			'youtubeId' => '#(?:v=|v/|embed/|youtu\.be/)(?<id>[a-z0-9_-]+)#i',
+			'youtubeUrl' => 'http://www.youtube.com/watch?v=:id',
+
 			//
-			'YoutubePreparator' => Container::unique( function( ) {
-				return new YoutubePreparator( );
+			'YoutubeRefactorer' => Container::unique( function( $C ) {
+				return new Refactorer(
+					$C->get( 'youtubeId' ),
+					$C->get( 'youtubeUrl' )
+				);
+			}),
+
+			//
+			'youtubePreparators' => Container::unique( function( $C ) {
+				return [
+					$C->get( 'YoutubeRefactorer' )
+				];
 			}),
 
 			// The Youtube provider uses the shared HTTP client and DOM parser.
@@ -89,46 +177,86 @@ class Standard extends Container {
 				return new Youtube(
 					$C->get( 'Http' ),
 					$C->get( 'Dom' ),
-					$C->get( 'Preparator' )
+					$C->get( 'youtubePreparators' ),
+					$C->get( 'oEmbedPresenters' )
 				);
 			},
+
+
+
+			/**
+			 *	OpenGraph.
+			 */
+
+			//
+			'openGraphMapping' => [
+				'og:type' => 'type',
+				'og:title' => 'title',
+				'og:description' => 'description',
+				'og:site_name' => 'providerName',
+				'og:image' => 'thumbnailUrl',
+				'og:image:url' => 'thumbnailUrl',
+				'og:image:width' => 'width',
+				'og:image:height' => 'height',
+				'og:video:width' => 'width',
+				'og:video:height' => 'height',
+				'og:url' => 'url'
+			],
+
+			//
+			'OpenGraphReindexer' => Container::unique( function( $C ) {
+				return new Reindexer( $C->get( 'openGraphMapping' ));
+			}),
+
+			//
+			'openGraphPresenters' => Container::unique( function( $C ) {
+				return [
+					$C->get( 'OpenGraphReindexer' )
+				];
+			}),
 
 			// The OpenGraph provider uses the shared HTTP client and DOM parser.
 			'OpenGraph' => function( $C ) {
 				return new OpenGraph(
 					$C->get( 'Http' ),
 					$C->get( 'Dom' ),
-					$C->get( 'Preparator' )
+					[ ],
+					$C->get( 'openGraphPresenters' )
 				);
 			},
 
-			//
-			'BandcampPreparator' => Container::unique( function( ) {
-				return new BandcampPreparator( );
-			}),
+
+
+			/**
+			 *	Bandcamp.
+			 */
 
 			// The Bandcamp provider uses the shared HTTP client and DOM parser.
 			'Bandcamp' => function( $C ) {
-				return new OpenGraph(
-					$C->get( 'Http' ),
-					$C->get( 'Dom' ),
-					$C->get( 'BandcampPreparator' )
-				);
+				return $C->get( 'OpenGraph' );
 			},
 
-			//
-			'VinePreparator' => Container::unique( function( ) {
-				return new VinePreparator( );
-			}),
+
+
+			/**
+			 *	Vine.
+			 */
 
 			// The Vine provider uses the shared HTTP client and DOM parser.
 			'Vine' => function( $C ) {
-				return new OpenGraph(
-					$C->get( 'Http' ),
-					$C->get( 'Dom' ),
-					$C->get( 'VinePreparator' )
-				);
+				return $C->get( 'OpenGraph' );
 			},
+
+
+
+			/**
+			 *
+			 */
+
+			// Providers are loaded from the default config file
+			'providers' => dirname( dirname( dirname( dirname( dirname( __FILE__ )))))
+				. DIRECTORY_SEPARATOR . 'config'
+				. DIRECTORY_SEPARATOR . 'providers.json',
 
 			// The provider collection uses the container
 			'Collection' => function( $C ) {
