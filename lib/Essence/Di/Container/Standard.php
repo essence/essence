@@ -272,28 +272,6 @@ class Standard extends Container {
 
 
 			/**
-			 *	Bandcamp.
-			 */
-
-			// The Bandcamp provider uses the shared HTTP client and DOM parser.
-			'Bandcamp' => function( $C ) {
-				return $C->get( 'OpenGraph' );
-			},
-
-
-
-			/**
-			 *	Vine.
-			 */
-
-			// The Vine provider uses the shared HTTP client and DOM parser.
-			'Vine' => function( $C ) {
-				return $C->get( 'OpenGraph' );
-			},
-
-
-
-			/**
 			 *
 			 */
 

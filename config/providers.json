@@ -25,7 +25,7 @@
 		"endpoint": "http:\/\/api.bambuser.com\/oembed.json?url=:url"
 	},
 	"Bandcamp": {
-		"class": "Bandcamp",
+		"class": "TwitterCards",
 		"filter": "#^https?:\/\/(?:[^\\.]+\\.)?bandcamp\\.com\/(album|track)\/#i"
 	},
 	"Blip.tv": {
@@ -319,7 +319,7 @@
 		"endpoint": "http:\/\/vimeo.com\/api\/oembed.json?url=:url"
 	},
 	"Vine": {
-		"class": "Vine",
+		"class": "TwitterCards",
 		"filter": "#^https?:\/\/vine.co\/v\/[a-zA-Z0-9]+#i"
 	},
 	"WordPress": {
