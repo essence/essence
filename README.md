@@ -16,8 +16,7 @@ Essence is designed to be really easy to use.
 Using the main class of the library, you can retrieve informations in just those few lines:
 
 ```php
-$Essence = Essence\Essence::instance( );
-
+$Essence = new Essence\Essence( );
 $Media = $Essence->embed( 'http://www.youtube.com/watch?v=39e3KYAmXK4' );
 
 if ( $Media ) {
@@ -170,20 +169,14 @@ It is possible to pass some options to the providers.
 For example, OEmbed providers accepts the `maxwidth` and `maxheight` parameters, as specified in the OEmbed spec.
 
 ```php
-$Media = $Essence->embed( $url, [
+$options = [
 	'maxwidth' => 800,
 	'maxheight' => 600
-]);
+];
 
-$medias = $Essence->embedAll( $urls, [
-	'maxwidth' => 800,
-	'maxheight' => 600
-]);
-
-$Media = $Essence->extract( $text, null, [
-	'maxwidth' => 800,
-	'maxheight' => 600
-]);
+$Media = $Essence->embed( $url, $options );
+$medias = $Essence->embedAll( $urls, $options );
+$text = $Essence->replace( $text, null, $options );
 ```
 
 Other providers will just ignore the options they don't handle.
@@ -211,7 +204,7 @@ Plus the `OEmbed` and `OpenGraph` providers, which can be used to embed any URL.
 You can configure these providers by passing a configuration array:
 
 ```php
-$Essence = Essence\Essence::instance([
+$Essence = new Essence\Essence([
 	'providers' => [
 
 		// the OpenGraph provider will try to embed any URL that matches
@@ -232,7 +225,7 @@ $Essence = Essence\Essence::instance([
 ]);
 
 // you can also load a configuration array from a file
-$Essence = Essence\Essence::instance([
+$Essence = new Essence\Essence([
 	'providers' => 'path/to/config/file.php'
 ]);
 ```
@@ -245,12 +238,12 @@ Customization
 -------------
 
 Almost everything in Essence can be configured through dependency injection.
-Under the hoods, the `instance( )` method uses a dependency injection container to return a fully configured instance of Essence.
+Under the hoods, the constructor uses a dependency injection container to return a fully configured instance of Essence.
 
 To customize the Essence behavior, the easiest way is to configure injection settings when building Essence:
 
 ```php
-$Essence = Essence\Essence::instance([
+$Essence = new Essence\Essence([
 
 	// the container will return a new CustomCacheEngine each time a cache
 	// engine is needed
