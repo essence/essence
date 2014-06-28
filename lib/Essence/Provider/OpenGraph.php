@@ -74,34 +74,6 @@ class OpenGraph extends Provider {
 
 	protected function _embed( $url, array $options ) {
 
-		return new Media(
-			Hash::reindex( $this->_extractInformations( $url ), [
-				'og:type' => 'type',
-				'og:title' => 'title',
-				'og:description' => 'description',
-				'og:site_name' => 'providerName',
-				'og:image' => 'thumbnailUrl',
-				'og:image:url' => 'thumbnailUrl',
-				'og:image:width' => 'width',
-				'og:image:height' => 'height',
-				'og:video:width' => 'width',
-				'og:video:height' => 'height',
-				'og:url' => 'url'
-			])
-		);
-	}
-
-
-
-	/**
-	 *	Extracts OpenGraph informations from the given URL.
-	 *
-	 *	@param string $url URL to fetch informations from.
-	 *	@return array Extracted informations.
-	 */
-
-	protected function _extractInformations( $url ) {
-
 		$attributes = $this->_Dom->extractAttributes( $this->_Http->get( $url ), [
 			'meta' => [
 				'property' => '#^og:.+#i',
@@ -123,7 +95,6 @@ class OpenGraph extends Provider {
 			}
 		}
 
-		return $og;
+		return new Media( $og );
 	}
 }
-
