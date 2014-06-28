@@ -16,11 +16,11 @@ use Essence\Provider\Collection;
 use Essence\Provider\MetaTags;
 use Essence\Provider\OEmbed;
 use Essence\Provider\OpenGraph;
-use Essence\Filter\Preparator\Refactorer;
-use Essence\Filter\Presenter\Completer;
-use Essence\Filter\Presenter\Reindexer;
-use Essence\Filter\Presenter\Templater;
-use Essence\Filter\Presenter\Youtube;
+use Essence\Provider\Preparator\Refactorer;
+use Essence\Provider\Presenter\Completer;
+use Essence\Provider\Presenter\Reindexer;
+use Essence\Provider\Presenter\Templater;
+use Essence\Provider\Presenter\Youtube;
 
 
 

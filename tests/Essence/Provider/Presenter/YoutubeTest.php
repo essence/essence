@@ -5,7 +5,7 @@
  *	@license FreeBSD License (http://opensource.org/licenses/BSD-2-Clause)
  */
 
-namespace Essence\Filter\Presenter;
+namespace Essence\Provider\Presenter;
 
 use PHPUnit_Framework_TestCase as TestCase;
 use Essence\Media;

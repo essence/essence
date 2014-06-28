@@ -5,7 +5,7 @@
  *	@license FreeBSD License (http://opensource.org/licenses/BSD-2-Clause)
  */
 
-namespace Essence\Filter\Presenter;
+namespace Essence\Provider\Presenter;
 
 use Essence\Media;
 use Essence\Utility\Template;
