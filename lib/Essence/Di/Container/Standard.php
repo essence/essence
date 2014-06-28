@@ -20,6 +20,7 @@ use Essence\Filter\Preparator\Refactorer;
 use Essence\Filter\Presenter\Completer;
 use Essence\Filter\Presenter\Reindexer;
 use Essence\Filter\Presenter\Templater;
+use Essence\Filter\Presenter\Youtube;
 
 
 
@@ -152,6 +153,18 @@ class Standard extends Container {
 			'youtubePreparators' => Container::unique( function( $C ) {
 				return [
 					$C->get( 'YoutubeRefactorer' )
+				];
+			}),
+
+			'youtubeThumbnailFormat' => Youtube::large,
+
+			'YoutubePresenter' => Container::unique( function( $C ) {
+				return new Youtube( $C->get( 'youtubeThumbnailFormat' ));
+			}),
+
+			'youtubePresenters' => Container::unique( function( $C ) {
+				return [
+					$C->get( 'YoutubePresenter' )
 				];
 			}),
 
