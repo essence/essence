@@ -64,7 +64,7 @@
 	},
 	"CollegeHumorOpenGraph": {
 		"class": "OpenGraph",
-		"filter": "#collegehumor\\.com\/(picture|article)\/.+#i"
+		"filter": "#collegehumor\\.com\/post\/.+#i"
 	},
 	"Coub": {
 		"class": "OEmbed",
@@ -162,7 +162,7 @@
 	},
 	"Jest": {
 		"class": "OEmbed",
-		"filter": "#jest\\.com\/video\/.+#i",
+		"filter": "#jest\\.com\/(video|embed)\/.+#i",
 		"endpoint": "http:\/\/www.jest.com\/oembed.json?url=:url"
 	},
 	"Justin.tv": {
@@ -192,7 +192,7 @@
 	},
 	"Nfb": {
 		"class": "OEmbed",
-		"filter": "#nfb\\.ca\/films\/.+#i",
+		"filter": "#nfb\\.ca\/films?\/.+#i",
 		"endpoint": "http:\/\/www.nfb.ca\/remote\/services\/oembed?format=json&url=:url"
 	},
 	"Official.fm": {
@@ -256,7 +256,7 @@
 	},
 	"Sketchfab": {
 		"class": "OEmbed",
-		"filter": "#sketchfab\\.com\/show\/.+#i",
+		"filter": "#sketchfab\\.com\/models\/.+#i",
 		"endpoint": "http:\/\/sketchfab.com\/oembed?format=json&url=:url"
 	},
 	"SlideShare": {
