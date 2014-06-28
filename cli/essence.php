@@ -30,7 +30,7 @@ if ( $argc < 3 ) {
 
 function main( $method, $url ) {
 
-	$Essence = Essence\Essence::instance( );
+	$Essence = new Essence\Essence( );
 
 	switch ( $method ) {
 		case 'embed':

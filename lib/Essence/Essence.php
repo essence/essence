@@ -86,34 +86,16 @@ class Essence {
 	/**
 	 *	Constructor.
 	 *
-	 *	@param Essence\ProviderCollection $Collection Provider collection.
-	 *	@param Essence\Http\Client $Http HTTP client.
-	 *	@param Essence\Dom\Parser $Cache DOM parser.
-	 */
-
-	public function __construct(
-		Collection $Collection,
-		HttpClient $Http,
-		DomParser $Dom
-	) {
-		$this->_Collection = $Collection;
-		$this->_Http = $Http;
-		$this->_Dom = $Dom;
-	}
-
-
-
-	/**
-	 *	Builds a fully configured instance of Essence.
-	 *
 	 *	@param array $configuration Dependency injection configuration.
-	 *	@return Essence\Essence Essence instance.
 	 */
 
-	public static function instance( array $configuration = [ ]) {
+	public function __construct( array $configuration = [ ]) {
 
 		$Container = new StandardContainer( $configuration );
-		return $Container->get( 'Essence' );
+
+		$this->_Collection = $Container->get( 'Collection' );
+		$this->_Http = $Container->get( 'Http' );
+		$this->_Dom = $Container->get( 'Dom' );
 	}
 
 

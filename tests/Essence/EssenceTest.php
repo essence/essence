@@ -8,7 +8,6 @@
 namespace Essence;
 
 use PHPUnit_Framework_TestCase as TestCase;
-use Essence\Di\Container\Standard as StandardContainer;
 use Essence\Dom\Parser\Native as NativeDomParser;
 use Essence\Http\Client\Native as NativeHttpClient;
 
@@ -34,7 +33,7 @@ class EssenceTest extends TestCase {
 
 	public function setUp( ) {
 
-		$Container = new StandardContainer([
+		$this->Essence = new Essence([
 			'Http' => new NativeHttpClient( ),
 			'Dom' => new NativeDomParser( ),
 			'Media' => new Media([
@@ -60,8 +59,6 @@ class EssenceTest extends TestCase {
 				]
 			]
 		]);
-
-		$this->Essence = $Container->get( 'Essence' );
 	}
 
 

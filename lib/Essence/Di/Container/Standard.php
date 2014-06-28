@@ -308,16 +308,6 @@ class Standard extends Container {
 				$Collection->load( $C->get( 'providers' ));
 
 				return $Collection;
-			},
-
-			// Essence uses the provider collection, and the shared HTTP client
-			// and DOM parser.
-			'Essence' => function( $C ) {
-				return new Essence(
-					$C->get( 'Collection' ),
-					$C->get( 'Http' ),
-					$C->get( 'Dom' )
-				);
 			}
 		];
 	}
