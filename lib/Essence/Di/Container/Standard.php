@@ -13,14 +13,9 @@ use Essence\Dom\Parser\Native as NativeDomParser;
 use Essence\Http\Client\Curl as CurlHttpClient;
 use Essence\Http\Client\Native as NativeHttpClient;
 use Essence\Provider\Collection;
+use Essence\Provider\MetaTags;
 use Essence\Provider\OEmbed;
-use Essence\Provider\OEmbed\Vimeo;
-use Essence\Provider\OEmbed\Youtube;
 use Essence\Provider\OpenGraph;
-use Essence\Media\Preparator;
-use Essence\Media\Preparator\Bandcamp as BandcampPreparator;
-use Essence\Media\Preparator\Vine as VinePreparator;
-use Essence\Media\Preparator\Youtube as YoutubePreparator;
 use Essence\Filter\Preparator\Refactorer;
 use Essence\Filter\Presenter\Completer;
 use Essence\Filter\Presenter\Reindexer;
@@ -140,7 +135,7 @@ class Standard extends Container {
 
 			// The Vimeo provider uses the shared HTTP client and DOM parser.
 			'Vimeo' => function( $C ) {
-				return new Vimeo(
+				return new OEmbed(
 					$C->get( 'Http' ),
 					$C->get( 'Dom' ),
 					$C->get( 'vimeoPreparators' ),
@@ -174,7 +169,7 @@ class Standard extends Container {
 
 			// The Youtube provider uses the shared HTTP client and DOM parser.
 			'Youtube' => function( $C ) {
-				return new Youtube(
+				return new OEmbed(
 					$C->get( 'Http' ),
 					$C->get( 'Dom' ),
 					$C->get( 'youtubePreparators' ),
@@ -187,6 +182,9 @@ class Standard extends Container {
 			/**
 			 *	OpenGraph.
 			 */
+
+			//
+			'openGraphScheme' => '#^og:.+#i',
 
 			//
 			'openGraphMapping' => [
@@ -217,12 +215,15 @@ class Standard extends Container {
 
 			// The OpenGraph provider uses the shared HTTP client and DOM parser.
 			'OpenGraph' => function( $C ) {
-				return new OpenGraph(
+				$OpenGraph = new MetaTags(
 					$C->get( 'Http' ),
 					$C->get( 'Dom' ),
 					[ ],
 					$C->get( 'openGraphPresenters' )
 				);
+
+				$OpenGraph->set( 'scheme', $C->get( 'openGraphScheme' ));
+				return $OpenGraph;
 			},
 
 
