@@ -184,7 +184,7 @@ class Standard extends Container {
 			 */
 
 			//
-			'openGraphScheme' => '#^og:.+#i',
+			'openGraphScheme' => '#^og:#i',
 
 			//
 			'openGraphMapping' => [
