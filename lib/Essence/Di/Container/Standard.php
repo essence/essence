@@ -37,15 +37,12 @@ class Standard extends Container {
 
 		$this->_properties = $properties + [
 
-			// A cURL HTTP client is shared across the application
-			// If cURL isn't available, a native client is used
 			'Http' => Container::unique( function( ) {
 				return function_exists( 'curl_init' )
 					? new CurlHttpClient( )
 					: new NativeHttpClient( );
 			}),
 
-			// A native DOM parser is shared across the application
 			'Dom' => Container::unique( function( ) {
 				return new NativeDomParser( );
 			}),
@@ -56,13 +53,11 @@ class Standard extends Container {
 			 *	Completer.
 			 */
 
-			//
 			'defaults' => [
 				'width' => 800,
 				'height' => 600
 			],
 
-			//
 			'Completer' => Container::unique( function( $C ) {
 				return new Completer( $C->get( 'defaults' ));
 			}),
@@ -73,7 +68,6 @@ class Standard extends Container {
 			 *	OEmbed.
 			 */
 
-			//
 			'oEmbedMapping' => [
 				'og:type' => 'type',
 				'og:title' => 'title',
@@ -88,12 +82,10 @@ class Standard extends Container {
 				'og:url' => 'url'
 			],
 
-			//
 			'OEmbedReindexer' => Container::unique( function( $C ) {
 				return new Reindexer( $C->get( 'oEmbedMapping' ));
 			}),
 
-			//
 			'oEmbedPresenters' => Container::unique( function( $C ) {
 				return [
 					$C->get( 'OEmbedReindexer' ),
@@ -101,7 +93,6 @@ class Standard extends Container {
 				];
 			}),
 
-			// The OEmbed provider uses the shared HTTP client and DOM parser.
 			'OEmbed' => function( $C ) {
 				return new OEmbed(
 					$C->get( 'Http' ),
@@ -111,6 +102,8 @@ class Standard extends Container {
 				);
 			},
 
+
+
 			/**
 			 *	Vimeo.
 			 */
@@ -118,7 +111,6 @@ class Standard extends Container {
 			'vimeoId' => '#player\.vimeo\.com/video/(?<id>[0-9]+)#i',
 			'vimeoUrl' => 'http://www.vimeo.com/:id',
 
-			//
 			'VimeoRefactorer' => Container::unique( function( $C ) {
 				return new Refactorer(
 					$C->get( 'vimeoId' ),
@@ -126,14 +118,12 @@ class Standard extends Container {
 				);
 			}),
 
-			//
 			'vimeoPreparators' => Container::unique( function( $C ) {
 				return [
 					$C->get( 'VimeoRefactorer' )
 				];
 			}),
 
-			// The Vimeo provider uses the shared HTTP client and DOM parser.
 			'Vimeo' => function( $C ) {
 				return new OEmbed(
 					$C->get( 'Http' ),
@@ -152,7 +142,6 @@ class Standard extends Container {
 			'youtubeId' => '#(?:v=|v/|embed/|youtu\.be/)(?<id>[a-z0-9_-]+)#i',
 			'youtubeUrl' => 'http://www.youtube.com/watch?v=:id',
 
-			//
 			'YoutubeRefactorer' => Container::unique( function( $C ) {
 				return new Refactorer(
 					$C->get( 'youtubeId' ),
@@ -160,14 +149,12 @@ class Standard extends Container {
 				);
 			}),
 
-			//
 			'youtubePreparators' => Container::unique( function( $C ) {
 				return [
 					$C->get( 'YoutubeRefactorer' )
 				];
 			}),
 
-			// The Youtube provider uses the shared HTTP client and DOM parser.
 			'Youtube' => function( $C ) {
 				return new OEmbed(
 					$C->get( 'Http' ),
@@ -183,10 +170,7 @@ class Standard extends Container {
 			 *	OpenGraph.
 			 */
 
-			//
 			'openGraphScheme' => '#^og:#i',
-
-			//
 			'openGraphMapping' => [
 				'og:type' => 'type',
 				'og:title' => 'title',
@@ -201,19 +185,16 @@ class Standard extends Container {
 				'og:url' => 'url'
 			],
 
-			//
 			'OpenGraphReindexer' => Container::unique( function( $C ) {
 				return new Reindexer( $C->get( 'openGraphMapping' ));
 			}),
 
-			//
 			'openGraphPresenters' => Container::unique( function( $C ) {
 				return [
 					$C->get( 'OpenGraphReindexer' )
 				];
 			}),
 
-			// The OpenGraph provider uses the shared HTTP client and DOM parser.
 			'OpenGraph' => function( $C ) {
 				$OpenGraph = new MetaTags(
 					$C->get( 'Http' ),
@@ -232,10 +213,7 @@ class Standard extends Container {
 			 *	TwitterCards.
 			 */
 
-			//
 			'twitterCardsScheme' => '#^twitter:#i',
-
-			//
 			'twitterCardsMapping' => [
 				'twitter:card' => 'type',
 				'twitter:title' => 'title',
@@ -244,19 +222,16 @@ class Standard extends Container {
 				'twitter:creator' => 'authorName'
 			],
 
-			//
 			'TwitterCardsReindexer' => Container::unique( function( $C ) {
 				return new Reindexer( $C->get( 'twitterCardsMapping' ));
 			}),
 
-			//
 			'twitterCardsPresenters' => Container::unique( function( $C ) {
 				return [
 					$C->get( 'TwitterCardsReindexer' )
 				];
 			}),
 
-			// The TwitterCards provider uses the shared HTTP client and DOM parser.
 			'TwitterCards' => function( $C ) {
 				$TwitterCards = new MetaTags(
 					$C->get( 'Http' ),
@@ -272,15 +247,13 @@ class Standard extends Container {
 
 
 			/**
-			 *
+			 *	Providers.
 			 */
 
-			// Providers are loaded from the default config file
 			'providers' => dirname( dirname( dirname( dirname( dirname( __FILE__ )))))
 				. DIRECTORY_SEPARATOR . 'config'
 				. DIRECTORY_SEPARATOR . 'providers.json',
 
-			// The provider collection uses the container
 			'Collection' => function( $C ) {
 				$Collection = new Collection( $C );
 				$Collection->load( $C->get( 'providers' ));
