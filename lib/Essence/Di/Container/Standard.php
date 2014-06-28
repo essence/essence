@@ -229,6 +229,49 @@ class Standard extends Container {
 
 
 			/**
+			 *	TwitterCards.
+			 */
+
+			//
+			'twitterCardsScheme' => '#^twitter:#i',
+
+			//
+			'twitterCardsMapping' => [
+				'twitter:card' => 'type',
+				'twitter:title' => 'title',
+				'twitter:description' => 'description',
+				'twitter:site' => 'providerName',
+				'twitter:creator' => 'authorName'
+			],
+
+			//
+			'TwitterCardsReindexer' => Container::unique( function( $C ) {
+				return new Reindexer( $C->get( 'twitterCardsMapping' ));
+			}),
+
+			//
+			'twitterCardsPresenters' => Container::unique( function( $C ) {
+				return [
+					$C->get( 'TwitterCardsReindexer' )
+				];
+			}),
+
+			// The TwitterCards provider uses the shared HTTP client and DOM parser.
+			'TwitterCards' => function( $C ) {
+				$TwitterCards = new MetaTags(
+					$C->get( 'Http' ),
+					$C->get( 'Dom' ),
+					[ ],
+					$C->get( 'twitterCardsPresenters' )
+				);
+
+				$TwitterCards->set( 'scheme', $C->get( 'twitterCardsScheme' ));
+				return $TwitterCards;
+			},
+
+
+
+			/**
 			 *	Bandcamp.
 			 */
 
