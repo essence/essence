@@ -9,7 +9,6 @@ namespace Essence\Provider;
 
 use Essence\Exception;
 use Essence\Media;
-use Essence\Media\Preparator;
 use Essence\Provider;
 use Essence\Dom\Parser as DomParser;
 use Essence\Http\Client as HttpClient;
