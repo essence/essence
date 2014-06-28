@@ -51,6 +51,6 @@ class MetaTagsTest extends TestCase {
 			'file://' . ESSENCE_HTTP . 'valid.html'
 		);
 
-		$this->assertEquals( 'og:site_name', $Media->get( 'YouTube' ));
+		$this->assertEquals( 'YouTube', $Media->get( 'og:site_name' ));
 	}
 }
