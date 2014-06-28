@@ -10,7 +10,7 @@ namespace Essence\Filter;
 
 
 /**
- *	Makes a class configurable.
+ *	Cascade of filters.
  */
 
 class Cascade {
