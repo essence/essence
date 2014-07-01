@@ -70,17 +70,14 @@ class Standard extends Container {
 			 */
 
 			'oEmbedMapping' => [
-				'og:type' => 'type',
-				'og:title' => 'title',
-				'og:description' => 'description',
-				'og:site_name' => 'providerName',
-				'og:image' => 'thumbnailUrl',
-				'og:image:url' => 'thumbnailUrl',
-				'og:image:width' => 'width',
-				'og:image:height' => 'height',
-				'og:video:width' => 'width',
-				'og:video:height' => 'height',
-				'og:url' => 'url'
+				'author_name' => 'authorName',
+				'author_url' => 'authorUrl',
+				'provider_name' => 'providerName',
+				'provider_url' => 'providerUrl',
+				'cache_age' => 'cacheAge',
+				'thumbnail_url' => 'thumbnailUrl',
+				'thumbnail_width' => 'thumbnailWidth',
+				'thumbnail_height' => 'thumbnailHeight'
 			],
 
 			'OEmbedReindexer' => Container::unique( function( $C ) {
