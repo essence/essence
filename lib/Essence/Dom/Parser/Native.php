@@ -11,6 +11,7 @@ use Essence\Dom\Parser;
 use Essence\Exception;
 use Essence\Utility\Hash;
 use DomDocument;
+use DomNode;
 
 
 
