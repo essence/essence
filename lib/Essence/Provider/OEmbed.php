@@ -134,8 +134,11 @@ class OEmbed extends Provider {
 
 
 	/**
+	 *	Builds or extracts an oEmbed config.
 	 *
-	 * @param string $url
+	 *	@param string $url URL.
+	 *	@param array $options Options.
+	 *	@return array Configuration.
 	 */
 
 	protected function _config( $url, array $options ) {
@@ -157,7 +160,10 @@ class OEmbed extends Provider {
 
 
 	/**
+	 *	Builds an oEmbed configuration from settings.
 	 *
+	 *	@param string $url URL to embed.
+	 *	@return array Configuration.
 	 */
 
 	protected function _buildConfig( $url ) {
