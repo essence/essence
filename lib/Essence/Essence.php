@@ -7,11 +7,8 @@
 
 namespace Essence;
 
-use Essence\Cacheable;
 use Essence\Configurable;
 use Essence\Di\Container\Standard as StandardContainer;
-use Essence\Dom\Parser as DomParser;
-use Essence\Http\Client as HttpClient;
 use Essence\Provider\Collection;
 use Essence\Exception;
 

@@ -64,7 +64,7 @@ class Collection {
 	/**
 	 *	Constructor.
 	 *
-	 *	@param Essence\Di\Container $Container Dependency injection container
+	 *	@param Container $Container Dependency injection container
 	 *		used to build providers.
 	 */
 
@@ -98,7 +98,7 @@ class Collection {
 	 *	Tells if a provider was found for the given url.
 	 *
 	 *	@param string $url An url which may be embedded.
-	 *	@return mixed The url provider if any, otherwise null.
+	 *	@return boolean The url provider if any, otherwise null.
 	 */
 
 	public function hasProvider( $url ) {

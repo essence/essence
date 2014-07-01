@@ -13,7 +13,6 @@ use Essence\Provider;
 use Essence\Dom\Parser as DomParser;
 use Essence\Http\Client as HttpClient;
 use Essence\Utility\Template;
-use Essence\Utility\Hash;
 use Essence\Utility\Json;
 use Essence\Utility\Xml;
 
@@ -83,8 +82,8 @@ class OEmbed extends Provider {
 	/**
 	 *	Constructor.
 	 *
-	 *	@param Essence\Http\Client $Http HTTP client.
-	 *	@param Essence\Dom\Parser $Dom DOM parser.
+	 *	@param HttpClient $Http HTTP client.
+	 *	@param DomParser $Dom DOM parser.
 	 *	@param array $preparators Preparator.
 	 *	@param array $presenters Presenters.
 	 */
@@ -135,7 +134,11 @@ class OEmbed extends Provider {
 
 
 	/**
+	 *	Builds or extracts an oEmbed config.
 	 *
+	 *	@param string $url URL.
+	 *	@param array $options Options.
+	 *	@return array Configuration.
 	 */
 
 	protected function _config( $url, array $options ) {
@@ -157,7 +160,10 @@ class OEmbed extends Provider {
 
 
 	/**
+	 *	Builds an oEmbed configuration from settings.
 	 *
+	 *	@param string $url URL to embed.
+	 *	@return array Configuration.
 	 */
 
 	protected function _buildConfig( $url ) {

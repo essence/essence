@@ -19,7 +19,6 @@ use Essence\Provider\OpenGraph;
 use Essence\Provider\Preparator\Refactorer;
 use Essence\Provider\Presenter\Completer;
 use Essence\Provider\Presenter\Reindexer;
-use Essence\Provider\Presenter\Templater;
 use Essence\Provider\Presenter\Youtube;
 
 
