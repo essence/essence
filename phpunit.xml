@@ -11,6 +11,7 @@
 	stopOnFailure="false"
 	syntaxCheck="false"
 	colors="true"
+	verbose="true"
 >
 	<testsuites>
 		<testsuite name="Essence test suite">
