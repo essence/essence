@@ -97,12 +97,15 @@ class Native implements Parser {
 	 */
 
 	protected function fixCharset( $html ) {
-		// The fix is from https://github.com/glenscott/dom-document-charset/blob/master/DOMDocumentCharset.php
-		if ( LIBXML_VERSION < 20800 && stripos($html, 'meta charset') !== false ) {
-			$html = preg_replace( '/<meta charset=["\']?([^"\']+)"/i',
-					              '<meta http-equiv="Content-Type" content="text/html; charset=$1"',
-					              $html );
+
+		if ( LIBXML_VERSION < 20800 && stripos( $html, 'meta charset' ) !== false ) {
+			$html = preg_replace(
+				'/<meta charset=["\']?([^"\']+)"/i',
+				'<meta http-equiv="Content-Type" content="text/html; charset=$1"',
+				$html
+			);
 		}
+
 		return $html;
 	}
 
