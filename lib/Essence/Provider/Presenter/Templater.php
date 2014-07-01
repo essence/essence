@@ -19,9 +19,9 @@ use Essence\Utility\Template;
 class Templater {
 
 	/**
-	 *	Keys mapping.
+	 *	Property to update.
 	 *
-	 *	@var array
+	 *	@var string
 	 */
 
 	protected $_property = [ ];
@@ -29,9 +29,9 @@ class Templater {
 
 
 	/**
-	 *	Keys mapping.
+	 *	Property to test.
 	 *
-	 *	@var array
+	 *	@var string
 	 */
 
 	protected $_switch = [ ];
@@ -39,7 +39,7 @@ class Templater {
 
 
 	/**
-	 *	Keys mapping.
+	 *	Templates.
 	 *
 	 *	@var array
 	 */
@@ -51,7 +51,9 @@ class Templater {
 	/**
 	 *	Constructor.
 	 *
-	 *	@param array $mapping Mapping.
+	 *	@param string $property Property to update.
+	 *	@param string $switch Property to test.
+	 *	@param array $templates Mapping.
 	 */
 
 	public function __construct( $property, $switch, array $templates ) {

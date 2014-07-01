@@ -30,7 +30,7 @@ class Youtube {
 	/**
 	 *	Thumbnail format.
 	 *
-	 *	@var array
+	 *	@var string
 	 */
 
 	protected $_thumbnailFormat = '';
