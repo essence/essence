@@ -11,7 +11,6 @@ use Essence\Dom\Parser;
 use Essence\Exception;
 use Essence\Utility\Hash;
 use DomDocument;
-use DomNode;
 
 
 
@@ -59,7 +58,7 @@ class Native implements Parser {
 	 *	Builds and returns a DomDocument from the given HTML source.
 	 *
 	 *	@param string $html HTML source.
-	 *	@return DomDocument DomDocument.
+	 *	@return boolean DomDocument.
 	 */
 
 	protected function _document( $html ) {
