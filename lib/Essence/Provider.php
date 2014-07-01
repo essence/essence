@@ -103,18 +103,4 @@ abstract class Provider {
 
 	abstract protected function _embed( $url, array $options );
 
-
-
-	/**
-	 *	Trims and returns the given string.
-	 *
-	 *	@param string $url URL.
-	 *	@param array $options Embed options.
-	 *	@return string Trimmed URL.
-	 */
-
-	public static function prepareUrl( $url, array $options = [ ]) {
-
-		return trim( $url );
-	}
 }
