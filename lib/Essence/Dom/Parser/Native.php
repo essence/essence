@@ -59,7 +59,7 @@ class Native implements Parser {
 	 *	Builds and returns a DomDocument from the given HTML source.
 	 *
 	 *	@param string $html HTML source.
-	 *	@return boolean DomDocument.
+	 *	@return DomDocument DomDocument.
 	 */
 
 	protected function _document( $html ) {
@@ -80,21 +80,20 @@ class Native implements Parser {
 
 	/**
 	 *	If necessary, fixes the given HTML's charset to work with the current
-	 *	version of Libxml (used by DomDocument). Older versions of Libxml
-	 *	recognize only
+	 *	version of Libxml (used by DomDocument).
+	 *	Older versions of Libxml only recognizes
+	 *		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	 *
-	 *      <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	 *	and not the new HTML5 form:
+	 *		<meta charset="utf-8">
 	 *
-	 *  from HTML4, and not the new HTML5 form:
+	 *	with the result that parsed strings can have funny characters.
 	 *
-	 *      <meta charset="utf-8">
-	 *
-	 *  with the result that parsed strings can have funny characters.
-	 *
-	 *	@param string $html HTML source.
-	 *	@return string the fixed HTML
 	 *	@see "HTML5, character encodings and DOMDocument loadHTML and loadHTMLFile"
-	 *	     http://www.glenscott.co.uk/blog/html5-character-encodings-and-domdocument-loadhtml-and-loadhtmlfile/
+	 *		http://www.glenscott.co.uk/blog/html5-character-encodings-and-domdocument-loadhtml-and-loadhtmlfile
+	 *	@see https://github.com/glenscott/dom-document-charset/blob/master/DOMDocumentCharset.php
+	 *	@param string $html HTML source.
+	 *	@return string Fixed HTML source.
 	 */
 
 	protected function fixCharset( $html ) {
