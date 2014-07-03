@@ -31,11 +31,17 @@ class Standard extends Container {
 
 	/**
 	 *	Sets the default properties.
+	 *
+	 *	@param array $properties Dependency injection settings.
 	 */
 
 	public function __construct( array $properties = [ ]) {
 
 		$this->_properties = $properties + [
+
+			/**
+			 *	Global helpers.
+			 */
 
 			'Http' => Container::unique( function( ) {
 				return function_exists( 'curl_init' )
