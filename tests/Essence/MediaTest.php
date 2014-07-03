@@ -55,7 +55,13 @@ class MediaTest extends TestCase {
 
 	public function testIterator( ) {
 
-		foreach ( $this->Media as $property => $value ) { }
+		$properties = [ ];
+
+		foreach ( $this->Media as $property => $value ) {
+			$properties[ $property ] = $value;
+		}
+
+		$this->assertEquals( $properties, $this->Media->properties( ));
 	}
 
 
