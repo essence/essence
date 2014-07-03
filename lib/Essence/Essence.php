@@ -9,7 +9,6 @@ namespace Essence;
 
 use Essence\Configurable;
 use Essence\Di\Container\Standard as StandardContainer;
-use Essence\Provider\Collection;
 use Essence\Exception;
 
 
@@ -27,7 +26,7 @@ class Essence {
 	/**
 	 *	A collection of providers to query.
 	 *
-	 *	@var Essence\ProviderCollection
+	 *	@var Essence\Provider\Collection
 	 */
 
 	protected $_Collection = null;
