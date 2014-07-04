@@ -65,8 +65,7 @@ class Native implements Parser {
 	protected function _document( $html ) {
 
 		$reporting = error_reporting( 0 );
-		$html = $this->fixCharset( $html );
-		$Document = DomDocument::loadHTML( $html );
+		$Document = DomDocument::loadHTML( $this->_fixCharset( $html ));
 		error_reporting( $reporting );
 
 		if ( $Document === false ) {
@@ -81,22 +80,19 @@ class Native implements Parser {
 	/**
 	 *	If necessary, fixes the given HTML's charset to work with the current
 	 *	version of Libxml (used by DomDocument).
-	 *	Older versions of Libxml only recognizes
+	 *	Older versions of Libxml only recognizes:
 	 *		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	 *
 	 *	and not the new HTML5 form:
 	 *		<meta charset="utf-8">
-	 *
 	 *	with the result that parsed strings can have funny characters.
 	 *
-	 *	@see "HTML5, character encodings and DOMDocument loadHTML and loadHTMLFile"
-	 *		http://www.glenscott.co.uk/blog/html5-character-encodings-and-domdocument-loadhtml-and-loadhtmlfile
+	 *	@see http://www.glenscott.co.uk/blog/html5-character-encodings-and-domdocument-loadhtml-and-loadhtmlfile
 	 *	@see https://github.com/glenscott/dom-document-charset/blob/master/DOMDocumentCharset.php
 	 *	@param string $html HTML source.
 	 *	@return string Fixed HTML source.
 	 */
 
-	protected function fixCharset( $html ) {
+	protected function _fixCharset( $html ) {
 
 		if ( LIBXML_VERSION < 20800 && stripos( $html, 'meta charset' ) !== false ) {
 			$html = preg_replace(
