@@ -9,6 +9,13 @@ Essence is a simple PHP library to extract media informations from websites, lik
 
 If you were already using Essence 2.x.x, you should take a look at [the migration guide](https://github.com/felixgirault/essence/wiki/Migrating-from-2.x.x-to-3.x.x).
 
+Installation
+------------
+
+```
+composer install fg/essence
+```
+
 Example
 -------
 
@@ -37,13 +44,6 @@ Then, just do anything you want with the data:
 		<?php echo $Media->html; ?>
 	</div>
 </article>
-```
-
-If you aren't using composer, you should run the Essence bootstrap before using it:
-
-```php
-
-require_once 'path/to/essence/bootstrap.php';
 ```
 
 What you get
