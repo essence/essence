@@ -244,13 +244,6 @@ To customize the Essence behavior, the easiest way is to configure injection set
 
 ```php
 $Essence = new Essence\Essence([
-
-	// the container will return a new CustomCacheEngine each time a cache
-	// engine is needed
-	'Cache' => function( ) {
-		return new CustomCacheEngine( );
-	},
-
 	// the container will return a unique instance of CustomHttpClient
 	// each time an HTTP client is needed
 	'Http' => Essence\Di\Container::unique( function( ) {
