@@ -174,13 +174,9 @@ class Essence {
 			$Media = null;
 
 			try {
-				$Media = $Provider->embed( $url, $options );
+				return $Provider->embed( $url, $options );
 			} catch ( Exception $Exception ) {
-
-			}
-
-			if ( $Media ) {
-				return $Media;
+				// TODO: find a way to gracefully report errors
 			}
 		}
 
