@@ -23,10 +23,10 @@ Essence is designed to be really easy to use.
 Using the main class of the library, you can retrieve informations in just those few lines:
 
 ```php
-$Essence = new Essence\Essence( );
-$Media = $Essence->embed( 'http://www.youtube.com/watch?v=39e3KYAmXK4' );
+$Essence = new Essence\Essence();
+$Media = $Essence->embed('http://www.youtube.com/watch?v=39e3KYAmXK4');
 
-if ( $Media ) {
+if ($Media) {
 	// That's all, you're good to go !
 }
 ```
@@ -80,11 +80,11 @@ Here is how you can manipulate the Media properties:
 
 ```php
 // through dedicated methods
-if ( !$Media->has( 'foo' )) {
-	$Media->set( 'foo', 'bar' );
+if (!$Media->has('foo')) {
+	$Media->set('foo', 'bar');
 }
 
-$value = $Media->get( 'foo' );
+$value = $Media->get('foo');
 
 // or directly like a class attribute
 $Media->customValue = 12;
@@ -99,12 +99,12 @@ The Essence class provides some useful utility functions to ensure you will get 
 
 ### Extracting URLs
 
-The `extract( )` method lets you extract embeddable URLs from a web page.
+The `extract()` method lets you extract embeddable URLs from a web page.
 
 For example, here is how you could get the URL of all videos in a blog post:
 
 ```php
-$urls = $Essence->extract( 'http://www.blog.com/article' );
+$urls = $Essence->extract('http://www.blog.com/article');
 
 //	[
 //		'http://www.youtube.com/watch?v=123456'
@@ -115,11 +115,11 @@ $urls = $Essence->extract( 'http://www.blog.com/article' );
 You can then get informations from all the extracted URLs:
 
 ```php
-$medias = $Essence->embedAll( $urls );
+$medias = $Essence->embedAll($urls);
 
 //	[
-//		'http://www.youtube.com/watch?v=123456' => Media( ... )
-//		'http://www.dailymotion.com/video/a1b2c_lolcat-fun' => Media( ... )
+//		'http://www.youtube.com/watch?v=123456' => [Media]
+//		'http://www.dailymotion.com/video/a1b2c_lolcat-fun' => [Media]
 //	]
 ```
 
@@ -131,7 +131,7 @@ By default, any URL will be replaced by the `html` property of the found Media.
 ```php
 $text = 'Check out this awesome video: http://www.youtube.com/watch?v=123456'
 
-echo $Essence->replace( $text );
+echo $Essence->replace($text);
 
 //	Check out this awesome video: <iframe src="http://www.youtube.com/embed/123456"></iframe>
 ```
@@ -139,7 +139,7 @@ echo $Essence->replace( $text );
 But you can do more by passing a callback to control which informations will replace the URL:
 
 ```php
-echo $Essence->replace( $text, function( $Media ) {
+echo $Essence->replace($text, function($Media) {
 	return sprintf(
 		'<p class="title">%s</p><div class="player">%s</div>',
 		$Media->title,
@@ -157,8 +157,8 @@ echo $Essence->replace( $text, function( $Media ) {
 This makes it easy to build rich templates or even to integrate a templating engine:
 
 ```php
-echo $Essence->replace( $text, function( $Media ) use ( $TwigTemplate ) {
-	return $TwigTemplate->render( $Media->properties( ));
+echo $Essence->replace($text, function($Media) use ($TwigTemplate) {
+	return $TwigTemplate->render($Media->properties());
 });
 ```
 
@@ -174,9 +174,9 @@ $options = [
 	'maxheight' => 600
 ];
 
-$Media = $Essence->embed( $url, $options );
-$medias = $Essence->embedAll( $urls, $options );
-$text = $Essence->replace( $text, null, $options );
+$Media = $Essence->embed($url, $options);
+$medias = $Essence->embedAll($urls, $options);
+$text = $Essence->replace($text, null, $options);
 ```
 
 Other providers will just ignore the options they don't handle.
@@ -246,8 +246,8 @@ To customize the Essence behavior, the easiest way is to configure injection set
 $Essence = new Essence\Essence([
 	// the container will return a unique instance of CustomHttpClient
 	// each time an HTTP client is needed
-	'Http' => Essence\Di\Container::unique( function( ) {
-		return new CustomHttpClient( );
+	'Http' => Essence\Di\Container::unique(function() {
+		return new CustomHttpClient();
 	})
 ]);
 ```
@@ -280,10 +280,10 @@ If you're interested in embedding videos, you should take a look at the [Multipl
 It allows you to build customizable embed codes painlessly:
 
 ```php
-$Multiplayer = new Multiplayer\Multiplayer( );
+$Multiplayer = new Multiplayer\Multiplayer();
 
-if ( $Media->type === 'video' ) {
-	echo $Multiplayer->html( $Media->url, [
+if ($Media->type === 'video') {
+	echo $Multiplayer->html($Media->url, [
 		'autoPlay' => true,
 		'highlightColor' => 'BADA55'
 	]);
