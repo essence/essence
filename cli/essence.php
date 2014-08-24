@@ -5,8 +5,7 @@
  *	@author Félix Girault <felix.girault@gmail.com>
  *	@license FreeBSD License (http://opensource.org/licenses/BSD-2-Clause)
  */
-
-require_once dirname( dirname( __FILE__ ))
+require_once dirname(dirname(__FILE__))
 	. DIRECTORY_SEPARATOR . 'vendor'
 	. DIRECTORY_SEPARATOR . 'autoload.php';
 
@@ -15,11 +14,10 @@ require_once dirname( dirname( __FILE__ ))
 /**
  *
  */
-
-if ( $argc < 3 ) {
+if ($argc < 3) {
 	echo "Too few arguments.\n";
 } else {
-	main( $argv[ 1 ], $argv[ 2 ]);
+	main($argv[ 1 ], $argv[ 2 ]);
 }
 
 
@@ -27,18 +25,16 @@ if ( $argc < 3 ) {
 /**
  *
  */
+function main($method, $url) {
+	$Essence = new Essence\Essence();
 
-function main( $method, $url ) {
-
-	$Essence = new Essence\Essence( );
-
-	switch ( $method ) {
+	switch ($method) {
 		case 'embed':
-			dumpMedia( $Essence->embed( $url ));
+			echo dumpMedia($Essence->embed($url));
 			break;
 
 		case 'extract':
-			dumpArray( $Essence->extract( $url ));
+			echo dumpArray($Essence->extract($url));
 			break;
 	}
 }
@@ -48,23 +44,12 @@ function main( $method, $url ) {
 /**
  *
  */
-
-function dumpMedia( $Media ) {
-
-	if ( !$Media ) {
-		echo "No results.\n";
-		return;
+function dumpMedia($Media) {
+	if (!$Media) {
+		return "No results.\n";
 	}
 
-	$data = [ ];
-
-	foreach ( $Media as $key => $value ) {
-		if ( $value ) {
-			$data[ $key ] = $value;
-		}
-	}
-
-	dumpArray( $data );
+	return dumpArray(array_filter($Media->properties()));
 }
 
 
@@ -72,18 +57,29 @@ function dumpMedia( $Media ) {
 /**
  *
  */
-
-function dumpArray( array $data ) {
-
-	if ( empty( $data )) {
-		echo "No results.\n";
-		return;
+function dumpArray(array $data) {
+	if (empty($data)) {
+		return "No results.\n";
 	}
 
-	$lengths = array_map( 'strlen', array_keys( $data ));
-	$length = max( $lengths );
+	$length = maxKeyLength($data);
+	$output = '';
 
-	foreach ( $data as $key => $value ) {
-		printf( "%{$length}s: %s\n", $key, $value );
+	foreach ($data as $key => $value) {
+		$output .= sprintf("%{$length}s: %s\n", $key, $value);
 	}
+
+	return $output;
+}
+
+
+
+/**
+ *
+ */
+function maxKeyLength($data) {
+	$keys = array_keys($data);
+	$lengths = array_map('strlen', $keys);
+
+	return max($lengths);
 }
