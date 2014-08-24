@@ -5,7 +5,6 @@
  *	@author Laughingwithu <laughingwithu@gmail.com>
  *	@license FreeBSD License (http://opensource.org/licenses/BSD-2-Clause)
  */
-
 namespace Essence\Provider;
 
 use Essence\Exception;
@@ -19,7 +18,6 @@ use Essence\Http\Client as HttpClient;
 /**
  *	Extracts embed informations from meta tags.
  */
-
 class MetaTags extends Provider {
 
 	/**
@@ -27,7 +25,6 @@ class MetaTags extends Provider {
 	 *
 	 *	@var Essence\Http\Client
 	 */
-
 	protected $_Http = null;
 
 
@@ -37,7 +34,6 @@ class MetaTags extends Provider {
 	 *
 	 *	@var Essence\Dom\Parser
 	 */
-
 	protected $_Dom = null;
 
 
@@ -47,7 +43,6 @@ class MetaTags extends Provider {
 	 *
 	 *	- 'scheme' string Scheme.
 	 */
-
 	protected $_properties = [
 		'scheme' => '#.+#'
 	];
@@ -62,17 +57,16 @@ class MetaTags extends Provider {
 	 *	@param array $preparators Preparator.
 	 *	@param array $presenters Presenters.
 	 */
-
 	public function __construct(
 		HttpClient $Http,
 		DomParser $Dom,
-		array $preparators = [ ],
-		array $presenters = [ ]
+		array $preparators = [],
+		array $presenters = []
 	) {
 		$this->_Http = $Http;
 		$this->_Dom = $Dom;
 
-		parent::__construct( $preparators, $presenters );
+		parent::__construct($preparators, $presenters);
 	}
 
 
@@ -80,31 +74,29 @@ class MetaTags extends Provider {
 	/**
 	 *	{@inheritDoc}
 	 */
-
-	protected function _embed( $url, array $options ) {
-
-		$html = $this->_Http->get( $url );
-		$attributes = $this->_Dom->extractAttributes( $html, [
+	protected function _embed($url, array $options) {
+		$html = $this->_Http->get($url);
+		$attributes = $this->_Dom->extractAttributes($html, [
 			'meta' => [
 				'property' => $this->scheme,
 				'content'
 			]
 		]);
 
-		if ( empty( $attributes['meta'])) {
+		if (empty($attributes['meta'])) {
 			throw new Exception(
 				"Unable to extract MetaTags data from '$url'."
 			);
 		}
 
-		$og = [ ];
+		$og = [];
 
-		foreach ( $attributes['meta'] as $meta ) {
-			if ( !isset( $og[ $meta['property']])) {
-				$og[ $meta['property']] = trim( $meta['content']);
+		foreach ($attributes['meta'] as $meta) {
+			if (!isset($og[$meta['property']])) {
+				$og[$meta['property']] = trim($meta['content']);
 			}
 		}
 
-		return new Media( $og );
+		return new Media($og);
 	}
 }

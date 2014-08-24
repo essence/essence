@@ -4,7 +4,6 @@
  *	@author Félix Girault <felix.girault@gmail.com>
  *	@license FreeBSD License (http://opensource.org/licenses/BSD-2-Clause)
  */
-
 namespace Essence\Provider;
 
 use Essence\Configurable;
@@ -16,7 +15,6 @@ use Essence\Utility\Json;
 /**
  *	A collection of providers which can find the provider of an url.
  */
-
 class Collection {
 
 	use Configurable;
@@ -28,7 +26,6 @@ class Collection {
 	 *
 	 *	@var Essence\Di\Container
 	 */
-
 	protected $_Container = null;
 
 
@@ -46,8 +43,7 @@ class Collection {
 	 *
 	 *	@var array
 	 */
-
-	protected $_properties = [ ];
+	protected $_properties = [];
 
 
 
@@ -56,8 +52,7 @@ class Collection {
 	 *
 	 *	@var array
 	 */
-
-	protected $_providers = [ ];
+	protected $_providers = [];
 
 
 
@@ -67,9 +62,7 @@ class Collection {
 	 *	@param Container $Container Dependency injection container
 	 *		used to build providers.
 	 */
-
-	public function __construct( Container $Container ) {
-
+	public function __construct(Container $Container) {
 		$this->_Container = $Container;
 	}
 
@@ -81,15 +74,13 @@ class Collection {
 	 *	@param array|string $config A configuration array, or a JSON
 	 *		configuration file.
 	 */
-
-	public function load( $config ) {
-
-		if ( is_string( $config ) && file_exists( $config )) {
-			$json = file_get_contents( $config );
-			$config = Json::parse( $json );
+	public function load($config) {
+		if (is_string($config) && file_exists($config)) {
+			$json = file_get_contents($config);
+			$config = Json::parse($json);
 		}
 
-		$this->configure( $config );
+		$this->configure($config);
 	}
 
 
@@ -100,11 +91,9 @@ class Collection {
 	 *	@param string $url An url which may be embedded.
 	 *	@return boolean The url provider if any, otherwise null.
 	 */
-
-	public function hasProvider( $url ) {
-
-		foreach ( $this->_properties as $config ) {
-			if ( $this->_matches( $config['filter'], $url )) {
+	public function hasProvider($url) {
+		foreach ($this->_properties as $config) {
+			if ($this->_matches($config['filter'], $url)) {
 				return true;
 			}
 		}
@@ -121,14 +110,12 @@ class Collection {
 	 *	@param string $url An url which may be embedded.
 	 *	@return array An array of Essence\Provider.
 	 */
+	public function providers($url) {
+		$providers = [];
 
-	public function providers( $url ) {
-
-		$providers = [ ];
-
-		foreach ( $this->_properties as $name => $config ) {
-			if ( $this->_matches( $config['filter'], $url )) {
-				$providers[ ] = $this->_provider( $name, $config );
+		foreach ($this->_properties as $name => $config) {
+			if ($this->_matches($config['filter'], $url)) {
+				$providers[] = $this->_provider($name, $config);
 			}
 		}
 
@@ -144,12 +131,10 @@ class Collection {
 	 *	@param string $url URL to filter.
 	 *	@return Whether the URL matches the filter or not.
 	 */
-
-	protected function _matches( $filter, $url ) {
-
-		return is_callable( $filter )
-			? call_user_func( $filter, $url )
-			: preg_match( $filter, $url );
+	protected function _matches($filter, $url) {
+		return is_callable($filter)
+			? call_user_func($filter, $url)
+			: preg_match($filter, $url);
 	}
 
 
@@ -161,20 +146,18 @@ class Collection {
 	 *	@param string $config Configuration.
 	 *	@return Provider Instance.
 	 */
-
-	protected function _provider( $name, $config ) {
-
-		if ( !isset( $this->_providers[ $name ])) {
+	protected function _provider($name, $config) {
+		if (!isset($this->_providers[$name ])) {
 			$class = $config['class'];
 
-			$Provider = $this->_Container->has( $class )
-				? $this->_Container->get( $class )
-				: new $class( );
+			$Provider = $this->_Container->has($class)
+				? $this->_Container->get($class)
+				: new $class();
 
-			$Provider->configure( $config );
-			$this->_providers[ $name ] = $Provider;
+			$Provider->configure($config);
+			$this->_providers[$name ] = $Provider;
 		}
 
-		return $this->_providers[ $name ];
+		return $this->_providers[$name ];
 	}
 }

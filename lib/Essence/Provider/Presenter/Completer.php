@@ -4,7 +4,6 @@
  *	@author Félix Girault <felix.girault@gmail.com>
  *	@license FreeBSD License (http://opensource.org/licenses/BSD-2-Clause)
  */
-
 namespace Essence\Provider\Presenter;
 
 use Essence\Media;
@@ -14,7 +13,6 @@ use Essence\Media;
 /**
  *	Completes media properties.
  */
-
 class Completer {
 
 	/**
@@ -22,8 +20,7 @@ class Completer {
 	 *
 	 *	@var array
 	 */
-
-	protected $_defaults = [ ];
+	protected $_defaults = [];
 
 
 
@@ -32,9 +29,7 @@ class Completer {
 	 *
 	 *	@param array $defaults Default values.
 	 */
-
-	public function __construct( array $defaults ) {
-
+	public function __construct(array $defaults) {
 		$this->_defaults = $defaults;
 	}
 
@@ -43,10 +38,8 @@ class Completer {
 	/**
 	 *	{@inheritDoc}
 	 */
-
-	public function filter( Media $Media ) {
-
-		$Media->setDefaults( $this->_defaults );
+	public function filter(Media $Media) {
+		$Media->setDefaults($this->_defaults);
 		return $Media;
 	}
 }

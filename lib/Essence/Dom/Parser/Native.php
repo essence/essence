@@ -4,7 +4,6 @@
  *	@author Félix Girault <felix.girault@gmail.com>
  *	@license FreeBSD License (http://opensource.org/licenses/BSD-2-Clause)
  */
-
 namespace Essence\Dom\Parser;
 
 use Essence\Dom\Parser;
@@ -18,33 +17,30 @@ use DomNode;
 /**
  *	Handles HTML related operations through DomDocument.
  */
-
 class Native implements Parser {
 
 	/**
 	 *	{@inheritDoc}
 	 */
+	public function extractAttributes($html, array $options) {
+		$Document = $this->_document($html);
+		$options = Hash::normalize($options, []);
+		$data = [];
 
-	public function extractAttributes( $html, array $options ) {
+		foreach ($options as $name => $required) {
+			$tags = $Document->getElementsByTagName($name);
+			$required = Hash::normalize((array)$required, '');
+			$data[$name] = [];
 
-		$Document = $this->_document( $html );
-		$options = Hash::normalize( $options, [ ]);
-		$data = [ ];
-
-		foreach ( $options as $name => $required ) {
-			$tags = $Document->getElementsByTagName( $name );
-			$required = Hash::normalize(( array )$required, '' );
-			$data[ $name ] = [ ];
-
-			foreach ( $tags as $Tag ) {
-				if ( $Tag->hasAttributes( )) {
+			foreach ($tags as $Tag) {
+				if ($Tag->hasAttributes()) {
 					$attributes = $this->_extractAttributesFromTag(
 						$Tag,
 						$required
 					);
 
-					if ( !empty( $attributes )) {
-						$data[ $name ][ ] = $attributes;
+					if (!empty($attributes)) {
+						$data[$name][] = $attributes;
 					}
 				}
 			}
@@ -61,15 +57,13 @@ class Native implements Parser {
 	 *	@param string $html HTML source.
 	 *	@return DomDocument DomDocument.
 	 */
+	protected function _document($html) {
+		$reporting = error_reporting(0);
+		$Document = DomDocument::loadHTML($this->_fixCharset($html));
+		error_reporting($reporting);
 
-	protected function _document( $html ) {
-
-		$reporting = error_reporting( 0 );
-		$Document = DomDocument::loadHTML( $this->_fixCharset( $html ));
-		error_reporting( $reporting );
-
-		if ( $Document === false ) {
-			throw new Exception( 'Unable to load HTML document.' );
+		if ($Document === false) {
+			throw new Exception('Unable to load HTML document.');
 		}
 
 		return $Document;
@@ -91,10 +85,8 @@ class Native implements Parser {
 	 *	@param string $html HTML source.
 	 *	@return string Fixed HTML source.
 	 */
-
-	protected function _fixCharset( $html ) {
-
-		if ( LIBXML_VERSION < 20800 && stripos( $html, 'meta charset' ) !== false ) {
+	protected function _fixCharset($html) {
+		if (LIBXML_VERSION < 20800 && stripos($html, 'meta charset') !== false) {
 			$html = preg_replace(
 				'/<meta charset=["\']?([^"\']+)"/i',
 				'<meta http-equiv="Content-Type" content="text/html; charset=$1"',
@@ -114,31 +106,29 @@ class Native implements Parser {
 	 *	@param array $required Required attributes.
 	 *	@return array Extracted attributes.
 	 */
+	protected function _extractAttributesFromTag(DOMNode $Tag, array $required) {
+		$attributes = [];
 
-	protected function _extractAttributesFromTag( DOMNode $Tag, array $required ) {
+		foreach ($Tag->attributes as $name => $Attribute) {
+			if (!empty($required)) {
+				if (isset($required[$name])) {
+					$pattern = $required[$name];
 
-		$attributes = [ ];
-
-		foreach ( $Tag->attributes as $name => $Attribute ) {
-			if ( !empty( $required )) {
-				if ( isset( $required[ $name ])) {
-					$pattern = $required[ $name ];
-
-					if ( $pattern && !preg_match( $pattern, $Attribute->value )) {
-						return [ ];
+					if ($pattern && !preg_match($pattern, $Attribute->value)) {
+						return [];
 					}
 				} else {
 					continue;
 				}
 			}
 
-			$attributes[ $name ] = $Attribute->value;
+			$attributes[$name] = $Attribute->value;
 		}
 
-		$diff = array_diff_key( $required, $attributes );
+		$diff = array_diff_key($required, $attributes);
 
-		return empty( $diff )
+		return empty($diff)
 			? $attributes
-			: [ ];
+			: [];
 	}
 }

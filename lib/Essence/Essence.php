@@ -4,7 +4,6 @@
  *	@author Félix Girault <felix.girault@gmail.com>
  *	@license FreeBSD License (http://opensource.org/licenses/BSD-2-Clause)
  */
-
 namespace Essence;
 
 use Essence\Configurable;
@@ -16,7 +15,6 @@ use Essence\Exception;
 /**
  *	Gathers embed informations from URLs.
  */
-
 class Essence {
 
 	use Configurable;
@@ -28,7 +26,6 @@ class Essence {
 	 *
 	 *	@var Essence\Provider\Collection
 	 */
-
 	protected $_Collection = null;
 
 
@@ -38,7 +35,6 @@ class Essence {
 	 *
 	 *	@var Essence\Http\Client
 	 */
-
 	protected $_Http = null;
 
 
@@ -48,7 +44,6 @@ class Essence {
 	 *
 	 *	@var Essence\Dom\Parser
 	 */
-
 	protected $_Dom = null;
 
 
@@ -62,7 +57,6 @@ class Essence {
 	 *
 	 *	@var array
 	 */
-
 	protected $_properties = [
 		// http://daringfireball.net/2010/07/improved_regex_for_matching_urls
 		'urlPattern' =>
@@ -84,14 +78,12 @@ class Essence {
 	 *
 	 *	@param array $configuration Dependency injection configuration.
 	 */
+	public function __construct(array $configuration = []) {
+		$Container = new StandardContainer($configuration);
 
-	public function __construct( array $configuration = [ ]) {
-
-		$Container = new StandardContainer( $configuration );
-
-		$this->_Collection = $Container->get( 'Collection' );
-		$this->_Http = $Container->get( 'Http' );
-		$this->_Dom = $Container->get( 'Dom' );
+		$this->_Collection = $Container->get('Collection');
+		$this->_Http = $Container->get('Http');
+		$this->_Dom = $Container->get('Dom');
 	}
 
 
@@ -102,23 +94,21 @@ class Essence {
 	 *	@param string $source The URL or HTML source to be extracted.
 	 *	@return array An array of extracted URLs.
 	 */
-
-	public function extract( $source ) {
-
-		if ( filter_var( $source, FILTER_VALIDATE_URL )) {
-			$source = $this->_Http->get( $source );
+	public function extract($source) {
+		if (filter_var($source, FILTER_VALIDATE_URL)) {
+			$source = $this->_Http->get($source);
 		}
 
-		$urls = $this->_extractUrls( $source );
-		$embeddable = [ ];
+		$urls = $this->_extractUrls($source);
+		$embeddable = [];
 
-		foreach ( $urls as $url ) {
-			if ( $this->_Collection->hasProvider( $url )) {
-				$embeddable[ ] = $url;
+		foreach ($urls as $url) {
+			if ($this->_Collection->hasProvider($url)) {
+				$embeddable[] = $url;
 			}
 		}
 
-		return array_unique( $embeddable );
+		return array_unique($embeddable);
 	}
 
 
@@ -129,21 +119,19 @@ class Essence {
 	 *	@param string $html The HTML source to extract URLs from.
 	 *	@return array Extracted URLs.
 	 */
-
-	protected function _extractUrls( $html ) {
-
+	protected function _extractUrls($html) {
 		$options = [
 			'a' => 'href',
 			'embed' => 'src',
 			'iframe' => 'src'
 		];
 
-		$attributes = $this->_Dom->extractAttributes( $html, $options );
-		$urls = [ ];
+		$attributes = $this->_Dom->extractAttributes($html, $options);
+		$urls = [];
 
-		foreach ( $options as $tagName => $attributeName ) {
-			foreach ( $attributes[ $tagName ] as $tag ) {
-				$urls[ ] = $tag[ $attributeName ];
+		foreach ($options as $tagName => $attributeName) {
+			foreach ($attributes[$tagName] as $tag) {
+				$urls[] = $tag[$attributeName];
 			}
 		}
 
@@ -165,17 +153,15 @@ class Essence {
 	 *	@param array $options Custom options to be interpreted by a provider.
 	 *	@return Essence\Media Embed informations.
 	 */
+	public function embed($url, array $options = []) {
+		$providers = $this->_Collection->providers($url);
 
-	public function embed( $url, array $options = [ ]) {
-
-		$providers = $this->_Collection->providers( $url );
-
-		foreach ( $providers as $Provider ) {
+		foreach ($providers as $Provider) {
 			$Media = null;
 
 			try {
-				return $Provider->embed( $url, $options );
-			} catch ( Exception $Exception ) {
+				return $Provider->embed($url, $options);
+			} catch (Exception $Exception) {
 				// TODO: find a way to gracefully report errors
 			}
 		}
@@ -192,13 +178,11 @@ class Essence {
 	 *	@param array $options Custom options to be interpreted by a provider.
 	 *	@return array An array of embed informations, indexed by URL.
 	 */
+	public function embedAll(array $urls, array $options = []) {
+		$medias = [];
 
-	public function embedAll( array $urls, array $options = [ ]) {
-
-		$medias = [ ];
-
-		foreach ( $urls as $url ) {
-			$medias[ $url ] = $this->embed( $url, $options );
+		foreach ($urls as $url) {
+			$medias[$url] = $this->embed($url, $options);
 		}
 
 		return $medias;
@@ -214,7 +198,7 @@ class Essence {
 	 *	replacement strings, given a Media object.
 	 *
 	 *	@code
-	 *	$text = $Essence->replace( $text, function( $Media ) {
+	 *	$text = $Essence->replace($text, function($Media) {
 	 *		return '<div class="title">' . $Media->title . '</div>';
 	 *	});
 	 *	@endcode
@@ -232,21 +216,19 @@ class Essence {
 	 *	@param array $options Custom options to be interpreted by a provider.
 	 *	@return string Text with replaced URLs.
 	 */
+	public function replace($text, $callback = null, array $options = []) {
+		$replace = function ($matches) use ($callback, $options) {
+			$Media = $this->embed($matches['url'], $options);
 
-	public function replace( $text, $callback = null, array $options = [ ]) {
+			if ($Media) {
+				return is_callable($callback)
+					? call_user_func($callback, $Media)
+					: $Media->get('html');
+			}
 
-		return preg_replace_callback(
-			$this->urlPattern,
-			function ( $matches ) use ( $callback, $options ) {
-				if ( $Media = $this->embed( $matches['url'], $options )) {
-					return is_callable( $callback )
-						? call_user_func( $callback, $Media )
-						: $Media->get( 'html' );
-				}
+			return $matches['url'];
+		};
 
-				return $matches['url'];
-			},
-			$text
-		);
+		return preg_replace_callback($this->urlPattern, $replace, $text);
 	}
 }

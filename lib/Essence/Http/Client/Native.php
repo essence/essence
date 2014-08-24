@@ -4,7 +4,6 @@
  *	@author Félix Girault <felix.girault@gmail.com>
  *	@license FreeBSD License (http://opensource.org/licenses/BSD-2-Clause)
  */
-
 namespace Essence\Http\Client;
 
 use Essence\Http\Client;
@@ -13,9 +12,8 @@ use Essence\Http\Exception;
 
 
 /**
- *	Handles HTTP related operations through file_get_contents( ).
+ *	Handles HTTP related operations through file_get_contents().
  */
-
 class Native implements Client {
 
 	/**
@@ -23,7 +21,6 @@ class Native implements Client {
 	 *
 	 *	@var int
 	 */
-
 	protected $_defaultCode;
 
 
@@ -34,9 +31,7 @@ class Native implements Client {
 	 *	@param int $defaultCode The default HTTP status code to assume if
 	 *		response headers cannot be parsed.
 	 */
-
-	public function __construct( $defaultCode = 404 ) {
-
+	public function __construct($defaultCode = 404) {
 		$this->_defaultCode = $defaultCode;
 	}
 
@@ -51,30 +46,28 @@ class Native implements Client {
 	 *	@return string The fetched contents.
 	 *	@throws Essence\Http\Exception
 	 */
+	public function get($url) {
+		$reporting = error_reporting(0);
+		$contents = file_get_contents($url);
+		error_reporting($reporting);
 
-	public function get( $url ) {
-
-		$reporting = error_reporting( 0 );
-		$contents = file_get_contents( $url );
-		error_reporting( $reporting );
-
-		if ( $contents === false ) {
+		if ($contents === false) {
 			$code = $this->_defaultCode;
 
-			if ( isset( $http_response_header )) {
+			if (isset($http_response_header)) {
 				preg_match(
 					'#^HTTP/[0-9\.]+\s(?P<code>[0-9]+)#i',
 					$http_response_header[ 0 ],
 					$matches
 				);
 
-				if ( isset( $matches['code'])) {
+				if (isset($matches['code'])) {
 					$code = $matches['code'];
 				}
 			}
 
 			// let's assume the file doesn't exists
-			throw new Exception( $url, $code );
+			throw new Exception($url, $code);
 		}
 
 		return $contents;

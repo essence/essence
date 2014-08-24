@@ -4,7 +4,6 @@
  *	@author Félix Girault <felix.girault@gmail.com>
  *	@license FreeBSD License (http://opensource.org/licenses/BSD-2-Clause)
  */
-
 namespace Essence\Di\Container;
 
 use Essence\Essence;
@@ -26,7 +25,6 @@ use Essence\Provider\Presenter\Youtube;
 /**
  *	Contains the default injection properties.
  */
-
 class Standard extends Container {
 
 	/**
@@ -34,23 +32,21 @@ class Standard extends Container {
 	 *
 	 *	@param array $properties Dependency injection settings.
 	 */
-
-	public function __construct( array $properties = [ ]) {
+	public function __construct(array $properties = []) {
 
 		$this->_properties = $properties + [
 
 			/**
 			 *	Global helpers.
 			 */
-
-			'Http' => Container::unique( function( ) {
-				return function_exists( 'curl_init' )
-					? new CurlHttpClient( )
-					: new NativeHttpClient( );
+			'Http' => Container::unique(function() {
+				return function_exists('curl_init')
+					? new CurlHttpClient()
+					: new NativeHttpClient();
 			}),
 
-			'Dom' => Container::unique( function( ) {
-				return new NativeDomParser( );
+			'Dom' => Container::unique(function() {
+				return new NativeDomParser();
 			}),
 
 
@@ -58,14 +54,13 @@ class Standard extends Container {
 			/**
 			 *	Completer.
 			 */
-
 			'defaults' => [
 				'width' => 800,
 				'height' => 600
 			],
 
-			'Completer' => Container::unique( function( $C ) {
-				return new Completer( $C->get( 'defaults' ));
+			'Completer' => Container::unique(function($C) {
+				return new Completer($C->get('defaults'));
 			}),
 
 
@@ -73,7 +68,6 @@ class Standard extends Container {
 			/**
 			 *	OEmbed.
 			 */
-
 			'oEmbedMapping' => [
 				'author_name' => 'authorName',
 				'author_url' => 'authorUrl',
@@ -85,23 +79,23 @@ class Standard extends Container {
 				'thumbnail_height' => 'thumbnailHeight'
 			],
 
-			'OEmbedReindexer' => Container::unique( function( $C ) {
-				return new Reindexer( $C->get( 'oEmbedMapping' ));
+			'OEmbedReindexer' => Container::unique(function($C) {
+				return new Reindexer($C->get('oEmbedMapping'));
 			}),
 
-			'oEmbedPresenters' => Container::unique( function( $C ) {
+			'oEmbedPresenters' => Container::unique(function($C) {
 				return [
-					$C->get( 'OEmbedReindexer' ),
-					$C->get( 'Completer' )
+					$C->get('OEmbedReindexer'),
+					$C->get('Completer')
 				];
 			}),
 
-			'OEmbed' => function( $C ) {
+			'OEmbed' => function($C) {
 				return new OEmbed(
-					$C->get( 'Http' ),
-					$C->get( 'Dom' ),
-					[ ],
-					$C->get( 'oEmbedPresenters' )
+					$C->get('Http'),
+					$C->get('Dom'),
+					[],
+					$C->get('oEmbedPresenters')
 				);
 			},
 
@@ -110,29 +104,28 @@ class Standard extends Container {
 			/**
 			 *	Vimeo.
 			 */
-
 			'vimeoId' => '#player\.vimeo\.com/video/(?<id>[0-9]+)#i',
 			'vimeoUrl' => 'http://www.vimeo.com/:id',
 
-			'VimeoRefactorer' => Container::unique( function( $C ) {
+			'VimeoRefactorer' => Container::unique(function($C) {
 				return new Refactorer(
-					$C->get( 'vimeoId' ),
-					$C->get( 'vimeoUrl' )
+					$C->get('vimeoId'),
+					$C->get('vimeoUrl')
 				);
 			}),
 
-			'vimeoPreparators' => Container::unique( function( $C ) {
+			'vimeoPreparators' => Container::unique(function($C) {
 				return [
-					$C->get( 'VimeoRefactorer' )
+					$C->get('VimeoRefactorer')
 				];
 			}),
 
-			'Vimeo' => function( $C ) {
+			'Vimeo' => function($C) {
 				return new OEmbed(
-					$C->get( 'Http' ),
-					$C->get( 'Dom' ),
-					$C->get( 'vimeoPreparators' ),
-					$C->get( 'oEmbedPresenters' )
+					$C->get('Http'),
+					$C->get('Dom'),
+					$C->get('vimeoPreparators'),
+					$C->get('oEmbedPresenters')
 				);
 			},
 
@@ -141,41 +134,40 @@ class Standard extends Container {
 			/**
 			 *	Youtube.
 			 */
-
 			'youtubeId' => '#(?:v=|v/|embed/|youtu\.be/)(?<id>[a-z0-9_-]+)#i',
 			'youtubeUrl' => 'http://www.youtube.com/watch?v=:id',
 
-			'YoutubeRefactorer' => Container::unique( function( $C ) {
+			'YoutubeRefactorer' => Container::unique(function($C) {
 				return new Refactorer(
-					$C->get( 'youtubeId' ),
-					$C->get( 'youtubeUrl' )
+					$C->get('youtubeId'),
+					$C->get('youtubeUrl')
 				);
 			}),
 
-			'youtubePreparators' => Container::unique( function( $C ) {
+			'youtubePreparators' => Container::unique(function($C) {
 				return [
-					$C->get( 'YoutubeRefactorer' )
+					$C->get('YoutubeRefactorer')
 				];
 			}),
 
 			'youtubeThumbnailFormat' => Youtube::large,
 
-			'YoutubePresenter' => Container::unique( function( $C ) {
-				return new Youtube( $C->get( 'youtubeThumbnailFormat' ));
+			'YoutubePresenter' => Container::unique(function($C) {
+				return new Youtube($C->get('youtubeThumbnailFormat'));
 			}),
 
-			'youtubePresenters' => Container::unique( function( $C ) {
+			'youtubePresenters' => Container::unique(function($C) {
 				return [
-					$C->get( 'YoutubePresenter' )
+					$C->get('YoutubePresenter')
 				];
 			}),
 
-			'Youtube' => function( $C ) {
+			'Youtube' => function($C) {
 				return new OEmbed(
-					$C->get( 'Http' ),
-					$C->get( 'Dom' ),
-					$C->get( 'youtubePreparators' ),
-					$C->get( 'oEmbedPresenters' )
+					$C->get('Http'),
+					$C->get('Dom'),
+					$C->get('youtubePreparators'),
+					$C->get('oEmbedPresenters')
 				);
 			},
 
@@ -184,7 +176,6 @@ class Standard extends Container {
 			/**
 			 *	OpenGraph.
 			 */
-
 			'openGraphScheme' => '#^og:#i',
 			'openGraphMapping' => [
 				'og:type' => 'type',
@@ -200,25 +191,25 @@ class Standard extends Container {
 				'og:url' => 'url'
 			],
 
-			'OpenGraphReindexer' => Container::unique( function( $C ) {
-				return new Reindexer( $C->get( 'openGraphMapping' ));
+			'OpenGraphReindexer' => Container::unique(function($C) {
+				return new Reindexer($C->get('openGraphMapping'));
 			}),
 
-			'openGraphPresenters' => Container::unique( function( $C ) {
+			'openGraphPresenters' => Container::unique(function($C) {
 				return [
-					$C->get( 'OpenGraphReindexer' )
+					$C->get('OpenGraphReindexer')
 				];
 			}),
 
-			'OpenGraph' => function( $C ) {
+			'OpenGraph' => function($C) {
 				$OpenGraph = new MetaTags(
-					$C->get( 'Http' ),
-					$C->get( 'Dom' ),
-					[ ],
-					$C->get( 'openGraphPresenters' )
+					$C->get('Http'),
+					$C->get('Dom'),
+					[],
+					$C->get('openGraphPresenters')
 				);
 
-				$OpenGraph->set( 'scheme', $C->get( 'openGraphScheme' ));
+				$OpenGraph->set('scheme', $C->get('openGraphScheme'));
 				return $OpenGraph;
 			},
 
@@ -227,7 +218,6 @@ class Standard extends Container {
 			/**
 			 *	TwitterCards.
 			 */
-
 			'twitterCardsScheme' => '#^twitter:#i',
 			'twitterCardsMapping' => [
 				'twitter:card' => 'type',
@@ -237,25 +227,25 @@ class Standard extends Container {
 				'twitter:creator' => 'authorName'
 			],
 
-			'TwitterCardsReindexer' => Container::unique( function( $C ) {
-				return new Reindexer( $C->get( 'twitterCardsMapping' ));
+			'TwitterCardsReindexer' => Container::unique(function($C) {
+				return new Reindexer($C->get('twitterCardsMapping'));
 			}),
 
-			'twitterCardsPresenters' => Container::unique( function( $C ) {
+			'twitterCardsPresenters' => Container::unique(function($C) {
 				return [
-					$C->get( 'TwitterCardsReindexer' )
+					$C->get('TwitterCardsReindexer')
 				];
 			}),
 
-			'TwitterCards' => function( $C ) {
+			'TwitterCards' => function($C) {
 				$TwitterCards = new MetaTags(
-					$C->get( 'Http' ),
-					$C->get( 'Dom' ),
-					[ ],
-					$C->get( 'twitterCardsPresenters' )
+					$C->get('Http'),
+					$C->get('Dom'),
+					[],
+					$C->get('twitterCardsPresenters')
 				);
 
-				$TwitterCards->set( 'scheme', $C->get( 'twitterCardsScheme' ));
+				$TwitterCards->set('scheme', $C->get('twitterCardsScheme'));
 				return $TwitterCards;
 			},
 
@@ -264,14 +254,13 @@ class Standard extends Container {
 			/**
 			 *	Providers.
 			 */
-
-			'providers' => dirname( dirname( dirname( dirname( dirname( __FILE__ )))))
+			'providers' => dirname(dirname(dirname(dirname(dirname(__FILE__)))))
 				. DIRECTORY_SEPARATOR . 'config'
 				. DIRECTORY_SEPARATOR . 'providers.json',
 
-			'Collection' => function( $C ) {
-				$Collection = new Collection( $C );
-				$Collection->load( $C->get( 'providers' ));
+			'Collection' => function($C) {
+				$Collection = new Collection($C);
+				$Collection->load($C->get('providers'));
 
 				return $Collection;
 			}

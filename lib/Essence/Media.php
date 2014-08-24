@@ -4,7 +4,6 @@
  *	@author Félix Girault <felix.girault@gmail.com>
  *	@license FreeBSD License (http://opensource.org/licenses/BSD-2-Clause)
  */
-
 namespace Essence;
 
 use ArrayIterator;
@@ -19,7 +18,6 @@ use Essence\Configurable;
  *	This class is useful to ensure that any response from any provider will
  *	follow the same conventions.
  */
-
 class Media implements IteratorAggregate, JsonSerializable {
 
 	use Configurable;
@@ -37,9 +35,7 @@ class Media implements IteratorAggregate, JsonSerializable {
 	 *
 	 *	@var array
 	 */
-
 	protected $_properties = [
-
 		// OEmbed type
 		// OG type
 		'type' => '',
@@ -108,10 +104,8 @@ class Media implements IteratorAggregate, JsonSerializable {
 	 *	@see $properties
 	 *	@param array $properties An array of media informations.
 	 */
-
-	public function __construct( array $properties ) {
-
-		$this->configure( $properties );
+	public function __construct(array $properties) {
+		$this->configure($properties);
 	}
 
 
@@ -121,10 +115,8 @@ class Media implements IteratorAggregate, JsonSerializable {
 	 *
 	 *	@return ArrayIterator Iterator.
 	 */
-
-	public function getIterator( ) {
-
-		return new ArrayIterator( $this->_properties );
+	public function getIterator() {
+		return new ArrayIterator($this->_properties);
 	}
 
 
@@ -134,9 +126,7 @@ class Media implements IteratorAggregate, JsonSerializable {
 	 *
 	 *	@return string JSON representation.
 	 */
-
-	public function jsonSerialize( ) {
-
+	public function jsonSerialize() {
 		return $this->_properties;
 	}
 }

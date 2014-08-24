@@ -4,7 +4,6 @@
  *	@author Félix Girault <felix.girault@gmail.com>
  *	@license FreeBSD License (http://opensource.org/licenses/BSD-2-Clause)
  */
-
 namespace Essence;
 
 
@@ -12,7 +11,6 @@ namespace Essence;
 /**
  *	Makes a class configurable.
  */
-
 trait Configurable {
 
 	/**
@@ -20,7 +18,6 @@ trait Configurable {
 	 *
 	 *	@var array
 	 */
-
 	// protected $_properties = array( );
 
 
@@ -28,10 +25,8 @@ trait Configurable {
 	/**
 	 *	@see has( )
 	 */
-
-	public function __isset( $property ) {
-
-		return $this->has( $property );
+	public function __isset($property) {
+		return $this->has($property);
 	}
 
 
@@ -39,10 +34,9 @@ trait Configurable {
 	/**
 	 *	@see get( )
 	 */
+	public function __get($property) {
 
-	public function __get( $property ) {
-
-		return $this->get( $property );
+		return $this->get($property);
 	}
 
 
@@ -50,10 +44,8 @@ trait Configurable {
 	/**
 	 *	@see set( )
 	 */
-
-	public function __set( $property, $value ) {
-
-		return $this->set( $property, $value );
+	public function __set($property, $value) {
+		return $this->set($property, $value);
 	}
 
 
@@ -64,10 +56,8 @@ trait Configurable {
 	 *	@param string $property Property name.
 	 *	@param boolean True if the property exists, otherwise false.
 	 */
-
-	public function has( $property ) {
-
-		return !empty( $this->_properties[ $property ]);
+	public function has($property) {
+		return !empty($this->_properties[$property]);
 	}
 
 
@@ -80,11 +70,9 @@ trait Configurable {
 	 *		doesn't exists.
 	 *	@return mixed The property value, or $default.
 	 */
-
-	public function get( $property, $default = null ) {
-
-		return isset( $this->_properties[ $property ])
-			? $this->_properties[ $property ]
+	public function get($property, $default = null) {
+		return isset($this->_properties[$property])
+			? $this->_properties[$property]
 			: $default;
 	}
 
@@ -96,10 +84,8 @@ trait Configurable {
 	 *	@param string $property Property name.
 	 *	@param string $value New value.
 	 */
-
-	public function set( $property, $value ) {
-
-		$this->_properties[ $property ] = $value;
+	public function set($property, $value) {
+		$this->_properties[$property] = $value;
 	}
 
 
@@ -110,11 +96,9 @@ trait Configurable {
 	 *	@param string $property Property name.
 	 *	@param string $default Default value.
 	 */
-
-	public function setDefault( $property, $default ) {
-
-		if ( !$this->has( $property )) {
-			$this->set( $property, $default );
+	public function setDefault($property, $default) {
+		if (!$this->has($property)) {
+			$this->set($property, $default);
 		}
 	}
 
@@ -126,10 +110,8 @@ trait Configurable {
 	 *	@see setDefault( )
 	 *	@param array $properties Default properties.
 	 */
-
-	public function setDefaults( array $properties ) {
-
-		$this->_properties += $properties;
+	public function setDefaults(array $properties) {
+		$this->_properties+= $properties;
 	}
 
 
@@ -139,9 +121,7 @@ trait Configurable {
 	 *
 	 *	@return array Properties.
 	 */
-
-	public function properties( ) {
-
+	public function properties() {
 		return $this->_properties;
 	}
 
@@ -152,9 +132,7 @@ trait Configurable {
 	 *
 	 *	@param array $properties Properties to set.
 	 */
-
-	public function setProperties( array $properties ) {
-
+	public function setProperties(array $properties) {
 		$this->_properties = $properties;
 	}
 
@@ -165,9 +143,7 @@ trait Configurable {
 	 *
 	 *	@param array $properties Properties to merge.
 	 */
-
-	public function configure( array $properties ) {
-
-		$this->_properties = array_merge( $this->_properties, $properties );
+	public function configure(array $properties) {
+		$this->_properties = array_merge($this->_properties, $properties);
 	}
 }

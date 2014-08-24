@@ -4,7 +4,6 @@
  *	@author Félix Girault <felix.girault@gmail.com>
  *	@license FreeBSD License (http://opensource.org/licenses/BSD-2-Clause)
  */
-
 namespace Essence;
 
 use Essence\Configurable;
@@ -17,7 +16,6 @@ use Cascade\Cascade;
 /**
  *	Base class for a Provider.
  */
-
 abstract class Provider {
 
 	use Configurable;
@@ -29,7 +27,6 @@ abstract class Provider {
 	 *
 	 *	@var Cascade\Cascade
 	 */
-
 	protected $_Preparators = null;
 
 
@@ -39,7 +36,6 @@ abstract class Provider {
 	 *
 	 *	@var Cascade\Cascade
 	 */
-
 	protected $_Presenters = null;
 
 
@@ -49,8 +45,7 @@ abstract class Provider {
 	 *
 	 *	@var array
 	 */
-
-	protected $_properties = [ ];
+	protected $_properties = [];
 
 
 
@@ -60,13 +55,9 @@ abstract class Provider {
 	 *	@param array $preparators Preparators.
 	 *	@param array $presenters Presenters.
 	 */
-
-	public function __construct(
-		array $preparators = [ ],
-		array $presenters = [ ]
-	) {
-		$this->_Preparators = new Cascade( $preparators );
-		$this->_Presenters = new Cascade( $presenters );
+	public function __construct(array $preparators = [], array $presenters = []) {
+		$this->_Preparators = new Cascade($preparators);
+		$this->_Presenters = new Cascade($presenters);
 	}
 
 
@@ -79,15 +70,13 @@ abstract class Provider {
 	 *	@return Media|null Embed informations, or null if nothing could be
 	 *		fetched.
 	 */
+	public final function embed($url, array $options = []) {
+		$this->_Preparators->filter($url);
 
-	public final function embed( $url, array $options = [ ]) {
+		$Media = $this->_embed($url, $options);
+		$Media->setDefault('url', $url);
 
-		$this->_Preparators->filter( $url );
-
-		$Media = $this->_embed( $url, $options );
-		$Media->setDefault( 'url', $url );
-
-		return $this->_Presenters->filter( $Media );
+		return $this->_Presenters->filter($Media);
 	}
 
 
@@ -100,7 +89,6 @@ abstract class Provider {
 	 *	@return Media Embed informations.
 	 *	@throws Essence\Exception
 	 */
-
-	abstract protected function _embed( $url, array $options );
+	abstract protected function _embed($url, array $options);
 
 }

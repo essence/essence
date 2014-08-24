@@ -4,7 +4,6 @@
  *	@author Félix Girault <felix.girault@gmail.com>
  *	@license FreeBSD License (http://opensource.org/licenses/BSD-2-Clause)
  */
-
 namespace Essence\Utility;
 
 
@@ -12,7 +11,6 @@ namespace Essence\Utility;
 /**
  *	An utility class to manipulate data sets.
  */
-
 class Hash {
 
 	/**
@@ -20,17 +18,15 @@ class Hash {
 	 *
 	 *	@param array $data The data to be reindexed.
 	 *	@param array $correspondances An array of index correspondances of the
-	 *		form `array( 'currentIndex' => 'newIndex' )`.
+	 *		form `['currentIndex' => 'newIndex']`.
 	 *	@return array Reindexed array.
 	 */
-
-	public static function reindex( array $data, array $correspondances ) {
-
+	public static function reindex(array $data, array $correspondances) {
 		$result = $data;
 
-		foreach ( $correspondances as $from => $to ) {
-			if ( isset( $data[ $from ])) {
-				$result[ $to ] = $data[ $from ];
+		foreach ($correspondances as $from => $to) {
+			if (isset($data[$from])) {
+				$result[$to] = $data[$from];
 			}
 		}
 
@@ -47,18 +43,16 @@ class Hash {
 	 *	@param mixed $default Default value.
 	 *	@return array The normalized array.
 	 */
+	public static function normalize(array $data, $default) {
+		$normalized = [];
 
-	public static function normalize( array $data, $default ) {
-
-		$normalized = [ ];
-
-		foreach ( $data as $key => $value ) {
-			if ( is_numeric( $key )) {
+		foreach ($data as $key => $value) {
+			if (is_numeric($key)) {
 				$key = $value;
 				$value = $default;
 			}
 
-			$normalized[ $key ] = $value;
+			$normalized[$key] = $value;
 		}
 
 		return $normalized;

@@ -4,7 +4,6 @@
  *	@author Félix Girault <felix.girault@gmail.com>
  *	@license FreeBSD License (http://opensource.org/licenses/BSD-2-Clause)
  */
-
 namespace Essence\Dom;
 
 
@@ -12,7 +11,6 @@ namespace Essence\Dom;
 /**
  *	Handles HTML related operations.
  */
-
 interface Parser {
 
 	/**
@@ -21,7 +19,7 @@ interface Parser {
 	 *	Getting all attributes of all img tags in the document:
 	 *
 	 *	@code
-	 *	$attributes = Parser::extractAttributes( $html, [ 'img' ]);
+	 *	$attributes = Parser::extractAttributes($html, [ 'img' ]);
 	 *	@endcode
 	 *
 	 *	Getting src attribute of all img tags in the document:
@@ -29,7 +27,7 @@ interface Parser {
 	 *	account)
 	 *
 	 *	@code
-	 *	$attributes = Parser::extractAttributes( $html, [ 'img' => 'src' ]);
+	 *	$attributes = Parser::extractAttributes($html, [ 'img' => 'src' ]);
 	 *	@endcode
 	 *
 	 *	Getting src and alt attributes of all img tags in the document:
@@ -37,7 +35,7 @@ interface Parser {
 	 *	into account)
 	 *
 	 *	@code
-	 *	$attributes = Parser::extractAttributes( $html, [
+	 *	$attributes = Parser::extractAttributes($html, [
 	 *		'img' => [
 	 *			'src',
 	 *			'alt'
@@ -51,7 +49,7 @@ interface Parser {
 	 *	not be taken into account)
 	 *
 	 *	@code
-	 *	$attributes = Parser::extractAttributes( $html, [
+	 *	$attributes = Parser::extractAttributes($html, [
 	 *		'img' => [
 	 *			'src' => '/foo/i',
 	 *			'alt'
@@ -62,7 +60,7 @@ interface Parser {
 	 *	Example result:
 	 *
 	 *	@code
-	 *	$attributes = Parser::extractAttributes( $html, [
+	 *	$attributes = Parser::extractAttributes($html, [
 	 *		'img' => 'src',
 	 *		'a' => [
 	 *			'href' => '/foo/i',
@@ -88,7 +86,6 @@ interface Parser {
 	 *	@param array $options Options defining which attributes to extract.
 	 *	@return array Extracted attributes indexed by tag name.
 	 */
-
-	public function extractAttributes( $html, array $options );
+	public function extractAttributes($html, array $options);
 
 }

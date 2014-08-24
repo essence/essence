@@ -4,7 +4,6 @@
  *	@author Félix Girault <felix.girault@gmail.com>
  *	@license FreeBSD License (http://opensource.org/licenses/BSD-2-Clause)
  */
-
 namespace Essence\Provider;
 
 use Essence\Exception;
@@ -22,7 +21,6 @@ use Essence\Utility\Xml;
  *	Base class for an OEmbed provider.
  *	This kind of provider extracts embed informations through the OEmbed protocol.
  */
-
 class OEmbed extends Provider {
 
 	/**
@@ -30,7 +28,6 @@ class OEmbed extends Provider {
 	 *
 	 *	@var string
 	 */
-
 	const json = 'json';
 
 
@@ -40,7 +37,6 @@ class OEmbed extends Provider {
 	 *
 	 *	@var string
 	 */
-
 	const xml = 'xml';
 
 
@@ -50,7 +46,6 @@ class OEmbed extends Provider {
 	 *
 	 *	@var Essence\Http\Client
 	 */
-
 	protected $_Http = null;
 
 
@@ -60,7 +55,6 @@ class OEmbed extends Provider {
 	 *
 	 *	@var Essence\Dom\Parser
 	 */
-
 	protected $_Dom = null;
 
 
@@ -71,7 +65,6 @@ class OEmbed extends Provider {
 	 *	- 'endpoint' string The OEmbed endpoint.
 	 *	- 'format' string The expected response format.
 	 */
-
 	protected $_properties = [
 		'endpoint' => '',
 		'format' => self::json
@@ -87,17 +80,16 @@ class OEmbed extends Provider {
 	 *	@param array $preparators Preparator.
 	 *	@param array $presenters Presenters.
 	 */
-
 	public function __construct(
 		HttpClient $Http,
 		DomParser $Dom,
-		array $preparators = [ ],
-		array $presenters = [ ]
+		array $preparators = [],
+		array $presenters = []
 	) {
 		$this->_Http = $Http;
 		$this->_Dom = $Dom;
 
-		parent::__construct( $preparators, $presenters );
+		parent::__construct($preparators, $presenters);
 	}
 
 
@@ -109,26 +101,24 @@ class OEmbed extends Provider {
 	 *		the given URL will be parsed to find one.
 	 *	@throws Essence\Exception If the parsed page doesn't provide any endpoint.
 	 */
+	protected function _embed($url, array $options) {
+		$config = $this->_config($url, $options);
+		$response = $this->_Http->get($config['endpoint']);
 
-	protected function _embed( $url, array $options ) {
-
-		$config = $this->_config( $url, $options );
-		$response = $this->_Http->get( $config['endpoint']);
-
-		switch ( $config['format']) {
+		switch ($config['format']) {
 			case self::json:
-				$data = Json::parse( $response );
+				$data = Json::parse($response);
 				break;
 
 			case self::xml:
-				$data = Xml::parse( $response );
+				$data = Xml::parse($response);
 				break;
 
 			default:
-				throw new Exception( 'Unsupported response format.' );
+				throw new Exception('Unsupported response format.');
 		}
 
-		return new Media( $data );
+		return new Media($data);
 	}
 
 
@@ -140,14 +130,12 @@ class OEmbed extends Provider {
 	 *	@param array $options Options.
 	 *	@return array Configuration.
 	 */
-
-	protected function _config( $url, array $options ) {
-
+	protected function _config($url, array $options) {
 		$config = $this->endpoint
-			? $this->_buildConfig( $url )
-			: $this->_extractConfig( $this->_Http->get( $url ));
+			? $this->_buildConfig($url)
+			: $this->_extractConfig($this->_Http->get($url));
 
-		if ( $options ) {
+		if ($options) {
 			$config['endpoint'] = $this->_completeEndpoint(
 				$config['endpoint'],
 				$options
@@ -165,14 +153,12 @@ class OEmbed extends Provider {
 	 *	@param string $url URL to embed.
 	 *	@return array Configuration.
 	 */
-
-	protected function _buildConfig( $url ) {
-
+	protected function _buildConfig($url) {
 		return [
 			'format' => $this->format,
 			'endpoint' => Template::compile(
 				$this->endpoint,
-				compact( 'url' ),
+				compact('url'),
 				'urlencode'
 			)
 		];
@@ -186,10 +172,8 @@ class OEmbed extends Provider {
 	 *	@param string $html HTML page.
 	 *	@return array Configuration.
 	 */
-
-	protected function _extractConfig( $html ) {
-
-		$attributes = $this->_Dom->extractAttributes( $html, [
+	protected function _extractConfig($html) {
+		$attributes = $this->_Dom->extractAttributes($html, [
 			'link' => [
 				'rel' => '#alternate#i',
 				'type',
@@ -197,8 +181,8 @@ class OEmbed extends Provider {
 			]
 		]);
 
-		foreach ( $attributes['link'] as $link ) {
-			if ( preg_match( '#(?<format>json|xml)#i', $link['type'], $matches )) {
+		foreach ($attributes['link'] as $link) {
+			if (preg_match('#(?<format>json|xml)#i', $link['type'], $matches)) {
 				return [
 					'endpoint' => $link['href'],
 					'format' => $matches['format']
@@ -218,17 +202,15 @@ class OEmbed extends Provider {
 	 *	@param array $options Options to append.
 	 *	@param string Completed endpoint.
 	 */
-
-	protected function _completeEndpoint( $endpoint, $options ) {
-
-		$params = array_intersect_key( $options, [
+	protected function _completeEndpoint($endpoint, $options) {
+		$params = array_intersect_key($options, [
 			'maxwidth' => '',
 			'maxheight' => ''
 		]);
 
-		if ( $params ) {
-			$endpoint .= ( strrpos( $endpoint, '?' ) === false ) ? '?' : '&';
-			$endpoint .= http_build_query( $params );
+		if ($params) {
+			$endpoint .= (strrpos($endpoint, '?') === false) ? '?' : '&';
+			$endpoint .= http_build_query($params);
 		}
 
 		return $endpoint;

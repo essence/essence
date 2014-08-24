@@ -4,7 +4,6 @@
  *	@author Félix Girault <felix.girault@gmail.com>
  *	@license FreeBSD License (http://opensource.org/licenses/BSD-2-Clause)
  */
-
 namespace Essence\Provider\Presenter;
 
 use Essence\Media;
@@ -14,13 +13,11 @@ use Essence\Media;
 /**
  *
  */
-
 class Youtube {
 
 	/**
 	 *	Available thumbnail formats.
 	 */
-
 	const small = 'small';
 	const medium = 'medium';
 	const large = 'large';
@@ -32,7 +29,6 @@ class Youtube {
 	 *
 	 *	@var string
 	 */
-
 	protected $_thumbnailFormat = '';
 
 
@@ -42,9 +38,7 @@ class Youtube {
 	 *
 	 *	@param string $thumbnailFormat Thumbnail format.
 	 */
-
-	public function __construct( $thumbnailFormat ) {
-
+	public function __construct($thumbnailFormat) {
 		$this->_thumbnailFormat = $thumbnailFormat;
 	}
 
@@ -53,19 +47,17 @@ class Youtube {
 	/**
 	 *	{@inheritDoc}
 	 */
+	public function filter(Media $Media) {
+		$url = $Media->get('thumbnailUrl');
 
-	public function filter( Media $Media ) {
-
-		$url = $Media->get( 'thumbnailUrl' );
-
-		if ( $url ) {
-			switch ( $this->_thumbnailFormat ) {
+		if ($url) {
+			switch ($this->_thumbnailFormat) {
 				case self::small:
-					$url = str_replace( 'hqdefault', 'default', $url );
+					$url = str_replace('hqdefault', 'default', $url);
 					break;
 
 				case self::medium:
-					$url = str_replace( 'hqdefault', 'mqdefault', $url );
+					$url = str_replace('hqdefault', 'mqdefault', $url);
 					break;
 
 				case self::large:
@@ -74,7 +66,7 @@ class Youtube {
 					break;
 			}
 
-			$Media->set( 'thumbnailUrl', $url );
+			$Media->set('thumbnailUrl', $url);
 		}
 
 		return $Media;
