@@ -17,11 +17,17 @@
 	],
 	"license": "BSD-2-Clause",
 	"homepage": "http://github.com/felixgirault/essence",
+	"minimum-stability": "dev",
+	"repositories": [{
+		"type": "vcs",
+		"url": "git@github.com:felixgirault/cascade.git"
+	}],
 	"require": {
-		"php": ">=5.4.0",
-		"ext-curl": "*"
+		"fg/cascade": "*",
+		"php": ">=5.4.0"
 	},
 	"suggest": {
+		"ext-curl": "*",
 		"felixgirault/essence-interfaces": "Allows better integration with different frameworks."
 	},
 	"autoload": {

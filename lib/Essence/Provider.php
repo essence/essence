@@ -10,7 +10,7 @@ namespace Essence;
 use Essence\Configurable;
 use Essence\Exception;
 use Essence\Media;
-use Essence\Provider\Filters;
+use Cascade\Cascade;
 
 
 
@@ -27,7 +27,7 @@ abstract class Provider {
 	/**
 	 *	Preparators.
 	 *
-	 *	@var Essence\Provider\Filters
+	 *	@var Cascade\Cascade
 	 */
 
 	protected $_Preparators = null;
@@ -37,7 +37,7 @@ abstract class Provider {
 	/**
 	 *	Presenters.
 	 *
-	 *	@var Essence\Provider\Filters
+	 *	@var Cascade\Cascade
 	 */
 
 	protected $_Presenters = null;
@@ -65,8 +65,8 @@ abstract class Provider {
 		array $preparators = [ ],
 		array $presenters = [ ]
 	) {
-		$this->_Preparators = new Filters( $preparators );
-		$this->_Presenters = new Filters( $presenters );
+		$this->_Preparators = new Cascade( $preparators );
+		$this->_Presenters = new Cascade( $presenters );
 	}
 
 
