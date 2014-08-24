@@ -4,7 +4,6 @@
  *	@author Félix Girault <felix.girault@gmail.com>
  *	@license FreeBSD License (http://opensource.org/licenses/BSD-2-Clause)
  */
-
 namespace Essence;
 
 use PHPUnit_Framework_TestCase as TestCase;
@@ -14,7 +13,6 @@ use PHPUnit_Framework_TestCase as TestCase;
 /**
  *
  */
-
 class ConfigurableImplementation {
 
 	use Configurable;
@@ -24,7 +22,6 @@ class ConfigurableImplementation {
 	/**
 	 *
 	 */
-
 	protected $_properties = [
 		'one' => 1,
 		'two' => 2
@@ -36,13 +33,11 @@ class ConfigurableImplementation {
 /**
  *	Test case for Configurable.
  */
-
 class ConfigurableTest extends TestCase {
 
 	/**
 	 *
 	 */
-
 	public $Configurable = null;
 
 
@@ -50,10 +45,8 @@ class ConfigurableTest extends TestCase {
 	/**
 	 *
 	 */
-
-	public function setUp( ) {
-
-		$this->Configurable = new ConfigurableImplementation( );
+	public function setUp() {
+		$this->Configurable = new ConfigurableImplementation();
 	}
 
 
@@ -61,11 +54,9 @@ class ConfigurableTest extends TestCase {
 	/**
 	 *
 	 */
-
-	public function testMagicIsSet( ) {
-
-		$this->assertTrue( isset( $this->Configurable->one ));
-		$this->assertFalse( isset( $this->Configurable->unset ));
+	public function testMagicIsSet() {
+		$this->assertTrue(isset($this->Configurable->one));
+		$this->assertFalse(isset($this->Configurable->unset));
 	}
 
 
@@ -73,10 +64,8 @@ class ConfigurableTest extends TestCase {
 	/**
 	 *
 	 */
-
-	public function testMagicGet( ) {
-
-		$this->assertEquals( 1, $this->Configurable->one );
+	public function testMagicGet() {
+		$this->assertEquals(1, $this->Configurable->one);
 	}
 
 
@@ -84,11 +73,9 @@ class ConfigurableTest extends TestCase {
 	/**
 	 *
 	 */
-
-	public function testMagicSet( ) {
-
+	public function testMagicSet() {
 		$this->Configurable->foo = 'bar';
-		$this->assertEquals( 'bar', $this->Configurable->foo );
+		$this->assertEquals('bar', $this->Configurable->foo);
 	}
 
 
@@ -96,11 +83,9 @@ class ConfigurableTest extends TestCase {
 	/**
 	 *
 	 */
-
-	public function testHas( ) {
-
-		$this->assertTrue( $this->Configurable->has( 'one' ));
-		$this->assertFalse( $this->Configurable->has( 'unset' ));
+	public function testHas() {
+		$this->assertTrue($this->Configurable->has('one'));
+		$this->assertFalse($this->Configurable->has('unset'));
 	}
 
 
@@ -108,11 +93,9 @@ class ConfigurableTest extends TestCase {
 	/**
 	 *
 	 */
-
-	public function testGet( ) {
-
-		$this->assertEquals( 1, $this->Configurable->get( 'one' ));
-		$this->assertEmpty( $this->Configurable->get( 'unset' ));
+	public function testGet() {
+		$this->assertEquals(1, $this->Configurable->get('one'));
+		$this->assertEmpty($this->Configurable->get('unset'));
 	}
 
 
@@ -120,11 +103,9 @@ class ConfigurableTest extends TestCase {
 	/**
 	 *
 	 */
-
-	public function testSet( ) {
-
-		$this->Configurable->set( 'foo', 'bar' );
-		$this->assertEquals( 'bar', $this->Configurable->foo );
+	public function testSet() {
+		$this->Configurable->set('foo', 'bar');
+		$this->assertEquals('bar', $this->Configurable->foo);
 	}
 
 
@@ -132,14 +113,12 @@ class ConfigurableTest extends TestCase {
 	/**
 	 *
 	 */
+	public function testSetDefault() {
+		$this->Configurable->setDefault('one', 2);
+		$this->assertEquals(1, $this->Configurable->get('one'));
 
-	public function testSetDefault( ) {
-
-		$this->Configurable->setDefault( 'one', 2 );
-		$this->assertEquals( 1, $this->Configurable->get( 'one' ));
-
-		$this->Configurable->setDefault( 'three', 3 );
-		$this->assertEquals( 3, $this->Configurable->get( 'three' ));
+		$this->Configurable->setDefault('three', 3);
+		$this->assertEquals(3, $this->Configurable->get('three'));
 	}
 
 
@@ -147,15 +126,13 @@ class ConfigurableTest extends TestCase {
 	/**
 	 *
 	 */
-
-	public function testSetDefaults( ) {
-
+	public function testSetDefaults() {
 		$this->Configurable->setDefaults([
 			'one' => 2,
 			'three' => 3
 		]);
 
-		$this->assertEquals( 1, $this->Configurable->get( 'one' ));
-		$this->assertEquals( 3, $this->Configurable->get( 'three' ));
+		$this->assertEquals(1, $this->Configurable->get('one'));
+		$this->assertEquals(3, $this->Configurable->get('three'));
 	}
 }

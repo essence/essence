@@ -4,7 +4,6 @@
  *	@author Félix Girault <felix.girault@gmail.com>
  *	@license FreeBSD License (http://opensource.org/licenses/BSD-2-Clause)
  */
-
 namespace Essence\Utility;
 
 use PHPUnit_Framework_TestCase as TestCase;
@@ -14,13 +13,11 @@ use PHPUnit_Framework_TestCase as TestCase;
 /**
  *	Test case for Xml.
  */
-
 class XmlTest extends TestCase {
 
 	/**
 	 *
 	 */
-
 	public $valid =
 		'<?xml version="1.0" encoding="utf-8"?>
 		<oembed>
@@ -33,7 +30,6 @@ class XmlTest extends TestCase {
 	/**
 	 *
 	 */
-
 	public $invalid =
 		'<oembed>
 			<title>Title
@@ -44,13 +40,11 @@ class XmlTest extends TestCase {
 	/**
 	 *
 	 */
-
-	public function testParse( ) {
-
+	public function testParse() {
 		$this->assertEquals([
 			'title' => 'Title',
 			'type' => 'video'
-		], Xml::parse( $this->valid ));
+		], Xml::parse($this->valid));
 	}
 
 
@@ -58,11 +52,8 @@ class XmlTest extends TestCase {
 	/**
 	 *
 	 */
-
-	public function testParseInvalid( ) {
-
-		$this->setExpectedException( 'Essence\\Exception' );
-
-		Xml::parse( $this->invalid );
+	public function testParseInvalid() {
+		$this->setExpectedException('Essence\\Exception');
+		Xml::parse($this->invalid);
 	}
 }

@@ -4,7 +4,6 @@
  *	@author Félix Girault <felix.girault@gmail.com>
  *	@license FreeBSD License (http://opensource.org/licenses/BSD-2-Clause)
  */
-
 namespace Essence\Provider\Presenter;
 
 use PHPUnit_Framework_TestCase as TestCase;
@@ -15,13 +14,11 @@ use Essence\Media;
 /**
  *	Test case for Reindexer.
  */
-
 class ReindexerTest extends TestCase {
 
 	/**
 	 *
 	 */
-
 	public $Reindexer = null;
 
 
@@ -29,9 +26,7 @@ class ReindexerTest extends TestCase {
 	/**
 	 *
 	 */
-
-	public function setUp( ) {
-
+	public function setUp() {
 		$this->Reindexer = new Reindexer([
 			'old' => 'new'
 		]);
@@ -42,14 +37,12 @@ class ReindexerTest extends TestCase {
 	/**
 	 *
 	 */
-
-	public function testFilter( ) {
-
+	public function testFilter() {
 		$Media = new Media([
 			'old' => 'value'
 		]);
 
-		$Media = $this->Reindexer->filter( $Media );
-		$this->assertEquals( 'value', $Media->get( 'new' ));
+		$Media = $this->Reindexer->filter($Media);
+		$this->assertEquals('value', $Media->get('new'));
 	}
 }

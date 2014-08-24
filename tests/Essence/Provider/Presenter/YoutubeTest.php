@@ -4,7 +4,6 @@
  *	@author Félix Girault <felix.girault@gmail.com>
  *	@license FreeBSD License (http://opensource.org/licenses/BSD-2-Clause)
  */
-
 namespace Essence\Provider\Presenter;
 
 use PHPUnit_Framework_TestCase as TestCase;
@@ -15,13 +14,11 @@ use Essence\Media;
 /**
  *	Test case for Youtube.
  */
-
 class YoutubeTest extends TestCase {
 
 	/**
 	 *
 	 */
-
 	public $Media = null;
 
 
@@ -29,9 +26,7 @@ class YoutubeTest extends TestCase {
 	/**
 	 *
 	 */
-
-	public function setup( ) {
-
+	public function setup() {
 		$this->Media = new Media([
 			'thumbnailUrl' => 'http://i1.ytimg.com/vi/5jmjBXoyugM/hqdefault.jpg'
 		]);
@@ -42,13 +37,12 @@ class YoutubeTest extends TestCase {
 	/**
 	 *
 	 */
+	public function testFilterSmall() {
+		$Youtube = new Youtube(Youtube::small);
 
-	public function testFilterSmall( ) {
-
-		$Youtube = new Youtube( Youtube::small );
 		$this->assertEquals(
 			'http://i1.ytimg.com/vi/5jmjBXoyugM/default.jpg',
-			$Youtube->filter( $this->Media )->get( 'thumbnailUrl' )
+			$Youtube->filter($this->Media)->get('thumbnailUrl')
 		);
 	}
 
@@ -57,13 +51,12 @@ class YoutubeTest extends TestCase {
 	/**
 	 *
 	 */
+	public function testFilterMedium() {
+		$Youtube = new Youtube(Youtube::medium);
 
-	public function testFilterMedium( ) {
-
-		$Youtube = new Youtube( Youtube::medium );
 		$this->assertEquals(
 			'http://i1.ytimg.com/vi/5jmjBXoyugM/mqdefault.jpg',
-			$Youtube->filter( $this->Media )->get( 'thumbnailUrl' )
+			$Youtube->filter($this->Media)->get('thumbnailUrl')
 		);
 	}
 
@@ -72,13 +65,12 @@ class YoutubeTest extends TestCase {
 	/**
 	 *
 	 */
+	public function testFilterLarge() {
+		$Youtube = new Youtube(Youtube::large);
 
-	public function testFilterLarge( ) {
-
-		$Youtube = new Youtube( Youtube::large );
 		$this->assertEquals(
 			'http://i1.ytimg.com/vi/5jmjBXoyugM/hqdefault.jpg',
-			$Youtube->filter( $this->Media )->get( 'thumbnailUrl' )
+			$Youtube->filter($this->Media)->get('thumbnailUrl')
 		);
 	}
 }

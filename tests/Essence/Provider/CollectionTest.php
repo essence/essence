@@ -4,7 +4,6 @@
  *	@author Félix Girault <felix.girault@gmail.com>
  *	@license FreeBSD License (http://opensource.org/licenses/BSD-2-Clause)
  */
-
 namespace Essence\Provider;
 
 use PHPUnit_Framework_TestCase as TestCase;
@@ -17,14 +16,12 @@ use Essence\Di\Container;
 /**
  *
  */
-
 class ProviderImplementation extends Provider {
 
 	/**
 	 *
 	 */
-
-	protected function _embed( $url, array $options ) { }
+	protected function _embed($url, array $options) {}
 
 }
 
@@ -33,13 +30,11 @@ class ProviderImplementation extends Provider {
 /**
  *	Test case for Collection.
  */
-
 class CollectionTest extends TestCase {
 
 	/**
 	 *
 	 */
-
 	public $Provider = null;
 
 
@@ -47,7 +42,6 @@ class CollectionTest extends TestCase {
 	/**
 	 *
 	 */
-
 	public $Collection = null;
 
 
@@ -55,15 +49,13 @@ class CollectionTest extends TestCase {
 	/**
 	 *
 	 */
+	public function setUp() {
+		$this->Provider = new ProviderImplementation();
 
-	public function setUp( ) {
+		$Container = new Container();
+		$Container->set('OEmbed', $this->Provider);
 
-		$this->Provider = new ProviderImplementation( );
-
-		$Container = new Container( );
-		$Container->set( 'OEmbed', $this->Provider );
-
-		$this->Collection = new Collection( $Container );
+		$this->Collection = new Collection($Container);
 		$this->Collection->setProperties([
 			'Foo' => [
 				'class' => 'OEmbed',
@@ -71,8 +63,8 @@ class CollectionTest extends TestCase {
 			],
 			'Bar' => [
 				'class' => 'OpenGraph',
-				'filter' => function ( $url ) {
-					return ( $url === 'bar' );
+				'filter' => function ($url) {
+					return ($url === 'bar');
 				}
 			]
 		]);
@@ -83,12 +75,10 @@ class CollectionTest extends TestCase {
 	/**
 	 *
 	 */
-
-	public function testHasProvider( ) {
-
-		$this->assertTrue( $this->Collection->hasProvider( 'foo' ));
-		$this->assertTrue( $this->Collection->hasProvider( 'bar' ));
-		$this->assertFalse( $this->Collection->hasProvider( 'baz' ));
+	public function testHasProvider() {
+		$this->assertTrue($this->Collection->hasProvider('foo'));
+		$this->assertTrue($this->Collection->hasProvider('bar'));
+		$this->assertFalse($this->Collection->hasProvider('baz'));
 	}
 
 
@@ -96,12 +86,10 @@ class CollectionTest extends TestCase {
 	/**
 	 *
 	 */
-
-	public function testProviders( ) {
-
+	public function testProviders() {
 		$this->assertEquals(
-			[ $this->Provider ],
-			$this->Collection->providers( 'foo' )
+			[$this->Provider],
+			$this->Collection->providers('foo')
 		);
 	}
 }

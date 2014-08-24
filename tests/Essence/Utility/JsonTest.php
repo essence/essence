@@ -4,7 +4,6 @@
  *	@author Félix Girault <felix.girault@gmail.com>
  *	@license FreeBSD License (http://opensource.org/licenses/BSD-2-Clause)
  */
-
 namespace Essence\Utility;
 
 use PHPUnit_Framework_TestCase as TestCase;
@@ -14,13 +13,11 @@ use PHPUnit_Framework_TestCase as TestCase;
 /**
  *	Test case for Json.
  */
-
 class JsonTest extends TestCase {
 
 	/**
 	 *
 	 */
-
 	public $valid = <<<VALID
 		{
 			"title": "Title",
@@ -31,7 +28,6 @@ VALID;
 	/**
 	 *
 	 */
-
 	public $invalid = <<<VALID
 		{
 			"title" "Title",
@@ -43,13 +39,11 @@ VALID;
 	/**
 	 *
 	 */
-
-	public function testParse( ) {
-
+	public function testParse() {
 		$this->assertEquals([
 			'title' => 'Title',
 			'type' => 'video'
-		], Json::parse( $this->valid ));
+		], Json::parse($this->valid));
 	}
 
 
@@ -57,11 +51,8 @@ VALID;
 	/**
 	 *
 	 */
-
-	public function testParseInvalid( ) {
-
-		$this->setExpectedException( 'Essence\\Exception' );
-
-		Json::parse( $this->invalid );
+	public function testParseInvalid() {
+		$this->setExpectedException('Essence\\Exception');
+		Json::parse($this->invalid);
 	}
 }

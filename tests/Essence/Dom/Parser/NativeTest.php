@@ -4,7 +4,6 @@
  *	@author Félix Girault <felix.girault@gmail.com>
  *	@license FreeBSD License (http://opensource.org/licenses/BSD-2-Clause)
  */
-
 namespace Essence\Dom\Parser;
 
 use PHPUnit_Framework_TestCase as TestCase;
@@ -14,13 +13,11 @@ use PHPUnit_Framework_TestCase as TestCase;
 /**
  *	Test case for Native.
  */
-
 class NativeTest extends TestCase {
 
 	/**
 	 *
 	 */
-
 	public $Native = null;
 
 
@@ -28,7 +25,6 @@ class NativeTest extends TestCase {
 	/**
 	 *
 	 */
-
 	public $html = <<<'HTML'
 		<meta name="description" content="Description." />
 		<meta name="ns:custom" content="Custom namespace." />
@@ -42,10 +38,8 @@ HTML;
 	/**
 	 *
 	 */
-
-	public function setUp( ) {
-
-		$this->Native = new Native( );
+	public function setUp() {
+		$this->Native = new Native();
 	}
 
 
@@ -53,11 +47,9 @@ HTML;
 	/**
 	 *
 	 */
-
-	public function testExtractAttributes( ) {
-
-		$this->setExpectedException( '\\Essence\\Exception' );
-		$this->Native->extractAttributes( '', [ ]);
+	public function testExtractAttributes() {
+		$this->setExpectedException('\\Essence\\Exception');
+		$this->Native->extractAttributes('', []);
 	}
 
 
@@ -65,12 +57,10 @@ HTML;
 	/**
 	 *
 	 */
-
-	public function testExtractAttributesFromUnknownTag( ) {
-
+	public function testExtractAttributesFromUnknownTag() {
 		$this->assertEquals(
-			[ 'unknown' => [ ]],
-			$this->Native->extractAttributes( $this->html, [ 'unknown' ])
+			['unknown' => []],
+			$this->Native->extractAttributes($this->html, ['unknown'])
 		);
 	}
 
@@ -79,9 +69,7 @@ HTML;
 	/**
 	 *
 	 */
-
-	public function testExtractAllAttributesFromTag( ) {
-
+	public function testExtractAllAttributesFromTag() {
 		$this->assertEquals([
 			'a' => [[
 				'href' => 'http://www.test.com',
@@ -91,7 +79,7 @@ HTML;
 				'title' => 'Other link',
 				'target' => '_blank'
 			]]
-		], $this->Native->extractAttributes( $this->html, [ 'a' ]));
+		], $this->Native->extractAttributes($this->html, ['a']));
 	}
 
 
@@ -99,16 +87,14 @@ HTML;
 	/**
 	 *
 	 */
-
-	public function testExtractSomeAttributesFromTag( ) {
-
+	public function testExtractSomeAttributesFromTag() {
 		$this->assertEquals([
 			'a' => [[
 				'href' => 'http://www.othertest.com',
 				'target' => '_blank'
 			]]
-		], $this->Native->extractAttributes( $this->html, [
-			'a' => [ 'href', 'target' ]
+		], $this->Native->extractAttributes($this->html, [
+			'a' => ['href', 'target']
 		]));
 	}
 
@@ -117,16 +103,14 @@ HTML;
 	/**
 	 *
 	 */
-
-	public function testExtractFilteredAttributesFromTag( ) {
-
+	public function testExtractFilteredAttributesFromTag() {
 		$this->assertEquals([
 			'meta' => [[
 				'name' => 'ns:custom',
 				'content' => 'Custom namespace.'
 			]]
-		], $this->Native->extractAttributes( $this->html, [
-			'meta' => [ 'name' => '#^ns:.+#', 'content' ]
+		], $this->Native->extractAttributes($this->html, [
+			'meta' => ['name' => '#^ns:.+#', 'content']
 		]));
 	}
 
@@ -135,9 +119,7 @@ HTML;
 	/**
 	 *
 	 */
-
-	public function testExtractAllAttributesFromMultipleTags( ) {
-
+	public function testExtractAllAttributesFromMultipleTags() {
 		$this->assertEquals([
 			'meta' => [[
 				'name' => 'description',
@@ -154,6 +136,6 @@ HTML;
 				'title' => 'Other link',
 				'target' => '_blank'
 			]]
-		], $this->Native->extractAttributes( $this->html, [ 'meta', 'a' ]));
+		], $this->Native->extractAttributes($this->html, ['meta', 'a']));
 	}
 }

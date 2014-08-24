@@ -4,7 +4,6 @@
  *	@author Félix Girault <felix.girault@gmail.com>
  *	@license FreeBSD License (http://opensource.org/licenses/BSD-2-Clause)
  */
-
 namespace Essence;
 
 use PHPUnit_Framework_TestCase as TestCase;
@@ -16,13 +15,11 @@ use Essence\Http\Client\Native as NativeHttpClient;
 /**
  *	Test case for Essence.
  */
-
 class EssenceTest extends TestCase {
 
 	/**
 	 *
 	 */
-
 	public $Essence = null;
 
 
@@ -30,25 +27,23 @@ class EssenceTest extends TestCase {
 	/**
 	 *
 	 */
-
-	public function setUp( ) {
-
+	public function setUp() {
 		$this->Essence = new Essence([
-			'Http' => new NativeHttpClient( ),
-			'Dom' => new NativeDomParser( ),
+			'Http' => new NativeHttpClient(),
+			'Dom' => new NativeDomParser(),
 			'Media' => new Media([
 				'title' => 'Title',
 				'html' => 'HTML'
 			]),
-			'Provider' => function( $C ) {
+			'Provider' => function($C) {
 				$Provider = $this->getMockForAbstractClass(
 					'\\Essence\\Provider'
 				);
 
 				$Provider
-					->expects( $this->any( ))
-					->method( '_embed' )
-					->will( $this->returnValue( $C->get( 'Media' )));
+					->expects($this->any())
+					->method('_embed')
+					->will($this->returnValue($C->get('Media')));
 
 				return $Provider;
 			},
@@ -66,14 +61,12 @@ class EssenceTest extends TestCase {
 	/**
 	 *
 	 */
-
-	public function testExtract( ) {
-
+	public function testExtract() {
 		$this->assertEquals([
 			'http://pass.foo.com',
 			'http://pass.embed.com',
 			'http://pass.iframe.com'
-		], $this->Essence->extract( 'file://' . ESSENCE_HTTP . 'valid.html' ));
+		], $this->Essence->extract('file://' . ESSENCE_HTTP . 'valid.html'));
 	}
 
 
@@ -81,9 +74,7 @@ class EssenceTest extends TestCase {
 	/**
 	 *
 	 */
-
-	public function testExtractHtml( ) {
-
+	public function testExtractHtml() {
 		$html = <<<HTML
 			<a href="http://pass.foo.com">Foo</a>
 			<a href="http://fail.bar.com">Bar</a>
@@ -95,7 +86,7 @@ HTML;
 			'http://pass.foo.com',
 			'http://pass.embed.com',
 			'http://pass.iframe.com'
-		], $this->Essence->extract( $html ));
+		], $this->Essence->extract($html));
 	}
 
 
@@ -103,10 +94,8 @@ HTML;
 	/**
 	 *
 	 */
-
-	public function testEmbed( ) {
-
-		$this->assertNotNull( $this->Essence->embed( 'http://pass.foo.com/bar' ));
+	public function testEmbed() {
+		$this->assertNotNull($this->Essence->embed('http://pass.foo.com/bar'));
 	}
 
 
@@ -114,13 +103,11 @@ HTML;
 	/**
 	 *
 	 */
+	public function testEmbedAll() {
+		$urls = ['one', 'two'];
+		$medias = $this->Essence->embedAll($urls);
 
-	public function testEmbedAll( ) {
-
-		$urls = [ 'one', 'two' ];
-		$medias = $this->Essence->embedAll( $urls );
-
-		$this->assertEquals( $urls, array_keys( $medias ));
+		$this->assertEquals($urls, array_keys($medias));
 
 	}
 
@@ -129,12 +116,10 @@ HTML;
 	/**
 	 *
 	 */
-
-	public function testReplace( ) {
-
+	public function testReplace() {
 		$this->assertEquals(
 			'foo HTML bar',
-			$this->Essence->replace( 'foo http://pass.example.com bar' )
+			$this->Essence->replace('foo http://pass.example.com bar')
 		);
 	}
 
@@ -143,12 +128,10 @@ HTML;
 	/**
 	 *
 	 */
-
-	public function testReplaceSingleUrl( ) {
-
+	public function testReplaceSingleUrl() {
 		$this->assertEquals(
 			'HTML',
-			$this->Essence->replace( 'http://pass.example.com' )
+			$this->Essence->replace('http://pass.example.com')
 		);
 	}
 
@@ -157,12 +140,10 @@ HTML;
 	/**
 	 *
 	 */
-
-	public function testReplaceTagSurroundedUrl( ) {
-
+	public function testReplaceTagSurroundedUrl() {
 		$this->assertEquals(
 			'<span>HTML</span>',
-			$this->Essence->replace( '<span>http://pass.example.com</span>' )
+			$this->Essence->replace('<span>http://pass.example.com</span>')
 		);
 	}
 
@@ -171,12 +152,10 @@ HTML;
 	/**
 	 *
 	 */
-
-	public function testReplaceWithTemplate( ) {
-
+	public function testReplaceWithTemplate() {
 		$this->assertEquals(
 			'foo <h1>Title</h1> bar',
-			$this->Essence->replace( 'foo http://pass.example.com bar', function( $Media ) {
+			$this->Essence->replace('foo http://pass.example.com bar', function($Media) {
 				return '<h1>' . $Media->title . '</h1>';
 			})
 		);
@@ -187,17 +166,15 @@ HTML;
 	/**
 	 *
 	 */
-
-	public function testDontReplaceLinks( ) {
-
+	public function testDontReplaceLinks() {
 		$link = '<a href="http://pass.com">baz</a>';
-		$this->assertEquals( $link, $this->Essence->replace( $link ));
+		$this->assertEquals($link, $this->Essence->replace($link));
 
 		$link = '<a href="http://www.pass.com/watch?v=emgJtr9tIME">baz</a>';
-		$this->assertEquals( $link, $this->Essence->replace( $link ));
+		$this->assertEquals($link, $this->Essence->replace($link));
 
 		$link = "<a href='http://pass.com'>baz</a>";
-		$this->assertEquals( $link, $this->Essence->replace( $link ));
+		$this->assertEquals($link, $this->Essence->replace($link));
 	}
 
 
@@ -205,9 +182,7 @@ HTML;
 	/**
 	 *
 	 */
-
-	public function testReplaceQuotesSurroundedUrl( ) {
-
-		$this->assertEquals( '"HTML"', $this->Essence->replace( '"http://pass.com"' ));
+	public function testReplaceQuotesSurroundedUrl() {
+		$this->assertEquals('"HTML"', $this->Essence->replace('"http://pass.com"'));
 	}
 }

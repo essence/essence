@@ -4,7 +4,6 @@
  *	@author Félix Girault <felix.girault@gmail.com>
  *	@license FreeBSD License (http://opensource.org/licenses/BSD-2-Clause)
  */
-
 namespace Essence\Provider;
 
 use PHPUnit_Framework_TestCase as TestCase;
@@ -16,16 +15,13 @@ use Essence\Http\Client\Native as NativeHttpClient;
 /**
  *
  */
-
 class TestableOEmbed extends OEmbed {
 
 	/**
 	 *
 	 */
-
-	public function completeEndpoint( $endpoint, $options ) {
-
-		return $this->_completeEndpoint( $endpoint, $options );
+	public function completeEndpoint($endpoint, $options) {
+		return $this->_completeEndpoint($endpoint, $options);
 	}
 }
 
@@ -34,13 +30,11 @@ class TestableOEmbed extends OEmbed {
 /**
  *	Test case for OEmbed.
  */
-
 class OEmbedTest extends TestCase {
 
 	/**
 	 *
 	 */
-
 	public $Http = null;
 
 
@@ -48,7 +42,6 @@ class OEmbedTest extends TestCase {
 	/**
 	 *
 	 */
-
 	public $OEmbed = null;
 
 
@@ -56,14 +49,12 @@ class OEmbedTest extends TestCase {
 	/**
 	 *
 	 */
-
-	public function setup( ) {
-
-		$this->Http = $this->getMock( 'Essence\\Http\\Client\\Native' );
+	public function setup() {
+		$this->Http = $this->getMock('Essence\\Http\\Client\\Native');
 
 		$this->OEmbed = new TestableOEmbed(
-			new NativeHttpClient( ),
-			new NativeDomParser( )
+			new NativeHttpClient(),
+			new NativeDomParser()
 		);
 
 		$this->OEmbed->configure([
@@ -77,12 +68,10 @@ class OEmbedTest extends TestCase {
 	/**
 	 *
 	 */
-
-	public function testCompleteEndpoint( ) {
-
+	public function testCompleteEndpoint() {
 		$this->assertEquals(
 			'url?maxwidth=120&maxheight=60',
-			$this->OEmbed->completeEndpoint( 'url', [
+			$this->OEmbed->completeEndpoint('url', [
 				'maxwidth' => 120,
 				'maxheight' => 60
 			])
@@ -90,7 +79,7 @@ class OEmbedTest extends TestCase {
 
 		$this->assertEquals(
 			'url?maxwidth=120',
-			$this->OEmbed->completeEndpoint( 'url', [
+			$this->OEmbed->completeEndpoint('url', [
 				'maxwidth' => 120,
 				'unsupported' => 'unsupported'
 			])
@@ -98,7 +87,7 @@ class OEmbedTest extends TestCase {
 
 		$this->assertEquals(
 			'url?param=value&maxwidth=120',
-			$this->OEmbed->completeEndpoint( 'url?param=value', [
+			$this->OEmbed->completeEndpoint('url?param=value', [
 				'maxwidth' => 120
 			])
 		);
@@ -109,10 +98,8 @@ class OEmbedTest extends TestCase {
 	/**
 	 *
 	 */
-
-	public function testEmbedJson( ) {
-
-		$this->assertNotNull( $this->OEmbed->embed( 'valid' ));
+	public function testEmbedJson() {
+		$this->assertNotNull($this->OEmbed->embed('valid'));
 	}
 
 
@@ -120,11 +107,9 @@ class OEmbedTest extends TestCase {
 	/**
 	 *
 	 */
-
-	public function testEmbedInvalidJson( ) {
-
-		$this->setExpectedException( 'Essence\\Exception' );
-		$this->OEmbed->embed( 'invalid' );
+	public function testEmbedInvalidJson() {
+		$this->setExpectedException('Essence\\Exception');
+		$this->OEmbed->embed('invalid');
 	}
 
 
@@ -132,13 +117,11 @@ class OEmbedTest extends TestCase {
 	/**
 	 *
 	 */
+	public function testEmbedXml() {
+		$this->OEmbed->set('endpoint', 'file://' . ESSENCE_HTTP . ':url.xml');
+		$this->OEmbed->set('format', OEmbed::xml);
 
-	public function testEmbedXml( ) {
-
-		$this->OEmbed->set( 'endpoint', 'file://' . ESSENCE_HTTP . ':url.xml' );
-		$this->OEmbed->set( 'format', OEmbed::xml );
-
-		$this->assertNotNull( $this->OEmbed->embed( 'valid' ));
+		$this->assertNotNull($this->OEmbed->embed('valid'));
 	}
 
 
@@ -146,14 +129,12 @@ class OEmbedTest extends TestCase {
 	/**
 	 *
 	 */
+	public function testEmbedInvalidXml() {
+		$this->OEmbed->set('endpoint', 'file://' . ESSENCE_HTTP . ':url.xml');
+		$this->OEmbed->set('format', OEmbed::xml);
 
-	public function testEmbedInvalidXml( ) {
-
-		$this->OEmbed->set( 'endpoint', 'file://' . ESSENCE_HTTP . ':url.xml' );
-		$this->OEmbed->set( 'format', OEmbed::xml );
-
-		$this->setExpectedException( 'Essence\\Exception' );
-		$this->OEmbed->embed( 'invalid' );
+		$this->setExpectedException('Essence\\Exception');
+		$this->OEmbed->embed('invalid');
 	}
 
 
@@ -161,13 +142,11 @@ class OEmbedTest extends TestCase {
 	/**
 	 *
 	 */
+	public function testEmbedUnsupportedFormat() {
+		$this->OEmbed->set('format', 'unsupported');
 
-	public function testEmbedUnsupportedFormat( ) {
-
-		$this->OEmbed->set( 'format', 'unsupported' );
-
-		$this->setExpectedException( 'Essence\\Exception' );
-		$this->OEmbed->embed( 'valid' );
+		$this->setExpectedException('Essence\\Exception');
+		$this->OEmbed->embed('valid');
 	}
 
 
@@ -175,13 +154,11 @@ class OEmbedTest extends TestCase {
 	/**
 	 *
 	 */
-
-	public function testEmbedGeneric( ) {
-
-		$this->OEmbed->set( 'endpoint', '' );
+	public function testEmbedGeneric() {
+		$this->OEmbed->set('endpoint', '');
 
 		$this->assertNotNull(
-			$this->OEmbed->embed( 'file://' . ESSENCE_HTTP . 'valid.html' )
+			$this->OEmbed->embed('file://' . ESSENCE_HTTP . 'valid.html')
 		);
 	}
 }

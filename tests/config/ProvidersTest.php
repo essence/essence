@@ -4,7 +4,6 @@
  *	@author Félix Girault <felix.girault@gmail.com>
  *	@license FreeBSD License (http://opensource.org/licenses/BSD-2-Clause)
  */
-
 use PHPUnit_Framework_TestCase as TestCase;
 use Essence\Essence;
 
@@ -13,13 +12,11 @@ use Essence\Essence;
 /**
  *	Test case for Providers.
  */
-
 class ProvidersTest extends TestCase {
 
 	/**
 	 *
 	 */
-
 	public $Essence = null;
 
 
@@ -27,10 +24,8 @@ class ProvidersTest extends TestCase {
 	/**
 	 *
 	 */
-
-	public function setUp( ) {
-
-		$this->Essence = new Essence( );
+	public function setUp() {
+		$this->Essence = new Essence();
 	}
 
 
@@ -44,22 +39,20 @@ class ProvidersTest extends TestCase {
 	 *	@param $property Name of the property to test.
 	 *	@param $value Property value.
 	 */
+	public function testEmbed($name, $url, $property, $value) {
+		$Media = $this->Essence->embed($url);
 
-	public function testEmbed( $name, $url, $property, $value ) {
-
-		$Media = $this->Essence->embed( $url );
-
-		if ( !$Media ) {
-			$this->markTestSkipped( "Unable to embed '$url'" );
+		if (!$Media) {
+			$this->markTestSkipped("Unable to embed '$url'");
 		}
 
-		if ( $property ) {
-			if ( !$Media->has( $property )) {
-				$this->markTestSkipped( "Unable to find '$property'" );
+		if ($property) {
+			if (!$Media->has($property)) {
+				$this->markTestSkipped("Unable to find '$property'");
 			}
 
-			if ( $Media->get( $property, !$value ) !== $value ) {
-				$this->markTestSkipped( "Unexpected value '$value' for '$property'" );
+			if ($Media->get($property, !$value) !== $value) {
+				$this->assertEquals("Unexpected value '$value' for '$property'");
 			}
 		}
 	}
@@ -69,9 +62,7 @@ class ProvidersTest extends TestCase {
 	/**
 	 *
 	 */
-
-	public function providerProvider( ) {
-
+	public function providerProvider() {
 		return [
 			[ '23hq', 'http://www.23hq.com/Zzleeper/photo/16600737', 'authorName', 'Zzleeper' ],
 			//[ 'Animoto', '', '', '' ],
