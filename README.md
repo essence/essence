@@ -105,22 +105,24 @@ For example, here is how you could get the URL of all videos in a blog post:
 
 ```php
 $urls = $Essence->extract('http://www.blog.com/article');
-
-//	[
-//		'http://www.youtube.com/watch?v=123456'
-//		'http://www.dailymotion.com/video/a1b2c_lolcat-fun'
-//	]
+```
+```
+array(2) {
+	[0] => 'http://www.youtube.com/watch?v=123456',
+	[1] => 'http://www.dailymotion.com/video/a1b2c_lolcat-fun'
+}
 ```
 
 You can then get informations from all the extracted URLs:
 
 ```php
 $medias = $Essence->embedAll($urls);
-
-//	[
-//		'http://www.youtube.com/watch?v=123456' => [Media]
-//		'http://www.dailymotion.com/video/a1b2c_lolcat-fun' => [Media]
-//	]
+```
+```
+array(2) {
+	['http://www.youtube.com/watch?v=123456'] => object(Media) {}
+	['http://www.dailymotion.com/video/a1b2c_lolcat-fun'] => object(Media) {}
+}
 ```
 
 ### Replacing URLs in text
@@ -129,29 +131,28 @@ Essence can replace any embeddable URL in a text by informations about it.
 By default, any URL will be replaced by the `html` property of the found Media.
 
 ```php
-$text = 'Check out this awesome video: http://www.youtube.com/watch?v=123456'
-
-echo $Essence->replace($text);
-
-//	Check out this awesome video: <iframe src="http://www.youtube.com/embed/123456"></iframe>
+echo $Essence->replace('Check out this awesome video: http://www.youtube.com/watch?v=123456');
+```
+```html
+Check out this awesome video: <iframe src="http://www.youtube.com/embed/123456"></iframe>
 ```
 
 But you can do more by passing a callback to control which informations will replace the URL:
 
 ```php
 echo $Essence->replace($text, function($Media) {
-	return sprintf(
-		'<p class="title">%s</p><div class="player">%s</div>',
-		$Media->title,
-		$Media->html
-	);
+	return <<<HTML
+		<p class="title">$Media->title</p>
+		<div class="player">$Media->html</div>
+HTML;
 });
-
-//	Check out this awesome video:
-//	<p class="title">Video title</p>
-//	<div class="player">
-//		<iframe src="http://www.youtube.com/embed/123456"></iframe>
-//	<div>
+```
+```html
+Check out this awesome video:
+<p class="title">Video title</p>
+<div class="player">
+	<iframe src="http://www.youtube.com/embed/123456"></iframe>
+<div>
 ```
 
 This makes it easy to build rich templates or even to integrate a templating engine:
@@ -206,7 +207,6 @@ You can configure these providers by passing a configuration array:
 ```php
 $Essence = new Essence\Essence([
 	'providers' => [
-
 		// the OpenGraph provider will try to embed any URL that matches
 		// the filter
 		'Ted' => [
@@ -223,8 +223,11 @@ $Essence = new Essence\Essence([
 		]
 	]
 ]);
+```
 
-// you can also load a configuration array from a file
+You can also load a configuration array from a file:
+
+```php
 $Essence = new Essence\Essence([
 	'providers' => 'path/to/config/file.php'
 ]);
@@ -271,10 +274,8 @@ This script allows you to test Essence quickly:
 Third-party libraries
 ---------------------
 
-* Interfaces to integrate other libraries: https://github.com/felixgirault/essence-interfaces
-* CakePHP plugin: https://github.com/felixgirault/cakephp-essence
-* Demo framework by Sean Steindl: https://github.com/laughingwithu/Essence_demo
-* Symfony bundle by Ka Yue Yeung: https://github.com/kayue/KayueEssenceBundle
+If you're planning to integrate essence with other libraries,
+[essence-interfaces](https://github.com/felixgirault/essence-interfaces) could make your life easier.
 
 If you're interested in embedding videos, you should take a look at the [Multiplayer](https://github.com/felixgirault/multiplayer) lib.
 It allows you to build customizable embed codes painlessly:
