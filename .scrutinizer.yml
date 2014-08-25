@@ -1,3 +1,6 @@
+filter:
+    paths: [lib/*]
+
 checks:
   php:
     code_rating: true
