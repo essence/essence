@@ -7,6 +7,9 @@
 namespace Essence\Di\Container;
 
 use Essence\Essence;
+use Essence\Crawler;
+use Essence\Extractor;
+use Essence\Replacer;
 use Essence\Di\Container;
 use Essence\Dom\Parser\Native as NativeDomParser;
 use Essence\Http\Client\Curl as CurlHttpClient;
@@ -263,6 +266,41 @@ class Standard extends Container {
 				$Collection->load($C->get('Collection.providers'));
 
 				return $Collection;
+			},
+
+
+
+			/**
+			 *
+			 */
+			'Crawler' => function($C) {
+				return new Crawler(
+					$C->get('Collection'),
+					$C->get('Http'),
+					$C->get('Dom')
+				);
+			},
+
+			'Extractor' => function($C) {
+				return new Extractor(
+					$C->get('Collection')
+				);
+			},
+
+			'Replacer.urlPattern' =>
+				'~
+					(?<!=["\']) # avoids matching URLs in HTML attributes
+					(?:https?:)//
+					(?:www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}/)?
+					(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+
+					(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:\'"\.,<>?«»“”‘’])
+				~ix',
+
+			'Replacer' => function($C) {
+				$Replacer = new Replacer($C->get('Extractor'));
+				$Replacer->setUrlPattern($C->get('Replacer.urlPattern'));
+
+				return $Replacer;
 			}
 		];
 	}
