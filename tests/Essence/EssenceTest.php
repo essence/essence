@@ -47,7 +47,7 @@ class EssenceTest extends TestCase {
 
 				return $Provider;
 			},
-			'providers' => [
+			'Collection.providers' => [
 				'provider' => [
 					'class' => 'Provider',
 					'filter' => '#pass#i'
@@ -108,7 +108,6 @@ HTML;
 		$medias = $this->Essence->embedAll($urls);
 
 		$this->assertEquals($urls, array_keys($medias));
-
 	}
 
 

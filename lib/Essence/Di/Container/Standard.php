@@ -54,13 +54,13 @@ class Standard extends Container {
 			/**
 			 *	Completer.
 			 */
-			'defaults' => [
+			'Completer.defaults' => [
 				'width' => 800,
 				'height' => 600
 			],
 
 			'Completer' => Container::unique(function($C) {
-				return new Completer($C->get('defaults'));
+				return new Completer($C->get('Completer.defaults'));
 			}),
 
 
@@ -68,7 +68,7 @@ class Standard extends Container {
 			/**
 			 *	OEmbed.
 			 */
-			'oEmbedMapping' => [
+			'OEmbed.mapping' => [
 				'author_name' => 'authorName',
 				'author_url' => 'authorUrl',
 				'provider_name' => 'providerName',
@@ -79,13 +79,13 @@ class Standard extends Container {
 				'thumbnail_height' => 'thumbnailHeight'
 			],
 
-			'OEmbedReindexer' => Container::unique(function($C) {
-				return new Reindexer($C->get('oEmbedMapping'));
+			'OEmbed.Reindexer' => Container::unique(function($C) {
+				return new Reindexer($C->get('OEmbed.mapping'));
 			}),
 
-			'oEmbedPresenters' => Container::unique(function($C) {
+			'OEmbed.presenters' => Container::unique(function($C) {
 				return [
-					$C->get('OEmbedReindexer'),
+					$C->get('OEmbed.Reindexer'),
 					$C->get('Completer')
 				];
 			}),
@@ -95,7 +95,7 @@ class Standard extends Container {
 					$C->get('Http'),
 					$C->get('Dom'),
 					[],
-					$C->get('oEmbedPresenters')
+					$C->get('OEmbed.presenters')
 				);
 			},
 
@@ -104,19 +104,19 @@ class Standard extends Container {
 			/**
 			 *	Vimeo.
 			 */
-			'vimeoId' => '#player\.vimeo\.com/video/(?<id>[0-9]+)#i',
-			'vimeoUrl' => 'http://www.vimeo.com/:id',
+			'Vimeo.id' => '#player\.vimeo\.com/video/(?<id>[0-9]+)#i',
+			'Vimeo.url' => 'http://www.vimeo.com/:id',
 
-			'VimeoRefactorer' => Container::unique(function($C) {
+			'Vimeo.Refactorer' => Container::unique(function($C) {
 				return new Refactorer(
-					$C->get('vimeoId'),
-					$C->get('vimeoUrl')
+					$C->get('Vimeo.id'),
+					$C->get('Vimeo.url')
 				);
 			}),
 
-			'vimeoPreparators' => Container::unique(function($C) {
+			'Vimeo.preparators' => Container::unique(function($C) {
 				return [
-					$C->get('VimeoRefactorer')
+					$C->get('Vimeo.Refactorer')
 				];
 			}),
 
@@ -124,8 +124,8 @@ class Standard extends Container {
 				return new OEmbed(
 					$C->get('Http'),
 					$C->get('Dom'),
-					$C->get('vimeoPreparators'),
-					$C->get('oEmbedPresenters')
+					$C->get('Vimeo.preparators'),
+					$C->get('OEmbed.presenters')
 				);
 			},
 
@@ -134,31 +134,31 @@ class Standard extends Container {
 			/**
 			 *	Youtube.
 			 */
-			'youtubeId' => '#(?:v=|v/|embed/|youtu\.be/)(?<id>[a-z0-9_-]+)#i',
-			'youtubeUrl' => 'http://www.youtube.com/watch?v=:id',
+			'Youtube.Id' => '#(?:v=|v/|embed/|youtu\.be/)(?<id>[a-z0-9_-]+)#i',
+			'Youtube.url' => 'http://www.youtube.com/watch?v=:id',
 
-			'YoutubeRefactorer' => Container::unique(function($C) {
+			'Youtube.Refactorer' => Container::unique(function($C) {
 				return new Refactorer(
-					$C->get('youtubeId'),
-					$C->get('youtubeUrl')
+					$C->get('Youtube.Id'),
+					$C->get('Youtube.url')
 				);
 			}),
 
-			'youtubePreparators' => Container::unique(function($C) {
+			'Youtube.preparators' => Container::unique(function($C) {
 				return [
-					$C->get('YoutubeRefactorer')
+					$C->get('Youtube.Refactorer')
 				];
 			}),
 
-			'youtubeThumbnailFormat' => Youtube::large,
+			'Youtube.thumbnailFormat' => Youtube::large,
 
-			'YoutubePresenter' => Container::unique(function($C) {
-				return new Youtube($C->get('youtubeThumbnailFormat'));
+			'Youtube.Presenter' => Container::unique(function($C) {
+				return new Youtube($C->get('Youtube.thumbnailFormat'));
 			}),
 
-			'youtubePresenters' => Container::unique(function($C) {
+			'Youtube.presenters' => Container::unique(function($C) {
 				return [
-					$C->get('YoutubePresenter')
+					$C->get('Youtube.Presenter')
 				];
 			}),
 
@@ -166,8 +166,8 @@ class Standard extends Container {
 				return new OEmbed(
 					$C->get('Http'),
 					$C->get('Dom'),
-					$C->get('youtubePreparators'),
-					$C->get('oEmbedPresenters')
+					$C->get('Youtube.preparators'),
+					$C->get('OEmbed.presenters')
 				);
 			},
 
@@ -176,8 +176,8 @@ class Standard extends Container {
 			/**
 			 *	OpenGraph.
 			 */
-			'openGraphScheme' => '#^og:#i',
-			'openGraphMapping' => [
+			'OpenGraph.scheme' => '#^og:#i',
+			'OpenGraph.mapping' => [
 				'og:type' => 'type',
 				'og:title' => 'title',
 				'og:description' => 'description',
@@ -191,13 +191,13 @@ class Standard extends Container {
 				'og:url' => 'url'
 			],
 
-			'OpenGraphReindexer' => Container::unique(function($C) {
-				return new Reindexer($C->get('openGraphMapping'));
+			'OpenGraph.Reindexer' => Container::unique(function($C) {
+				return new Reindexer($C->get('OpenGraph.mapping'));
 			}),
 
-			'openGraphPresenters' => Container::unique(function($C) {
+			'OpenGraph.presenters' => Container::unique(function($C) {
 				return [
-					$C->get('OpenGraphReindexer')
+					$C->get('OpenGraph.Reindexer')
 				];
 			}),
 
@@ -206,10 +206,10 @@ class Standard extends Container {
 					$C->get('Http'),
 					$C->get('Dom'),
 					[],
-					$C->get('openGraphPresenters')
+					$C->get('OpenGraph.presenters')
 				);
 
-				$OpenGraph->set('scheme', $C->get('openGraphScheme'));
+				$OpenGraph->set('scheme', $C->get('OpenGraph.scheme'));
 				return $OpenGraph;
 			},
 
@@ -218,8 +218,8 @@ class Standard extends Container {
 			/**
 			 *	TwitterCards.
 			 */
-			'twitterCardsScheme' => '#^twitter:#i',
-			'twitterCardsMapping' => [
+			'TwitterCards.scheme' => '#^twitter:#i',
+			'TwitterCards.mapping' => [
 				'twitter:card' => 'type',
 				'twitter:title' => 'title',
 				'twitter:description' => 'description',
@@ -227,13 +227,13 @@ class Standard extends Container {
 				'twitter:creator' => 'authorName'
 			],
 
-			'TwitterCardsReindexer' => Container::unique(function($C) {
-				return new Reindexer($C->get('twitterCardsMapping'));
+			'TwitterCards.Reindexer' => Container::unique(function($C) {
+				return new Reindexer($C->get('TwitterCards.mapping'));
 			}),
 
-			'twitterCardsPresenters' => Container::unique(function($C) {
+			'TwitterCards.presenters' => Container::unique(function($C) {
 				return [
-					$C->get('TwitterCardsReindexer')
+					$C->get('TwitterCards.Reindexer')
 				];
 			}),
 
@@ -242,10 +242,10 @@ class Standard extends Container {
 					$C->get('Http'),
 					$C->get('Dom'),
 					[],
-					$C->get('twitterCardsPresenters')
+					$C->get('TwitterCards.presenters')
 				);
 
-				$TwitterCards->set('scheme', $C->get('twitterCardsScheme'));
+				$TwitterCards->set('scheme', $C->get('TwitterCards.scheme'));
 				return $TwitterCards;
 			},
 
@@ -254,13 +254,13 @@ class Standard extends Container {
 			/**
 			 *	Providers.
 			 */
-			'providers' => dirname(dirname(dirname(dirname(dirname(__FILE__)))))
+			'Collection.providers' => dirname(dirname(dirname(dirname(dirname(__FILE__)))))
 				. DIRECTORY_SEPARATOR . 'config'
 				. DIRECTORY_SEPARATOR . 'providers.json',
 
 			'Collection' => function($C) {
 				$Collection = new Collection($C);
-				$Collection->load($C->get('providers'));
+				$Collection->load($C->get('Collection.providers'));
 
 				return $Collection;
 			}
