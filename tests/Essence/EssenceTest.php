@@ -67,7 +67,7 @@ class EssenceTest extends TestCase {
 	public function testEmbed() {
 		$url = 'url';
 		$options = [];
-		$Media = new Media([]);
+		$Media = new Media();
 
 		$Extractor = $this->getMockBuilder('\\Essence\\Extractor')
 			->disableOriginalConstructor()
@@ -94,7 +94,7 @@ class EssenceTest extends TestCase {
 	public function testEmbedAll() {
 		$urls = ['url'];
 		$options = [];
-		$medias = [new Media([])];
+		$medias = [new Media()];
 
 		$Extractor = $this->getMockBuilder('\\Essence\\Extractor')
 			->disableOriginalConstructor()

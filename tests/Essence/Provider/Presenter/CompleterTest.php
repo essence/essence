@@ -38,7 +38,7 @@ class CompleterTest extends TestCase {
 	 *
 	 */
 	public function testFilter() {
-		$Media = new Media([]);
+		$Media = new Media();
 		$this->assertFalse($Media->has('foo'));
 
 		$Media = $this->Completer->filter($Media);

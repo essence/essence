@@ -27,7 +27,7 @@ class ExtractorTest extends TestCase {
 	 *
 	 */
 	public function setUp() {
-		$Media = new Media([]);
+		$Media = new Media();
 		$Provider = $this->getMockForAbstractClass('\\Essence\\Provider');
 
 		$Provider

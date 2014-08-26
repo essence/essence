@@ -104,7 +104,7 @@ class Media implements IteratorAggregate, JsonSerializable {
 	 *	@see $properties
 	 *	@param array $properties An array of media informations.
 	 */
-	public function __construct(array $properties) {
+	public function __construct(array $properties = []) {
 		$this->configure($properties);
 	}
 
