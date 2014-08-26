@@ -147,7 +147,7 @@ class Collection {
 	 *	@return Provider Instance.
 	 */
 	protected function _provider($name, $config) {
-		if (!isset($this->_providers[$name ])) {
+		if (!isset($this->_providers[$name])) {
 			$class = $config['class'];
 
 			$Provider = $this->_Container->has($class)
@@ -155,9 +155,9 @@ class Collection {
 				: new $class();
 
 			$Provider->configure($config);
-			$this->_providers[$name ] = $Provider;
+			$this->_providers[$name] = $Provider;
 		}
 
-		return $this->_providers[$name ];
+		return $this->_providers[$name];
 	}
 }
