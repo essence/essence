@@ -27,20 +27,19 @@ class ReplacerTest extends TestCase {
 	 *
 	 */
 	public function setUp() {
-		$Container = new StandardContainer([
-			'Media' => new Media([
-				'title' => 'Title',
-				'html' => 'HTML'
-			]),
-			'Provider' => function($C) {
-				$Provider = $this->getMockForAbstractClass('\\Essence\\Provider');
-				$Provider
-					->expects($this->any())
-					->method('_embed')
-					->will($this->returnValue($C->get('Media')));
+		$Media = new Media([
+			'title' => 'Title',
+			'html' => 'HTML'
+		]);
 
-				return $Provider;
-			},
+		$Provider = $this->getMockForAbstractClass('\\Essence\\Provider');
+		$Provider
+			->expects($this->any())
+			->method('_embed')
+			->will($this->returnValue($Media));
+
+		$Container = new StandardContainer([
+			'Provider' => $Provider,
 			'Collection.providers' => [
 				'provider' => [
 					'class' => 'Provider',

@@ -27,17 +27,16 @@ class ExtractorTest extends TestCase {
 	 *
 	 */
 	public function setUp() {
-		$Container = new StandardContainer([
-			'Media' => new Media([]),
-			'Provider' => function($C) {
-				$Provider = $this->getMockForAbstractClass('\\Essence\\Provider');
-				$Provider
-					->expects($this->any())
-					->method('_embed')
-					->will($this->returnValue($C->get('Media')));
+		$Media = new Media([]);
+		$Provider = $this->getMockForAbstractClass('\\Essence\\Provider');
 
-				return $Provider;
-			},
+		$Provider
+			->expects($this->any())
+			->method('_embed')
+			->will($this->returnValue($Media));
+
+		$Container = new StandardContainer([
+			'Provider' => $Provider,
 			'Collection.providers' => [
 				'provider' => [
 					'class' => 'Provider',

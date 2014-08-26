@@ -42,20 +42,18 @@ class EssenceTest extends TestCase {
 		$source = 'source';
 		$urls = [];
 
+		$Crawler = $this->getMockBuilder('\\Essence\\Crawler')
+			->disableOriginalConstructor()
+			->getMock();
+
+		$Crawler
+			->expects($this->once())
+			->method('crawl')
+			->with($this->isEqual($source))
+			->will($this->returnValue($urls));
+
 		$Essence = new Essence([
-			'Crawler' => function() use ($source, $urls) {
-				$Crawler = $this->getMockBuilder('\\Essence\\Crawler')
-					->disableOriginalConstructor()
-					->getMock();
-
-				$Crawler
-					->expects($this->once())
-					->method('crawl')
-					->with($this->isEqual($source))
-					->will($this->returnValue($urls));
-
-				return $Crawler;
-			}
+			'Crawler' => $Crawler
 		]);
 
 		$this->assertEquals($urls, $Essence->extract($source));
@@ -71,20 +69,18 @@ class EssenceTest extends TestCase {
 		$options = [];
 		$Media = new Media([]);
 
+		$Extractor = $this->getMockBuilder('\\Essence\\Extractor')
+			->disableOriginalConstructor()
+			->getMock();
+
+		$Extractor
+			->expects($this->once())
+			->method('extract')
+			->with($this->isEqual($url), $this->isEqual($options))
+			->will($this->returnValue($Media));
+
 		$Essence = new Essence([
-			'Extractor' => function() use ($url, $options, $Media) {
-				$Extractor = $this->getMockBuilder('\\Essence\\Extractor')
-					->disableOriginalConstructor()
-					->getMock();
-
-				$Extractor
-					->expects($this->once())
-					->method('extract')
-					->with($this->isEqual($url), $this->isEqual($options))
-					->will($this->returnValue($Media));
-
-				return $Extractor;
-			}
+			'Extractor' => $Extractor
 		]);
 
 		$this->assertEquals($Media, $Essence->embed($url, $options));
@@ -100,20 +96,18 @@ class EssenceTest extends TestCase {
 		$options = [];
 		$medias = [new Media([])];
 
+		$Extractor = $this->getMockBuilder('\\Essence\\Extractor')
+			->disableOriginalConstructor()
+			->getMock();
+
+		$Extractor
+			->expects($this->once())
+			->method('extractAll')
+			->with($this->isEqual($urls), $this->isEqual($options))
+			->will($this->returnValue($medias));
+
 		$Essence = new Essence([
-			'Extractor' => function() use ($urls, $options, $medias) {
-				$Extractor = $this->getMockBuilder('\\Essence\\Extractor')
-					->disableOriginalConstructor()
-					->getMock();
-
-				$Extractor
-					->expects($this->once())
-					->method('extractAll')
-					->with($this->isEqual($urls), $this->isEqual($options))
-					->will($this->returnValue($medias));
-
-				return $Extractor;
-			}
+			'Extractor' => $Extractor
 		]);
 
 		$this->assertEquals($medias, $Essence->embedAll($urls, $options));
@@ -130,26 +124,27 @@ class EssenceTest extends TestCase {
 		$options = [];
 		$replaced = 'replaced text';
 
+		$Replacer = $this->getMockBuilder('\\Essence\\Replacer')
+			->disableOriginalConstructor()
+			->getMock();
+
+		$Replacer
+			->expects($this->once())
+			->method('replace')
+			->with(
+				$this->isEqual($text),
+				$this->isEqual($template),
+				$this->isEqual($options)
+			)
+			->will($this->returnValue($replaced));
+
 		$Essence = new Essence([
-			'Replacer' => function() use ($text, $template, $options, $replaced) {
-				$Replacer = $this->getMockBuilder('\\Essence\\Replacer')
-					->disableOriginalConstructor()
-					->getMock();
-
-				$Replacer
-					->expects($this->once())
-					->method('replace')
-					->with(
-						$this->isEqual($text),
-						$this->isEqual($template),
-						$this->isEqual($options)
-					)
-					->will($this->returnValue($replaced));
-
-				return $Replacer;
-			}
+			'Replacer' => $Replacer
 		]);
 
-		$this->assertEquals($replaced, $Essence->replace($text, $template, $options));
+		$this->assertEquals(
+			$replaced,
+			$Essence->replace($text, $template, $options)
+		);
 	}
 }
