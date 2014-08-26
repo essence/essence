@@ -36,7 +36,6 @@ class Standard extends Container {
 	 *	@param array $properties Dependency injection settings.
 	 */
 	public function __construct(array $properties = []) {
-
 		$this->_properties = $properties + [
 
 			/**
@@ -261,31 +260,31 @@ class Standard extends Container {
 				. DIRECTORY_SEPARATOR . 'config'
 				. DIRECTORY_SEPARATOR . 'providers.json',
 
-			'Collection' => function($C) {
+			'Collection' => Container::unique(function($C) {
 				$Collection = new Collection($C);
 				$Collection->load($C->get('Collection.providers'));
 
 				return $Collection;
-			},
+			}),
 
 
 
 			/**
 			 *
 			 */
-			'Crawler' => function($C) {
+			'Crawler' => Container::unique(function($C) {
 				return new Crawler(
 					$C->get('Collection'),
 					$C->get('Http'),
 					$C->get('Dom')
 				);
-			},
+			}),
 
-			'Extractor' => function($C) {
+			'Extractor' => Container::unique(function($C) {
 				return new Extractor(
 					$C->get('Collection')
 				);
-			},
+			}),
 
 			'Replacer.urlPattern' =>
 				'~
@@ -296,12 +295,12 @@ class Standard extends Container {
 					(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:\'"\.,<>?«»“”‘’])
 				~ix',
 
-			'Replacer' => function($C) {
+			'Replacer' => Container::unique(function($C) {
 				$Replacer = new Replacer($C->get('Extractor'));
 				$Replacer->setUrlPattern($C->get('Replacer.urlPattern'));
 
 				return $Replacer;
-			}
+			})
 		];
 	}
 }
