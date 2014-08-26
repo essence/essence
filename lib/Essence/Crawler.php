@@ -27,7 +27,7 @@ class Crawler {
 
 
 	/**
-	 *	Internal HTTP client.
+	 *	HTTP client.
 	 *
 	 *	@var Http
 	 */
@@ -36,7 +36,7 @@ class Crawler {
 
 
 	/**
-	 *	Internal DOM parser.
+	 *	DOM parser.
 	 *
 	 *	@var Dom
 	 */
@@ -109,7 +109,10 @@ class Crawler {
 
 
 	/**
+	 *	Filters the given URLs to return only the extractable ones.
 	 *
+	 *	@param array $urls URLs to filter.
+	 *	@return array Filtered URLs.
 	 */
 	protected function _filterUrls(array $urls) {
 		$urls = array_filter($urls, function($url) {

@@ -14,6 +14,9 @@ use Closure;
 /**
  *	A simple dependency injection container.
  *	Inspired by Pimple (https://github.com/fabpot/Pimple).
+ *	Pimple wasn't used because of the way composer works. If someone were
+ *	working on a project using Pimple in a different version than Essence's,
+ *	the installation would fail.
  */
 class Container {
 

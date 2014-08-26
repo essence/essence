@@ -15,7 +15,9 @@ use Essence\Extractor;
 class Replacer {
 
 	/**
+	 *	Extractor.
 	 *
+	 *	@var Extractor
 	 */
 	protected $_Extractor = null;
 
@@ -39,7 +41,9 @@ class Replacer {
 
 
 	/**
+	 *	Constructor.
 	 *
+	 *	@param Extractor $Extractor Extractor.
 	 */
 	public function __construct(Extractor $Extractor) {
 		$this->_Extractor = $Extractor;
