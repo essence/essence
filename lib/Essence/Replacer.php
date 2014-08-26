@@ -114,12 +114,12 @@ class Replacer {
 
 
 	/**
-	 *	Returns a function used to replace URLs by .
+	 *	Returns a function used to replace URLs by informations.
 	 *
 	 *	@see replace()
 	 *	@param callable $template Templating callback.
 	 *	@param array $options Custom options to be interpreted by a provider.
-	 *	@return callable
+	 *	@return callable Function.
 	 */
 	protected function _replaceFunction($template, array $options) {
 		return function($matches) use ($template, $options) {
