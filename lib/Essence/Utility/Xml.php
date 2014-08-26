@@ -25,19 +25,30 @@ class Xml {
 	 */
 	public static function parse($xml) {
 		$internal = libxml_use_internal_errors(true);
+		$Iterator = self::_iterator($xml);
 		$data = [];
 
-		try {
-			$iterator = new SimpleXmlIterator($xml);
-		} catch (NativeException $Exception) {
-			throw Exception::wrap($Exception);
-		}
-
-		foreach ($iterator as $key => $value) {
+		foreach ($Iterator as $key => $value) {
 			$data[$key] = strval($value);
 		}
 
 		libxml_use_internal_errors($internal);
 		return $data;
+	}
+
+
+
+	/**
+	 *	Builds and returns a SimpleXmlIterator.
+	 *
+	 *	@param string $xml XML document.
+	 *	@return SimpleXmlIterator Iterator.
+	 */
+	protected static function _iterator($xml) {
+		try {
+			return new SimpleXmlIterator($xml);
+		} catch (NativeException $Exception) {
+			throw Exception::wrap($Exception);
+		}
 	}
 }
