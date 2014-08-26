@@ -68,11 +68,11 @@ class Extractor {
 	 *	@return array An array of informations, indexed by URL.
 	 */
 	public function extractAll(array $urls, array $options = []) {
-		$medias = [];
+		$medias = array_flip($urls);
 
-		foreach ($urls as $url) {
-			$medias[$url] = $this->extract($url, $options);
-		}
+		array_walk($medias, function($_, $url) use ($options) {
+			return $this->extract($url, $options);
+		});
 
 		return $medias;
 	}
