@@ -66,7 +66,7 @@ class Templater {
 
 		if ($switch && !$Media->has($this->_property)) {
 			foreach ($this->_templates as $pattern => $template) {
-				if (preg_match($pattern, $switch, $matches)) {
+				if (preg_match($pattern, $switch)) {
 					$Media->set($this->_property, Template::compile(
 						$template,
 						$Media->properties(),
