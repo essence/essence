@@ -9,6 +9,7 @@ namespace Essence\Provider;
 use Essence\Configurable;
 use Essence\Di\Container;
 use Essence\Utility\Json;
+use Exception;
 
 
 
@@ -144,16 +145,30 @@ class Collection {
 	 */
 	protected function _provider($name, $config) {
 		if (!isset($this->_providers[$name])) {
-			$class = $config['class'];
-
-			$Provider = $this->_Container->has($class)
-				? $this->_Container->get($class)
-				: new $class();
-
-			$Provider->configure($config);
-			$this->_providers[$name] = $Provider;
+			$this->_providers[$name] = $this->_buildProvider($config);
 		}
 
 		return $this->_providers[$name];
+	}
+
+
+
+	/**
+	 *	Constructs a provider given its configuration.
+	 *
+	 *	@param string $config Configuration.
+	 *	@return Provider Instance.
+	 */
+	protected function _buildProvider($config) {
+		$name = $config['class'];
+
+		if (!$this->_Container->has($name)) {
+			throw new Exception("The '$name' provider is not configured.");
+		}
+
+		$Provider = $this->_Container->get($name);
+		$Provider->configure($config);
+
+		return $Provider;
 	}
 }
