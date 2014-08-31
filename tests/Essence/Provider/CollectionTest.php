@@ -87,9 +87,12 @@ class CollectionTest extends TestCase {
 	 *
 	 */
 	public function testProviders() {
-		$this->assertEquals(
-			[$this->Provider],
-			$this->Collection->providers('foo')
-		);
+		$providers = [];
+
+		foreach ($this->Collection->providers('foo') as $Provider) {
+			$providers[] = $Provider;
+		}
+
+		$this->assertEquals([$this->Provider], $providers);
 	}
 }

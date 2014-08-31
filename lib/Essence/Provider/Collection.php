@@ -86,7 +86,7 @@ class Collection {
 
 
 	/**
-	 *	Tells if a provider was found for the given url.
+	 *	Tells if a provider can handle the given url.
 	 *
 	 *	@param string $url An url which may be embedded.
 	 *	@return boolean The url provider if any, otherwise null.
@@ -111,15 +111,11 @@ class Collection {
 	 *	@return array An array of Essence\Provider.
 	 */
 	public function providers($url) {
-		$providers = [];
-
 		foreach ($this->_properties as $name => $config) {
 			if ($this->_matches($config['filter'], $url)) {
-				$providers[] = $this->_provider($name, $config);
+				yield $this->_provider($name, $config);
 			}
 		}
-
-		return $providers;
 	}
 
 
