@@ -24,7 +24,7 @@ Using the main class of the library, you can retrieve informations in just those
 
 ```php
 $Essence = new Essence\Essence();
-$Media = $Essence->embed('http://www.youtube.com/watch?v=39e3KYAmXK4');
+$Media = $Essence->extract('http://www.youtube.com/watch?v=39e3KYAmXK4');
 
 if ($Media) {
 	// That's all, you're good to go !
@@ -99,12 +99,12 @@ The Essence class provides some useful utility functions to ensure you will get 
 
 ### Extracting URLs
 
-The `extract()` method lets you extract embeddable URLs from a web page.
+The `crawl()` method lets you extract embeddable URLs from a web page.
 
 For example, here is how you could get the URL of all videos in a blog post:
 
 ```php
-$urls = $Essence->extract('http://www.blog.com/article');
+$urls = $Essence->crawl('http://www.blog.com/article');
 ```
 ```
 array(2) {
@@ -116,7 +116,7 @@ array(2) {
 You can then get informations from all the extracted URLs:
 
 ```php
-$medias = $Essence->embedAll($urls);
+$medias = $Essence->extractAll($urls);
 ```
 ```
 array(2) {
@@ -175,8 +175,8 @@ $options = [
 	'maxheight' => 600
 ];
 
-$Media = $Essence->embed($url, $options);
-$medias = $Essence->embedAll($urls, $options);
+$Media = $Essence->extract($url, $options);
+$medias = $Essence->extractAll($urls, $options);
 $text = $Essence->replace($text, null, $options);
 ```
 
@@ -265,10 +265,10 @@ This script allows you to test Essence quickly:
 
 ```
 # will fetch and print informations about the video
-./cli/essence.php embed http://www.youtube.com/watch?v=4S_NHY9c8uM
+./cli/essence.php extract http://www.youtube.com/watch?v=4S_NHY9c8uM
 
 # will fetch and print all embeddable URLs found at the given HTML page
-./cli/essence.php extract http://www.youtube.com/watch?v=4S_NHY9c8uM
+./cli/essence.php crawl http://www.youtube.com/watch?v=4S_NHY9c8uM
 ```
 
 Third-party libraries

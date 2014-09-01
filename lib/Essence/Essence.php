@@ -54,7 +54,7 @@ class Essence {
 	/**
 	 *	@see Essence\Crawler::crawl()
 	 */
-	public function extract($source) {
+	public function crawl($source) {
 		return $this->_Crawler->crawl($source);
 	}
 
@@ -63,7 +63,7 @@ class Essence {
 	/**
 	 *	@see Essence\Extractor::extract()
 	 */
-	public function embed($url, array $options = []) {
+	public function extract($url, array $options = []) {
 		return $this->_Extractor->extract($url, $options);
 	}
 
@@ -72,7 +72,7 @@ class Essence {
 	/**
 	 *	@see Essence\Extractor::extractAll()
 	 */
-	public function embedAll(array $urls, array $options = []) {
+	public function extractAll(array $urls, array $options = []) {
 		return $this->_Extractor->extractAll($urls, $options);
 	}
 

@@ -29,12 +29,12 @@ function main($method, $url) {
 	$Essence = new Essence\Essence();
 
 	switch ($method) {
-		case 'embed':
-			echo dumpMedia($Essence->embed($url));
+		case 'crawl':
+			echo dumpArray($Essence->crawl($url));
 			break;
 
 		case 'extract':
-			echo dumpArray($Essence->extract($url));
+			echo dumpMedia($Essence->extract($url));
 			break;
 	}
 }

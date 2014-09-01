@@ -38,7 +38,7 @@ class EssenceTest extends TestCase {
 	/**
 	 *
 	 */
-	public function testExtract() {
+	public function testCrawl() {
 		$source = 'source';
 		$urls = [];
 
@@ -56,7 +56,7 @@ class EssenceTest extends TestCase {
 			'Crawler' => $Crawler
 		]);
 
-		$this->assertEquals($urls, $Essence->extract($source));
+		$this->assertEquals($urls, $Essence->crawl($source));
 	}
 
 
@@ -64,7 +64,7 @@ class EssenceTest extends TestCase {
 	/**
 	 *
 	 */
-	public function testEmbed() {
+	public function testExtract() {
 		$url = 'url';
 		$options = [];
 		$Media = new Media();
@@ -83,7 +83,7 @@ class EssenceTest extends TestCase {
 			'Extractor' => $Extractor
 		]);
 
-		$this->assertEquals($Media, $Essence->embed($url, $options));
+		$this->assertEquals($Media, $Essence->extract($url, $options));
 	}
 
 
@@ -91,7 +91,7 @@ class EssenceTest extends TestCase {
 	/**
 	 *
 	 */
-	public function testEmbedAll() {
+	public function testExtractAll() {
 		$urls = ['url'];
 		$options = [];
 		$medias = [new Media()];
@@ -110,7 +110,7 @@ class EssenceTest extends TestCase {
 			'Extractor' => $Extractor
 		]);
 
-		$this->assertEquals($medias, $Essence->embedAll($urls, $options));
+		$this->assertEquals($medias, $Essence->extractAll($urls, $options));
 	}
 
 
