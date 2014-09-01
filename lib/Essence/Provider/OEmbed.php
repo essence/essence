@@ -190,7 +190,7 @@ class OEmbed extends Provider {
 			}
 		}
 
-		throw new Error('Unable to extract any OEmbed endpoint');
+		throw new Exception('Unable to extract any OEmbed endpoint');
 	}
 
 
