@@ -10,6 +10,7 @@ use Essence\Dom\Parser;
 use Essence\Exception;
 use Essence\Utility\Hash;
 use DomDocument;
+use DomNodeList;
 use DomNode;
 
 
@@ -20,6 +21,15 @@ use DomNode;
 class Native implements Parser {
 
 	/**
+	 *	A pattern that matches anything.
+	 *
+	 *	@var string
+	 */
+	const anything = '~.+~';
+
+
+
+	/**
 	 *	{@inheritDoc}
 	 */
 	public function extractAttributes($html, array $options) {
@@ -28,22 +38,10 @@ class Native implements Parser {
 		$data = [];
 
 		foreach ($options as $name => $required) {
-			$tags = $Document->getElementsByTagName($name);
-			$required = Hash::normalize((array)$required, '');
-			$data[$name] = [];
-
-			foreach ($tags as $Tag) {
-				if ($Tag->hasAttributes()) {
-					$attributes = $this->_extractAttributesFromTag(
-						$Tag,
-						$required
-					);
-
-					if (!empty($attributes)) {
-						$data[$name][] = $attributes;
-					}
-				}
-			}
+			$data[$name] = $this->_extractAttributesFromTags(
+				$Document->getElementsByTagName($name),
+				Hash::normalize((array)$required, self::anything)
+			);
 		}
 
 		return $data;
@@ -100,6 +98,32 @@ class Native implements Parser {
 
 
 	/**
+	 *	Extracts attributes from the given tags.
+	 *
+	 *	@param DOMNodeList $Tags Tags to extract attributes from.
+	 *	@param array $required Required attributes.
+	 *	@return array Extracted attributes.
+	 */
+	protected function _extractAttributesFromTags(DOMNodeList $Tags, array $required) {
+		$data = [];
+
+		foreach ($Tags as $Tag) {
+			if ($Tag->hasAttributes()) {
+				$attributes = $this->_extractAttributesFromTag($Tag, $required);
+				$diff = array_diff_key($required, $attributes);
+
+				if (empty($diff)) {
+					$data[] = $attributes;
+				}
+			}
+		}
+
+		return $data;
+	}
+
+
+
+	/**
 	 *	Extracts attributes from the given tag.
 	 *
 	 *	@param DOMNode $Tag Tag to extract attributes from.
@@ -111,24 +135,18 @@ class Native implements Parser {
 
 		foreach ($Tag->attributes as $name => $Attribute) {
 			if (!empty($required)) {
-				if (isset($required[$name])) {
-					$pattern = $required[$name];
-
-					if ($pattern && !preg_match($pattern, $Attribute->value)) {
-						return [];
-					}
-				} else {
+				if (!isset($required[$name])) {
 					continue;
+				}
+
+				if (!preg_match($required[$name], $Attribute->value)) {
+					return [];
 				}
 			}
 
 			$attributes[$name] = $Attribute->value;
 		}
 
-		$diff = array_diff_key($required, $attributes);
-
-		return empty($diff)
-			? $attributes
-			: [];
+		return $attributes;
 	}
 }
