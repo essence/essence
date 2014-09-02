@@ -35,7 +35,6 @@ trait Configurable {
 	 *	@see get( )
 	 */
 	public function __get($property) {
-
 		return $this->get($property);
 	}
 
