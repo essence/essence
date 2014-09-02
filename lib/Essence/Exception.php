@@ -28,16 +28,4 @@ class Exception extends NativeException {
 			$Exception
 		);
 	}
-
-
-
-	/**
-	 *	An alias to fit the Essence coding style.
-	 *	I'm probably mad.
-	 *
-	 *	@return string The exception message.
-	 */
-	public function message() {
-		return $this->getMessage();
-	}
 }
