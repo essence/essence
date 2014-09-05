@@ -20,7 +20,7 @@ class Refactorer {
 	 *
 	 *	@var string
 	 */
-	protected $_regex = '';
+	protected $_pattern = '';
 
 
 
@@ -36,12 +36,12 @@ class Refactorer {
 	/**
 	 *	Constructor.
 	 *
-	 *	@param string $regex Regex to extract an id from an URL.
-	 *	@param string $template Template to build an URL from an id.
+	 *	@param string $idPattern Regex to extract an id from an URL.
+	 *	@param string $urlTemplate Template to build an URL from an id.
 	 */
-	public function __construct($regex, $template) {
-		$this->_regex = $regex;
-		$this->_template = $template;
+	public function __construct($idPattern, $urlTemplate) {
+		$this->_pattern = $idPattern;
+		$this->_template = $urlTemplate;
 	}
 
 
@@ -50,7 +50,7 @@ class Refactorer {
 	 *	{@inheritDoc}
 	 */
 	public function filter($url) {
-		if (preg_match($this->_regex, $url, $matches)) {
+		if (preg_match($this->_pattern, $url, $matches)) {
 			$url = Template::compile($this->_template, [
 				'id' => $matches['id']
 			]);
