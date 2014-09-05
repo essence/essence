@@ -57,7 +57,9 @@ class Native implements Client {
 	public function get( $url ) {
 
 		$reporting = error_reporting( 0 );
-		$contents = file_get_contents( $url );
+		$options  = array('http' => array('user_agent' => 'Essence/OEmbed'));
+		$context  = stream_context_create($options);
+		$contents = file_get_contents( $url, false, $context );
 		error_reporting( $reporting );
 
 		if ( $contents === false ) {
