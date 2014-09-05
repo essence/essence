@@ -52,24 +52,33 @@ class Native implements Client {
 		error_reporting($reporting);
 
 		if ($contents === false) {
-			$code = $this->_defaultCode;
+			$code = isset($http_response_header[0])
+				? $this->_extractHttpCode($http_response_header[0])
+				: $this->_defaultCode;
 
-			if (isset($http_response_header)) {
-				preg_match(
-					'#^HTTP/[0-9\.]+\s(?P<code>[0-9]+)#i',
-					$http_response_header[ 0 ],
-					$matches
-				);
-
-				if (isset($matches['code'])) {
-					$code = $matches['code'];
-				}
-			}
-
-			// let's assume the file doesn't exists
 			throw new Exception($url, $code);
 		}
 
 		return $contents;
+	}
+
+
+
+	/**
+	 *	Extracts an HTTP code from the given response header.
+	 *
+	 *	@param string $header Reponse header.
+	 *	@return int HTTP code.
+	 */
+	protected function _extractHttpCode($header) {
+		preg_match(
+			'#^HTTP/[0-9\.]+\s(?P<code>[0-9]+)#i',
+			$header,
+			$matches
+		);
+
+		return isset($matches['code'])
+			? $matches['code']
+			: $this->_defaultCode;
 	}
 }
