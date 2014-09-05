@@ -41,10 +41,15 @@ class Standard extends Container {
 			/**
 			 *	Global helpers.
 			 */
+			'Http.userAgent' => 'Essence',
+
 			'Http' => Container::unique(function() {
-				return function_exists('curl_init')
+				$Http = function_exists('curl_init')
 					? new CurlHttpClient()
 					: new NativeHttpClient();
+
+				$Http->setUserAgent('Http.userAgent');
+				return $Http;
 			}),
 
 			'Dom' => Container::unique(function() {
