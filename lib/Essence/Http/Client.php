@@ -22,4 +22,13 @@ interface Client {
 	 */
 	public function get($url);
 
+
+
+	/**
+	 *	Sets the user agent for HTTP requests.
+	 *
+	 *	@param string $agent User agent.
+	 */
+	public function setUserAgent($agent);
+
 }
