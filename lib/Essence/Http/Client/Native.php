@@ -26,6 +26,15 @@ class Native implements Client {
 
 
 	/**
+	 *	User agent.
+	 *
+	 *	@var string
+	 */
+	protected $_userAgent = '';
+
+
+
+	/**
 	 *	Constructor.
 	 *
 	 *	@param int $defaultCode The default HTTP status code to assume if
@@ -38,9 +47,16 @@ class Native implements Client {
 
 
 	/**
+	 *	{@inheritDoc}
+	 */
+	public function setUserAgent($agent) {
+		$this->_userAgent = $agent;
+	}
+
+
+
+	/**
 	 *	Retrieves contents from the given URL.
-	 *	Thanks to Diije for the hint on $http_response_header
-	 *	(http://www.felix-girault.fr/astuces/recuperer-une-page-web-en-php/#comment-1029).
 	 *
 	 *	@param string $url The URL fo fetch contents from.
 	 *	@return string The fetched contents.
@@ -48,7 +64,8 @@ class Native implements Client {
 	 */
 	public function get($url) {
 		$reporting = error_reporting(0);
-		$contents = file_get_contents($url);
+		$context = $this->_createContext();
+		$contents = file_get_contents($url, false, $context);
 		error_reporting($reporting);
 
 		if ($contents === false) {
@@ -60,6 +77,23 @@ class Native implements Client {
 		}
 
 		return $contents;
+	}
+
+
+
+	/**
+	 *	Returns a configured HTTP context.
+	 *
+	 *	@return resource Context.
+	 */
+	protected function _createContext() {
+		$options = [];
+
+		if ($this->_userAgent) {
+			$options['http']['user_agent'] = $this->_userAgent;
+		}
+
+		return stream_context_create($options);
 	}
 
 

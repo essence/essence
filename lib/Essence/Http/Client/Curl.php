@@ -43,7 +43,7 @@ class Curl implements Client {
 	 *
 	 *	@param array cURL options.
 	 */
-	public function __construct(array $options = [ ]) {
+	public function __construct(array $options = []) {
 		$this->_curl = curl_init();
 
 		curl_setopt_array(
@@ -55,10 +55,10 @@ class Curl implements Client {
 
 
 	/**
-	 *	Closes cURL connexion.
+	 *	{@inheritDoc}
 	 */
-	public function __destruct() {
-		curl_close($this->_curl);
+	public function setUserAgent($agent) {
+		curl_setopt($this->_curl, CURLOPT_USERAGENT, $agent);
 	}
 
 
