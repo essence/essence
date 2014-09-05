@@ -18,7 +18,7 @@ use Essence\Http\Exception;
  *	@package Essence.Http.Client
  */
 
-class Native implements Client {
+class Native extends Client {
 
 	/**
 	 *	Default HTTP status code.
@@ -56,8 +56,16 @@ class Native implements Client {
 
 	public function get( $url ) {
 
+		$options = [
+			'http' => [
+				'user_agent' => $this->_userAgent
+			]
+		];
+
+		$context = stream_context_create( $options );
 		$reporting = error_reporting( 0 );
-		$contents = file_get_contents( $url );
+		$contents = file_get_contents( $url, false, $context );
+
 		error_reporting( $reporting );
 
 		if ( $contents === false ) {
