@@ -9,7 +9,7 @@ namespace Essence;
 use ArrayIterator;
 use IteratorAggregate;
 use JsonSerializable;
-use Essence\Configurable;
+use Essence\Mixin\Configurable;
 
 
 
