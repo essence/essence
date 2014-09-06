@@ -6,7 +6,7 @@
  */
 namespace Essence\Di;
 
-use Essence\Configurable;
+use Essence\Mixin\Configurable;
 use Closure;
 
 

@@ -6,7 +6,7 @@
  */
 namespace Essence;
 
-use Essence\Configurable;
+use Essence\Mixin\Configurable;
 use Essence\Exception;
 use Essence\Media;
 use Cascade\Cascade;
