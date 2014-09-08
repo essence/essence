@@ -284,7 +284,7 @@ return [
 	],
 	'SoundCloud' => [
 		'class' => 'OEmbed',
-		'filter' => '#soundcloud\.com/[a-zA-Z0-9-]+/[a-zA-Z0-9-]+#i',
+		'filter' => '#soundcloud\.com/[a-zA-Z0-9-_]+/[a-zA-Z0-9-]+#i',
 		'endpoint' => 'http://soundcloud.com/oembed?format=json&url=%s'
 	],
 	'SpeakerDeck' => [
