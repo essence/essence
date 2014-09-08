@@ -49,12 +49,18 @@ class Standard extends Container {
 				return new VolatileCacheEngine( );
 			}),
 
+			// User agent
+			'HttpUserAgent' => 'Essence',
+
 			// A cURL HTTP client is shared across the application
 			// If cURL isn't available, a native client is used
-			'Http' => Container::unique( function( ) {
-				return function_exists( 'curl_init' )
+			'Http' => Container::unique( function( $C ) {
+				$Http = function_exists( 'curl_init' )
 					? new CurlHttpClient( )
 					: new NativeHttpClient( );
+
+				$Http->setUserAgent( $C->get( 'HttpUserAgent' ));
+				return $Http;
 			}),
 
 			// A native DOM parser is shared across the application
