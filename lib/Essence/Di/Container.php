@@ -43,14 +43,14 @@ class Container {
 	 *		if property is a closure, or $default.
 	 */
 	public function get($property, $default = null) {
-		$value = $default;
+		if (!$this->has($property)) {
+			return $default;
+		}
 
-		if ($this->has($property)) {
-			$value = $this->_properties[$property];
+		$value = $this->_properties[$property];
 
-			if ($value instanceof Closure) {
-				$value = $value($this);
-			}
+		if ($value instanceof Closure) {
+			$value = $value($this);
 		}
 
 		return $value;
