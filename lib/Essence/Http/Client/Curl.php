@@ -55,10 +55,10 @@ class Curl implements Client {
 
 
 	/**
-	 *	{@inheritDoc}
+	 *	Closes cURL connexion.
 	 */
-	public function setUserAgent($agent) {
-		curl_setopt($this->_curl, CURLOPT_USERAGENT, $agent);
+	public function __destruct() {
+		curl_close($this->_curl);
 	}
 
 
