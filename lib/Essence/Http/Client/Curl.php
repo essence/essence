@@ -66,6 +66,15 @@ class Curl implements Client {
 	/**
 	 *	{@inheritDoc}
 	 */
+	public function setUserAgent($agent) {
+		curl_setopt($this->_curl, CURLOPT_USERAGENT, $agent);
+	}
+
+
+
+	/**
+	 *	{@inheritDoc}
+	 */
 	public function get($url) {
 		curl_setopt($this->_curl, CURLOPT_URL, $url);
 
