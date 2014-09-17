@@ -111,13 +111,13 @@ class Standard extends Container {
 			/**
 			 *	Vimeo.
 			 */
-			'Vimeo.id' => '#player\.vimeo\.com/video/(?<id>[0-9]+)#i',
-			'Vimeo.url' => 'http://www.vimeo.com/:id',
+			'Vimeo.idPattern' => '~player\.vimeo\.com/video/(?<id>[0-9]+)~i',
+			'Vimeo.urlTemplate' => 'http://www.vimeo.com/:id',
 
 			'Vimeo.Refactorer' => Container::unique(function($C) {
 				return new Refactorer(
-					$C->get('Vimeo.id'),
-					$C->get('Vimeo.url')
+					$C->get('Vimeo.idPattern'),
+					$C->get('Vimeo.urlTemplate')
 				);
 			}),
 
@@ -141,13 +141,14 @@ class Standard extends Container {
 			/**
 			 *	Youtube.
 			 */
-			'Youtube.Id' => '#(?:v=|v/|embed/|youtu\.be/)(?<id>[a-z0-9_-]+)#i',
-			'Youtube.url' => 'http://www.youtube.com/watch?v=:id',
+			'Youtube.idPattern' => '~(?:v=|v/|embed/|youtu\.be/)(?<id>[a-z0-9_-]+)~i',
+			'Youtube.urlTemplate' => 'http://www.youtube.com/watch?v=:id',
+			'Youtube.thumbnailFormat' => Youtube::large,
 
 			'Youtube.Refactorer' => Container::unique(function($C) {
 				return new Refactorer(
-					$C->get('Youtube.Id'),
-					$C->get('Youtube.url')
+					$C->get('Youtube.idPattern'),
+					$C->get('Youtube.urlTemplate')
 				);
 			}),
 
@@ -156,8 +157,6 @@ class Standard extends Container {
 					$C->get('Youtube.Refactorer')
 				];
 			}),
-
-			'Youtube.thumbnailFormat' => Youtube::large,
 
 			'Youtube.Presenter' => Container::unique(function($C) {
 				return new Youtube($C->get('Youtube.thumbnailFormat'));
