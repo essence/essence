@@ -85,6 +85,25 @@ class MetaTags extends Provider {
 	 */
 	protected function _embed($url, array $options) {
 		$html = $this->_Http->get($url);
+		$metas = $this->_extractMetas($html);
+		$Media = new Media();
+
+		foreach ($metas as $meta) {
+			$Media->set($meta['property'], trim($meta['content']));
+		}
+
+		return $Media;
+	}
+
+
+
+	/**
+	 *	Extracts meta tags from the given HTML source.
+	 *
+	 *	@param string $html HTML.
+	 *	@return array Meta tags.
+	 */
+	protected function _extractMetas($html) {
 		$attributes = $this->_Dom->extractAttributes($html, [
 			'meta' => [
 				'property' => $this->_metaPattern,
@@ -93,19 +112,9 @@ class MetaTags extends Provider {
 		]);
 
 		if (empty($attributes['meta'])) {
-			throw new Exception(
-				"Unable to extract MetaTags data from '$url'."
-			);
+			throw new Exception("Unable to extract meta tags from '$url'.");
 		}
 
-		$og = [];
-
-		foreach ($attributes['meta'] as $meta) {
-			if (!isset($og[$meta['property']])) {
-				$og[$meta['property']] = trim($meta['content']);
-			}
-		}
-
-		return new Media($og);
+		return $attributes['meta'];
 	}
 }
