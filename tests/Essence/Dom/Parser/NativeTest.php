@@ -91,7 +91,8 @@ HTML;
 		$this->assertEquals([
 			'a' => [[
 				'href' => 'http://www.othertest.com',
-				'target' => '_blank'
+				'target' => '_blank',
+				'title' => 'Other link'
 			]]
 		], $this->Native->extractAttributes($this->html, [
 			'a' => ['href', 'target']

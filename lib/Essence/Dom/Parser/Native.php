@@ -109,10 +109,10 @@ class Native implements Parser {
 
 		foreach ($Tags as $Tag) {
 			if ($Tag->hasAttributes()) {
-				$attributes = $this->_extractAttributesFromTag($Tag, $required);
-				$diff = array_diff_key($required, $attributes);
+				$attributes = $this->_extractAttributesFromTag($Tag);
+				$missing = array_diff_key($required, $attributes);
 
-				if (empty($diff)) {
+				if (!$missing && $this->_matches($attributes, $required)) {
 					$data[] = $attributes;
 				}
 			}
@@ -127,26 +127,34 @@ class Native implements Parser {
 	 *	Extracts attributes from the given tag.
 	 *
 	 *	@param DOMNode $Tag Tag to extract attributes from.
-	 *	@param array $required Required attributes.
 	 *	@return array Extracted attributes.
 	 */
-	protected function _extractAttributesFromTag(DOMNode $Tag, array $required) {
+	protected function _extractAttributesFromTag(DOMNode $Tag) {
 		$attributes = [];
 
 		foreach ($Tag->attributes as $name => $Attribute) {
-			if (!empty($required)) {
-				if (!isset($required[$name])) {
-					continue;
-				}
-
-				if (!preg_match($required[$name], $Attribute->value)) {
-					return [];
-				}
-			}
-
 			$attributes[$name] = $Attribute->value;
 		}
 
 		return $attributes;
+	}
+
+
+
+	/**
+	 *	Tests if all the given attributes matches their expected formats.
+	 *
+	 *	@param array $attributes Attributes.
+	 *	@param array $formats Attributes patterns.
+	 *	@return boolean If the test is positive.
+	 */
+	protected function _matches(array $attributes, array $formats) {
+		foreach ($formats as $name => $format) {
+			if (!preg_match($format, $attributes[$name])) {
+				return false;
+			}
+		}
+
+		return true;
 	}
 }
