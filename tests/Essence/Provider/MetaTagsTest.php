@@ -32,6 +32,8 @@ class MetaTagsTest extends TestCase {
 			new NativeHttpClient(),
 			new NativeDomParser()
 		);
+
+		$this->MetaTags->setMetaPattern('~^og:~');
 	}
 
 
@@ -45,5 +47,6 @@ class MetaTagsTest extends TestCase {
 		);
 
 		$this->assertEquals('YouTube', $Media->get('og:site_name'));
+		$this->assertFalse($Media->has('twitter:site'));
 	}
 }

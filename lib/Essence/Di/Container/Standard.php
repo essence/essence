@@ -183,7 +183,7 @@ class Standard extends Container {
 			/**
 			 *	OpenGraph.
 			 */
-			'OpenGraph.scheme' => '#^og:#i',
+			'OpenGraph.metaPattern' => '~^og:~i',
 			'OpenGraph.mapping' => [
 				'og:type' => 'type',
 				'og:title' => 'title',
@@ -216,7 +216,7 @@ class Standard extends Container {
 					$C->get('OpenGraph.presenters')
 				);
 
-				$OpenGraph->set('scheme', $C->get('OpenGraph.scheme'));
+				$OpenGraph->setMetaPattern($C->get('OpenGraph.metaPattern'));
 				return $OpenGraph;
 			},
 
@@ -225,7 +225,7 @@ class Standard extends Container {
 			/**
 			 *	TwitterCards.
 			 */
-			'TwitterCards.scheme' => '#^twitter:#i',
+			'TwitterCards.metaPattern' => '~^twitter:~i',
 			'TwitterCards.mapping' => [
 				'twitter:card' => 'type',
 				'twitter:title' => 'title',
@@ -252,7 +252,7 @@ class Standard extends Container {
 					$C->get('TwitterCards.presenters')
 				);
 
-				$TwitterCards->set('scheme', $C->get('TwitterCards.scheme'));
+				$TwitterCards->setMetaPattern($C->get('TwitterCards.metaPattern'));
 				return $TwitterCards;
 			},
 

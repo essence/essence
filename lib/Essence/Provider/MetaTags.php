@@ -39,13 +39,11 @@ class MetaTags extends Provider {
 
 
 	/**
-	 *	### Options
+	 *	A regex to filter meta tags.
 	 *
-	 *	- 'scheme' string Scheme.
+	 *	@var string
 	 */
-	protected $_properties = [
-		'scheme' => '#.+#'
-	];
+	protected $_metaPattern = '~.+~';
 
 
 
@@ -72,13 +70,24 @@ class MetaTags extends Provider {
 
 
 	/**
+	 *	Sets the filter pattern.
+	 *
+	 *	@param string $pattern Pattern.
+	 */
+	public function setMetaPattern($pattern) {
+		$this->_metaPattern = $pattern;
+	}
+
+
+
+	/**
 	 *	{@inheritDoc}
 	 */
 	protected function _embed($url, array $options) {
 		$html = $this->_Http->get($url);
 		$attributes = $this->_Dom->extractAttributes($html, [
 			'meta' => [
-				'property' => $this->scheme,
+				'property' => $this->_metaPattern,
 				'content'
 			]
 		]);
