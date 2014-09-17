@@ -106,6 +106,11 @@ class ConfigurableTest extends TestCase {
 	public function testSet() {
 		$this->Configurable->set('foo', 'bar');
 		$this->assertEquals('bar', $this->Configurable->foo);
+
+		$this->assertEquals(
+			$this->Configurable,
+			$this->Configurable->set('', '')
+		);
 	}
 
 
@@ -119,6 +124,11 @@ class ConfigurableTest extends TestCase {
 
 		$this->Configurable->setDefault('three', 3);
 		$this->assertEquals(3, $this->Configurable->get('three'));
+
+		$this->assertEquals(
+			$this->Configurable,
+			$this->Configurable->setDefault('', '')
+		);
 	}
 
 
@@ -134,5 +144,51 @@ class ConfigurableTest extends TestCase {
 
 		$this->assertEquals(1, $this->Configurable->get('one'));
 		$this->assertEquals(3, $this->Configurable->get('three'));
+
+		$this->assertEquals(
+			$this->Configurable,
+			$this->Configurable->setDefaults([])
+		);
+	}
+
+
+
+	/**
+	 *
+	 */
+	public function testProperties() {
+		$properties = [
+			'two' => 2
+		];
+
+		$this->Configurable->setProperties($properties);
+
+		$this->assertEquals($properties, $this->Configurable->properties());
+		$this->assertEquals(2, $this->Configurable->get('two'));
+		$this->assertFalse($this->Configurable->has('one'));
+
+		$this->assertEquals(
+			$this->Configurable,
+			$this->Configurable->setProperties([])
+		);
+	}
+
+
+
+	/**
+	 *
+	 */
+	public function testConfigure() {
+		$this->Configurable->configure([
+			'one' => 2
+		]);
+
+		$this->assertEquals(2, $this->Configurable->get('one'));
+		$this->assertEquals(2, $this->Configurable->get('two'));
+
+		$this->assertEquals(
+			$this->Configurable,
+			$this->Configurable->configure([])
+		);
 	}
 }

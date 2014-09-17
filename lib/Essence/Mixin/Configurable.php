@@ -44,7 +44,7 @@ trait Configurable {
 	 *	@see set( )
 	 */
 	public function __set($property, $value) {
-		return $this->set($property, $value);
+		$this->set($property, $value);
 	}
 
 
@@ -85,6 +85,7 @@ trait Configurable {
 	 */
 	public function set($property, $value) {
 		$this->_properties[$property] = $value;
+		return $this;
 	}
 
 
@@ -99,6 +100,8 @@ trait Configurable {
 		if (!$this->has($property)) {
 			$this->set($property, $default);
 		}
+
+		return $this;
 	}
 
 
@@ -110,7 +113,8 @@ trait Configurable {
 	 *	@param array $properties Default properties.
 	 */
 	public function setDefaults(array $properties) {
-		$this->_properties+= $properties;
+		$this->_properties += $properties;
+		return $this;
 	}
 
 
@@ -133,6 +137,7 @@ trait Configurable {
 	 */
 	public function setProperties(array $properties) {
 		$this->_properties = $properties;
+		return $this;
 	}
 
 
@@ -143,6 +148,7 @@ trait Configurable {
 	 *	@param array $properties Properties to merge.
 	 */
 	public function configure(array $properties) {
-		$this->_properties = array_merge($this->_properties, $properties);
+		$this->_properties = $properties + $this->_properties;
+		return $this;
 	}
 }
