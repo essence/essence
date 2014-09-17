@@ -9,8 +9,8 @@ namespace Essence\Provider;
 use Essence\Exception;
 use Essence\Media;
 use Essence\Provider;
-use Essence\Dom\Parser as DomParser;
-use Essence\Http\Client as HttpClient;
+use Essence\Dom\Parser as Dom;
+use Essence\Http\Client as Http;
 use Essence\Utility\Template;
 use Essence\Utility\Json;
 use Essence\Utility\Xml;
@@ -75,14 +75,14 @@ class OEmbed extends Provider {
 	/**
 	 *	Constructor.
 	 *
-	 *	@param HttpClient $Http HTTP client.
-	 *	@param DomParser $Dom DOM parser.
+	 *	@param Http $Http HTTP client.
+	 *	@param Dom $Dom DOM parser.
 	 *	@param array $preparators Preparator.
 	 *	@param array $presenters Presenters.
 	 */
 	public function __construct(
-		HttpClient $Http,
-		DomParser $Dom,
+		Http $Http,
+		Dom $Dom,
 		array $preparators = [],
 		array $presenters = []
 	) {
