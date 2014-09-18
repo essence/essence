@@ -25,7 +25,7 @@ abstract class Provider {
 	/**
 	 *	Preparators.
 	 *
-	 *	@var Cascade\Cascade
+	 *	@var Cascade
 	 */
 	protected $_Preparators = null;
 
@@ -34,7 +34,7 @@ abstract class Provider {
 	/**
 	 *	Presenters.
 	 *
-	 *	@var Cascade\Cascade
+	 *	@var Cascade
 	 */
 	protected $_Presenters = null;
 

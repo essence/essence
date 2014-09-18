@@ -42,28 +42,29 @@ class OEmbed extends Provider {
 
 
 	/**
-	 *	Internal HTTP client.
+	 *	HTTP client.
 	 *
-	 *	@var Essence\Http\Client
+	 *	@var Http
 	 */
 	protected $_Http = null;
 
 
 
 	/**
-	 *	Internal DOM parser.
+	 *	DOM parser.
 	 *
-	 *	@var Essence\Dom\Parser
+	 *	@var Dom
 	 */
 	protected $_Dom = null;
 
 
 
 	/**
-	 *	### Options
-	 *
+	 *	Options:
 	 *	- 'endpoint' string The OEmbed endpoint.
 	 *	- 'format' string The expected response format.
+	 *
+	 *	@var array
 	 */
 	protected $_properties = [
 		'endpoint' => '',

@@ -21,16 +21,16 @@ use Essence\Http\Client as Http;
 class MetaTags extends Provider {
 
 	/**
-	 *	Internal HTTP client.
+	 *	HTTP client.
 	 *
-	 *	@var Essence\Http\Client
+	 *	@var Http
 	 */
 	protected $_Http = null;
 
 
 
 	/**
-	 *	Internal DOM parser.
+	 *	DOM parser.
 	 *
 	 *	@var Essence\Dom\Parser
 	 */

@@ -45,7 +45,7 @@ class Template {
 	 *
 	 *	@see compile()
 	 *	@param array $variables Variables.
-	 *	@param callable $filter Filter function.
+	 *	@param callable|null $filter Filter function.
 	 *	@return callable Function.
 	 */
 	protected static function _compileFunction(array $variables, $filter) {

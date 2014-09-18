@@ -18,7 +18,7 @@ trait Configurable {
 	 *
 	 *	@var array
 	 */
-	// protected $_properties = [];
+	protected $_properties;
 
 
 
