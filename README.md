@@ -132,10 +132,10 @@ Essence can replace any embeddable URL in a text by informations about it.
 By default, any URL will be replaced by the `html` property of the found Media.
 
 ```php
-echo $Essence->replace('Check out this awesome video: http://www.youtube.com/watch?v=123456');
+echo $Essence->replace('Look at this: http://www.youtube.com/watch?v=123456');
 ```
 ```html
-Check out this awesome video: <iframe src="http://www.youtube.com/embed/123456"></iframe>
+Look at this: <iframe src="http://www.youtube.com/embed/123456"></iframe>
 ```
 
 But you can do more by passing a callback to control which informations will replace the URL:
