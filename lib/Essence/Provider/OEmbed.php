@@ -60,10 +60,10 @@ class OEmbed extends Provider {
 
 
 	/**
-	 *	Options:
-	 *	- 'endpoint' string The OEmbed endpoint.
-	 *	- 'format' string The expected response format.
+	 *	Configuration.
 	 *
+	 *	@property string $endpoint The OEmbed endpoint.
+	 *	@property string $format The expected response format.
 	 *	@var array
 	 */
 	protected $_properties = [

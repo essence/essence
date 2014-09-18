@@ -32,7 +32,7 @@ class MetaTags extends Provider {
 	/**
 	 *	DOM parser.
 	 *
-	 *	@var Essence\Dom\Parser
+	 *	@var Dom
 	 */
 	protected $_Dom = null;
 
