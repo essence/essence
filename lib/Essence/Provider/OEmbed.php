@@ -60,10 +60,10 @@ class OEmbed extends Provider {
 
 
 	/**
-	 *	Configuration.
+	 *	Configuration:
+	 *		- 'endpoint' string The OEmbed endpoint.
+	 *		- 'format' string The expected response format.
 	 *
-	 *	@property string $endpoint The OEmbed endpoint.
-	 *	@property string $format The expected response format.
 	 *	@var array
 	 */
 	protected $_properties = [
@@ -132,7 +132,7 @@ class OEmbed extends Provider {
 	 *	@return array Configuration.
 	 */
 	protected function _config($url, array $options) {
-		$config = $this->endpoint
+		$config = $this->has('endpoint')
 			? $this->_buildConfig($url)
 			: $this->_extractConfig($this->_Http->get($url));
 
@@ -156,9 +156,9 @@ class OEmbed extends Provider {
 	 */
 	protected function _buildConfig($url) {
 		return [
-			'format' => $this->format,
+			'format' => $this->get('format'),
 			'endpoint' => Template::compile(
-				$this->endpoint,
+				$this->get('endpoint'),
 				compact('url'),
 				'urlencode'
 			)
