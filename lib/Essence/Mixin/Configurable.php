@@ -10,6 +10,8 @@ namespace Essence\Mixin;
 
 /**
  *	Makes a class configurable.
+ *
+ *	@property array $_properties
  */
 trait Configurable {
 
@@ -18,7 +20,7 @@ trait Configurable {
 	 *
 	 *	@var array
 	 */
-	protected $_properties;
+	//protected $_properties = [];
 
 
 
