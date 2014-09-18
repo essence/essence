@@ -25,21 +25,44 @@ class Youtube {
 
 
 	/**
+	 *	Replacements for the thumbnail file name.
+	 *
+	 *	@var array
+	 */
+	protected $_names = [
+		self::small => 'default',
+		self::medium => 'mqdefault'
+	];
+
+
+
+	/**
 	 *	Thumbnail format.
 	 *
 	 *	@var string
 	 */
-	protected $_thumbnailFormat = '';
+	protected $_format = '';
+
+
+
+	/**
+	 *	Property in which the thumbnail URL is stored.
+	 *
+	 *	@var string
+	 */
+	protected $_property = '';
 
 
 
 	/**
 	 *	Constructor.
 	 *
-	 *	@param string $thumbnailFormat Thumbnail format.
+	 *	@param string $format Thumbnail format.
+	 *	@param string $property Thumbnail property.
 	 */
-	public function __construct($thumbnailFormat) {
-		$this->_thumbnailFormat = $thumbnailFormat;
+	public function __construct($format, $property = 'thumbnailUrl') {
+		$this->_format = $format;
+		$this->_property = $property;
 	}
 
 
@@ -48,25 +71,16 @@ class Youtube {
 	 *	{@inheritDoc}
 	 */
 	public function filter(Media $Media) {
-		$url = $Media->get('thumbnailUrl');
+		$url = $Media->get($this->_property);
 
-		if ($url) {
-			switch ($this->_thumbnailFormat) {
-				case self::small:
-					$url = str_replace('hqdefault', 'default', $url);
-					break;
+		if ($url && isset($this->_names[$this->_format])) {
+			$thumbnail = str_replace(
+				'hqdefault',
+				$this->_names[$this->_format],
+				$url
+			);
 
-				case self::medium:
-					$url = str_replace('hqdefault', 'mqdefault', $url);
-					break;
-
-				case self::large:
-				default:
-					// unchanged
-					break;
-			}
-
-			$Media->set('thumbnailUrl', $url);
+			$Media->set($this->_property, $thumbnail);
 		}
 
 		return $Media;
