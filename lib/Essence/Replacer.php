@@ -104,7 +104,7 @@ class Replacer {
 	 *	Returns a default templating callback for replace().
 	 *
 	 *	@see replace()
-	 *	@return callable Templating function.
+	 *	@return \Closure Templating function.
 	 */
 	protected function _defaultTemplate() {
 		return function($Media) {
@@ -120,7 +120,7 @@ class Replacer {
 	 *	@see replace()
 	 *	@param callable $template Templating callback.
 	 *	@param array $options Custom options to be interpreted by a provider.
-	 *	@return callable Function.
+	 *	@return \Closure Function.
 	 */
 	protected function _replaceFunction($template, array $options) {
 		return function($matches) use ($template, $options) {

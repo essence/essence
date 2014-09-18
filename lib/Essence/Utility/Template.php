@@ -46,7 +46,7 @@ class Template {
 	 *	@see compile()
 	 *	@param array $variables Variables.
 	 *	@param callable|null $filter Filter function.
-	 *	@return callable Function.
+	 *	@return \Closure Function.
 	 */
 	protected static function _compileFunction(array $variables, $filter) {
 		return function ($matches) use ($variables, $filter) {
