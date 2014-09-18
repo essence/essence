@@ -3,6 +3,7 @@ Essence
 
 [![Build status](https://secure.travis-ci.org/felixgirault/essence.png?branch=master)](http://travis-ci.org/felixgirault/essence)
 [![Scrutinizer Quality Score](https://scrutinizer-ci.com/g/felixgirault/essence/badges/quality-score.png?s=464b060a5623fa2124308bfc8a41aa8fa6a0ed05)](https://scrutinizer-ci.com/g/felixgirault/essence/)
+[![Code Coverage](https://scrutinizer-ci.com/g/felixgirault/essence/badges/coverage.png?b=version-3.0.0)](https://scrutinizer-ci.com/g/felixgirault/essence/?branch=version-3.0.0)
 [![Total downloads](https://poser.pugx.org/fg/essence/d/total.png)](https://packagist.org/packages/fg/essence)
 
 Essence is a simple PHP library to extract media informations from websites, like youtube videos, twitter statuses or blog articles.
