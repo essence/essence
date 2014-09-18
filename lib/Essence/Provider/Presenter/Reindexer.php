@@ -40,13 +40,11 @@ class Reindexer {
 	 *	{@inheritDoc}
 	 */
 	public function filter(Media $Media) {
-		$Media->setProperties(
+		return $Media->setProperties(
 			Hash::reindex(
 				$Media->properties(),
 				$this->_mapping
 			)
 		);
-
-		return $Media;
 	}
 }

@@ -39,7 +39,6 @@ class Completer {
 	 *	{@inheritDoc}
 	 */
 	public function filter(Media $Media) {
-		$Media->setDefaults($this->_defaults);
-		return $Media;
+		return $Media->setDefaults($this->_defaults);
 	}
 }
