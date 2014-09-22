@@ -215,12 +215,12 @@ $Essence = new Essence\Essence([
 			'filter' => '#ted\.com/talks/.*#i'
 		],
 
-		// the OEmbed provider will query the endpoint, %s beeing replaced
+		// the OEmbed provider will query the endpoint, :url beeing replaced
 		// by the requested URL.
 		'Youtube' => [
 			'class' => 'OEmbed',
 			'filter' => '#youtube\.com/.*#',
-			'endpoint' => 'http://www.youtube.com/oembed?format=json&url=%s'
+			'endpoint' => 'http://www.youtube.com/oembed?format=json&url=:url'
 		]
 	]
 ]);
