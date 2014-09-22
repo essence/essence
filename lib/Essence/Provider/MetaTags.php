@@ -52,19 +52,12 @@ class MetaTags extends Provider {
 	 *
 	 *	@param Http $Http HTTP client.
 	 *	@param Dom $Dom DOM parser.
-	 *	@param array $preparators Preparator.
-	 *	@param array $presenters Presenters.
 	 */
-	public function __construct(
-		Http $Http,
-		Dom $Dom,
-		array $preparators = [],
-		array $presenters = []
-	) {
+	public function __construct(Http $Http, Dom $Dom) {
+		parent::__construct();
+
 		$this->_Http = $Http;
 		$this->_Dom = $Dom;
-
-		parent::__construct($preparators, $presenters);
 	}
 
 

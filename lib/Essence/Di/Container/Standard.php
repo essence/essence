@@ -98,12 +98,10 @@ class Standard extends Container {
 			}),
 
 			'OEmbed' => function($C) {
-				return new OEmbed(
-					$C->get('Http'),
-					$C->get('Dom'),
-					[],
-					$C->get('OEmbed.presenters')
-				);
+				$OEmbed = new OEmbed($C->get('Http'), $C->get('Dom'));
+				$OEmbed->setPresenters($C->get('OEmbed.presenters'));
+
+				return $OEmbed;
 			},
 
 
@@ -128,12 +126,11 @@ class Standard extends Container {
 			}),
 
 			'Vimeo' => function($C) {
-				return new OEmbed(
-					$C->get('Http'),
-					$C->get('Dom'),
-					$C->get('Vimeo.preparators'),
-					$C->get('OEmbed.presenters')
-				);
+				$Vimeo = new OEmbed($C->get('Http'), $C->get('Dom'));
+				$Vimeo->setPreparators($C->get('Vimeo.preparators'));
+				$Vimeo->setPresenters($C->get('OEmbed.presenters'));
+
+				return $Vimeo;
 			},
 
 
@@ -169,12 +166,11 @@ class Standard extends Container {
 			}),
 
 			'Youtube' => function($C) {
-				return new OEmbed(
-					$C->get('Http'),
-					$C->get('Dom'),
-					$C->get('Youtube.preparators'),
-					$C->get('OEmbed.presenters')
-				);
+				$Youtube = new OEmbed($C->get('Http'), $C->get('Dom'));
+				$Youtube->setPreparators($C->get('Youtube.preparators'));
+				$Youtube->setPresenters($C->get('OEmbed.presenters'));
+
+				return $Youtube;
 			},
 
 
@@ -208,14 +204,10 @@ class Standard extends Container {
 			}),
 
 			'OpenGraph' => function($C) {
-				$OpenGraph = new MetaTags(
-					$C->get('Http'),
-					$C->get('Dom'),
-					[],
-					$C->get('OpenGraph.presenters')
-				);
-
+				$OpenGraph = new MetaTags($C->get('Http'), $C->get('Dom'));
+				$OpenGraph->setPresenters($C->get('OpenGraph.presenters'));
 				$OpenGraph->setMetaPattern($C->get('OpenGraph.metaPattern'));
+
 				return $OpenGraph;
 			},
 
@@ -244,14 +236,10 @@ class Standard extends Container {
 			}),
 
 			'TwitterCards' => function($C) {
-				$TwitterCards = new MetaTags(
-					$C->get('Http'),
-					$C->get('Dom'),
-					[],
-					$C->get('TwitterCards.presenters')
-				);
-
+				$TwitterCards = new MetaTags($C->get('Http'), $C->get('Dom'));
+				$TwitterCards->setPresenters($C->get('TwitterCards.presenters'));
 				$TwitterCards->setMetaPattern($C->get('TwitterCards.metaPattern'));
+
 				return $TwitterCards;
 			},
 

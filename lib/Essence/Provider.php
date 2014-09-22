@@ -51,13 +51,32 @@ abstract class Provider {
 
 	/**
 	 *	Constructor.
+	 */
+	public function __construct() {
+		$this->_Preparators = new Cascade();
+		$this->_Presenters = new Cascade();
+	}
+
+
+
+	/**
+	 *
 	 *
 	 *	@param array $preparators Preparators.
+	 */
+	public function setPreparators(array $preparators) {
+		$this->_Preparators->setFilters($preparators);
+	}
+
+
+
+	/**
+	 *
+	 *
 	 *	@param array $presenters Presenters.
 	 */
-	public function __construct(array $preparators = [], array $presenters = []) {
-		$this->_Preparators = new Cascade($preparators);
-		$this->_Presenters = new Cascade($presenters);
+	public function setPresenters(array $presenters) {
+		$this->_Presenters->setFilters($presenters);
 	}
 
 
