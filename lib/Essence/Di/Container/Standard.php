@@ -90,6 +90,8 @@ class Standard extends Container {
 				return new Reindexer($C->get('OEmbed.mapping'));
 			}),
 
+			'OEmbed.preparators' => [],
+
 			'OEmbed.presenters' => Container::unique(function($C) {
 				return [
 					$C->get('OEmbed.Reindexer'),
@@ -99,6 +101,7 @@ class Standard extends Container {
 
 			'OEmbed' => function($C) {
 				$OEmbed = new OEmbed($C->get('Http'), $C->get('Dom'));
+				$OEmbed->setPreparators($C->get('OEmbed.preparators'));
 				$OEmbed->setPresenters($C->get('OEmbed.presenters'));
 
 				return $OEmbed;
@@ -120,15 +123,20 @@ class Standard extends Container {
 			}),
 
 			'Vimeo.preparators' => Container::unique(function($C) {
-				return [
-					$C->get('Vimeo.Refactorer')
-				];
+				$preparators = $C->get('OEmbed.preparators');
+				$preparators[] = $C->get('Vimeo.Refactorer');
+
+				return $preparators;
+			}),
+
+			'Vimeo.presenters' => Container::unique(function($C) {
+				return $C->get('OEmbed.presenters');
 			}),
 
 			'Vimeo' => function($C) {
 				$Vimeo = new OEmbed($C->get('Http'), $C->get('Dom'));
 				$Vimeo->setPreparators($C->get('Vimeo.preparators'));
-				$Vimeo->setPresenters($C->get('OEmbed.presenters'));
+				$Vimeo->setPresenters($C->get('Vimeo.presenters'));
 
 				return $Vimeo;
 			},
@@ -150,9 +158,10 @@ class Standard extends Container {
 			}),
 
 			'Youtube.preparators' => Container::unique(function($C) {
-				return [
-					$C->get('Youtube.Refactorer')
-				];
+				$preparators = $C->get('OEmbed.preparators');
+				$preparators[] = $C->get('Youtube.Refactorer');
+
+				return $preparators;
 			}),
 
 			'Youtube.Presenter' => Container::unique(function($C) {
@@ -160,7 +169,7 @@ class Standard extends Container {
 			}),
 
 			'Youtube.presenters' => Container::unique(function($C) {
-				return [
+				return $C->get('OEmbed.presenters') + [
 					$C->get('Youtube.Presenter')
 				];
 			}),
@@ -168,7 +177,7 @@ class Standard extends Container {
 			'Youtube' => function($C) {
 				$Youtube = new OEmbed($C->get('Http'), $C->get('Dom'));
 				$Youtube->setPreparators($C->get('Youtube.preparators'));
-				$Youtube->setPresenters($C->get('OEmbed.presenters'));
+				$Youtube->setPresenters($C->get('Youtube.presenters'));
 
 				return $Youtube;
 			},
@@ -193,6 +202,8 @@ class Standard extends Container {
 				'og:url' => 'url'
 			],
 
+			'OpenGraph.preparators' => [],
+
 			'OpenGraph.Reindexer' => Container::unique(function($C) {
 				return new Reindexer($C->get('OpenGraph.mapping'));
 			}),
@@ -205,6 +216,7 @@ class Standard extends Container {
 
 			'OpenGraph' => function($C) {
 				$OpenGraph = new MetaTags($C->get('Http'), $C->get('Dom'));
+				$OpenGraph->setPreparators($C->get('OpenGraph.preparators'));
 				$OpenGraph->setPresenters($C->get('OpenGraph.presenters'));
 				$OpenGraph->setMetaPattern($C->get('OpenGraph.metaPattern'));
 
@@ -225,6 +237,8 @@ class Standard extends Container {
 				'twitter:creator' => 'authorName'
 			],
 
+			'TwitterCards.preparators' => [],
+
 			'TwitterCards.Reindexer' => Container::unique(function($C) {
 				return new Reindexer($C->get('TwitterCards.mapping'));
 			}),
@@ -237,6 +251,7 @@ class Standard extends Container {
 
 			'TwitterCards' => function($C) {
 				$TwitterCards = new MetaTags($C->get('Http'), $C->get('Dom'));
+				$TwitterCards->setPreparators($C->get('TwitterCards.preparators'));
 				$TwitterCards->setPresenters($C->get('TwitterCards.presenters'));
 				$TwitterCards->setMetaPattern($C->get('TwitterCards.metaPattern'));
 
