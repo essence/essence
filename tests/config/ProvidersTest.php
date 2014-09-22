@@ -39,8 +39,8 @@ class ProvidersTest extends TestCase {
 	 *	@param $property Name of the property to test.
 	 *	@param $value Property value.
 	 */
-	public function testEmbed($name, $url, $property, $value) {
-		$Media = $this->Essence->embed($url);
+	public function testExtract($name, $url, $property, $value) {
+		$Media = $this->Essence->extract($url);
 
 		if (!$Media) {
 			$this->markTestSkipped("Unable to embed '$url'");
