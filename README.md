@@ -5,7 +5,7 @@ Essence
 [![Scrutinizer Quality Score](https://scrutinizer-ci.com/g/felixgirault/essence/badges/quality-score.png?s=464b060a5623fa2124308bfc8a41aa8fa6a0ed05)](https://scrutinizer-ci.com/g/felixgirault/essence/)
 [![Total downloads](https://poser.pugx.org/fg/essence/d/total.png)](https://packagist.org/packages/fg/essence)
 
-Essence is a simple PHP library to extract media informations from websites, like youtube videos, twitter statuses or blog articles.
+Essence is a simple PHP library to extract media information from websites, like youtube videos, twitter statuses or blog articles.
 
 If you were already using Essence 1.x.x, you should take a look at [the migration guide](https://github.com/felixgirault/essence/wiki/Migrating-from-1.x.x-to-2.x.x).
 
@@ -13,7 +13,7 @@ Example
 -------
 
 Essence is designed to be really easy to use.
-Using the main class of the library, you can retrieve informations in just those few lines:
+Using the main class of the library, you can retrieve information in just those few lines:
 
 ```php
 $Essence = Essence\Essence::instance( );
@@ -51,7 +51,7 @@ What you get
 ------------
 
 Using Essence, you will mainly interact with Media objects.
-Media is a simple container for all the informations that are fetched from an URL.
+Media is a simple container for all the information that are fetched from an URL.
 
 Here are the default properties it provides:
 
@@ -96,7 +96,7 @@ Note that Essence will always try to fill the `html` property when it is not ava
 Advanced usage
 --------------
 
-The Essence class provides some useful utility functions to ensure you will get some informations.
+The Essence class provides some useful utility functions to ensure you will get some information.
 
 ### Extracting URLs
 
@@ -113,7 +113,7 @@ $urls = $Essence->extract( 'http://www.blog.com/article' );
 //	]
 ```
 
-You can then get informations from all the extracted URLs:
+You can then get information from all the extracted URLs:
 
 ```php
 $medias = $Essence->embedAll( $urls );
@@ -126,7 +126,7 @@ $medias = $Essence->embedAll( $urls );
 
 ### Replacing URLs in text
 
-Essence can replace any embeddable URL in a text by informations about it.
+Essence can replace any embeddable URL in a text by information about it.
 By default, any URL will be replaced by the `html` property of the found Media.
 
 ```php
@@ -137,7 +137,7 @@ echo $Essence->replace( $text );
 //	Check out this awesome video: <iframe src="http://www.youtube.com/embed/123456"></iframe>
 ```
 
-But you can do more by passing a callback to control which informations will replace the URL:
+But you can do more by passing a callback to control which information will replace the URL:
 
 ```php
 echo $Essence->replace( $text, function( $Media ) {
@@ -275,7 +275,7 @@ Once you've installed essence, you should try to run `./cli/essence.php` in a te
 This script allows you to test Essence quickly:
 
 ```
-# will fetch and print informations about the video
+# will fetch and print information about the video
 ./cli/essence.php embed http://www.youtube.com/watch?v=4S_NHY9c8uM
 
 # will fetch and print all embeddable URLs found at the given HTML page
