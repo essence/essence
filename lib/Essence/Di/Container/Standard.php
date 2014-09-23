@@ -169,9 +169,10 @@ class Standard extends Container {
 			}),
 
 			'Youtube.presenters' => Container::unique(function($C) {
-				return $C->get('OEmbed.presenters') + [
-					$C->get('Youtube.Presenter')
-				];
+				$presenters = $C->get('OEmbed.presenters');
+				$presenters[] = $C->get('Youtube.Presenter');
+
+				return $presenters;
 			}),
 
 			'Youtube' => function($C) {
