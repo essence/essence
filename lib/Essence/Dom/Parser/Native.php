@@ -53,14 +53,16 @@ class Native implements Parser {
 	 *	Builds and returns a DomDocument from the given HTML source.
 	 *
 	 *	@param string $html HTML source.
-	 *	@return DomDocument DomDocument.
+	 *	@return DomDocument Document.
 	 */
 	protected function _document($html) {
 		$reporting = error_reporting(0);
-		$Document = DomDocument::loadHTML($this->_fixCharset($html));
+		$Document = new DomDocument();
+		$loaded = $Document->loadHTML($this->_fixCharset($html));
+
 		error_reporting($reporting);
 
-		if ($Document === false) {
+		if (!$loaded) {
 			throw new Exception('Unable to load HTML document.');
 		}
 
