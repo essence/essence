@@ -342,6 +342,11 @@ return [
 		// to prevent spoofing.
 		'filter' => '#^https?://vine.co/v/[a-zA-Z0-9]+#i'
 	],
+	'Wistia' => [
+		'class' => 'OEmbed',
+		'filter' => '#https?://(.+)?(wistia.com|wi.st)/.*#i',
+		'endpoint' => 'http://fast.wistia.com/oembed?format=json&url=%s',
+	],
 	'WordPress' => [
 		'class' => 'OEmbed',
 		'filter' => '#wordpress\\.com/.+#i',
