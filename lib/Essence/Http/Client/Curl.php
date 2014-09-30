@@ -18,7 +18,7 @@ use Essence\Http\Exception;
  *	@package Essence.Http.Client
  */
 
-class Curl implements Client {
+class Curl extends Client {
 
 	/**
 	 *	CURL handle.
@@ -80,6 +80,7 @@ class Curl implements Client {
 	public function get( $url ) {
 
 		curl_setopt( $this->_curl, CURLOPT_URL, $url );
+		curl_setopt( $this->_curl, CURLOPT_USERAGENT, $this->_userAgent );
 
 		$contents = curl_exec( $this->_curl );
 
