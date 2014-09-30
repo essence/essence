@@ -197,14 +197,9 @@ class OEmbed extends Provider {
 	 *	@param string Completed endpoint.
 	 */
 	protected function _completeEndpoint($endpoint, $options) {
-		$params = array_intersect_key($options, [
-			'maxwidth' => '',
-			'maxheight' => ''
-		]);
-
-		if ($params) {
+		if ($options) {
 			$endpoint .= (strrpos($endpoint, '?') === false) ? '?' : '&';
-			$endpoint .= http_build_query($params);
+			$endpoint .= http_build_query($options);
 		}
 
 		return $endpoint;

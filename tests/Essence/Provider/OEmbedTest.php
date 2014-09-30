@@ -78,14 +78,6 @@ class OEmbedTest extends TestCase {
 		);
 
 		$this->assertEquals(
-			'url?maxwidth=120',
-			$this->OEmbed->completeEndpoint('url', [
-				'maxwidth' => 120,
-				'unsupported' => 'unsupported'
-			])
-		);
-
-		$this->assertEquals(
 			'url?param=value&maxwidth=120',
 			$this->OEmbed->completeEndpoint('url?param=value', [
 				'maxwidth' => 120
