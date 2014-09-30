@@ -86,20 +86,11 @@ class OEmbedTest extends PHPUnit_Framework_TestCase {
 
 	public function testCompleteEndpoint( ) {
 
-
 		$this->assertEquals(
 			'url?maxwidth=120&maxheight=60',
 			$this->OEmbed->completeEndpoint( 'url', [
 				'maxwidth' => 120,
 				'maxheight' => 60
-			])
-		);
-
-		$this->assertEquals(
-			'url?maxwidth=120',
-			$this->OEmbed->completeEndpoint( 'url', [
-				'maxwidth' => 120,
-				'unsupported' => 'unsupported'
 			])
 		);
 
