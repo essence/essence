@@ -25,7 +25,7 @@ trait Configurable {
 
 
 	/**
-	 *	@see has( )
+	 *	@see has()
 	 */
 	public function __isset($property) {
 		return $this->has($property);
@@ -34,7 +34,7 @@ trait Configurable {
 
 
 	/**
-	 *	@see get( )
+	 *	@see get()
 	 */
 	public function __get($property) {
 		return $this->get($property);
@@ -43,7 +43,7 @@ trait Configurable {
 
 
 	/**
-	 *	@see set( )
+	 *	@see set()
 	 */
 	public function __set($property, $value) {
 		$this->set($property, $value);
@@ -111,7 +111,7 @@ trait Configurable {
 	/**
 	 *	Sets default values.
 	 *
-	 *	@see setDefault( )
+	 *	@see setDefault()
 	 *	@param array $properties Default properties.
 	 */
 	public function setDefaults(array $properties) {

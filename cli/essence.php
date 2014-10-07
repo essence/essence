@@ -17,7 +17,7 @@ require_once dirname(dirname(__FILE__))
 if ($argc < 3) {
 	echo "Too few arguments.\n";
 } else {
-	main($argv[ 1 ], $argv[ 2 ]);
+	main($argv[1], $argv[2]);
 }
 
 
