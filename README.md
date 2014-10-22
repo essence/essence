@@ -149,7 +149,7 @@ HTML;
 });
 ```
 ```html
-Check out this awesome video:
+Look at this:
 <p class="title">Video title</p>
 <div class="player">
 	<iframe src="http://www.youtube.com/embed/123456"></iframe>
