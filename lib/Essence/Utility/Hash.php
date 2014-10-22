@@ -6,6 +6,8 @@
  */
 namespace Essence\Utility;
 
+use Closure;
+
 
 
 /**
@@ -56,5 +58,25 @@ class Hash {
 		}
 
 		return $normalized;
+	}
+
+
+
+	/**
+	 *	Indexes an array depending on the values it contains.
+	 *
+	 *	@param array $data Data.
+	 *	@param Closure $generator Generator function that yields keys and values.
+	 *	@return array Data.
+	 */
+	public static function combine(array $data, Closure $generator) {
+		$indexed = [];
+
+		foreach ($data as $key => $value) {
+			$Indexer = $generator($value, $key);
+			$indexed[$Indexer->key()] = $Indexer->current();
+		}
+
+		return $indexed;
 	}
 }

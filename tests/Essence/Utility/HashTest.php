@@ -27,7 +27,7 @@ class HashTest extends TestCase {
 		$this->assertEquals([
 			'one' => 'value',
 			'two' => 'value'
-		], $data );
+		], $data);
 	}
 
 
@@ -40,12 +40,27 @@ class HashTest extends TestCase {
 			'one',
 			'two' => 'three',
 			'four'
-		], 'default' );
+		], 'default');
+	}
+
+
+
+	/**
+	 *
+	 */
+	public function testCombine() {
+		$data = [
+			['key' => 1, 'value' => 'one'],
+			['key' => 2, 'value' => 'two']
+		];
+
+		$combined = Hash::combine($data, function($row) {
+			yield $row['key'] => $row['value'];
+		});
 
 		$this->assertEquals([
-			'one' => 'default',
-			'two' => 'three',
-			'four' => 'default'
-		], $data );
+			1 => 'one',
+			2 => 'two'
+		], $combined);
 	}
 }
