@@ -83,20 +83,31 @@ class OEmbed extends Provider {
 		$Config = $this->_config($url, $options);
 		$response = $this->_Http->get($Config->endpoint());
 
-		switch ($Config->format()) {
+		return new Media(
+			$this->_parse($response, $Config->format())
+		);
+	}
+
+
+
+	/**
+	 *	Parses the given response depending on its format.
+	 *
+	 *	@param string $response Response.
+	 *	@param string $format Format.
+	 *	@return array Data.
+	 */
+	protected function _parse($response, $format) {
+		switch ($format) {
 			case Format::json:
-				$data = Json::parse($response);
-				break;
+				return Json::parse($response);
 
 			case Format::xml:
-				$data = Xml::parse($response);
-				break;
+				return Xml::parse($response);
 
 			default:
 				throw new Exception('Unsupported response format.');
 		}
-
-		return new Media($data);
 	}
 
 
