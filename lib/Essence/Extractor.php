@@ -7,6 +7,7 @@
 namespace Essence;
 
 use Essence\Provider\Collection;
+use Essence\Utility\Hash;
 use Essence\Exception;
 
 
@@ -68,12 +69,8 @@ class Extractor {
 	 *	@return array An array of informations, indexed by URL.
 	 */
 	public function extractAll(array $urls, array $options = []) {
-		$medias = array_flip($urls);
-
-		array_walk($medias, function($_, $url) use ($options) {
-			return $this->extract($url, $options);
+		return Hash::combine($urls, function($url) use ($options) {
+			yield $url => $this->extract($url, $options);
 		});
-
-		return $medias;
 	}
 }
