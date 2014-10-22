@@ -8,7 +8,7 @@ namespace Essence;
 
 use PHPUnit_Framework_TestCase as TestCase;
 use Essence\Di\Container\Standard as StandardContainer;
-use Essence\Dom\Parser\Native as NativeDomParser;
+use Essence\Dom\Document\Factory\Native as NativeDomDocument;
 use Essence\Http\Client\Native as NativeHttpClient;
 
 
@@ -41,7 +41,7 @@ class CrawlerTest extends TestCase {
 		$this->Crawler = new Crawler(
 			$Container->get('Collection'),
 			new NativeHttpClient(),
-			new NativeDomParser()
+			new NativeDomDocument()
 		);
 	}
 

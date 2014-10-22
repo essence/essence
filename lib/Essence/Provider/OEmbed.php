@@ -11,7 +11,7 @@ use Essence\Media;
 use Essence\Provider;
 use Essence\Provider\OEmbed\Format;
 use Essence\Provider\OEmbed\Config;
-use Essence\Dom\Parser as Dom;
+use Essence\Dom\Document\Factory\Native as Dom;
 use Essence\Http\Client as Http;
 use Essence\Utility\Template;
 use Essence\Utility\Json;
@@ -152,17 +152,15 @@ class OEmbed extends Provider {
 	 *	@return array Configuration.
 	 */
 	protected function _extractConfig($html) {
-		$attributes = $this->_Dom->extractAttributes($html, [
-			'link' => [
-				'rel' => '#alternate#i',
-				'type',
-				'href'
-			]
-		]);
+		$Document = $this->_Dom->document($html);
 
-		foreach ($attributes['link'] as $link) {
-			if (preg_match('#(?<format>json|xml)#i', $link['type'], $matches)) {
-				return new Config($link['href'], $matches['format']);
+		$links = $Document->tags('link', function($Tag) {
+			return $Tag->matches('rel', '~alternate~i');
+		});
+
+		foreach ($links as $Link) {
+			if ($Link->matches('type', '~(?<format>json|xml)~i', $matches)) {
+				return new Config($Link->get('href'), $matches['format']);
 			}
 		}
 

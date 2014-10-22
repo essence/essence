@@ -10,8 +10,9 @@ namespace Essence\Provider;
 use Essence\Exception;
 use Essence\Media;
 use Essence\Provider;
-use Essence\Dom\Parser as Dom;
+use Essence\Dom\Document\Factory\Native as Dom;
 use Essence\Http\Client as Http;
+use Essence\Utility\Hash;
 
 
 
@@ -79,13 +80,14 @@ class MetaTags extends Provider {
 	protected function _embed($url, array $options) {
 		$html = $this->_Http->get($url);
 		$metas = $this->_extractMetas($html);
-		$Media = new Media();
 
-		foreach ($metas as $meta) {
-			$Media->set($meta['property'], trim($meta['content']));
+		if (!$metas) {
+			throw new Exception(
+				"Unable to extract meta tags from '$url'."
+			);
 		}
 
-		return $Media;
+		return $this->_media($metas);
 	}
 
 
@@ -97,17 +99,23 @@ class MetaTags extends Provider {
 	 *	@return array Meta tags.
 	 */
 	protected function _extractMetas($html) {
-		$attributes = $this->_Dom->extractAttributes($html, [
-			'meta' => [
-				'property' => $this->_metaPattern,
-				'content'
-			]
-		]);
+		$Document = $this->_Dom->document($html);
 
-		if (empty($attributes['meta'])) {
-			throw new Exception("Unable to extract meta tags from '$url'.");
-		}
+		return $Document->tags('meta', function($Tag) {
+			return $Tag->matches('property', $this->_metaPattern);
+		});
+	}
 
-		return $attributes['meta'];
+
+
+	/**
+	 *
+	 */
+	protected function _media(array $metas) {
+		$metas = Hash::combine($metas, function($Meta) {
+			yield $Meta->get('property') => $Meta->get('content');
+		});
+
+		return new Media($metas);
 	}
 }

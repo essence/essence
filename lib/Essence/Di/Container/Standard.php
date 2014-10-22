@@ -11,7 +11,7 @@ use Essence\Crawler;
 use Essence\Extractor;
 use Essence\Replacer;
 use Essence\Di\Container;
-use Essence\Dom\Parser\Native as NativeDomParser;
+use Essence\Dom\Document\Factory\Native as NativeDomDocument;
 use Essence\Http\Client\Curl as CurlHttpClient;
 use Essence\Http\Client\Native as NativeHttpClient;
 use Essence\Provider\Collection;
@@ -53,7 +53,7 @@ class Standard extends Container {
 			}),
 
 			'Dom' => Container::unique(function() {
-				return new NativeDomParser();
+				return new NativeDomDocument();
 			}),
 
 

@@ -8,7 +8,7 @@ namespace Essence;
 
 use Essence\Provider\Collection;
 use Essence\Http\Client as Http;
-use Essence\Dom\Parser as Dom;
+use Essence\Dom\Document\Factory\Native as Dom;
 
 
 
@@ -66,44 +66,48 @@ class Crawler {
 	 *	@return array An array of extracted URLs.
 	 */
 	public function crawl($source) {
-		if (filter_var($source, FILTER_VALIDATE_URL)) {
-			$source = $this->_Http->get($source);
-		}
+		$html = $this->_html($source);
+		$Document = $this->_Dom->document($html);
 
-		return $this->_filterUrls(
-			$this->_extractUrls($source)
+		$urls = array_merge(
+			$this->_extractUrls($Document, 'a', 'href'),
+			$this->_extractUrls($Document, 'embed', 'src'),
+			$this->_extractUrls($Document, 'iframe', 'src')
 		);
+
+		return $this->_filterUrls(array_unique($urls));
 	}
 
 
 
 	/**
-	 *	Extracts URLs from an HTML source.
+	 *	If the given source is an URL, returns the page it points to.
 	 *
-	 *	@param string $html The HTML source to extract URLs from.
-	 *	@return array Extracted URLs.
+	 *	@param string $source URL or HTML source.
+	 *	@return string HTML source.
 	 */
-	protected function _extractUrls($html) {
-		$options = [
-			'a' => 'href',
-			'embed' => 'src',
-			'iframe' => 'src'
-		];
+	public function _html($source) {
+		return filter_var($source, FILTER_VALIDATE_URL)
+			? $this->_Http->get($source)
+			: $source;
+	}
 
-		$attributes = $this->_Dom->extractAttributes($html, $options);
-		$urls = [];
 
-		foreach ($options as $tagName => $attributeName) {
-			foreach ($attributes[$tagName] as $tag) {
-				$url = $tag[$attributeName];
 
-				if ($this->_Collection->hasProvider($url)) {
-					$urls[] = $url;
-				}
-			}
-		}
+	/**
+	 *	Extracts URLs from tag attributes.
+	 *
+	 *	@param Document $Document Document.
+	 *	@param string $tag Tag name.
+	 *	@param string $attribute Attribute name.
+	 *	@return array URLs.
+	 */
+	protected function _extractUrls($Document, $tag, $attribute) {
+		$tags = $Document->tags($tag);
 
-		return array_unique($urls);
+		return array_map(function($Tag) use ($attribute) {
+			return $Tag->get($attribute);
+		}, $tags);
 	}
 
 

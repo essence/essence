@@ -7,7 +7,7 @@
 namespace Essence\Provider;
 
 use PHPUnit_Framework_TestCase as TestCase;
-use Essence\Dom\Parser\Native as NativeDomParser;
+use Essence\Dom\Document\Factory\Native as NativeDomDocument;
 use Essence\Http\Client\Native as NativeHttpClient;
 
 
@@ -30,7 +30,7 @@ class MetaTagsTest extends TestCase {
 	public function setUp() {
 		$this->MetaTags = new MetaTags(
 			new NativeHttpClient(),
-			new NativeDomParser()
+			new NativeDomDocument()
 		);
 
 		$this->MetaTags->setMetaPattern('~^og:~');
