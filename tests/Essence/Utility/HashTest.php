@@ -35,19 +35,6 @@ class HashTest extends TestCase {
 	/**
 	 *
 	 */
-	public function testNormalize() {
-		$data = Hash::normalize([
-			'one',
-			'two' => 'three',
-			'four'
-		], 'default');
-	}
-
-
-
-	/**
-	 *
-	 */
 	public function testCombine() {
 		$data = [
 			['key' => 1, 'value' => 'one'],

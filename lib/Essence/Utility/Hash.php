@@ -38,31 +38,6 @@ class Hash {
 
 
 	/**
-	 *	Every element that is numerically indexed becomes a key, given
-	 *	$default as value.
-	 *
-	 *	@param array $data The array to normalize.
-	 *	@param mixed $default Default value.
-	 *	@return array The normalized array.
-	 */
-	public static function normalize(array $data, $default) {
-		$normalized = [];
-
-		foreach ($data as $key => $value) {
-			if (is_numeric($key)) {
-				$key = $value;
-				$value = $default;
-			}
-
-			$normalized[$key] = $value;
-		}
-
-		return $normalized;
-	}
-
-
-
-	/**
 	 *	Indexes an array depending on the values it contains.
 	 *
 	 *	@param array $data Data.
