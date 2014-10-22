@@ -7,6 +7,7 @@
 namespace Essence\Provider;
 
 use PHPUnit_Framework_TestCase as TestCase;
+use Essence\Provider\OEmbed\Format;
 use Essence\Dom\Parser\Native as NativeDomParser;
 use Essence\Http\Client\Native as NativeHttpClient;
 
@@ -59,7 +60,7 @@ class OEmbedTest extends TestCase {
 
 		$this->OEmbed->configure([
 			'endpoint' => 'file://' . ESSENCE_HTTP . ':url.json',
-			'format' => OEmbed::json
+			'format' => Format::json
 		]);
 	}
 
@@ -111,7 +112,7 @@ class OEmbedTest extends TestCase {
 	 */
 	public function testEmbedXml() {
 		$this->OEmbed->set('endpoint', 'file://' . ESSENCE_HTTP . ':url.xml');
-		$this->OEmbed->set('format', OEmbed::xml);
+		$this->OEmbed->set('format', Format::xml);
 
 		$this->assertNotNull($this->OEmbed->embed('valid'));
 	}
@@ -123,7 +124,7 @@ class OEmbedTest extends TestCase {
 	 */
 	public function testEmbedInvalidXml() {
 		$this->OEmbed->set('endpoint', 'file://' . ESSENCE_HTTP . ':url.xml');
-		$this->OEmbed->set('format', OEmbed::xml);
+		$this->OEmbed->set('format', Format::xml);
 
 		$this->setExpectedException('Essence\\Exception');
 		$this->OEmbed->embed('invalid');

@@ -9,6 +9,8 @@ namespace Essence\Provider;
 use Essence\Exception;
 use Essence\Media;
 use Essence\Provider;
+use Essence\Provider\OEmbed\Format;
+use Essence\Provider\OEmbed\Config;
 use Essence\Dom\Parser as Dom;
 use Essence\Http\Client as Http;
 use Essence\Utility\Template;
@@ -22,24 +24,6 @@ use Essence\Utility\Xml;
  *	This kind of provider extracts embed informations through the OEmbed protocol.
  */
 class OEmbed extends Provider {
-
-	/**
-	 *	JSON response format.
-	 *
-	 *	@var string
-	 */
-	const json = 'json';
-
-
-
-	/**
-	 *	XML response format.
-	 *
-	 *	@var string
-	 */
-	const xml = 'xml';
-
-
 
 	/**
 	 *	HTTP client.
@@ -68,7 +52,7 @@ class OEmbed extends Provider {
 	 */
 	protected $_properties = [
 		'endpoint' => '',
-		'format' => self::json
+		'format' => Format::json
 	];
 
 
@@ -96,15 +80,15 @@ class OEmbed extends Provider {
 	 *	@throws Essence\Exception If the parsed page doesn't provide any endpoint.
 	 */
 	protected function _embed($url, array $options) {
-		$config = $this->_config($url, $options);
-		$response = $this->_Http->get($config['endpoint']);
+		$Config = $this->_config($url, $options);
+		$response = $this->_Http->get($Config->endpoint());
 
-		switch ($config['format']) {
-			case self::json:
+		switch ($Config->format()) {
+			case Format::json:
 				$data = Json::parse($response);
 				break;
 
-			case self::xml:
+			case Format::xml:
 				$data = Xml::parse($response);
 				break;
 
@@ -122,21 +106,23 @@ class OEmbed extends Provider {
 	 *
 	 *	@param string $url URL.
 	 *	@param array $options Options.
-	 *	@return array Configuration.
+	 *	@return Config Configuration.
 	 */
 	protected function _config($url, array $options) {
-		$config = $this->has('endpoint')
+		$Config = $this->has('endpoint')
 			? $this->_buildConfig($url)
 			: $this->_extractConfig($this->_Http->get($url));
 
 		if ($options) {
-			$config['endpoint'] = $this->_completeEndpoint(
-				$config['endpoint'],
-				$options
+			$Config->setEndpoint(
+				$this->_completeEndpoint(
+					$Config->endpoint(),
+					$options
+				)
 			);
 		}
 
-		return $config;
+		return $Config;
 	}
 
 
@@ -145,17 +131,16 @@ class OEmbed extends Provider {
 	 *	Builds an oEmbed configuration from settings.
 	 *
 	 *	@param string $url URL to embed.
-	 *	@return array Configuration.
+	 *	@return Config Configuration.
 	 */
 	protected function _buildConfig($url) {
-		return [
-			'format' => $this->get('format'),
-			'endpoint' => Template::compile(
-				$this->get('endpoint'),
-				compact('url'),
-				'urlencode'
-			)
-		];
+		$endpoint = Template::compile(
+			$this->get('endpoint'),
+			compact('url'),
+			'urlencode'
+		);
+
+		return new Config($endpoint, $this->get('format'));
 	}
 
 
@@ -177,10 +162,7 @@ class OEmbed extends Provider {
 
 		foreach ($attributes['link'] as $link) {
 			if (preg_match('#(?<format>json|xml)#i', $link['type'], $matches)) {
-				return [
-					'endpoint' => $link['href'],
-					'format' => $matches['format']
-				];
+				return new Config($link['href'], $matches['format']);
 			}
 		}
 
@@ -197,11 +179,9 @@ class OEmbed extends Provider {
 	 *	@param string Completed endpoint.
 	 */
 	protected function _completeEndpoint($endpoint, $options) {
-		if ($options) {
-			$endpoint .= (strrpos($endpoint, '?') === false) ? '?' : '&';
-			$endpoint .= http_build_query($options);
-		}
+		$hasQuery = (strrpos($endpoint, '?') === false);
+		$separator = $hasQuery ? '?' : '&';
 
-		return $endpoint;
+		return $endpoint . $separator . http_build_query($options);
 	}
 }
