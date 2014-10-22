@@ -9,6 +9,8 @@ Essence is a simple PHP library to extract media information from websites, like
 
 If you were already using Essence 1.x.x, you should take a look at [the migration guide](https://github.com/felixgirault/essence/wiki/Migrating-from-1.x.x-to-2.x.x).
 
+Also note that a [version 3.0](https://github.com/felixgirault/essence/tree/version-3.0.0) is under active development.
+
 Example
 -------
 
