@@ -186,19 +186,26 @@ Other providers will just ignore the options they don't handle.
 Configuration
 -------------
 
-Essence currently supports 36 specialized providers:
+Essence currently supports 68 specialized providers:
 
 ```html
-23hq             Dipity          Official.fm     Ted
-Bandcamp         Flickr          Polldaddy       Twitter
-Blip.tv          FunnyOrDie      Prezi           Vhx
-Cacoo            HowCast         Qik             Viddler
-CanalPlus        Huffduffer      Revision3       Vimeo
-Chirb.it         Hulu            Scribd          Yfrog
-Clikthrough      Ifixit          Shoudio         Youtube
-CollegeHumor     Imgur           Sketchfab
-Dailymotion      Instagram       SlideShare
-Deviantart       Mobypicture     SoundCloud
+23hq                Deviantart          Kickstarter         Sketchfab
+Animoto             Dipity              Meetup              SlideShare
+Aol                 Dotsub              Mixcloud            SoundCloud
+App.net             Edocr               Mobypicture         SpeakerDeck
+Bambuser            Flickr              Nfb                 Spotify
+Bandcamp            FunnyOrDie          Official.fm         Ted
+Blip.tv             Gist                Polldaddy           Twitter
+Cacoo               Gmep                PollEverywhere      Ustream
+CanalPlus           HowCast             Prezi               Vhx
+Chirb.it            Huffduffer          Qik                 Viddler
+CircuitLab          Hulu                Rdio                Videojug
+Clikthrough         Ifixit              Revision3           Vimeo
+CollegeHumor        Ifttt               Roomshare           Vine
+Coub                Imgur               Sapo                Wistia
+CrowdRanking        Instagram           Screenr             WordPress
+DailyMile           Jest                Scribd              Yfrog
+Dailymotion         Justin.tv           Shoudio             Youtube
 ```
 
 Plus the `OEmbed` and `OpenGraph` providers, which can be used to embed any URL.
