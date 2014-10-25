@@ -112,7 +112,7 @@ class Standard extends Container {
 					$C->get( 'Http' ),
 					$C->get( 'Dom' ),
 					$C->get( 'Log' ),
-					$C->get( 'Preparator' )
+					$C->get( 'YoutubePreparator' )
 				);
 			},
 
