@@ -11,7 +11,7 @@ use Essence\Provider\OEmbed\Format;
 
 
 /**
- *
+ *	Holds configuration of an oEmbed provider.
  */
 class Config {
 
@@ -47,7 +47,9 @@ class Config {
 
 
 	/**
+	 *	Returns the endpoint.
 	 *
+	 *	@return string Endpoint.
 	 */
 	public function endpoint() {
 		return $this->_endpoint;
@@ -56,7 +58,9 @@ class Config {
 
 
 	/**
+	 *	Sets the endpoint.
 	 *
+	 *	@param string $endpoint Endpoint.
 	 */
 	public function setEndpoint($endpoint) {
 		$this->_endpoint = $endpoint;
@@ -65,7 +69,9 @@ class Config {
 
 
 	/**
+	 *	Returns the format.
 	 *
+	 *	@return string Format.
 	 */
 	public function format() {
 		return $this->_format;
@@ -74,7 +80,9 @@ class Config {
 
 
 	/**
+	 *	Sets the format.
 	 *
+	 *	@param string $format Format.
 	 */
 	public function setFormat($format) {
 		$this->_format = $format;
