@@ -16,14 +16,18 @@ use Closure;
 abstract class Document {
 
 	/**
+	 *	HTML source.
 	 *
+	 *	@var string
 	 */
 	protected $_html;
 
 
 
 	/**
+	 *	Contructor.
 	 *
+	 *	@param string $html HTML source.
 	 */
 	public function __construct($html) {
 		$this->_html = $html;

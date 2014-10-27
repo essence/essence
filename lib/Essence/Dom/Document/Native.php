@@ -29,9 +29,7 @@ class Native extends Document {
 
 
 	/**
-	 *	Constructeur.
-	 *
-	 *	@param string $html HTML.
+	 *	{@inheritDoc}
 	 */
 	public function __construct($html) {
 		parent::__construct($html);
