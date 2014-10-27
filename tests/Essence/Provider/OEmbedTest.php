@@ -14,21 +14,6 @@ use Essence\Http\Client\Native as NativeHttpClient;
 
 
 /**
- *
- */
-class TestableOEmbed extends OEmbed {
-
-	/**
-	 *
-	 */
-	public function completeEndpoint($endpoint, $options) {
-		return $this->_completeEndpoint($endpoint, $options);
-	}
-}
-
-
-
-/**
  *	Test case for OEmbed.
  */
 class OEmbedTest extends TestCase {
@@ -53,7 +38,7 @@ class OEmbedTest extends TestCase {
 	public function setup() {
 		$this->Http = $this->getMock('Essence\\Http\\Client\\Native');
 
-		$this->OEmbed = new TestableOEmbed(
+		$this->OEmbed = new OEmbed(
 			new NativeHttpClient(),
 			new NativeDomDocument()
 		);
@@ -62,28 +47,6 @@ class OEmbedTest extends TestCase {
 			'endpoint' => 'file://' . ESSENCE_HTTP . ':url.json',
 			'format' => Format::json
 		]);
-	}
-
-
-
-	/**
-	 *
-	 */
-	public function testCompleteEndpoint() {
-		$this->assertEquals(
-			'url?maxwidth=120&maxheight=60',
-			$this->OEmbed->completeEndpoint('url', [
-				'maxwidth' => 120,
-				'maxheight' => 60
-			])
-		);
-
-		$this->assertEquals(
-			'url?param=value&maxwidth=120',
-			$this->OEmbed->completeEndpoint('url?param=value', [
-				'maxwidth' => 120
-			])
-		);
 	}
 
 

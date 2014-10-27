@@ -79,4 +79,18 @@ class Config {
 	public function setFormat($format) {
 		$this->_format = $format;
 	}
+
+
+
+	/**
+	 *	Appends a set of options as parameters to endpoint.
+	 *
+	 *	@param array $options Options to append.
+	 */
+	public function completeEndpoint($options) {
+		$hasQuery = (strrpos($this->_endpoint, '?') === false);
+		$separator = $hasQuery ? '?' : '&';
+
+		$this->_endpoint .= $separator . http_build_query($options);
+	}
 }

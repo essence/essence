@@ -125,12 +125,7 @@ class OEmbed extends Provider {
 			: $this->_extractConfig($this->_Http->get($url));
 
 		if ($options) {
-			$Config->setEndpoint(
-				$this->_completeEndpoint(
-					$Config->endpoint(),
-					$options
-				)
-			);
+			$Config->completeEndpoint($options);
 		}
 
 		return $Config;
@@ -176,21 +171,5 @@ class OEmbed extends Provider {
 		}
 
 		throw new Exception('Unable to extract any OEmbed endpoint');
-	}
-
-
-
-	/**
-	 *	Appends a set of options as parameters to the given endpoint URL.
-	 *
-	 *	@param string $endpoint Endpoint URL.
-	 *	@param array $options Options to append.
-	 *	@param string Completed endpoint.
-	 */
-	protected function _completeEndpoint($endpoint, $options) {
-		$hasQuery = (strrpos($endpoint, '?') === false);
-		$separator = $hasQuery ? '?' : '&';
-
-		return $endpoint . $separator . http_build_query($options);
 	}
 }

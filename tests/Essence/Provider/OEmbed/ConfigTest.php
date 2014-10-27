@@ -18,6 +18,22 @@ class ConfigTest extends TestCase {
 	/**
 	 *
 	 */
+	public $Config = null;
+
+
+
+	/**
+	 *
+	 */
+	public function setUp() {
+		$this->Config = new Config();
+	}
+
+
+
+	/**
+	 *
+	 */
 	public function testConstruct() {
 		$Config = new Config('endpoint', 'format');
 
@@ -31,10 +47,8 @@ class ConfigTest extends TestCase {
 	 *
 	 */
 	public function testEndpoint() {
-		$Config = new Config();
-		$Config->setEndpoint('endpoint');
-
-		$this->assertEquals('endpoint', $Config->endpoint());
+		$this->Config->setEndpoint('endpoint');
+		$this->assertEquals('endpoint', $this->Config->endpoint());
 	}
 
 
@@ -43,9 +57,42 @@ class ConfigTest extends TestCase {
 	 *
 	 */
 	public function testFormat() {
-		$Config = new Config();
-		$Config->setFormat('format');
+		$this->Config->setFormat('format');
+		$this->assertEquals('format', $this->Config->format());
+	}
 
-		$this->assertEquals('format', $Config->format());
+
+
+	/**
+	 *
+	 */
+	public function testCompleteEndpoint() {
+		$this->Config->setEndpoint('url');
+		$this->Config->completeEndpoint([
+			'maxwidth' => 120,
+			'maxheight' => 60
+		]);
+
+		$this->assertEquals(
+			'url?maxwidth=120&maxheight=60',
+			$this->Config->endpoint()
+		);
+	}
+
+
+
+	/**
+	 *
+	 */
+	public function testCompleteEndpointWithParameters() {
+		$this->Config->setEndpoint('url?param=value');
+		$this->Config->completeEndpoint([
+			'maxwidth' => 120
+		]);
+
+		$this->assertEquals(
+			'url?param=value&maxwidth=120',
+			$this->Config->endpoint()
+		);
 	}
 }
