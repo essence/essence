@@ -6,6 +6,7 @@
  */
 namespace Essence\Provider\Presenter;
 
+use Essence\Provider\Presenter;
 use Essence\Media;
 use Essence\Utility\Template;
 
@@ -14,7 +15,7 @@ use Essence\Utility\Template;
 /**
  *	Reindexes media properties.
  */
-class Templater {
+class Templater extends Presenter {
 
 	/**
 	 *	Property to update.
@@ -61,7 +62,7 @@ class Templater {
 	/**
 	 *	{@inheritDoc}
 	 */
-	public function filter(Media $Media) {
+	public function present(Media $Media) {
 		$switch = $Media->get($this->_switch);
 
 		if ($switch && !$Media->has($this->_property)) {

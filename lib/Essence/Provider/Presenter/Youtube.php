@@ -6,6 +6,7 @@
  */
 namespace Essence\Provider\Presenter;
 
+use Essence\Provider\Presenter;
 use Essence\Media;
 
 
@@ -13,7 +14,7 @@ use Essence\Media;
 /**
  *
  */
-class Youtube {
+class Youtube extends Presenter {
 
 	/**
 	 *	Available thumbnail formats.
@@ -70,7 +71,7 @@ class Youtube {
 	/**
 	 *	{@inheritDoc}
 	 */
-	public function filter(Media $Media) {
+	public function present(Media $Media) {
 		$url = $Media->get($this->_property);
 
 		if ($url && isset($this->_names[$this->_format])) {

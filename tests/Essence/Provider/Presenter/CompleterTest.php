@@ -37,11 +37,11 @@ class CompleterTest extends TestCase {
 	/**
 	 *
 	 */
-	public function testFilter() {
+	public function testPresent() {
 		$Media = new Media();
 		$this->assertFalse($Media->has('foo'));
 
-		$Media = $this->Completer->filter($Media);
+		$Media = $this->Completer->present($Media);
 		$this->assertEquals('bar', $Media->get('foo'));
 	}
 }

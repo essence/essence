@@ -37,12 +37,12 @@ class YoutubeTest extends TestCase {
 	/**
 	 *
 	 */
-	public function testFilterSmall() {
+	public function testPresentSmall() {
 		$Youtube = new Youtube(Youtube::small);
 
 		$this->assertEquals(
 			'http://i1.ytimg.com/vi/5jmjBXoyugM/default.jpg',
-			$Youtube->filter($this->Media)->get('thumbnailUrl')
+			$Youtube->present($this->Media)->get('thumbnailUrl')
 		);
 	}
 
@@ -51,12 +51,12 @@ class YoutubeTest extends TestCase {
 	/**
 	 *
 	 */
-	public function testFilterMedium() {
+	public function testPresentMedium() {
 		$Youtube = new Youtube(Youtube::medium);
 
 		$this->assertEquals(
 			'http://i1.ytimg.com/vi/5jmjBXoyugM/mqdefault.jpg',
-			$Youtube->filter($this->Media)->get('thumbnailUrl')
+			$Youtube->present($this->Media)->get('thumbnailUrl')
 		);
 	}
 
@@ -65,12 +65,12 @@ class YoutubeTest extends TestCase {
 	/**
 	 *
 	 */
-	public function testFilterLarge() {
+	public function testPresentLarge() {
 		$Youtube = new Youtube(Youtube::large);
 
 		$this->assertEquals(
 			'http://i1.ytimg.com/vi/5jmjBXoyugM/hqdefault.jpg',
-			$Youtube->filter($this->Media)->get('thumbnailUrl')
+			$Youtube->present($this->Media)->get('thumbnailUrl')
 		);
 	}
 }

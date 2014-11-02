@@ -6,6 +6,7 @@
  */
 namespace Essence\Provider\Presenter;
 
+use Essence\Provider\Presenter;
 use Essence\Media;
 
 
@@ -13,7 +14,7 @@ use Essence\Media;
 /**
  *	Completes media properties.
  */
-class Completer {
+class Completer extends Presenter {
 
 	/**
 	 *	Defaults.
@@ -38,7 +39,7 @@ class Completer {
 	/**
 	 *	{@inheritDoc}
 	 */
-	public function filter(Media $Media) {
+	public function present(Media $Media) {
 		return $Media->setDefaults($this->_defaults);
 	}
 }

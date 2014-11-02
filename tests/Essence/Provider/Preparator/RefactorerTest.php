@@ -37,12 +37,10 @@ class RefactorerTest extends TestCase {
 	/**
 	 *
 	 */
-	public function testFilter() {
+	public function testPrepare() {
 		$this->assertEquals(
 			'http://www.vimeo.com/123456',
-			$this->Refactorer->filter(
-				'http://player.vimeo.com/video/123456'
-			)
+			$this->Refactorer->prepare('http://player.vimeo.com/video/123456')
 		);
 	}
 }

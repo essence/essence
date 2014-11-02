@@ -6,6 +6,7 @@
  */
 namespace Essence\Provider\Presenter;
 
+use Essence\Provider\Presenter;
 use Essence\Media;
 use Essence\Utility\Hash;
 
@@ -14,7 +15,7 @@ use Essence\Utility\Hash;
 /**
  *	Reindexes media properties.
  */
-class Reindexer {
+class Reindexer extends Presenter {
 
 	/**
 	 *	Keys mapping.
@@ -39,7 +40,7 @@ class Reindexer {
 	/**
 	 *	{@inheritDoc}
 	 */
-	public function filter(Media $Media) {
+	public function present(Media $Media) {
 		return $Media->setProperties(
 			Hash::reindex(
 				$Media->properties(),

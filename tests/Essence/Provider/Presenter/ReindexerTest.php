@@ -37,12 +37,12 @@ class ReindexerTest extends TestCase {
 	/**
 	 *
 	 */
-	public function testFilter() {
+	public function testPresent() {
 		$Media = new Media([
 			'old' => 'value'
 		]);
 
-		$Media = $this->Reindexer->filter($Media);
+		$Media = $this->Reindexer->present($Media);
 		$this->assertEquals('value', $Media->get('new'));
 	}
 }

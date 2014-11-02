@@ -6,6 +6,7 @@
  */
 namespace Essence\Provider\Preparator;
 
+use Essence\Provider\Preparator;
 use Essence\Utility\Template;
 
 
@@ -13,7 +14,7 @@ use Essence\Utility\Template;
 /**
  *	Refactors unhandled URLs.
  */
-class Refactorer {
+class Refactorer extends Preparator {
 
 	/**
 	 *	Regex to extract an id from an URL.
@@ -49,7 +50,7 @@ class Refactorer {
 	/**
 	 *	{@inheritDoc}
 	 */
-	public function filter($url) {
+	public function prepare($url) {
 		if (preg_match($this->_pattern, $url, $matches)) {
 			$url = Template::compile($this->_template, [
 				'id' => $matches['id']

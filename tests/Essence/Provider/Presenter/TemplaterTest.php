@@ -38,15 +38,15 @@ class TemplaterTest extends TestCase {
 	/**
 	 *
 	 */
-	public function testFilter() {
-		$Media = $this->Templater->filter(new Media([
+	public function testPresent() {
+		$Media = $this->Templater->present(new Media([
 			'url' => 'url',
 			'type' => 'foo'
 		]));
 
 		$this->assertEquals('url', $Media->get('html'));
 
-		$Media = $this->Templater->filter(new Media([
+		$Media = $this->Templater->present(new Media([
 			'type' => 'bar'
 		]));
 
