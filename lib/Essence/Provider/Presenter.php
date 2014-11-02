@@ -28,7 +28,7 @@ abstract class Presenter {
 	 *	Updates the given Media.
 	 *
 	 *	@param Media $Media Media.
-	 *	@return string Updated Media.
+	 *	@return Media Updated Media.
 	 */
 	abstract public function present(Media $Media);
 
