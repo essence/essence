@@ -243,7 +243,7 @@ $Essence = new Essence\Essence([
 
 You can use custom providers by specifying a fully-qualified class name in the 'class' option.
 
-If no configuration is provided, the default configuration will be loaded from the `lib/providers.php` file.
+If no configuration is provided, the default configuration will be loaded from the `config/providers.json` file.
 
 Customization
 -------------
