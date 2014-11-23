@@ -8,6 +8,7 @@ namespace Essence;
 
 use Essence\Provider\Collection;
 use Essence\Dom\Document\Factory\Native as Dom;
+use Essence\Dom\Document;
 
 
 
@@ -81,7 +82,7 @@ class Crawler {
 	/**
 	 *
 	 */
-	protected function _extractUrls($Document) {
+	protected function _extractUrls(Document $Document) {
 		$urls = [];
 
 		foreach ($this->_attributes as $tag => $attribute) {
@@ -104,7 +105,7 @@ class Crawler {
 	 *	@param string $attribute Attribute name.
 	 *	@return array URLs.
 	 */
-	protected function _extractUrlsFromtags($Document, $tag, $attribute) {
+	protected function _extractUrlsFromtags(Document $Document, $tag, $attribute) {
 		$tags = $Document->tags($tag);
 
 		return array_map(function($Tag) use ($attribute) {
