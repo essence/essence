@@ -7,7 +7,6 @@
 namespace Essence;
 
 use Essence\Provider\Collection;
-use Essence\Http\Client as Http;
 use Essence\Dom\Document\Factory\Native as Dom;
 
 
@@ -55,21 +54,6 @@ class Crawler {
 	public function __construct(Collection $Collection, Dom $Dom) {
 		$this->_Collection = $Collection;
 		$this->_Dom = $Dom;
-	}
-
-
-
-	/**
-	 *	Extracts embeddable URLs from an URL.
-	 *
-	 *	@param string $url The URL to be extracted.
-	 *	@return array An array of extracted URLs.
-	 */
-	public function crawlUrl($url) {
-		return $this->crawl(
-			$this->_Http->get($url),
-			$url
-		);
 	}
 
 
