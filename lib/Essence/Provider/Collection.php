@@ -25,7 +25,7 @@ class Collection {
 	/**
 	 *	Dependency injection container.
 	 *
-	 *	@var Essence\Di\Container
+	 *	@var Container
 	 */
 	protected $_Container = null;
 
