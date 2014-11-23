@@ -283,7 +283,6 @@ class Standard extends Container {
 			'Crawler' => Container::unique(function($C) {
 				return new Crawler(
 					$C->get('Collection'),
-					$C->get('Http'),
 					$C->get('Dom')
 				);
 			}),

@@ -27,15 +27,6 @@ class Crawler {
 
 
 	/**
-	 *	HTTP client.
-	 *
-	 *	@var Http
-	 */
-	protected $_Http = null;
-
-
-
-	/**
 	 *	DOM parser.
 	 *
 	 *	@var Dom
@@ -45,35 +36,58 @@ class Crawler {
 
 
 	/**
+	 *
+	 */
+	protected $_attributes = [
+		'a' => 'href',
+		'embed' => 'src',
+		'iframe' => 'src'
+	];
+
+
+
+	/**
 	 *	Constructor.
 	 *
 	 *	@param Collection $Collection Providers collection.
-	 *	@param Http $Http HTTP client.
 	 *	@param Dom $Dom DOM parser.
 	 */
-	public function __construct(Collection $Collection, Http $Http, Dom $Dom) {
+	public function __construct(Collection $Collection, Dom $Dom) {
 		$this->_Collection = $Collection;
-		$this->_Http = $Http;
 		$this->_Dom = $Dom;
 	}
 
 
 
 	/**
-	 *	Extracts embeddable URLs from either an URL or an HTML source.
+	 *	Extracts embeddable URLs from an URL.
 	 *
-	 *	@param string $source The URL or HTML source to be extracted.
+	 *	@param string $url The URL to be extracted.
 	 *	@return array An array of extracted URLs.
 	 */
-	public function crawl($source) {
-		$html = $this->_html($source);
-		$Document = $this->_Dom->document($html);
-
-		$urls = array_merge(
-			$this->_extractUrls($Document, 'a', 'href'),
-			$this->_extractUrls($Document, 'embed', 'src'),
-			$this->_extractUrls($Document, 'iframe', 'src')
+	public function crawlUrl($url) {
+		return $this->crawl(
+			$this->_Http->get($url),
+			$url
 		);
+	}
+
+
+
+	/**
+	 *	Extracts embeddable URLs from an HTML source.
+	 *
+	 *	@param string $html The HTML source to be extracted.
+	 *	@param string $.
+	 *	@return array An array of extracted URLs.
+	 */
+	public function crawl($html, $url = '') {
+		$Document = $this->_Dom->document($html);
+		$urls = $this->_extractUrls($Document);
+
+		if ($url) {
+			$urls = $this->_completeUrls($urls, $url);
+		}
 
 		return $this->_filterUrls(array_unique($urls));
 	}
@@ -81,15 +95,19 @@ class Crawler {
 
 
 	/**
-	 *	If the given source is an URL, returns the page it points to.
 	 *
-	 *	@param string $source URL or HTML source.
-	 *	@return string HTML source.
 	 */
-	public function _html($source) {
-		return filter_var($source, FILTER_VALIDATE_URL)
-			? $this->_Http->get($source)
-			: $source;
+	protected function _extractUrls($Document) {
+		$urls = [];
+
+		foreach ($this->_attributes as $tag => $attribute) {
+			$urls = array_merge(
+				$this->_extractUrlsFromtags($Document, $tag, $attribute),
+				$urls
+			);
+		}
+
+		return $urls;
 	}
 
 
@@ -102,12 +120,59 @@ class Crawler {
 	 *	@param string $attribute Attribute name.
 	 *	@return array URLs.
 	 */
-	protected function _extractUrls($Document, $tag, $attribute) {
+	protected function _extractUrlsFromtags($Document, $tag, $attribute) {
 		$tags = $Document->tags($tag);
 
 		return array_map(function($Tag) use ($attribute) {
 			return $Tag->get($attribute);
 		}, $tags);
+	}
+
+
+
+	/**
+	 *	Completes relative URLs.
+	 *
+	 *	@param array $urls URLs to complete.
+	 *	@param string $url URL of the page from which URLs were extracted.
+	 *	@return array Completed URLs.
+	 */
+	protected function _completeUrls(array $urls, $url) {
+		$components = parse_url($url);
+		$scheme = isset($components['scheme'])
+			? $components['scheme']
+			: self::defaultScheme;
+
+		$base = $scheme . '://' . $components['host'];
+
+		return array_map(
+			$this->_completeUrlFunction($scheme, $base),
+			$urls
+		);
+	}
+
+
+
+	/**
+	 *	Returns a function used to complete relative URLs.
+	 *
+	 *	@see _completeUrls()
+	 *	@param string $scheme Default scheme.
+	 *	@param string $base Default base.
+	 *	@return \Closure Function.
+	 */
+	protected function _completeUrlFunction($scheme, $base) {
+		return function($url) use ($scheme, $base) {
+			if (strpos($url, '//') === 0) {
+				return $scheme . ':' . $url;
+			}
+
+			if (strpos($url, '/') === 0) {
+				return $base . $url;
+			}
+
+			return $url;
+		};
 	}
 
 

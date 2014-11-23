@@ -64,6 +64,42 @@ class EssenceTest extends TestCase {
 	/**
 	 *
 	 */
+	public function testCrawlUrl() {
+		$url = 'url';
+		$source = 'source';
+		$urls = [];
+
+		$Http = $this->getMock('\\Essence\\Http\\Client');
+
+		$Http
+			->expects($this->once())
+			->method('get')
+			->with($this->isEqual($url))
+			->will($this->returnValue($source));
+
+		$Crawler = $this->getMockBuilder('\\Essence\\Crawler')
+			->disableOriginalConstructor()
+			->getMock();
+
+		$Crawler
+			->expects($this->once())
+			->method('crawl')
+			->with($this->isEqual($source), $this->isEqual($url))
+			->will($this->returnValue($urls));
+
+		$Essence = new Essence([
+			'Http' => $Http,
+			'Crawler' => $Crawler
+		]);
+
+		$this->assertEquals($urls, $Essence->crawlUrl($url));
+	}
+
+
+
+	/**
+	 *
+	 */
 	public function testExtract() {
 		$url = 'url';
 		$options = [];

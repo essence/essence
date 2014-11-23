@@ -33,29 +33,15 @@ class CrawlerTest extends TestCase {
 			'Collection.providers' => [
 				'provider' => [
 					'class' => 'Provider',
-					'filter' => '#pass#i'
+					'filter' => '~pass~i'
 				]
 			]
 		]);
 
 		$this->Crawler = new Crawler(
 			$Container->get('Collection'),
-			new NativeHttpClient(),
 			new NativeDomDocument()
 		);
-	}
-
-
-
-	/**
-	 *
-	 */
-	public function testCrawlPage() {
-		$this->assertEquals([
-			'http://pass.foo.com',
-			'http://pass.embed.com',
-			'http://pass.iframe.com'
-		], $this->Crawler->crawl('file://' . ESSENCE_HTTP . 'valid.html'));
 	}
 
 
@@ -72,9 +58,9 @@ class CrawlerTest extends TestCase {
 HTML;
 
 		$this->assertEquals([
-			'http://pass.foo.com',
+			'http://pass.iframe.com',
 			'http://pass.embed.com',
-			'http://pass.iframe.com'
+			'http://pass.foo.com'
 		], $this->Crawler->crawl($html));
 	}
 }

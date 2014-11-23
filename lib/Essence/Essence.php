@@ -16,6 +16,17 @@ use Essence\Di\Container\Standard as StandardContainer;
 class Essence {
 
 	/**
+	 *	HTTP client.
+	 *
+	 *	@var Http
+	 */
+	protected $_Http = null;
+
+
+
+	/**
+	 *	URL crawler.
+	 *
 	 *	@var Essence\Crawler
 	 */
 	protected $_Crawler = null;
@@ -23,6 +34,8 @@ class Essence {
 
 
 	/**
+	 *	Information extractor.
+	 *
 	 *	@var Essence\Extractor
 	 */
 	protected $_Extractor = null;
@@ -30,6 +43,8 @@ class Essence {
 
 
 	/**
+	 *	URL replacer.
+	 *
 	 *	@var Essence\Replacer
 	 */
 	protected $_Replacer = null;
@@ -44,6 +59,7 @@ class Essence {
 	public function __construct(array $configuration = []) {
 		$Container = new StandardContainer($configuration);
 
+		$this->_Http = $Container->get('Http');
 		$this->_Crawler = $Container->get('Crawler');
 		$this->_Extractor = $Container->get('Extractor');
 		$this->_Replacer = $Container->get('Replacer');
@@ -54,8 +70,20 @@ class Essence {
 	/**
 	 *	@see Essence\Crawler::crawl()
 	 */
-	public function crawl($source) {
-		return $this->_Crawler->crawl($source);
+	public function crawl($source, $sourceUrl = '') {
+		return $this->_Crawler->crawl($source, $sourceUrl);
+	}
+
+
+
+	/**
+	 *	@see Essence\Crawler::crawl()
+	 */
+	public function crawlUrl($url) {
+		return $this->_Crawler->crawl(
+			$this->_Http->get($url),
+			$url
+		);
 	}
 
 
