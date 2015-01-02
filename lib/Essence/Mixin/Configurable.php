@@ -133,6 +133,17 @@ trait Configurable {
 
 
 	/**
+	 *	Returns the filled properties.
+	 *
+	 *	@return array Properties.
+	 */
+	public function filledProperties() {
+		return array_filter($this->_properties);
+	}
+
+
+
+	/**
 	 *	Sets the entire set of properties.
 	 *
 	 *	@param array $properties Properties to set.

@@ -178,6 +178,25 @@ class ConfigurableTest extends TestCase {
 	/**
 	 *
 	 */
+	public function testFilledProperties() {
+		$properties = [
+			'empty' => '',
+			'nonEmpty' => 'filled'
+		];
+
+		$this->Configurable->setProperties($properties);
+
+		$this->assertEquals(
+			array_filter($properties),
+			$this->Configurable->filledProperties()
+		);
+	}
+
+
+
+	/**
+	 *
+	 */
 	public function testConfigure() {
 		$this->Configurable->configure([
 			'one' => 2
