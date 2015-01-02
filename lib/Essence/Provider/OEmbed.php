@@ -12,6 +12,7 @@ use Essence\Provider;
 use Essence\Provider\OEmbed\Format;
 use Essence\Provider\OEmbed\Config;
 use Essence\Dom\Document\Factory\Native as Dom;
+use Essence\Dom\Tag;
 use Essence\Http\Client as Http;
 use Essence\Utility\Template;
 use Essence\Utility\Json;
@@ -159,17 +160,33 @@ class OEmbed extends Provider {
 	 */
 	protected function _extractConfig($html) {
 		$Document = $this->_Dom->document($html);
-
-		$links = $Document->tags('link', function($Tag) {
-			return $Tag->matches('rel', '~alternate~i');
-		});
+		$links = $Document->tags('link');
 
 		foreach ($links as $Link) {
-			if ($Link->matches('type', '~(?<format>json|xml)~i', $matches)) {
-				return new Config($Link->get('href'), $matches['format']);
+			if ($format = $this->_extractFormat($Link)) {
+				return new Config($Link->get('href'), $format);
 			}
 		}
 
 		throw new Exception('Unable to extract any OEmbed endpoint');
+	}
+
+
+
+	/**
+	 *	Extracts an oEmbed response format from a link tag.
+	 *
+	 *	@param $Link Link tag.
+	 *	@return Tag string|null Format.
+	 */
+	protected function _extractFormat(Tag $Link) {
+		$isAlternate = $Link->matches('rel', '~alternate~i');
+		$hasFormat = $Link->matches('type', '~(?<format>json|xml)~i', $matches);
+
+		if ($isAlternate && $hasFormat) {
+			return $matches['format'];
+		}
+
+		return null;
 	}
 }
