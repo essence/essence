@@ -109,7 +109,10 @@ class MetaTags extends Provider {
 
 
 	/**
+	 *	Builds a media from the given meta tags.
 	 *
+	 *	@param array $metas Meta tags.
+	 *	@return Media Media.
 	 */
 	protected function _media(array $metas) {
 		$metas = Hash::combine($metas, function($Meta) {
