@@ -43,7 +43,7 @@ class Container {
 	 *		if property is a closure, or $default.
 	 */
 	public function get($property, $default = null) {
-		if (!$this->has($property)) {
+		if (!isset($this->_properties[$property])) {
 			return $default;
 		}
 
