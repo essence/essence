@@ -43,6 +43,12 @@ class Youtube extends Preparator {
 					$url = str_replace( 'hqdefault', 'mqdefault', $url );
 					break;
 
+				// CAUTION!
+				// this thumbnail format might not be available for all videos
+				case 'max':
+					$url = str_replace( 'hqdefault', 'maxresdefault', $url );
+					break;
+
 				case 'large':
 				default:
 					// unchanged
