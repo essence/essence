@@ -35,13 +35,13 @@ class YoutubeTest extends TestCase {
 
 
 	/**
-	 *
+	 *	@dataProvider thumbnailFormatProvider
 	 */
-	public function testPresentSmall() {
-		$Youtube = new Youtube(Youtube::small);
+	public function testPresent($format, $file) {
+		$Youtube = new Youtube($format);
 
 		$this->assertEquals(
-			'http://i1.ytimg.com/vi/5jmjBXoyugM/default.jpg',
+			"http://i1.ytimg.com/vi/5jmjBXoyugM/$file.jpg",
 			$Youtube->present($this->Media)->get('thumbnailUrl')
 		);
 	}
@@ -51,26 +51,12 @@ class YoutubeTest extends TestCase {
 	/**
 	 *
 	 */
-	public function testPresentMedium() {
-		$Youtube = new Youtube(Youtube::medium);
-
-		$this->assertEquals(
-			'http://i1.ytimg.com/vi/5jmjBXoyugM/mqdefault.jpg',
-			$Youtube->present($this->Media)->get('thumbnailUrl')
-		);
-	}
-
-
-
-	/**
-	 *
-	 */
-	public function testPresentLarge() {
-		$Youtube = new Youtube(Youtube::large);
-
-		$this->assertEquals(
-			'http://i1.ytimg.com/vi/5jmjBXoyugM/hqdefault.jpg',
-			$Youtube->present($this->Media)->get('thumbnailUrl')
-		);
+	public function thumbnailFormatProvider() {
+		return [
+			[Youtube::small, 'default'],
+			[Youtube::medium, 'mqdefault'],
+			[Youtube::large, 'hqdefault'],
+			[Youtube::max, 'maxresdefault']
+		];
 	}
 }

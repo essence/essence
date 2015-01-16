@@ -22,6 +22,7 @@ class Youtube extends Presenter {
 	const small = 'small';
 	const medium = 'medium';
 	const large = 'large';
+	const max = 'max';
 
 
 
@@ -32,7 +33,8 @@ class Youtube extends Presenter {
 	 */
 	protected $_names = [
 		self::small => 'default',
-		self::medium => 'mqdefault'
+		self::medium => 'mqdefault',
+		self::max => 'maxresdefault'
 	];
 
 
