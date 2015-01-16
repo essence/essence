@@ -43,17 +43,17 @@ class YoutubeTest extends PHPUnit_Framework_TestCase {
 
 
 	/**
-	 *
+	 *	@dataProvider thumbnailFormatProvider
 	 */
 
-	public function testCompleteWithSmallThumbnailUrl( ) {
+	public function testCompleteWithThumbnailUrl( $format, $file ) {
 
 		$this->Youtube->complete( $this->Media, [
-			'thumbnailFormat' => 'small'
+			'thumbnailFormat' => $format
 		]);
 
 		$this->assertEquals(
-			'http://i1.ytimg.com/vi/r0dBPI4etvI/default.jpg',
+			"http://i1.ytimg.com/vi/r0dBPI4etvI/$file.jpg",
 			$this->Media->get( 'thumbnailUrl' )
 		);
 	}
@@ -64,15 +64,12 @@ class YoutubeTest extends PHPUnit_Framework_TestCase {
 	 *
 	 */
 
-	public function testCompleteWithMediumThumbnailUrl( ) {
-
-		$this->Youtube->complete( $this->Media, [
-			'thumbnailFormat' => 'medium'
-		]);
-
-		$this->assertEquals(
-			'http://i1.ytimg.com/vi/r0dBPI4etvI/mqdefault.jpg',
-			$this->Media->get( 'thumbnailUrl' )
-		);
+	public function thumbnailFormatProvider( ) {
+		return [
+			['small', 'default'],
+			['medium', 'mqdefault'],
+			['large', 'hqdefault'],
+			['max', 'maxresdefault']
+		];
 	}
 }
