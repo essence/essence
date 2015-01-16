@@ -62,7 +62,7 @@ trait Cacheable {
 	/**
 	 *	Generates a key from the given signature.
 	 *
-	 *	@param string $key Method signature.
+	 *	@param string $signature Method signature.
 	 *	@return string Generated key.
 	 */
 
