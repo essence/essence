@@ -22,7 +22,7 @@ class Templater extends Presenter {
 	 *
 	 *	@var string
 	 */
-	protected $_property = [];
+	protected $_property = '';
 
 
 
@@ -31,7 +31,7 @@ class Templater extends Presenter {
 	 *
 	 *	@var string
 	 */
-	protected $_switch = [];
+	protected $_switch = '';
 
 
 
