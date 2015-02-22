@@ -91,7 +91,7 @@ class Config {
 
 
 	/**
-	 *	Appends a set of options as parameters to endpoint.
+	 *	Appends a set of options as parameters to the endpoint.
 	 *
 	 *	@param array $options Options to append.
 	 */
