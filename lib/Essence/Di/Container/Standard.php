@@ -36,13 +36,31 @@ class Standard extends Container {
 	 *	@param array $properties Dependency injection settings.
 	 */
 	public function __construct(array $properties = []) {
-		$this->_properties = $properties + [
+		$this->_setupHelpers();
+		$this->_setupPresenters();
+		$this->_setupOEmbed();
+		$this->_setupVimeo();
+		$this->_setupYoutube();
+		$this->_setupOpenGraph();
+		$this->_setupTwitterCards();
+		$this->_setupCollection();
+		$this->_setupEssence();
 
-			/**
-			 *	Global helpers.
-			 */
+		$this->configure($properties);
+	}
+
+
+
+	/**
+	 *	Configures global helpers.
+	 */
+	protected function _setupHelpers() {
+		$this->configure([
+
+			//
 			'Http.userAgent' => 'Essence',
 
+			//
 			'Http' => Container::unique(function() {
 				$Http = function_exists('curl_init')
 					? new CurlHttpClient()
@@ -52,29 +70,43 @@ class Standard extends Container {
 				return $Http;
 			}),
 
+			//
 			'Dom' => Container::unique(function() {
 				return new NativeDomDocument();
-			}),
+			})
+		]);
+	}
 
 
 
-			/**
-			 *	Completer.
-			 */
+	/**
+	 *	Configures various presenters.
+	 */
+	protected function _setupPresenters() {
+		$this->configure([
+
+			//
 			'Completer.defaults' => [
 				'width' => 800,
 				'height' => 600
 			],
 
+			//
 			'Completer' => Container::unique(function($C) {
 				return new Completer($C->get('Completer.defaults'));
-			}),
+			})
+		]);
+	}
 
 
 
-			/**
-			 *	OEmbed.
-			 */
+	/**
+	 *	Configures oEmbed provider.
+	 */
+	protected function _setupOEmbed() {
+		$this->configure([
+
+			//
 			'OEmbed.mapping' => [
 				'author_name' => 'authorName',
 				'author_url' => 'authorUrl',
@@ -86,12 +118,15 @@ class Standard extends Container {
 				'thumbnail_height' => 'thumbnailHeight'
 			],
 
+			//
 			'OEmbed.Reindexer' => Container::unique(function($C) {
 				return new Reindexer($C->get('OEmbed.mapping'));
 			}),
 
+			//
 			'OEmbed.preparators' => [],
 
+			//
 			'OEmbed.presenters' => Container::unique(function($C) {
 				return [
 					$C->get('OEmbed.Reindexer'),
@@ -99,22 +134,32 @@ class Standard extends Container {
 				];
 			}),
 
+			//
 			'OEmbed' => function($C) {
 				$OEmbed = new OEmbed($C->get('Http'), $C->get('Dom'));
 				$OEmbed->setPreparators($C->get('OEmbed.preparators'));
 				$OEmbed->setPresenters($C->get('OEmbed.presenters'));
 
 				return $OEmbed;
-			},
+			}
+		]);
+	}
 
 
 
-			/**
-			 *	Vimeo.
-			 */
+	/**
+	 *	Configures Vimeo provider.
+	 */
+	protected function _setupVimeo() {
+		$this->configure([
+
+			//
 			'Vimeo.idPattern' => '~player\.vimeo\.com/video/(?<id>[0-9]+)~i',
+
+			//
 			'Vimeo.urlTemplate' => 'http://www.vimeo.com/:id',
 
+			//
 			'Vimeo.Refactorer' => Container::unique(function($C) {
 				return new Refactorer(
 					$C->get('Vimeo.idPattern'),
@@ -122,6 +167,7 @@ class Standard extends Container {
 				);
 			}),
 
+			//
 			'Vimeo.preparators' => Container::unique(function($C) {
 				$preparators = $C->get('OEmbed.preparators');
 				$preparators[] = $C->get('Vimeo.Refactorer');
@@ -129,27 +175,40 @@ class Standard extends Container {
 				return $preparators;
 			}),
 
+			//
 			'Vimeo.presenters' => Container::unique(function($C) {
 				return $C->get('OEmbed.presenters');
 			}),
 
+			//
 			'Vimeo' => function($C) {
 				$Vimeo = new OEmbed($C->get('Http'), $C->get('Dom'));
 				$Vimeo->setPreparators($C->get('Vimeo.preparators'));
 				$Vimeo->setPresenters($C->get('Vimeo.presenters'));
 
 				return $Vimeo;
-			},
+			}
+		]);
+	}
 
 
 
-			/**
-			 *	Youtube.
-			 */
+	/**
+	 *	Configures Youtube provider.
+	 */
+	protected function _setupYoutube() {
+		$this->configure([
+
+			//
 			'Youtube.idPattern' => '~(?:v=|v/|embed/|youtu\.be/)(?<id>[a-z0-9_-]+)~i',
+
+			//
 			'Youtube.urlTemplate' => 'http://www.youtube.com/watch?v=:id',
+
+			//
 			'Youtube.thumbnailFormat' => Youtube::large,
 
+			//
 			'Youtube.Refactorer' => Container::unique(function($C) {
 				return new Refactorer(
 					$C->get('Youtube.idPattern'),
@@ -157,6 +216,7 @@ class Standard extends Container {
 				);
 			}),
 
+			//
 			'Youtube.preparators' => Container::unique(function($C) {
 				$preparators = $C->get('OEmbed.preparators');
 				$preparators[] = $C->get('Youtube.Refactorer');
@@ -164,10 +224,12 @@ class Standard extends Container {
 				return $preparators;
 			}),
 
+			//
 			'Youtube.Presenter' => Container::unique(function($C) {
 				return new Youtube($C->get('Youtube.thumbnailFormat'));
 			}),
 
+			//
 			'Youtube.presenters' => Container::unique(function($C) {
 				$presenters = $C->get('OEmbed.presenters');
 				$presenters[] = $C->get('Youtube.Presenter');
@@ -175,20 +237,29 @@ class Standard extends Container {
 				return $presenters;
 			}),
 
+			//
 			'Youtube' => function($C) {
 				$Youtube = new OEmbed($C->get('Http'), $C->get('Dom'));
 				$Youtube->setPreparators($C->get('Youtube.preparators'));
 				$Youtube->setPresenters($C->get('Youtube.presenters'));
 
 				return $Youtube;
-			},
+			}
+		]);
+	}
 
 
 
-			/**
-			 *	OpenGraph.
-			 */
+	/**
+	 *	Configures the OpenGraph provider.
+	 */
+	protected function _setupOpenGraph() {
+		$this->configure([
+
+			//
 			'OpenGraph.metaPattern' => '~^og:~i',
+
+			//
 			'OpenGraph.mapping' => [
 				'og:type' => 'type',
 				'og:title' => 'title',
@@ -203,18 +274,22 @@ class Standard extends Container {
 				'og:url' => 'url'
 			],
 
+			//
 			'OpenGraph.preparators' => [],
 
+			//
 			'OpenGraph.Reindexer' => Container::unique(function($C) {
 				return new Reindexer($C->get('OpenGraph.mapping'));
 			}),
 
+			//
 			'OpenGraph.presenters' => Container::unique(function($C) {
 				return [
 					$C->get('OpenGraph.Reindexer')
 				];
 			}),
 
+			//
 			'OpenGraph' => function($C) {
 				$OpenGraph = new MetaTags($C->get('Http'), $C->get('Dom'));
 				$OpenGraph->setPreparators($C->get('OpenGraph.preparators'));
@@ -222,14 +297,22 @@ class Standard extends Container {
 				$OpenGraph->setMetaPattern($C->get('OpenGraph.metaPattern'));
 
 				return $OpenGraph;
-			},
+			}
+		]);
+	}
 
 
 
-			/**
-			 *	TwitterCards.
-			 */
+	/**
+	 *	Configures the twitter cards provider.
+	 */
+	protected function _setupTwitterCards() {
+		$this->configure([
+
+			//
 			'TwitterCards.metaPattern' => '~^twitter:~i',
+
+			//
 			'TwitterCards.mapping' => [
 				'twitter:card' => 'type',
 				'twitter:title' => 'title',
@@ -238,18 +321,22 @@ class Standard extends Container {
 				'twitter:creator' => 'authorName'
 			],
 
+			//
 			'TwitterCards.preparators' => [],
 
+			//
 			'TwitterCards.Reindexer' => Container::unique(function($C) {
 				return new Reindexer($C->get('TwitterCards.mapping'));
 			}),
 
+			//
 			'TwitterCards.presenters' => Container::unique(function($C) {
 				return [
 					$C->get('TwitterCards.Reindexer')
 				];
 			}),
 
+			//
 			'TwitterCards' => function($C) {
 				$TwitterCards = new MetaTags($C->get('Http'), $C->get('Dom'));
 				$TwitterCards->setPreparators($C->get('TwitterCards.preparators'));
@@ -257,29 +344,42 @@ class Standard extends Container {
 				$TwitterCards->setMetaPattern($C->get('TwitterCards.metaPattern'));
 
 				return $TwitterCards;
-			},
+			}
+		]);
+	}
 
 
 
-			/**
-			 *	Providers.
-			 */
+	/**
+	 *	Configures the providers collection.
+	 */
+	protected function _setupCollection() {
+		$this->configure([
+
+			//
 			'Collection.providers' => dirname(dirname(dirname(dirname(dirname(__FILE__)))))
 				. DIRECTORY_SEPARATOR . 'config'
 				. DIRECTORY_SEPARATOR . 'providers.json',
 
+			//
 			'Collection' => Container::unique(function($C) {
 				$Collection = new Collection($C);
 				$Collection->load($C->get('Collection.providers'));
 
 				return $Collection;
-			}),
+			})
+		]);
+	}
 
 
 
-			/**
-			 *
-			 */
+	/**
+	 *	Configures Essence's helpers.
+	 */
+	protected function _setupEssence() {
+		$this->configure([
+
+			//
 			'Crawler' => Container::unique(function($C) {
 				return new Crawler(
 					$C->get('Collection'),
@@ -287,12 +387,14 @@ class Standard extends Container {
 				);
 			}),
 
+			//
 			'Extractor' => Container::unique(function($C) {
 				return new Extractor(
 					$C->get('Collection')
 				);
 			}),
 
+			//
 			'Replacer.urlPattern' =>
 				'~
 					(?<!=["\']) # avoids matching URLs in HTML attributes
@@ -302,12 +404,13 @@ class Standard extends Container {
 					(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:\'"\.,<>?«»“”‘’])
 				~ix',
 
+			//
 			'Replacer' => Container::unique(function($C) {
 				$Replacer = new Replacer($C->get('Extractor'));
 				$Replacer->setUrlPattern($C->get('Replacer.urlPattern'));
 
 				return $Replacer;
 			})
-		];
+		]);
 	}
 }
