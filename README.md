@@ -208,14 +208,14 @@ DailyMile           Jest                Scribd              Yfrog
 Dailymotion         Justin.tv           Shoudio             Youtube
 ```
 
-Plus the `OEmbed` and `OpenGraph` providers, which can be used to embed any URL.
+Plus the `OEmbed` and `OpenGraph` providers, which can be used to extract any URL.
 
 You can configure these providers by passing a configuration array:
 
 ```php
 $Essence = new Essence\Essence([
 	'providers' => [
-		// the OpenGraph provider will try to embed any URL that matches
+		// the OpenGraph provider will try to extract any URL that matches
 		// the filter
 		'Ted' => [
 			'class' => 'OpenGraph',
@@ -281,9 +281,6 @@ This script allows you to test Essence quickly:
 
 Third-party libraries
 ---------------------
-
-If you're planning to integrate essence with other libraries,
-[essence-interfaces](https://github.com/felixgirault/essence-interfaces) could make your life easier.
 
 If you're interested in embedding videos, you should take a look at the [Multiplayer](https://github.com/felixgirault/multiplayer) lib.
 It allows you to build customizable embed codes painlessly:
