@@ -4,28 +4,24 @@
  *	@author Félix Girault <felix.girault@gmail.com>
  *	@license FreeBSD License (http://opensource.org/licenses/BSD-2-Clause)
  */
-
 namespace Essence;
 
-use PHPUnit_Framework_TestCase;
-use Essence\Di\Container\Standard as StandardContainer;
-use Essence\Cache\Engine\Null as NullCacheEngine;
-use Essence\Dom\Parser\Native as NativeDomParser;
+use PHPUnit_Framework_TestCase as TestCase;
+use PHPUnit_Framework_Constraint_IsEqual as IsEqual;
+use Essence\Media;
 use Essence\Http\Client\Native as NativeHttpClient;
-use Essence\Log\Logger\Null as NullLogger;
 
 
 
 /**
  *	Test case for Essence.
+ *	This test is just plain stupid.
  */
-
-class EssenceTest extends PHPUnit_Framework_TestCase {
+class EssenceTest extends TestCase {
 
 	/**
 	 *
 	 */
-
 	public $Essence = null;
 
 
@@ -33,40 +29,24 @@ class EssenceTest extends PHPUnit_Framework_TestCase {
 	/**
 	 *
 	 */
+	public function isEqual($value) {
+		return new IsEqual($value);
+	}
 
-	public function setUp( ) {
 
-		$Container = new StandardContainer([
-			'Cache' => new NullCacheEngine( ),
-			'Http' => new NativeHttpClient( ),
-			'Dom' => new NativeDomParser( ),
-			'Log' => new NullLogger( ),
-			'Media' => new Media([
-				'title' => 'Title',
-				'html' => 'HTML'
-			]),
-			'Provider' => function( $C ) {
-				$Provider = $this->getMockForAbstractClass(
-					'\\Essence\\Provider',
-					[ $C->get( 'Log' )]
-				);
 
-				$Provider
-					->expects( $this->any( ))
-					->method( '_embed' )
-					->will( $this->returnValue( $C->get( 'Media' )));
-
-				return $Provider;
-			},
-			'providers' => [
-				'provider' => [
-					'class' => 'Provider',
-					'filter' => '#pass#i'
-				]
-			]
+	/**
+	 *
+	 */
+	public function testContainer() {
+		$Essence = new Essence([
+			'foo' => 'bar'
 		]);
 
-		$this->Essence = $Container->get( 'Essence' );
+		$Container = $Essence->container();
+
+		$this->assertInstanceOf('\\Essence\\Di\\Container', $Container);
+		$this->assertEquals('bar', $Container->get('foo'));
 	}
 
 
@@ -74,14 +54,25 @@ class EssenceTest extends PHPUnit_Framework_TestCase {
 	/**
 	 *
 	 */
+	public function testCrawl() {
+		$source = 'source';
+		$urls = [];
 
-	public function testExtract( ) {
+		$Crawler = $this->getMockBuilder('\\Essence\\Crawler')
+			->disableOriginalConstructor()
+			->getMock();
 
-		$this->assertEquals([
-			'http://pass.foo.com',
-			'http://pass.embed.com',
-			'http://pass.iframe.com'
-		], $this->Essence->extract( 'file://' . ESSENCE_HTTP . 'valid.html' ));
+		$Crawler
+			->expects($this->once())
+			->method('crawl')
+			->with($this->isEqual($source))
+			->will($this->returnValue($urls));
+
+		$Essence = new Essence([
+			'Crawler' => $Crawler
+		]);
+
+		$this->assertEquals($urls, $Essence->crawl($source));
 	}
 
 
@@ -89,21 +80,35 @@ class EssenceTest extends PHPUnit_Framework_TestCase {
 	/**
 	 *
 	 */
+	public function testCrawlUrl() {
+		$url = 'url';
+		$source = 'source';
+		$urls = [];
 
-	public function testExtractHtml( ) {
+		$Http = $this->getMock('\\Essence\\Http\\Client');
 
-		$html = <<<HTML
-			<a href="http://pass.foo.com">Foo</a>
-			<a href="http://fail.bar.com">Bar</a>
-			<embed src="http://pass.embed.com"></embed>
-			<iframe src="http://pass.iframe.com"></iframe>
-HTML;
+		$Http
+			->expects($this->once())
+			->method('get')
+			->with($this->isEqual($url))
+			->will($this->returnValue($source));
 
-		$this->assertEquals([
-			'http://pass.foo.com',
-			'http://pass.embed.com',
-			'http://pass.iframe.com'
-		], $this->Essence->extract( $html ));
+		$Crawler = $this->getMockBuilder('\\Essence\\Crawler')
+			->disableOriginalConstructor()
+			->getMock();
+
+		$Crawler
+			->expects($this->once())
+			->method('crawl')
+			->with($this->isEqual($source), $this->isEqual($url))
+			->will($this->returnValue($urls));
+
+		$Essence = new Essence([
+			'Http' => $Http,
+			'Crawler' => $Crawler
+		]);
+
+		$this->assertEquals($urls, $Essence->crawlUrl($url));
 	}
 
 
@@ -111,10 +116,26 @@ HTML;
 	/**
 	 *
 	 */
+	public function testExtract() {
+		$url = 'url';
+		$options = [];
+		$Media = new Media();
 
-	public function testEmbed( ) {
+		$Extractor = $this->getMockBuilder('\\Essence\\Extractor')
+			->disableOriginalConstructor()
+			->getMock();
 
-		$this->assertNotNull( $this->Essence->embed( 'http://pass.foo.com/bar' ));
+		$Extractor
+			->expects($this->once())
+			->method('extract')
+			->with($this->isEqual($url), $this->isEqual($options))
+			->will($this->returnValue($Media));
+
+		$Essence = new Essence([
+			'Extractor' => $Extractor
+		]);
+
+		$this->assertEquals($Media, $Essence->extract($url, $options));
 	}
 
 
@@ -122,14 +143,26 @@ HTML;
 	/**
 	 *
 	 */
+	public function testExtractAll() {
+		$urls = ['url'];
+		$options = [];
+		$medias = [new Media()];
 
-	public function testEmbedAll( ) {
+		$Extractor = $this->getMockBuilder('\\Essence\\Extractor')
+			->disableOriginalConstructor()
+			->getMock();
 
-		$urls = [ 'one', 'two' ];
-		$medias = $this->Essence->embedAll( $urls );
+		$Extractor
+			->expects($this->once())
+			->method('extractAll')
+			->with($this->isEqual($urls), $this->isEqual($options))
+			->will($this->returnValue($medias));
 
-		$this->assertEquals( $urls, array_keys( $medias ));
+		$Essence = new Essence([
+			'Extractor' => $Extractor
+		]);
 
+		$this->assertEquals($medias, $Essence->extractAll($urls, $options));
 	}
 
 
@@ -137,85 +170,33 @@ HTML;
 	/**
 	 *
 	 */
+	public function testReplace() {
+		$text = 'text';
+		$template = function() {};
+		$options = [];
+		$replaced = 'replaced text';
 
-	public function testReplace( ) {
+		$Replacer = $this->getMockBuilder('\\Essence\\Replacer')
+			->disableOriginalConstructor()
+			->getMock();
+
+		$Replacer
+			->expects($this->once())
+			->method('replace')
+			->with(
+				$this->isEqual($text),
+				$this->isEqual($template),
+				$this->isEqual($options)
+			)
+			->will($this->returnValue($replaced));
+
+		$Essence = new Essence([
+			'Replacer' => $Replacer
+		]);
 
 		$this->assertEquals(
-			'foo HTML bar',
-			$this->Essence->replace( 'foo http://pass.example.com bar' )
+			$replaced,
+			$Essence->replace($text, $template, $options)
 		);
-	}
-
-
-
-	/**
-	 *
-	 */
-
-	public function testReplaceSingleUrl( ) {
-
-		$this->assertEquals(
-			'HTML',
-			$this->Essence->replace( 'http://pass.example.com' )
-		);
-	}
-
-
-
-	/**
-	 *
-	 */
-
-	public function testReplaceTagSurroundedUrl( ) {
-
-		$this->assertEquals(
-			'<span>HTML</span>',
-			$this->Essence->replace( '<span>http://pass.example.com</span>' )
-		);
-	}
-
-
-
-	/**
-	 *
-	 */
-
-	public function testReplaceWithTemplate( ) {
-
-		$this->assertEquals(
-			'foo <h1>Title</h1> bar',
-			$this->Essence->replace( 'foo http://pass.example.com bar', function( $Media ) {
-				return '<h1>' . $Media->title . '</h1>';
-			})
-		);
-	}
-
-
-
-	/**
-	 *
-	 */
-
-	public function testDontReplaceLinks( ) {
-
-		$link = '<a href="http://pass.com">baz</a>';
-		$this->assertEquals( $link, $this->Essence->replace( $link ));
-
-		$link = '<a href="http://www.pass.com/watch?v=emgJtr9tIME">baz</a>';
-		$this->assertEquals( $link, $this->Essence->replace( $link ));
-
-		$link = "<a href='http://pass.com'>baz</a>";
-		$this->assertEquals( $link, $this->Essence->replace( $link ));
-	}
-
-
-
-	/**
-	 *
-	 */
-
-	public function testReplaceQuotesSurroundedUrl( ) {
-
-		$this->assertEquals( '"HTML"', $this->Essence->replace( '"http://pass.com"' ));
 	}
 }

@@ -4,23 +4,18 @@
  *	@author Félix Girault <felix.girault@gmail.com>
  *	@license FreeBSD License (http://opensource.org/licenses/BSD-2-Clause)
  */
-
 namespace Essence;
 
-use Essence\Configurable;
+use Essence\Mixin\Configurable;
 use Essence\Exception;
 use Essence\Media;
-use Essence\Media\Preparator;
-use Essence\Log\Logger;
+use Cascade\Cascade;
 
 
 
 /**
  *	Base class for a Provider.
- *
- *	@package Essence
  */
-
 abstract class Provider {
 
 	use Configurable;
@@ -28,52 +23,60 @@ abstract class Provider {
 
 
 	/**
-	 *	Internal logger.
+	 *	Preparators.
 	 *
-	 *	@var Essence\Log\Logger
+	 *	@var Cascade
 	 */
-
-	protected $_Logger = null;
+	protected $_Preparators = null;
 
 
 
 	/**
-	 *	Media preparator.
+	 *	Presenters.
 	 *
-	 *	@var Essence\Media\Preparator
+	 *	@var Cascade
 	 */
-
-	protected $_Preparator = null;
+	protected $_Presenters = null;
 
 
 
 	/**
 	 *	Configuration options.
 	 *
-	 *	### Options
-	 *
-	 *	- 'prepare' callable( string $url ) A function to prepare the given URL.
-	 *
 	 *	@var array
 	 */
-
-	protected $_properties = [
-		'prepare' => 'self::prepareUrl'
-	];
+	protected $_properties = [];
 
 
 
 	/**
 	 *	Constructor.
-	 *
-	 *	@param Essence\Log\Logger $Logger Logger.
-	 *	@param Essence\Log\Preparator $Preparator Preparator.
 	 */
+	public function __construct() {
+		$this->_Preparators = new Cascade();
+		$this->_Presenters = new Cascade();
+	}
 
-	public function __construct( Logger $Logger, Preparator $Preparator = null ) {
 
-		$this->_Logger = $Logger;
-		$this->_Preparator = $Preparator;
+
+	/**
+	 *
+	 *
+	 *	@param array $preparators Preparators.
+	 */
+	public function setPreparators(array $preparators) {
+		$this->_Preparators->setFilters($preparators);
+	}
+
+
+
+	/**
+	 *
+	 *
+	 *	@param array $presenters Presenters.
+	 */
+	public function setPresenters(array $presenters) {
+		$this->_Presenters->setFilters($presenters);
 	}
 
 
@@ -86,31 +89,13 @@ abstract class Provider {
 	 *	@return Media|null Embed informations, or null if nothing could be
 	 *		fetched.
 	 */
+	public final function embed($url, array $options = []) {
+		$this->_Preparators->filter($url);
 
-	public final function embed( $url, array $options = [ ]) {
+		$Media = $this->_embed($url, $options);
+		$Media->setDefault('url', $url);
 
-		$Media = null;
-
-		if ( is_callable( $this->prepare )) {
-			$url = call_user_func( $this->prepare, $url, $options );
-		}
-
-		try {
-			$Media = $this->_embed( $url, $options );
-			$Media->setDefault( 'url', $url );
-
-			if ( $this->_Preparator ) {
-				$this->_Preparator->complete( $Media, $options );
-			}
-		} catch ( Exception $Exception ) {
-			$this->_Logger->log(
-				Logger::notice,
-				"Unable to embed $url",
-				[ 'exception' => $Exception ]
-			);
-		}
-
-		return $Media;
+		return $this->_Presenters->filter($Media);
 	}
 
 
@@ -123,21 +108,6 @@ abstract class Provider {
 	 *	@return Media Embed informations.
 	 *	@throws Essence\Exception
 	 */
+	abstract protected function _embed($url, array $options);
 
-	abstract protected function _embed( $url, array $options );
-
-
-
-	/**
-	 *	Trims and returns the given string.
-	 *
-	 *	@param string $url URL.
-	 *	@param array $options Embed options.
-	 *	@return string Trimmed URL.
-	 */
-
-	public static function prepareUrl( $url, array $options = [ ]) {
-
-		return trim( $url );
-	}
 }

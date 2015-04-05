@@ -4,24 +4,20 @@
  *	@author Félix Girault <felix.girault@gmail.com>
  *	@license FreeBSD License (http://opensource.org/licenses/BSD-2-Clause)
  */
-
 namespace Essence;
 
-use PHPUnit_Framework_TestCase;
-use Essence\Log\Logger\Null as NullLogger;
+use PHPUnit_Framework_TestCase as TestCase;
 
 
 
 /**
  *	Test case for Provider.
  */
-
-class ProviderTest extends PHPUnit_Framework_TestCase {
+class ProviderTest extends TestCase {
 
 	/**
 	 *
 	 */
-
 	public $Provider = null;
 	public $Media = null;
 
@@ -30,9 +26,7 @@ class ProviderTest extends PHPUnit_Framework_TestCase {
 	/**
 	 *
 	 */
-
-	public function setup( ) {
-
+	public function setup() {
 		$this->Media = new Media([
 			'url' => 'http://foo.bar.com/resource',
 			'title' => 'Title',
@@ -42,8 +36,7 @@ class ProviderTest extends PHPUnit_Framework_TestCase {
 		]);
 
 		$this->Provider = $this->getMockForAbstractClass(
-			'\\Essence\\Provider',
-			[ new NullLogger( )]
+			'\\Essence\\Provider'
 		);
 	}
 
@@ -52,17 +45,15 @@ class ProviderTest extends PHPUnit_Framework_TestCase {
 	/**
 	 *
 	 */
-
-	public function testEmbed( ) {
-
+	public function testEmbed() {
 		$this->Provider
-			->expects( $this->any( ))
-			->method( '_embed' )
-			->will( $this->returnValue( $this->Media ));
+			->expects($this->any())
+			->method('_embed')
+			->will($this->returnValue($this->Media));
 
 		$this->assertEquals(
 			$this->Media,
-			$this->Provider->embed( '  http://foo.bar  ' )
+			$this->Provider->embed('  http://foo.bar  ')
 		);
 	}
 }

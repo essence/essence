@@ -4,7 +4,6 @@
  *	@author Félix Girault <felix.girault@gmail.com>
  *	@license FreeBSD License (http://opensource.org/licenses/BSD-2-Clause)
  */
-
 namespace Essence\Http\Client;
 
 use Essence\Http\Client;
@@ -14,18 +13,14 @@ use Essence\Http\Exception;
 
 /**
  *	Handles HTTP related operations through cURL.
- *
- *	@package Essence.Http.Client
  */
-
-class Curl extends Client {
+class Curl implements Client {
 
 	/**
 	 *	CURL handle.
 	 *
 	 *	@var resource
 	 */
-
 	protected $_curl = null;
 
 
@@ -35,7 +30,6 @@ class Curl extends Client {
 	 *
 	 *	@var array
 	 */
-
 	protected $_defaults = [
 		CURLOPT_HEADER => false,
 		CURLOPT_RETURNTRANSFER => true,
@@ -49,10 +43,8 @@ class Curl extends Client {
 	 *
 	 *	@param array cURL options.
 	 */
-
-	public function __construct( array $options = [ ]) {
-
-		$this->_curl = curl_init( );
+	public function __construct(array $options = []) {
+		$this->_curl = curl_init();
 
 		curl_setopt_array(
 			$this->_curl,
@@ -65,10 +57,8 @@ class Curl extends Client {
 	/**
 	 *	Closes cURL connexion.
 	 */
-
-	public function __destruct( ) {
-
-		curl_close( $this->_curl );
+	public function __destruct() {
+		curl_close($this->_curl);
 	}
 
 
@@ -76,18 +66,23 @@ class Curl extends Client {
 	/**
 	 *	{@inheritDoc}
 	 */
+	public function setUserAgent($agent) {
+		curl_setopt($this->_curl, CURLOPT_USERAGENT, $agent);
+	}
 
-	public function get( $url ) {
 
-		curl_setopt( $this->_curl, CURLOPT_URL, $url );
-		curl_setopt( $this->_curl, CURLOPT_USERAGENT, $this->_userAgent );
 
-		$contents = curl_exec( $this->_curl );
+	/**
+	 *	{@inheritDoc}
+	 */
+	public function get($url) {
+		curl_setopt($this->_curl, CURLOPT_URL, $url);
+		$contents = curl_exec($this->_curl);
 
-		if ( $contents === false ) {
+		if ($contents === false) {
 			throw new Exception(
 				$url,
-				curl_getinfo( $this->_curl, CURLINFO_HTTP_CODE )
+				curl_getinfo($this->_curl, CURLINFO_HTTP_CODE)
 			);
 		}
 

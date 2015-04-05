@@ -4,10 +4,9 @@
  *	@author Félix Girault <felix.girault@gmail.com>
  *	@license FreeBSD License (http://opensource.org/licenses/BSD-2-Clause)
  */
-
 namespace Essence\Di;
 
-use Essence\Configurable;
+use Essence\Mixin\Configurable;
 use Closure;
 
 
@@ -15,10 +14,10 @@ use Closure;
 /**
  *	A simple dependency injection container.
  *	Inspired by Pimple (https://github.com/fabpot/Pimple).
- *
- *	@package Essence.Di
+ *	Pimple wasn't used because of the way composer works. If someone were
+ *	working on a project using Pimple in a different version than Essence's,
+ *	the installation would fail.
  */
-
 class Container {
 
 	use Configurable;
@@ -30,8 +29,7 @@ class Container {
 	 *
 	 *	@var array
 	 */
-
-	protected $_properties = [ ];
+	protected $_properties = [];
 
 
 
@@ -44,17 +42,15 @@ class Container {
 	 *	@return mixed The property value, or the result of the closure execution
 	 *		if property is a closure, or $default.
 	 */
+	public function get($property, $default = null) {
+		if (!isset($this->_properties[$property])) {
+			return $default;
+		}
 
-	public function get( $property, $default = null ) {
+		$value = $this->_properties[$property];
 
-		$value = $default;
-
-		if ( $this->has( $property )) {
-			$value = $this->_properties[ $property ];
-
-			if ( $value instanceof Closure ) {
-				$value = $value( $this );
-			}
+		if ($value instanceof Closure) {
+			$value = $value($this);
 		}
 
 		return $value;
@@ -68,14 +64,12 @@ class Container {
 	 *	@param Closure $closure Closure to wrap.
 	 *	@return Closure Wrapper.
 	 */
-
-	public static function unique( Closure $closure ) {
-
-		return function( $Container ) use ( $closure ) {
+	public static function unique(Closure $closure) {
+		return function($Container) use ($closure) {
 			static $result = null;
 
-			if ( $result === null ) {
-				$result = $closure( $Container );
+			if ($result === null) {
+				$result = $closure($Container);
 			}
 
 			return $result;

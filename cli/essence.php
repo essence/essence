@@ -5,83 +5,163 @@
  *	@author Félix Girault <felix.girault@gmail.com>
  *	@license FreeBSD License (http://opensource.org/licenses/BSD-2-Clause)
  */
+namespace Essence;
 
-require_once dirname( dirname( __FILE__ )) . '/lib/bootstrap.php';
+require_once dirname(dirname(__FILE__))
+	. DIRECTORY_SEPARATOR . 'vendor'
+	. DIRECTORY_SEPARATOR . 'autoload.php';
+
+
+
+/**
+ *	TODO: create a separate repo for CLI with clean code.
+ */
+$Cli = new Cli();
+$Cli->process($argv);
 
 
 
 /**
  *
  */
+class Cli {
 
-if ( $argc < 3 ) {
-	echo "Too few arguments.\n";
-} else {
-	main( $argv[ 1 ], $argv[ 2 ]);
-}
-
-
-
-/**
- *
- */
-
-function main( $method, $url ) {
-
-	$Essence = Essence\Essence::instance( );
-
-	switch ( $method ) {
-		case 'embed':
-			dumpMedia( $Essence->embed( $url ));
-			break;
-
-		case 'extract':
-			dumpArray( $Essence->extract( $url ));
-			break;
-	}
-}
+	/**
+	 *
+	 */
+	protected $_Essence = null;
 
 
 
-/**
- *
- */
-
-function dumpMedia( $Media ) {
-
-	if ( !$Media ) {
-		echo "No results.\n";
-		return;
+	/**
+	 *
+	 */
+	public function __construct() {
+		$this->_Essence = new Essence();
 	}
 
-	$data = [ ];
 
-	foreach ( $Media as $key => $value ) {
-		if ( $value ) {
-			$data[ $key ] = $value;
+
+	/**
+	 *
+	 */
+	public function process(array $arguments) {
+		try {
+			$this->_parse($arguments);
+		} catch (Exception $Exception) {
+			$this->_print($Exception->getMessage());
 		}
 	}
 
-	dumpArray( $data );
-}
 
 
+	/**
+	 *
+	 */
+	public function _parse(array $arguments) {
+		// strips away the program name
+		array_shift($arguments);
 
-/**
- *
- */
+		if (count($arguments) < 2) {
+			$arguments = ['help'];
+		}
 
-function dumpArray( array $data ) {
+		switch ($arguments[0]) {
+			case 'crawl':
+				$this->_crawl($arguments[1]);
+				break;
 
-	if ( empty( $data )) {
-		echo "No results.\n";
-		return;
+			case 'extract':
+				$this->_extract($arguments[1]);
+				break;
+
+			case 'help':
+			default:
+				$this->_help();
+				break;
+		}
 	}
 
-	$lengths = array_map( 'strlen', array_keys( $data ));
-	$length = max( $lengths );
 
-	foreach ( $data as $key => $value ) {
-		printf( "%{$length}s: %s\n", $key, $value );
+
+	/**
+	 *
+	 */
+	protected function _help() {
+		$this->_print('crawl [URL]');
+		$this->_print('	Extracts embeddable URLs from a page.', 2);
+		$this->_print('extract [URL]');
+		$this->_print('	Extracts informations about a page.');
+	}
+
+
+
+	/**
+	 *
+	 */
+	protected function _crawl($url) {
+		$urls = $this->_Essence->crawlUrl($url);
+
+		if (!$urls) {
+			throw new Exception('No URL found.');
+		}
+
+		$this->_printArray($urls);
+	}
+
+
+
+	/**
+	 *
+	 */
+	protected function _extract($url) {
+		$Media = $this->_Essence->extract($url);
+		$properties = $Media
+			? $Media->filledProperties()
+			: [];
+
+		if (!$properties) {
+			throw new Exception('No information found.');
+		}
+
+		$this->_printArray($properties);
+	}
+
+
+
+	/**
+	 *
+	 */
+	protected function _printArray(array $data) {
+		$length = $this->_maxKeyLength($data);
+
+		foreach ($data as $key => $value) {
+			$this->_print(sprintf(
+				"%{$length}s: %s",
+				$key,
+				$value
+			));
+		}
+	}
+
+
+
+	/**
+	 *
+	 */
+	protected function _maxKeyLength(array $data) {
+		$keys = array_keys($data);
+		$lengths = array_map('strlen', $keys);
+
+		return max($lengths);
+	}
+
+
+
+	/**
+	 *
+	 */
+	protected function _print($text, $lineBreaks = 1) {
+		echo $text . str_repeat(PHP_EOL, $lineBreaks);
 	}
 }

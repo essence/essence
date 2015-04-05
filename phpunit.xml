@@ -1,26 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <phpunit
-	bootstrap="tests/bootstrap.php"
 	backupGlobals="false"
 	backupStaticAttributes="false"
+	bootstrap="tests/bootstrap.php"
+	colors="true"
 	convertErrorsToExceptions="true"
 	convertNoticesToExceptions="true"
 	convertWarningsToExceptions="true"
 	processIsolation="false"
 	stopOnFailure="false"
+	strict="true"
 	syntaxCheck="false"
-	colors="true"
+	verbose="true"
 >
 	<testsuites>
 		<testsuite name="Essence test suite">
-			<directory>tests</directory>
+			<directory>tests/Essence</directory>
 		</testsuite>
 	</testsuites>
-
-	<filter>
-		<blacklist>
-			<directory>http</directory>
-		</blacklist>
-	</filter>
 </phpunit>

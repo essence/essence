@@ -4,17 +4,17 @@
  *	@author Félix Girault <felix.girault@gmail.com>
  *	@license FreeBSD License (http://opensource.org/licenses/BSD-2-Clause)
  */
-
 namespace Essence\Provider;
 
 use Essence\Exception;
 use Essence\Media;
-use Essence\Media\Preparator;
 use Essence\Provider;
-use Essence\Dom\Parser as DomParser;
-use Essence\Http\Client as HttpClient;
-use Essence\Log\Logger;
-use Essence\Utility\Hash;
+use Essence\Provider\OEmbed\Format;
+use Essence\Provider\OEmbed\Config;
+use Essence\Dom\Document\Factory\Native as Dom;
+use Essence\Dom\Tag;
+use Essence\Http\Client as Http;
+use Essence\Utility\Template;
 use Essence\Utility\Json;
 use Essence\Utility\Xml;
 
@@ -23,63 +23,37 @@ use Essence\Utility\Xml;
 /**
  *	Base class for an OEmbed provider.
  *	This kind of provider extracts embed informations through the OEmbed protocol.
- *
- *	@package Essence.Provider
  */
-
 class OEmbed extends Provider {
 
 	/**
-	 *	JSON response format.
+	 *	HTTP client.
 	 *
-	 *	@var string
+	 *	@var Http
 	 */
-
-	const json = 'json';
-
-
-
-	/**
-	 *	XML response format.
-	 *
-	 *	@var string
-	 */
-
-	const xml = 'xml';
-
-
-
-	/**
-	 *	Internal HTTP client.
-	 *
-	 *	@var Essence\Http\Client
-	 */
-
 	protected $_Http = null;
 
 
 
 	/**
-	 *	Internal DOM parser.
+	 *	DOM parser.
 	 *
-	 *	@var Essence\Dom\Parser
+	 *	@var Dom
 	 */
-
 	protected $_Dom = null;
 
 
 
 	/**
-	 *	### Options
+	 *	Configuration:
+	 *		- 'endpoint' string The OEmbed endpoint.
+	 *		- 'format' string The expected response format.
 	 *
-	 *	- 'endpoint' string The OEmbed endpoint.
-	 *	- 'format' string The expected response format.
+	 *	@var array
 	 */
-
 	protected $_properties = [
-		'prepare' => 'static::prepareUrl',
 		'endpoint' => '',
-		'format' => self::json
+		'format' => Format::json
 	];
 
 
@@ -87,64 +61,14 @@ class OEmbed extends Provider {
 	/**
 	 *	Constructor.
 	 *
-	 *	@param Essence\Http\Client $Http HTTP client.
-	 *	@param Essence\Dom\Parser $Dom DOM parser.
-	 *	@param Essence\Log\Logger $Log Logger.
-	 *	@param Essence\Log\Preparator $Preparator Preparator.
+	 *	@param Http $Http HTTP client.
+	 *	@param Dom $Dom DOM parser.
 	 */
+	public function __construct(Http $Http, Dom $Dom) {
+		parent::__construct();
 
-	public function __construct(
-		HttpClient $Http,
-		DomParser $Dom,
-		Logger $Log,
-		Preparator $Preparator = null
-	) {
 		$this->_Http = $Http;
 		$this->_Dom = $Dom;
-
-		parent::__construct( $Log, $Preparator );
-	}
-
-
-
-	/**
-	 *	Strips arguments and anchors from the given URL.
-	 *
-	 *	@param string $url Url to prepare.
-	 *	@return string Prepared url.
-	 */
-
-	public static function prepareUrl( $url, array $options = [ ]) {
-
-		$url = trim( $url );
-
-		if ( !self::strip( $url, '?' )) {
-			self::strip( $url, '#' );
-		}
-
-		return $url;
-	}
-
-
-
-	/**
-	 *	Strips the end of a string after a delimiter.
-	 *
-	 *	@param string $string The string to strip.
-	 *	@param string $delimiter The delimiter from which to strip the string.
-	 *	@return boolean True if the string was modified, otherwise false.
-	 */
-
-	public static function strip( &$string, $delimiter ) {
-
-		$position = strrpos( $string, $delimiter );
-		$found = ( $position !== false );
-
-		if ( $found ) {
-			$string = substr( $string, 0, $position );
-		}
-
-		return $found;
 	}
 
 
@@ -156,112 +80,113 @@ class OEmbed extends Provider {
 	 *		the given URL will be parsed to find one.
 	 *	@throws Essence\Exception If the parsed page doesn't provide any endpoint.
 	 */
+	protected function _embed($url, array $options) {
+		$Config = $this->_config($url, $options);
+		$response = $this->_Http->get($Config->endpoint());
 
-	protected function _embed( $url, array $options ) {
-
-		if ( $this->endpoint ) {
-			$endpoint = sprintf( $this->endpoint, urlencode( $url ));
-			$format = $this->format;
-		} else if ( !$this->_extractEndpoint( $url, $endpoint, $format )) {
-			throw new Exception(
-				"Unable to extract any endpoint from '$url'."
-			);
-		}
-
-		if ( $options ) {
-			$this->_completeEndpoint( $endpoint, $options );
-		}
-
-		return $this->_embedEndpoint( $endpoint, $format );
+		return new Media(
+			$this->_parse($response, $Config->format())
+		);
 	}
 
 
 
 	/**
-	 *	Extracts an oEmbed endpoint from the given URL.
+	 *	Parses the given response depending on its format.
 	 *
-	 *	@param string $url URL from which to extract an endpoint.
-	 *	@param string $endpoint The extracted endpoint.
-	 *	@param string $format The extracted format.
-	 *	@return boolean If an endpoint was extracted.
+	 *	@param string $response Response.
+	 *	@param string $format Format.
+	 *	@return array Data.
 	 */
+	protected function _parse($response, $format) {
+		switch ($format) {
+			case Format::json:
+				return Json::parse($response);
 
-	protected function _extractEndpoint( $url, &$endpoint, &$format ) {
+			case Format::xml:
+				return Xml::parse($response);
 
-		$attributes = $this->_Dom->extractAttributes( $this->_Http->get( $url ), [
-			'link' => [
-				'rel' => '#alternate#i',
-				'type',
-				'href'
-			]
-		]);
+			default:
+				throw new Exception('Unsupported response format.');
+		}
+	}
 
-		foreach ( $attributes['link'] as $link ) {
-			if ( preg_match( '#(?<format>json|xml)#i', $link['type'], $matches )) {
-				$endpoint = $link['href'];
-				$format = $matches['format'];
-				return true;
+
+
+	/**
+	 *	Builds or extracts an oEmbed config.
+	 *
+	 *	@param string $url URL.
+	 *	@param array $options Options.
+	 *	@return Config Configuration.
+	 */
+	protected function _config($url, array $options) {
+		$Config = $this->has('endpoint')
+			? $this->_buildConfig($url)
+			: $this->_extractConfig($this->_Http->get($url));
+
+		if ($options) {
+			$Config->completeEndpoint($options);
+		}
+
+		return $Config;
+	}
+
+
+
+	/**
+	 *	Builds an oEmbed configuration from settings.
+	 *
+	 *	@param string $url URL to embed.
+	 *	@return Config Configuration.
+	 */
+	protected function _buildConfig($url) {
+		$endpoint = Template::compile(
+			$this->get('endpoint'),
+			compact('url'),
+			'urlencode'
+		);
+
+		return new Config($endpoint, $this->get('format'));
+	}
+
+
+
+	/**
+	 *	Extracts an oEmbed configuration from the given page.
+	 *
+	 *	@param string $html HTML page.
+	 *	@return array Configuration.
+	 */
+	protected function _extractConfig($html) {
+		$Document = $this->_Dom->document($html);
+		$links = $Document->tags('link');
+
+		foreach ($links as $Link) {
+			if ($format = $this->_extractFormat($Link)) {
+				return new Config($Link->get('href'), $format);
 			}
 		}
 
-		return false;
+		throw new Exception('Unable to extract any OEmbed endpoint');
 	}
 
 
 
 	/**
-	 *	Appends a set of options as parameters to the given endpoint URL.
+	 *	Extracts an oEmbed response format from a link tag.
 	 *
-	 *	@param string $endpoint Endpoint URL.
-	 *	@param array $options Options to append.
+	 *	@param $Link Link tag.
+	 *	@return Tag string|null Format.
 	 */
+	protected function _extractFormat(Tag $Link) {
+		$isAlternate = $Link->matches('rel', '~alternate~i');
+		$hasFormat = $Link->matches('type', '~(?<format>json|xml)~i', $matches);
 
-	protected function _completeEndpoint( &$endpoint, $options ) {
-
-		if ( $options ) {
-			$endpoint .= ( strrpos( $endpoint, '?' ) === false ) ? '?' : '&';
-			$endpoint .= http_build_query( $options );
-		}
-	}
-
-
-
-	/**
-	 *	Fetches embed information from the given endpoint.
-	 *
-	 *	@param string $endpoint Endpoint to fetch informations from.
-	 *	@param string $format Response format.
-	 *	@return Media Embed informations.
-	 */
-
-	protected function _embedEndpoint( $endpoint, $format ) {
-
-		$response = $this->_Http->get( $endpoint );
-
-		switch ( $format ) {
-			case self::json:
-				$data = Json::parse( $response );
-				break;
-
-			case self::xml:
-				$data = Xml::parse( $response );
-				break;
-
-			default:
-				throw new Exception( 'Unsupported response format.' );
+		if ($isAlternate && $hasFormat) {
+			return $matches['format'];
 		}
 
-		return new Media(
-			Hash::reindex( $data, [
-				'author_name' => 'authorName',
-				'author_url' => 'authorUrl',
-				'provider_name' => 'providerName',
-				'provider_url' => 'providerUrl',
-				'cache_age' => 'cacheAge',
-				'thumbnail_url' => 'thumbnailUrl',
-				'thumbnail_width' => 'thumbnailWidth',
-				'thumbnail_height' => 'thumbnailHeight'
-			])
-		);
+		return null;
 	}
 }

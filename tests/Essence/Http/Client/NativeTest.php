@@ -7,20 +7,18 @@
 
 namespace Essence\Http\Client;
 
-use PHPUnit_Framework_TestCase;
+use PHPUnit_Framework_TestCase as TestCase;
 
 
 
 /**
  *	Test case for Native.
  */
-
-class NativeTest extends PHPUnit_Framework_TestCase {
+class NativeTest extends TestCase {
 
 	/**
 	 *
 	 */
-
 	public $Native = null;
 
 
@@ -28,10 +26,8 @@ class NativeTest extends PHPUnit_Framework_TestCase {
 	/**
 	 *
 	 */
-
-	public function setUp( ) {
-
-		$this->Native = new Native( );
+	public function setUp() {
+		$this->Native = new Native();
 	}
 
 
@@ -39,10 +35,8 @@ class NativeTest extends PHPUnit_Framework_TestCase {
 	/**
 	 *
 	 */
-
-	public function testGet( ) {
-
-		$this->assertNotEmpty( $this->Native->get( 'file://' . __FILE__ ));
+	public function testGet() {
+		$this->assertNotEmpty($this->Native->get('file://' . __FILE__));
 	}
 
 
@@ -50,10 +44,8 @@ class NativeTest extends PHPUnit_Framework_TestCase {
 	/**
 	 *
 	 */
-
-	public function testGetUnreachable( ) {
-
-		$this->setExpectedException( '\\Essence\\Http\\Exception' );
-		$this->Native->get( 'file://' . __FILE__ . '.unreachable' );
+	public function testGetUnreachable() {
+		$this->setExpectedException('\\Essence\\Http\\Exception');
+		$this->Native->get('file://' . __FILE__ . '.unreachable');
 	}
 }

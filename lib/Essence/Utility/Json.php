@@ -4,7 +4,6 @@
  *	@author Félix Girault <felix.girault@gmail.com>
  *	@license FreeBSD License (http://opensource.org/licenses/BSD-2-Clause)
  */
-
 namespace Essence\Utility;
 
 use Essence\Exception;
@@ -13,10 +12,7 @@ use Essence\Exception;
 
 /**
  *	A simple JSON parser.
- *
- *	@package Essence.Utility
  */
-
 class Json {
 
 	/**
@@ -24,7 +20,6 @@ class Json {
 	 *
 	 *	@var array
 	 */
-
 	protected static $_errors = [
 		JSON_ERROR_NONE => 'no error',
 		JSON_ERROR_DEPTH => 'depth error',
@@ -42,15 +37,13 @@ class Json {
 	 *	@param string $json JSON document.
 	 *	@return array Data.
 	 */
+	public static function parse($json) {
+		$data = json_decode($json, true);
 
-	public static function parse( $json ) {
-
-		$data = json_decode( $json, true );
-
-		if ( $data === null ) {
+		if ($data === null) {
 			throw new Exception(
 				'Error parsing JSON response: '
-				. self::$_errors[ json_last_error( )]
+				. self::$_errors[json_last_error()]
 				. '.'
 			);
 		}

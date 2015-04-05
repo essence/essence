@@ -4,28 +4,14 @@
  *	@author Félix Girault <felix.girault@gmail.com>
  *	@license FreeBSD License (http://opensource.org/licenses/BSD-2-Clause)
  */
-
 namespace Essence\Http;
 
 
 
 /**
  *	Handles HTTP related operations.
- *
- *	@package Essence.Http
  */
-
-abstract class Client {
-
-	/**
-	 *	User agent.
-	 *
-	 *	@var string
-	 */
-
-	protected $_userAgent = '';
-
-
+interface Client {
 
 	/**
 	 *	Retrieves contents from the given URL.
@@ -34,18 +20,15 @@ abstract class Client {
 	 *	@return string The contents.
 	 *	@throws Essence\Http\Exception
 	 */
-
-	abstract public function get( $url );
+	public function get($url);
 
 
 
 	/**
 	 *	Sets the user agent for HTTP requests.
 	 *
-	 *	@param string $userAgent User agent.
+	 *	@param string $agent User agent.
 	 */
-	public function setUserAgent( $userAgent ) {
+	public function setUserAgent($agent);
 
-		$this->_userAgent = $userAgent;
-	}
 }

@@ -4,7 +4,6 @@
  *	@author Félix Girault <felix.girault@gmail.com>
  *	@license FreeBSD License (http://opensource.org/licenses/BSD-2-Clause)
  */
-
 namespace Essence\Http;
 
 use Essence\Exception as EssenceException;
@@ -13,10 +12,7 @@ use Essence\Exception as EssenceException;
 
 /**
  *	An HTTP related exception.
- *
- *	@package Essence.Http
  */
-
 class Exception extends EssenceException {
 
 	/**
@@ -24,7 +20,6 @@ class Exception extends EssenceException {
 	 *
 	 *	@var string
 	 */
-
 	protected $_url = '';
 
 
@@ -36,7 +31,6 @@ class Exception extends EssenceException {
 	 *
 	 *	@var array
 	 */
-
 	protected $_messages = [
 
 		// Client errors
@@ -78,14 +72,12 @@ class Exception extends EssenceException {
 	 *	@param int $code HTTP status code.
 	 *	@param Exception $Previous Previous exception.
 	 */
-
-	public function __construct( $url, $code = 0, Exception $Previous = null ) {
-
+	public function __construct($url, $code = 0, Exception $Previous = null) {
 		$this->_url = $url;
 
 		parent::__construct(
-			isset( $this->_messages[ $code ])
-				? $this->_messages[ $code ]
+			isset($this->_messages[$code])
+				? $this->_messages[$code]
 				: 'HTTP error',
 			$code,
 			$Previous
@@ -99,9 +91,7 @@ class Exception extends EssenceException {
 	 *
 	 *	@return string URL.
 	 */
-
-	public function url( ) {
-
+	public function url() {
 		return $this->_url;
 	}
 }
