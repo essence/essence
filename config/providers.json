@@ -99,12 +99,16 @@
 	"Dotsub": {
 		"class": "OEmbed",
 		"filter": "#dotsub\\.com\/view\/.+#i",
-		"endpoint": "http:\/\/dotsub.com\/services\/oembed?format=json&url=:url"
+		"endpoint": "https:\/\/dotsub.com\/services\/oembed?format=json&url=:url"
 	},
-	"Edocr": {
+	"EdocrOEmbed": {
 		"class": "OEmbed",
 		"filter": "#edocr\\.com\/doc\/[0-9]+\/.+#i",
 		"endpoint": "http:\/\/www.edocr.com\/api\/oembed?format=json&url=:url"
+	},
+	"EdocrTwitterCards": {
+		"class": "TwitterCards",
+		"filter": "#edocr\\.com\/doc\/[0-9]+\/.+#i"
 	},
 	"Flickr": {
 		"class": "OEmbed",
@@ -159,6 +163,10 @@
 		"class": "OEmbed",
 		"filter": "#instagr(\\.am|am\\.com)\/p\/.+#i",
 		"endpoint": "http:\/\/api.instagram.com\/oembed?format=json&url=:url"
+	},
+	"Instagram": {
+		"class": "OpenGraph",
+		"filter": "#instagr(\\.am|am\\.com)/p/.+#i"
 	},
 	"Jest": {
 		"class": "OEmbed",
