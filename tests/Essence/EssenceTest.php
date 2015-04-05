@@ -38,6 +38,22 @@ class EssenceTest extends TestCase {
 	/**
 	 *
 	 */
+	public function testContainer() {
+		$Essence = new Essence([
+			'foo' => 'bar'
+		]);
+
+		$Container = $Essence->container();
+
+		$this->assertInstanceOf('\\Essence\\Di\\Container', $Container);
+		$this->assertEquals('bar', $Container->get('foo'));
+	}
+
+
+
+	/**
+	 *
+	 */
 	public function testCrawl() {
 		$source = 'source';
 		$urls = [];

@@ -16,6 +16,15 @@ use Essence\Di\Container\Standard as StandardContainer;
 class Essence {
 
 	/**
+	 *	DI container.
+	 *
+	 *	@var Container
+	 */
+	protected $_Container = null;
+
+
+
+	/**
 	 *	HTTP client.
 	 *
 	 *	@var Http
@@ -57,12 +66,25 @@ class Essence {
 	 *	@param array $configuration Dependency injection configuration.
 	 */
 	public function __construct(array $configuration = []) {
-		$Container = new StandardContainer($configuration);
+		$this->_Container = new StandardContainer($configuration);
 
-		$this->_Http = $Container->get('Http');
-		$this->_Crawler = $Container->get('Crawler');
-		$this->_Extractor = $Container->get('Extractor');
-		$this->_Replacer = $Container->get('Replacer');
+		$this->_Http = $this->_Container->get('Http');
+		$this->_Crawler = $this->_Container->get('Crawler');
+		$this->_Extractor = $this->_Container->get('Extractor');
+		$this->_Replacer = $this->_Container->get('Replacer');
+	}
+
+
+
+	/**
+	 *	Returns the internal DI container.
+	 *
+	 *	@see https://github.com/felixgirault/essence/issues/80
+	 *	@see https://github.com/felixgirault/essence/issues/82
+	 *	@return Container Container.
+	 */
+	public function container() {
+		return $this->_Container;
 	}
 
 
