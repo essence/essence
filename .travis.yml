@@ -6,7 +6,7 @@ php:
 before_script:
   - composer install
 
-script: phpunit --coverage-clover=coverage.clover
+script: phpunit --configuration=phpunit.full.xml --coverage-clover=coverage.clover
 
 after_script:
   - wget https://scrutinizer-ci.com/ocular.phar

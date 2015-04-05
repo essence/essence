@@ -33,6 +33,7 @@ class ProvidersTest extends TestCase {
 	/**
 	 *	Tests essence on real providers.
 	 *
+	 *	@large
 	 *	@dataProvider providerProvider
 	 *	@param $name Provider name.
 	 *	@param $url URL to embed.
@@ -44,17 +45,18 @@ class ProvidersTest extends TestCase {
 
 		if (!$Media) {
 			$this->markTestSkipped("Unable to embed '$url'");
+			return;
 		}
 
-		if ($property) {
-			if (!$Media->has($property)) {
-				$this->markTestSkipped("Unable to find '$property'");
-			}
-
-			if ($Media->get($property, !$value) !== $value) {
-				$this->assertEquals("Unexpected value '$value' for '$property'");
-			}
+		if (!$Media->has($property)) {
+			$this->markTestSkipped("Unable to find '$property'");
+			return;
 		}
+
+		$this->assertEquals(
+			$value,
+			$Media->get($property, $value)
+		);
 	}
 
 

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<phpunit
+	backupGlobals="false"
+	backupStaticAttributes="false"
+	bootstrap="tests/bootstrap.php"
+	colors="true"
+	convertErrorsToExceptions="true"
+	convertNoticesToExceptions="true"
+	convertWarningsToExceptions="true"
+	processIsolation="false"
+	stopOnFailure="false"
+	strict="true"
+	syntaxCheck="false"
+	timeoutForLargeTests="10"
+	verbose="true"
+>
+	<testsuites>
+		<testsuite name="Essence test suite">
+			<directory>tests/Essence</directory>
+			<directory>tests/config</directory>
+		</testsuite>
+	</testsuites>
+</phpunit>
