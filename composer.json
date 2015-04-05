@@ -23,8 +23,8 @@
 		"url": "git@github.com:felixgirault/cascade.git"
 	}],
 	"require": {
-		"fg/cascade": "*",
-		"php": ">=5.5.0"
+		"php": ">=5.5.0",
+		"fg/cascade": "1.0.0"
 	},
 	"suggest": {
 		"ext-curl": "*",
