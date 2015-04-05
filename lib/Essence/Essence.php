@@ -6,6 +6,7 @@
  */
 namespace Essence;
 
+use Essence\Di\Container;
 use Essence\Di\Container\Standard as StandardContainer;
 
 
