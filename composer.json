@@ -1,5 +1,5 @@
 {
-	"name": "fg/essence",
+	"name": "essence/essence",
 	"type": "library",
 	"description": "Extracts informations about medias on the web, like youtube videos, twitter statuses or blog articles.",
 	"version": "3.0.0",
@@ -16,19 +16,14 @@
 		"media"
 	],
 	"license": "BSD-2-Clause",
-	"homepage": "http://github.com/felixgirault/essence",
+	"homepage": "http://github.com/essence/essence",
 	"minimum-stability": "dev",
-	"repositories": [{
-		"type": "vcs",
-		"url": "git@github.com:felixgirault/cascade.git"
-	}],
 	"require": {
 		"php": ">=5.5.0",
 		"fg/cascade": "1.0.0"
 	},
 	"suggest": {
-		"ext-curl": "*",
-		"felixgirault/essence-interfaces": "Allows better integration with different frameworks."
+		"ext-curl": "*"
 	},
 	"autoload": {
 		"psr-4": {
