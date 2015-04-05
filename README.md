@@ -1,14 +1,14 @@
 Essence
 =======
 
-[![Build status](http://img.shields.io/travis/felixgirault/essence.svg?style=flat-square)](http://travis-ci.org/felixgirault/essence)
-[![Scrutinizer Code Quality](http://img.shields.io/scrutinizer/g/felixgirault/essence.svg?style=flat-square)](https://scrutinizer-ci.com/g/felixgirault/essence)
-[![Code Coverage](http://img.shields.io/scrutinizer/coverage/g/felixgirault/essence.svg?style=flat-square)](https://scrutinizer-ci.com/g/felixgirault/essence)
+[![Build status](http://img.shields.io/travis/essence/essence.svg?style=flat-square)](http://travis-ci.org/essence/essence)
+[![Scrutinizer Code Quality](http://img.shields.io/scrutinizer/g/essence/essence.svg?style=flat-square)](https://scrutinizer-ci.com/g/essence/essence)
+[![Code Coverage](http://img.shields.io/scrutinizer/coverage/g/essence/essence.svg?style=flat-square)](https://scrutinizer-ci.com/g/essence/essence)
 [![Total downloads](http://img.shields.io/packagist/dt/fg/essence.svg?style=flat-square)](https://packagist.org/packages/fg/essence)
 
 Essence is a simple PHP library to extract media information from websites, like youtube videos, twitter statuses or blog articles.
 
-If you were already using Essence 2.x.x, you should take a look at [the migration guide](https://github.com/felixgirault/essence/wiki/Migrating-from-2.x.x-to-3.x.x).
+If you were already using Essence 2.x.x, you should take a look at [the migration guide](https://github.com/essence/essence/wiki/Migrating-from-2.x.x-to-3.x.x).
 
 Installation
 ------------
@@ -263,7 +263,7 @@ $Essence = new Essence\Essence([
 ]);
 ```
 
-The default injection settings are defined in the [Standard](https://github.com/felixgirault/essence/blob/master/lib/Essence/Di/Container/Standard.php) container class.
+The default injection settings are defined in the [Standard](https://github.com/essence/essence/blob/master/lib/Essence/Di/Container/Standard.php) container class.
 
 Try it out
 ----------
