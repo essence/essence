@@ -232,7 +232,7 @@ class ProvidersTest extends TestCase {
 				'HowCast',
 				'http://www.howcast.com/videos/512882-How-to-Make-an-Alabama-Slammer-Shots-Recipes',
 				'title',
-				'How to Make an Alabama Slammer | Shots Recipes'
+				'How to Make an Alabama Slammer | Shots Recipes | Howcast'
 			],
 			[
 				'Huffduffer',
