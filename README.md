@@ -14,7 +14,7 @@ Installation
 ------------
 
 ```
-composer require fg/essence
+composer require essence/essence
 ```
 
 Example
