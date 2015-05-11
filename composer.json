@@ -21,6 +21,7 @@
 	"require": {
 		"php": ">=5.5.0",
 		"essence/dom": "dev-master",
+		"essence/http": "dev-master",
 		"fg/cascade": "1.0.0"
 	},
 	"suggest": {
