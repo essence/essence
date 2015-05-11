@@ -9,6 +9,7 @@ namespace Essence;
 use Essence\Provider\Collection;
 use Essence\Utility\Hash;
 use Essence\Exception;
+use Exception as NativeException;
 
 
 
@@ -52,7 +53,9 @@ class Extractor {
 			try {
 				return $Provider->embed($url, $options);
 			} catch (Exception $Exception) {
-				// TODO: find a way to gracefully report errors
+				// ...
+			} catch (NativeException $Exception) {
+				// ...
 			}
 		}
 
