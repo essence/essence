@@ -485,7 +485,13 @@ class ProvidersTest extends TestCase {
 				'https://www.youtube.com/watch?v=DXh6HPXvNMs',
 				'authorName',
 				'Golden Moustache'
-			]
+			],
+            [
+            'Youtube Embedded',
+                'https://www.youtube.com/embed/DXh6HPXvNMs',
+                'authorName',
+                'Golden Moustache'
+            ],
 		];
 	}
 }
