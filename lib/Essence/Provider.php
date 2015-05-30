@@ -90,7 +90,7 @@ abstract class Provider {
 	 *		fetched.
 	 */
 	public final function embed($url, array $options = []) {
-        $url = $this->_Preparators->filter($url);
+		$url = $this->_Preparators->filter($url);
 
 		$Media = $this->_embed($url, $options);
 		$Media->setDefault('url', $url);
