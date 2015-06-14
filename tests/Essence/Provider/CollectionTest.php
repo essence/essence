@@ -7,23 +7,8 @@
 namespace Essence\Provider;
 
 use PHPUnit_Framework_TestCase as TestCase;
-use Essence\Provider;
-use Essence\Provider\OEmbed;
 use Essence\Di\Container;
-
-
-
-/**
- *
- */
-class ProviderImplementation extends Provider {
-
-	/**
-	 *
-	 */
-	protected function _embed($url, array $options) {}
-
-}
+use StdClass;
 
 
 
@@ -50,24 +35,18 @@ class CollectionTest extends TestCase {
 	 *
 	 */
 	public function setUp() {
-		$this->Provider = new ProviderImplementation();
+		$this->Provider = new StdClass();
 
 		$Container = new Container();
-		$Container->set('OEmbed', $this->Provider);
+		$Container->set('Foo', $this->Provider);
+		$Container->set('filters', [
+			'Foo' => '~^foo$~',
+			'Bar' => function ($url) {
+				return ($url === 'bar');
+			}
+		]);
 
 		$this->Collection = new Collection($Container);
-		$this->Collection->setProperties([
-			'Foo' => [
-				'class' => 'OEmbed',
-				'filter' => '#^foo$#'
-			],
-			'Bar' => [
-				'class' => 'OpenGraph',
-				'filter' => function ($url) {
-					return ($url === 'bar');
-				}
-			]
-		]);
 	}
 
 

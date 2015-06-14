@@ -29,13 +29,9 @@ class CrawlerTest extends TestCase {
 	 *
 	 */
 	public function setUp() {
-		$Container = new StandardContainer([
-			'Collection.providers' => [
-				'provider' => [
-					'class' => 'Provider',
-					'filter' => '~pass~i'
-				]
-			]
+		$Container = new StandardContainer();
+		$Container->set('filters', [
+			'Provider' => '~pass~i'
 		]);
 
 		$this->Crawler = new Crawler(

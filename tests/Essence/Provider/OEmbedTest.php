@@ -21,13 +21,6 @@ class OEmbedTest extends TestCase {
 	/**
 	 *
 	 */
-	public $Http = null;
-
-
-
-	/**
-	 *
-	 */
 	public $OEmbed = null;
 
 
@@ -36,17 +29,12 @@ class OEmbedTest extends TestCase {
 	 *
 	 */
 	public function setup() {
-		$this->Http = $this->getMock('Essence\\Http\\Client\\Native');
-
 		$this->OEmbed = new OEmbed(
 			new NativeHttpClient(),
 			new NativeDomDocument()
 		);
 
-		$this->OEmbed->configure([
-			'endpoint' => 'file://' . ESSENCE_HTTP . ':url.json',
-			'format' => Format::json
-		]);
+		$this->OEmbed->setEndpoint('file://' . ESSENCE_HTTP . ':url.json');
 	}
 
 
@@ -74,8 +62,8 @@ class OEmbedTest extends TestCase {
 	 *
 	 */
 	public function testEmbedXml() {
-		$this->OEmbed->set('endpoint', 'file://' . ESSENCE_HTTP . ':url.xml');
-		$this->OEmbed->set('format', Format::xml);
+		$this->OEmbed->setEndpoint('file://' . ESSENCE_HTTP . ':url.xml');
+		$this->OEmbed->setFormat(Format::xml);
 
 		$this->assertNotNull($this->OEmbed->embed('valid'));
 	}
@@ -86,8 +74,8 @@ class OEmbedTest extends TestCase {
 	 *
 	 */
 	public function testEmbedInvalidXml() {
-		$this->OEmbed->set('endpoint', 'file://' . ESSENCE_HTTP . ':url.xml');
-		$this->OEmbed->set('format', Format::xml);
+		$this->OEmbed->setEndpoint('file://' . ESSENCE_HTTP . ':url.xml');
+		$this->OEmbed->setFormat(Format::xml);
 
 		$this->setExpectedException('Exception');
 		$this->OEmbed->embed('invalid');
@@ -99,7 +87,7 @@ class OEmbedTest extends TestCase {
 	 *
 	 */
 	public function testEmbedUnsupportedFormat() {
-		$this->OEmbed->set('format', 'unsupported');
+		$this->OEmbed->setFormat('unsupported');
 
 		$this->setExpectedException('Exception');
 		$this->OEmbed->embed('valid');
@@ -111,7 +99,7 @@ class OEmbedTest extends TestCase {
 	 *
 	 */
 	public function testEmbedGeneric() {
-		$this->OEmbed->set('endpoint', '');
+		$this->OEmbed->setEndpoint('');
 
 		$this->assertNotNull(
 			$this->OEmbed->embed('file://' . ESSENCE_HTTP . 'valid.html')

@@ -45,16 +45,20 @@ class OEmbed extends Provider {
 
 
 	/**
-	 *	Configuration:
-	 *		- 'endpoint' string The OEmbed endpoint.
-	 *		- 'format' string The expected response format.
+	 *	The OEmbed endpoint.
 	 *
-	 *	@var array
+	 *	@var string
 	 */
-	protected $_properties = [
-		'endpoint' => '',
-		'format' => Format::json
-	];
+	protected $_endpoint = '';
+
+
+
+	/**
+	 *	The expected response format.
+	 *
+	 *	@var string
+	 */
+	protected $_format = Format::json;
 
 
 
@@ -69,6 +73,32 @@ class OEmbed extends Provider {
 
 		$this->_Http = $Http;
 		$this->_Dom = $Dom;
+	}
+
+
+
+	/**
+	 *	Sets the endpoint.
+	 *
+	 *	@param string $endpoint Endpoint.
+	 *	@return $this Reference on the object.
+	 */
+	public function setEndpoint($endpoint) {
+		$this->_endpoint = $endpoint;
+		return $this;
+	}
+
+
+
+	/**
+	 *	Sets the response format.
+	 *
+	 *	@param string $format Format.
+	 *	@return $this Reference on the object.
+	 */
+	public function setFormat($format) {
+		$this->_format = $format;
+		return $this;
 	}
 
 
@@ -121,7 +151,7 @@ class OEmbed extends Provider {
 	 *	@return Config Configuration.
 	 */
 	protected function _config($url, array $options) {
-		$Config = $this->has('endpoint')
+		$Config = $this->_endpoint
 			? $this->_buildConfig($url)
 			: $this->_extractConfig($this->_Http->get($url));
 
@@ -142,12 +172,12 @@ class OEmbed extends Provider {
 	 */
 	protected function _buildConfig($url) {
 		$endpoint = Template::compile(
-			$this->get('endpoint'),
+			$this->_endpoint,
 			compact('url'),
 			'urlencode'
 		);
 
-		return new Config($endpoint, $this->get('format'));
+		return new Config($endpoint, $this->_format);
 	}
 
 
@@ -163,7 +193,9 @@ class OEmbed extends Provider {
 		$links = $Document->tags('link');
 
 		foreach ($links as $Link) {
-			if ($format = $this->_extractFormat($Link)) {
+			$format = $this->_extractFormat($Link);
+
+			if ($format) {
 				return new Config($Link->get('href'), $format);
 			}
 		}
@@ -183,10 +215,8 @@ class OEmbed extends Provider {
 		$isAlternate = $Link->matches('rel', '~alternate~i');
 		$hasFormat = $Link->matches('type', '~(?<format>json|xml)~i', $matches);
 
-		if ($isAlternate && $hasFormat) {
-			return $matches['format'];
-		}
-
-		return null;
+		return ($isAlternate && $hasFormat)
+			? $matches['format']
+			: null;
 	}
 }

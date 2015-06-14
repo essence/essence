@@ -35,14 +35,10 @@ class ExtractorTest extends TestCase {
 			->method('_embed')
 			->will($this->returnValue($Media));
 
-		$Container = new StandardContainer([
-			'Provider' => $Provider,
-			'Collection.providers' => [
-				'provider' => [
-					'class' => 'Provider',
-					'filter' => '#pass#i'
-				]
-			]
+		$Container = new StandardContainer();
+		$Container->set('Provider', $Provider);
+		$Container->set('filters', [
+			'Provider' => '~pass~i'
 		]);
 
 		$this->Extractor = new Extractor($Container->get('Collection'));
