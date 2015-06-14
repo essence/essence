@@ -18,7 +18,7 @@
 	<testsuites>
 		<testsuite name="Essence test suite">
 			<directory>tests/Essence</directory>
-			<directory>tests/config</directory>
+			<directory>tests/e2e</directory>
 		</testsuite>
 	</testsuites>
 </phpunit>
