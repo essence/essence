@@ -6,7 +6,6 @@
  */
 namespace Essence\Provider;
 
-use Essence\Exception;
 use Essence\Media;
 use Essence\Provider;
 use Essence\Provider\OEmbed\Format;
@@ -17,6 +16,7 @@ use Essence\Http\Client as Http;
 use Essence\Utility\Template;
 use Essence\Utility\Json;
 use Essence\Utility\Xml;
+use Exception;
 
 
 
@@ -108,7 +108,7 @@ class OEmbed extends Provider {
 	 *
 	 *	@note If no endpoint was specified in the configuration, the page at
 	 *		the given URL will be parsed to find one.
-	 *	@throws Essence\Exception If the parsed page doesn't provide any endpoint.
+	 *	@throws Exception If the parsed page doesn't provide any endpoint.
 	 */
 	protected function _embed($url, array $options) {
 		$Config = $this->_config($url, $options);

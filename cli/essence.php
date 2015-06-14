@@ -4,9 +4,17 @@
 /**
  *	@author Félix Girault <felix.girault@gmail.com>
  *	@license FreeBSD License (http://opensource.org/licenses/BSD-2-Clause)
+ *	@todo Create a separate repo for CLI with clean code.
  */
 namespace Essence;
 
+use Exception;
+
+
+
+/**
+ *	Autoloading.
+ */
 require_once dirname(dirname(__FILE__))
 	. DIRECTORY_SEPARATOR . 'vendor'
 	. DIRECTORY_SEPARATOR . 'autoload.php';
@@ -14,7 +22,7 @@ require_once dirname(dirname(__FILE__))
 
 
 /**
- *	TODO: create a separate repo for CLI with clean code.
+ *	Processing.
  */
 $Cli = new Cli();
 $Cli->process($argv);

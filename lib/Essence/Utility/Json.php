@@ -6,7 +6,7 @@
  */
 namespace Essence\Utility;
 
-use Essence\Exception;
+use Exception;
 
 
 

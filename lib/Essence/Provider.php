@@ -6,7 +6,6 @@
  */
 namespace Essence;
 
-use Essence\Exception;
 use Essence\Media;
 use Cascade\Cascade;
 
@@ -101,7 +100,7 @@ abstract class Provider {
 	 *	@param string $url URL to fetch informations from.
 	 *	@param array $options Custom options to be interpreted by the provider.
 	 *	@return Media Embed informations.
-	 *	@throws Essence\Exception
+	 *	@throws Exception
 	 */
 	abstract protected function _embed($url, array $options);
 

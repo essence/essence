@@ -53,7 +53,7 @@ class XmlTest extends TestCase {
 	 *
 	 */
 	public function testParseInvalid() {
-		$this->setExpectedException('Essence\\Exception');
+		$this->setExpectedException('Exception');
 		Xml::parse($this->invalid);
 	}
 }

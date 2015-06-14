@@ -52,7 +52,7 @@ VALID;
 	 *
 	 */
 	public function testParseInvalid() {
-		$this->setExpectedException('Essence\\Exception');
+		$this->setExpectedException('Exception');
 		Json::parse($this->invalid);
 	}
 }

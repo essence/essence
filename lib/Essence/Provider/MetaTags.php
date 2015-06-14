@@ -7,12 +7,12 @@
  */
 namespace Essence\Provider;
 
-use Essence\Exception;
 use Essence\Media;
 use Essence\Provider;
 use Essence\Dom\Document\Factory\Native as Dom;
 use Essence\Http\Client as Http;
 use Essence\Utility\Hash;
+use Exception;
 
 
 
