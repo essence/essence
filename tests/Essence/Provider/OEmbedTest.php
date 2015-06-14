@@ -64,7 +64,7 @@ class OEmbedTest extends TestCase {
 	 *
 	 */
 	public function testEmbedInvalidJson() {
-		$this->setExpectedException('Essence\\Exception');
+		$this->setExpectedException('Exception');
 		$this->OEmbed->embed('invalid');
 	}
 
@@ -89,7 +89,7 @@ class OEmbedTest extends TestCase {
 		$this->OEmbed->set('endpoint', 'file://' . ESSENCE_HTTP . ':url.xml');
 		$this->OEmbed->set('format', Format::xml);
 
-		$this->setExpectedException('Essence\\Exception');
+		$this->setExpectedException('Exception');
 		$this->OEmbed->embed('invalid');
 	}
 
@@ -101,7 +101,7 @@ class OEmbedTest extends TestCase {
 	public function testEmbedUnsupportedFormat() {
 		$this->OEmbed->set('format', 'unsupported');
 
-		$this->setExpectedException('Essence\\Exception');
+		$this->setExpectedException('Exception');
 		$this->OEmbed->embed('valid');
 	}
 
