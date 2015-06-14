@@ -75,4 +75,30 @@ class ContainerTest extends TestCase {
 
 		$this->assertSame($first, $second);
 	}
+
+
+
+	/**
+	 *
+	 */
+	public function testSet() {
+		$ref = $this->Container->set('foo', 'bar');
+
+		$this->assertEquals('bar', $this->Container->get('foo'));
+		$this->assertEquals($this->Container, $ref);
+	}
+
+
+
+	/**
+	 *
+	 */
+	public function testConfigure() {
+		$ref = $this->Container->configure([
+			'foo' => 'bar'
+		]);
+
+		$this->assertEquals('bar', $this->Container->get('foo'));
+		$this->assertEquals($this->Container, $ref);
+	}
 }

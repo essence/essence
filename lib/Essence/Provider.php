@@ -6,7 +6,6 @@
  */
 namespace Essence;
 
-use Essence\Mixin\Configurable;
 use Essence\Exception;
 use Essence\Media;
 use Cascade\Cascade;
@@ -17,10 +16,6 @@ use Cascade\Cascade;
  *	Base class for a Provider.
  */
 abstract class Provider {
-
-	use Configurable;
-
-
 
 	/**
 	 *	Preparators.

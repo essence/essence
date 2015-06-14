@@ -6,7 +6,6 @@
  */
 namespace Essence\Di;
 
-use Essence\Mixin\Configurable;
 use Closure;
 
 
@@ -19,10 +18,6 @@ use Closure;
  *	the installation would fail.
  */
 class Container {
-
-	use Configurable;
-
-
 
 	/**
 	 *	Container properties.
@@ -54,6 +49,31 @@ class Container {
 		}
 
 		return $value;
+	}
+
+
+
+	/**
+	 *	Sets the value of the given property.
+	 *
+	 *	@param string $property Property name.
+	 *	@param string $value New value.
+	 */
+	public function set($property, $value) {
+		$this->_properties[$property] = $value;
+		return $this;
+	}
+
+
+
+	/**
+	 *	Merges the given properties with the current ones.
+	 *
+	 *	@param array $properties Properties to merge.
+	 */
+	public function configure(array $properties) {
+		$this->_properties = $properties + $this->_properties;
+		return $this;
 	}
 
 
