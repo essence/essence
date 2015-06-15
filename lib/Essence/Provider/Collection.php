@@ -83,8 +83,14 @@ class Collection {
 	 *	@return Whether the URL matches the filter or not.
 	 */
 	protected function _matches($filter, $url) {
-		return is_callable($filter)
-			? call_user_func($filter, $url)
-			: preg_match($filter, $url);
+		if (is_string($filter)) {
+			return preg_match($filter, $url);
+		}
+
+		if (is_callable($filter)) {
+			return call_user_func($filter, $url);
+		}
+
+		return false;
 	}
 }
