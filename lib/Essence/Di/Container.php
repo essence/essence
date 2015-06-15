@@ -6,6 +6,7 @@
  */
 namespace Essence\Di;
 
+use Essence\Utility\Hash;
 use Closure;
 
 
@@ -72,7 +73,11 @@ class Container {
 	 *	@param array $properties Properties to merge.
 	 */
 	public function configure(array $properties) {
-		$this->_properties = $properties + $this->_properties;
+		$this->_properties = Hash::merge(
+			$this->_properties,
+			$properties
+		);
+
 		return $this;
 	}
 
