@@ -77,7 +77,7 @@ class MetaTags extends Provider {
 	/**
 	 *	{@inheritDoc}
 	 */
-	protected function _embed($url, array $options) {
+	protected function _extract($url, array $options) {
 		$html = $this->_Http->get($url);
 		$metas = $this->_extractMetas($html);
 

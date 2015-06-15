@@ -110,7 +110,7 @@ class OEmbed extends Provider {
 	 *		the given URL will be parsed to find one.
 	 *	@throws Exception If the parsed page doesn't provide any endpoint.
 	 */
-	protected function _embed($url, array $options) {
+	protected function _extract($url, array $options) {
 		$Config = $this->_config($url, $options);
 		$response = $this->_Http->get($Config->endpoint());
 

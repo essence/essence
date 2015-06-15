@@ -32,7 +32,7 @@ class ExtractorTest extends TestCase {
 
 		$Provider
 			->expects($this->any())
-			->method('_embed')
+			->method('_extract')
 			->will($this->returnValue($Media));
 
 		$Container = new StandardContainer();

@@ -45,15 +45,15 @@ class ProviderTest extends TestCase {
 	/**
 	 *
 	 */
-	public function testEmbed() {
+	public function testExtract() {
 		$this->Provider
 			->expects($this->any())
-			->method('_embed')
+			->method('_extract')
 			->will($this->returnValue($this->Media));
 
 		$this->assertEquals(
 			$this->Media,
-			$this->Provider->embed('  http://foo.bar  ')
+			$this->Provider->extract('  http://foo.bar  ')
 		);
 	}
 }

@@ -35,7 +35,7 @@ class ReplacerTest extends TestCase {
 		$Provider = $this->getMockForAbstractClass('\\Essence\\Provider');
 		$Provider
 			->expects($this->any())
-			->method('_embed')
+			->method('_extract')
 			->will($this->returnValue($Media));
 
 		$Container = new StandardContainer();

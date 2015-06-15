@@ -50,7 +50,7 @@ class Extractor {
 
 		foreach ($providers as $Provider) {
 			try {
-				return $Provider->embed($url, $options);
+				return $Provider->extract($url, $options);
 			} catch (Exception $Exception) {
 				// ...
 			}

@@ -42,8 +42,8 @@ class OEmbedTest extends TestCase {
 	/**
 	 *
 	 */
-	public function testEmbedJson() {
-		$this->assertNotNull($this->OEmbed->embed('valid'));
+	public function testExtractJson() {
+		$this->assertNotNull($this->OEmbed->extract('valid'));
 	}
 
 
@@ -51,9 +51,9 @@ class OEmbedTest extends TestCase {
 	/**
 	 *
 	 */
-	public function testEmbedInvalidJson() {
+	public function testExtractInvalidJson() {
 		$this->setExpectedException('Exception');
-		$this->OEmbed->embed('invalid');
+		$this->OEmbed->extract('invalid');
 	}
 
 
@@ -61,11 +61,11 @@ class OEmbedTest extends TestCase {
 	/**
 	 *
 	 */
-	public function testEmbedXml() {
+	public function testExtractXml() {
 		$this->OEmbed->setEndpoint('file://' . ESSENCE_HTTP . ':url.xml');
 		$this->OEmbed->setFormat(Format::xml);
 
-		$this->assertNotNull($this->OEmbed->embed('valid'));
+		$this->assertNotNull($this->OEmbed->extract('valid'));
 	}
 
 
@@ -73,12 +73,12 @@ class OEmbedTest extends TestCase {
 	/**
 	 *
 	 */
-	public function testEmbedInvalidXml() {
+	public function testExtractInvalidXml() {
 		$this->OEmbed->setEndpoint('file://' . ESSENCE_HTTP . ':url.xml');
 		$this->OEmbed->setFormat(Format::xml);
 
 		$this->setExpectedException('Exception');
-		$this->OEmbed->embed('invalid');
+		$this->OEmbed->extract('invalid');
 	}
 
 
@@ -86,11 +86,11 @@ class OEmbedTest extends TestCase {
 	/**
 	 *
 	 */
-	public function testEmbedUnsupportedFormat() {
+	public function testExtractUnsupportedFormat() {
 		$this->OEmbed->setFormat('unsupported');
 
 		$this->setExpectedException('Exception');
-		$this->OEmbed->embed('valid');
+		$this->OEmbed->extract('valid');
 	}
 
 
@@ -98,11 +98,11 @@ class OEmbedTest extends TestCase {
 	/**
 	 *
 	 */
-	public function testEmbedGeneric() {
+	public function testExtractGeneric() {
 		$this->OEmbed->setEndpoint('');
 
 		$this->assertNotNull(
-			$this->OEmbed->embed('file://' . ESSENCE_HTTP . 'valid.html')
+			$this->OEmbed->extract('file://' . ESSENCE_HTTP . 'valid.html')
 		);
 	}
 }

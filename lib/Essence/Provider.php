@@ -83,10 +83,10 @@ abstract class Provider {
 	 *	@return Media|null Embed informations, or null if nothing could be
 	 *		fetched.
 	 */
-	public final function embed($url, array $options = []) {
+	public final function extract($url, array $options = []) {
 		$url = $this->_Preparators->filter($url);
 
-		$Media = $this->_embed($url, $options);
+		$Media = $this->_extract($url, $options);
 		$Media->setDefault('url', $url);
 
 		return $this->_Presenters->filter($Media);
@@ -102,6 +102,6 @@ abstract class Provider {
 	 *	@return Media Embed informations.
 	 *	@throws Exception
 	 */
-	abstract protected function _embed($url, array $options);
+	abstract protected function _extract($url, array $options);
 
 }

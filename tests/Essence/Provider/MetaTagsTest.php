@@ -41,8 +41,8 @@ class MetaTagsTest extends TestCase {
 	/**
 	 *
 	 */
-	public function testEmbed() {
-		$Media = $this->MetaTags->embed(
+	public function testExtract() {
+		$Media = $this->MetaTags->extract(
 			'file://' . ESSENCE_HTTP . 'valid.html'
 		);
 
