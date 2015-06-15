@@ -210,40 +210,36 @@ Dailymotion         Justin.tv           Shoudio             Youtube
 
 Plus the `OEmbed` and `OpenGraph` providers, which can be used to extract any URL.
 
-You can configure these providers by passing a configuration array:
+You can configure these providers on instanciation:
 
 ```php
 $Essence = new Essence\Essence([
-	'providers' => [
-		// the OpenGraph provider will try to extract any URL that matches
-		// the filter
-		'Ted' => [
-			'class' => 'OpenGraph',
-			'filter' => '#ted\.com/talks/.*#i'
-		],
+	// the SoundCloud provider is an OEmbed provider with a specific endpoint
+	'SoundCloud' => Container::unique(function($C) {
+		return $C->get('OEmbedProvider')->setEndpoint(
+			'http://soundcloud.com/oembed?format=json&url=:url'
+		);
+	}),
 
-		// the OEmbed provider will query the endpoint, :url beeing replaced
-		// by the requested URL.
-		'Youtube' => [
-			'class' => 'OEmbed',
-			'filter' => '#youtube\.com/.*#',
-			'endpoint' => 'http://www.youtube.com/oembed?format=json&url=:url'
-		]
+	'filters' => [
+		// the SoundCloud provider will be used for URLs that matches this pattern
+		'SoundCloud' => '~soundcloud\.com/[a-zA-Z0-9-_]+/[a-zA-Z0-9-]+~i'
 	]
 ]);
 ```
 
-You can also load a configuration array from a file:
+You can also disable the default ones:
 
 ```php
 $Essence = new Essence\Essence([
-	'providers' => 'path/to/config/file.php'
+	'filters' => [
+		'SoundCloud' => false
+	]
 ]);
 ```
 
-You can use custom providers by specifying a fully-qualified class name in the 'class' option.
-
-If no configuration is provided, the default configuration will be loaded from the `config/providers.json` file.
+You will find the default configuration in the standard DI container of Essence
+(see the following part).
 
 Customization
 -------------
