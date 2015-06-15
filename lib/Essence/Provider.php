@@ -76,12 +76,11 @@ abstract class Provider {
 
 
 	/**
-	 *	Fetches embed information from the given URL.
+	 *	Extracts information from the given URL.
 	 *
 	 *	@param string $url URL to fetch informations from.
 	 *	@param array $options Custom options to be interpreted by the provider.
-	 *	@return Media|null Embed informations, or null if nothing could be
-	 *		fetched.
+	 *	@return Media Embed informations.
 	 */
 	public final function extract($url, array $options = []) {
 		$url = $this->_Preparators->filter($url);

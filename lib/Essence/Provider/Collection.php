@@ -39,7 +39,7 @@ class Collection {
 	/**
 	 *	Tells if a provider can handle the given url.
 	 *
-	 *	@param string $url An url which may be embedded.
+	 *	@param string $url An url which may be extracted.
 	 *	@return boolean The url provider if any, otherwise null.
 	 */
 	public function hasProvider($url) {
@@ -60,7 +60,7 @@ class Collection {
 	 *	Finds providers of the given url.
 	 *
 	 *	@todo Use PHP generators to yield providers.
-	 *	@param string $url An url which may be embedded.
+	 *	@param string $url An url which may be extracted.
 	 *	@return array An array of Essence\Provider.
 	 */
 	public function providers($url) {

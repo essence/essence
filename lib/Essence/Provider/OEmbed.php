@@ -21,8 +21,7 @@ use Exception;
 
 
 /**
- *	Base class for an OEmbed provider.
- *	This kind of provider extracts embed informations through the OEmbed protocol.
+ *	Extracts information through the OEmbed protocol.
  */
 class OEmbed extends Provider {
 
@@ -167,7 +166,7 @@ class OEmbed extends Provider {
 	/**
 	 *	Builds an oEmbed configuration from settings.
 	 *
-	 *	@param string $url URL to embed.
+	 *	@param string $url URL to extract.
 	 *	@return Config Configuration.
 	 */
 	protected function _buildConfig($url) {

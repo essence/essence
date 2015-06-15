@@ -66,7 +66,7 @@ class Replacer {
 
 	/**
 	 *	Replaces URLs in the given text by media informations if they point on
-	 *	an embeddable resource.
+	 *	an extractable resource.
 	 *	By default, links will be replaced by the html property of Media.
 	 *	If $template is a callable function, it will be used to generate
 	 *	replacement strings, given a Media object.

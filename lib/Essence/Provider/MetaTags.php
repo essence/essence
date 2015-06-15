@@ -17,7 +17,7 @@ use Exception;
 
 
 /**
- *	Extracts embed informations from meta tags.
+ *	Extracts information from meta tags.
  */
 class MetaTags extends Provider {
 

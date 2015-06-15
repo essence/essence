@@ -13,7 +13,7 @@ use JsonSerializable;
 
 
 /**
- *	Stores informations about an embed response.
+ *	Stores informations about a media.
  *	This class is useful to ensure that any response from any provider will
  *	follow the same conventions.
  */

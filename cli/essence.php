@@ -97,7 +97,7 @@ class Cli {
 	 */
 	protected function _help() {
 		$this->_print('crawl [URL]');
-		$this->_print('	Extracts embeddable URLs from a page.', 2);
+		$this->_print('	Crawls extractable URLs from a page.', 2);
 		$this->_print('extract [URL]');
 		$this->_print('	Extracts informations about a page.');
 	}

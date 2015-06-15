@@ -100,7 +100,7 @@ The Essence class provides some useful utility functions to ensure you will get 
 
 ### Extracting URLs
 
-The `crawl()` method lets you extract embeddable URLs from a web page.
+The `crawl()` method lets you crawl extractable URLs from a web page.
 
 For example, here is how you could get the URL of all videos in a blog post:
 
@@ -128,7 +128,7 @@ array(2) {
 
 ### Replacing URLs in text
 
-Essence can replace any embeddable URL in a text by information about it.
+Essence can replace any extractable URL in a text by information about it.
 By default, any URL will be replaced by the `html` property of the found Media.
 
 ```php
@@ -275,7 +275,7 @@ This script allows you to test Essence quickly:
 # will fetch and print information about the video
 ./cli/essence.php extract http://www.youtube.com/watch?v=4S_NHY9c8uM
 
-# will fetch and print all embeddable URLs found at the given HTML page
+# will fetch and print all extractable URLs found at the given HTML page
 ./cli/essence.php crawl http://www.youtube.com/watch?v=4S_NHY9c8uM
 ```
 
