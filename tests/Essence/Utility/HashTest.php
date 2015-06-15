@@ -18,6 +18,43 @@ class HashTest extends TestCase {
 	/**
 	 *
 	 */
+	public function testMerge() {
+		$first = [
+			'one' => 1,
+			'two' => 2,
+			'three' => [
+				'four' => 4,
+				'five' => 5
+			]
+		];
+
+		$second = [
+			'two' => 'two',
+			'three' => [
+				'four' => 'four'
+			]
+		];
+
+		$expected = [
+			'one' => 1,
+			'two' => 'two',
+			'three' => [
+				'four' => 'four',
+				'five' => 5
+			]
+		];
+
+		$this->assertEquals(
+			$expected,
+			Hash::merge($first, $second)
+		);
+	}
+
+
+
+	/**
+	 *
+	 */
 	public function testReindex() {
 		$data = Hash::reindex(
 			['one' => 'value'],

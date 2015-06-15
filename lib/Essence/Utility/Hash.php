@@ -16,6 +16,31 @@ use Closure;
 class Hash {
 
 	/**
+	 *	Merges two arrays recursively.
+	 *
+	 *	@param array $first Original data.
+	 *	@param array $second Data to be merged.
+	 *	@return array Merged data.
+	 */
+	public static function merge(array $first, array $second) {
+		foreach ($second as $key => $value) {
+			$shouldBeMerged = (
+				isset($first[$key])
+				&& is_array($first[$key])
+				&& is_array($value)
+			);
+
+			$first[$key] = $shouldBeMerged
+				? self::merge($first[$key], $value)
+				: $value;
+		}
+
+		return $first;
+	}
+
+
+
+	/**
 	 *	Reindexes an array, according to the given correspondances.
 	 *
 	 *	@param array $data The data to be reindexed.
