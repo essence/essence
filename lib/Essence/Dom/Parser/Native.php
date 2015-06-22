@@ -71,7 +71,7 @@ class Native implements Parser {
 		$Document = DomDocument::loadHTML( $html );
 		error_reporting( $reporting );
 
-		if ( $Document === false ) {
+		if ( !$Document ) {
 			throw new Exception( 'Unable to load HTML document.' );
 		}
 
