@@ -67,13 +67,9 @@ class Crawler {
 	 *	@param string $base URL of the HTML source.
 	 *	@return array An array of extracted URLs.
 	 */
-	public function crawl($html, $base = '') {
+	public function crawl($html) {
 		$Document = $this->_Dom->document($html);
 		$urls = $this->_extractUrls($Document);
-
-		if ($base) {
-			$urls = $this->_resolveUrls($urls, $base);
-		}
 
 		return $this->_filterUrls(array_unique($urls));
 	}
@@ -115,21 +111,6 @@ class Crawler {
 		return array_map(function($Tag) use ($attribute) {
 			return $Tag->get($attribute);
 		}, $tags);
-	}
-
-
-
-	/**
-	 *	Completes relative URLs.
-	 *
-	 *	@param array $urls URLs to complete.
-	 *	@param string $base URL of the page from which URLs were crawled.
-	 *	@return array Completed URLs.
-	 */
-	protected function _resolveUrls(array $urls, $base) {
-		return array_map(function($url) use ($base) {
-			return Url::resolve($url, $base);
-		}, $urls);
 	}
 
 

@@ -10,6 +10,7 @@ use PHPUnit_Framework_TestCase as TestCase;
 use PHPUnit_Framework_Constraint_IsEqual as IsEqual;
 use Essence\Media;
 use Essence\Http\Client\Native as NativeHttpClient;
+use Essence\Utility\Url;
 
 
 
@@ -81,9 +82,11 @@ class EssenceTest extends TestCase {
 	 *
 	 */
 	public function testCrawlUrl() {
-		$url = 'url';
+		$url = 'http://test.com';
 		$source = 'source';
-		$urls = [];
+		$urls = [
+			'/index.php'
+		];
 
 		$Http = $this->getMock('\\Essence\\Http\\Client');
 
@@ -100,7 +103,7 @@ class EssenceTest extends TestCase {
 		$Crawler
 			->expects($this->once())
 			->method('crawl')
-			->with($this->isEqual($source), $this->isEqual($url))
+			->with($this->isEqual($source))
 			->will($this->returnValue($urls));
 
 		$Essence = new Essence([
@@ -108,7 +111,10 @@ class EssenceTest extends TestCase {
 			'Crawler' => $Crawler
 		]);
 
-		$this->assertEquals($urls, $Essence->crawlUrl($url));
+		$this->assertEquals(
+			Url::resolveAll($urls, $url),
+			$Essence->crawlUrl($url)
+		);
 	}
 
 

@@ -30,9 +30,8 @@ class Url {
 	/**
 	 *	Resolves relative URLs.
 	 *
-	 *	@param array $urls URLs to resolve.
-	 *	@param string $url URL of the page from which URLs
-	 *		were extracted.
+	 *	@param string $url URL to resolve.
+	 *	@param string $url URL of the page from which URLs were extracted.
 	 *	@return string Resolved URL.
 	 */
 	public static function resolve($url, $base) {
@@ -66,6 +65,24 @@ class Url {
 		$parts[self::path] = self::resolvePath($url, $basePath);
 
 		return $host . self::path($parts);
+	}
+
+
+
+	/**
+	 *	Resolves a set of relative URLs.
+	 *
+	 *	@see resolve()
+	 *	@param array $urls URLs to resolve.
+	 *	@param string $url URL of the page from which URLs were extracted.
+	 *	@return array Resolved URLs.
+	 */
+	public static function resolveAll(array $urls, $base) {
+		$resolved = array_map(function($url) use ($base) {
+			return self::resolve($url, $base);
+		}, $urls);
+
+		return array_unique($resolved);
 	}
 
 

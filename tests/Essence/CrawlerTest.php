@@ -60,26 +60,4 @@ HTML;
 			'http://pass.foo.com'
 		], $this->Crawler->crawl($html));
 	}
-
-
-
-	/**
-	 *
-	 */
-	public function testCrawlSourceWithBaseUrl() {
-		$base = 'https://pass.com';
-		$urlA = '/index.php';
-		$urlB = '//pass.com';
-
-		$html = <<<HTML
-			<a href="$urlA">A</a>
-			<a href="$urlB">B</a>
-			<a href="http://fail.com">Fail</a>
-HTML;
-
-		$this->assertEquals([
-			Url::resolve($urlA, $base),
-			Url::resolve($urlB, $base)
-		], $this->Crawler->crawl($html, $base));
-	}
 }

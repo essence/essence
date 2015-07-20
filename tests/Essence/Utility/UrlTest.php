@@ -122,4 +122,25 @@ class UrlTest extends TestCase {
 
 		$this->assertEquals('/a?b=c#d', Url::path($parts));
 	}
+
+
+
+	/**
+	 *
+	 */
+	public function testResolveAll() {
+		$urls = [
+			'/home',
+			'../home'
+		];
+
+		$expected = [
+			'http://test.com/home'
+		];
+
+		$this->assertEquals(
+			$expected,
+			Url::resolveAll($urls, 'http://test.com')
+		);
+	}
 }

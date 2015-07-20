@@ -8,6 +8,7 @@ namespace Essence;
 
 use Essence\Di\Container;
 use Essence\Di\Container\Standard as StandardContainer;
+use Essence\Utility\Url;
 
 
 
@@ -91,19 +92,30 @@ class Essence {
 
 
 	/**
+	 *	Crawls the given source for extractable URLs, optionnaly
+	 *	resolving them relatively to a base one.
+	 *
 	 *	@see Essence\Crawler::crawl()
+	 *	@see Essence\Utility\Url::resolve()
+	 *	@param string $source HTML source.
+	 *	@param string $base Base URL.
+	 *	@return array URLs.
 	 */
-	public function crawl($source, $sourceUrl = '') {
-		return $this->_Crawler->crawl($source, $sourceUrl);
+	public function crawl($source, $base = '') {
+		$urls = $this->_Crawler->crawl($source);
+
+		return $base
+			? Url::resolveAll($urls, $base)
+			: $urls;
 	}
 
 
 
 	/**
-	 *	@see Essence\Crawler::crawl()
+	 *	@see crawl()
 	 */
 	public function crawlUrl($url) {
-		return $this->_Crawler->crawl(
+		return $this->crawl(
 			$this->_Http->get($url),
 			$url
 		);
