@@ -81,7 +81,7 @@ class MetaTags extends Provider {
 		$html = $this->_Http->get($url);
 		$metas = $this->_extractMetas($html);
 
-		if (!$metas) {
+		if (empty($metas)) {
 			throw new Exception(
 				"Unable to extract meta tags from '$url'."
 			);

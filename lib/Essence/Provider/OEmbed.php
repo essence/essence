@@ -154,7 +154,7 @@ class OEmbed extends Provider {
 			? $this->_buildConfig($url)
 			: $this->_extractConfig($this->_Http->get($url));
 
-		if ($options) {
+		if (!empty($options)) {
 			$Config->completeEndpoint($options);
 		}
 
