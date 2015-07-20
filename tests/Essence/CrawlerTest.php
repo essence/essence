@@ -10,6 +10,7 @@ use PHPUnit_Framework_TestCase as TestCase;
 use Essence\Di\Container\Standard as StandardContainer;
 use Essence\Dom\Document\Factory\Native as NativeDomDocument;
 use Essence\Http\Client\Native as NativeHttpClient;
+use Essence\Utility\Url;
 
 
 
@@ -58,5 +59,27 @@ HTML;
 			'http://pass.embed.com',
 			'http://pass.foo.com'
 		], $this->Crawler->crawl($html));
+	}
+
+
+
+	/**
+	 *
+	 */
+	public function testCrawlSourceWithBaseUrl() {
+		$base = 'https://pass.com';
+		$urlA = '/index.php';
+		$urlB = '//pass.com';
+
+		$html = <<<HTML
+			<a href="$urlA">A</a>
+			<a href="$urlB">B</a>
+			<a href="http://fail.com">Fail</a>
+HTML;
+
+		$this->assertEquals([
+			Url::resolve($urlA, $base),
+			Url::resolve($urlB, $base)
+		], $this->Crawler->crawl($html, $base));
 	}
 }

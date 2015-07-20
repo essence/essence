@@ -9,6 +9,7 @@ namespace Essence;
 use Essence\Provider\Collection;
 use Essence\Dom\Document\Factory\Native as Dom;
 use Essence\Dom\Document;
+use Essence\Utility\Url;
 
 
 
@@ -63,15 +64,15 @@ class Crawler {
 	 *	Extracts embeddable URLs from an HTML source.
 	 *
 	 *	@param string $html The HTML source to be extracted.
-	 *	@param string $url URL of the HTML source.
+	 *	@param string $base URL of the HTML source.
 	 *	@return array An array of extracted URLs.
 	 */
-	public function crawl($html, $url = '') {
+	public function crawl($html, $base = '') {
 		$Document = $this->_Dom->document($html);
 		$urls = $this->_extractUrls($Document);
 
-		if ($url) {
-			$urls = $this->_completeUrls($urls, $url);
+		if ($base) {
+			$urls = $this->_resolveUrls($urls, $base);
 		}
 
 		return $this->_filterUrls(array_unique($urls));
@@ -122,45 +123,13 @@ class Crawler {
 	 *	Completes relative URLs.
 	 *
 	 *	@param array $urls URLs to complete.
-	 *	@param string $url URL of the page from which URLs were extracted.
+	 *	@param string $base URL of the page from which URLs were crawled.
 	 *	@return array Completed URLs.
 	 */
-	protected function _completeUrls(array $urls, $url) {
-		$components = parse_url($url);
-		$scheme = isset($components['scheme'])
-			? $components['scheme']
-			: self::defaultScheme;
-
-		$base = $scheme . '://' . $components['host'];
-
-		return array_map(
-			$this->_completeUrlFunction($scheme, $base),
-			$urls
-		);
-	}
-
-
-
-	/**
-	 *	Returns a function used to complete relative URLs.
-	 *
-	 *	@see _completeUrls()
-	 *	@param string $scheme Default scheme.
-	 *	@param string $base Default base.
-	 *	@return \Closure Function.
-	 */
-	protected function _completeUrlFunction($scheme, $base) {
-		return function($url) use ($scheme, $base) {
-			if (strpos($url, '//') === 0) {
-				return $scheme . ':' . $url;
-			}
-
-			if (strpos($url, '/') === 0) {
-				return $base . $url;
-			}
-
-			return $url;
-		};
+	protected function _resolveUrls(array $urls, $base) {
+		return array_map(function($url) use ($base) {
+			return Url::resolve($url, $base);
+		}, $urls);
 	}
 
 
