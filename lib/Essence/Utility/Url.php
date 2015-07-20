@@ -31,7 +31,7 @@ class Url {
 	 *	Resolves relative URLs.
 	 *
 	 *	@param string $url URL to resolve.
-	 *	@param string $url URL of the page from which URLs were extracted.
+	 *	@param string $base URL of the page from which URLs were extracted.
 	 *	@return string Resolved URL.
 	 */
 	public static function resolve($url, $base) {
@@ -74,7 +74,7 @@ class Url {
 	 *
 	 *	@see resolve()
 	 *	@param array $urls URLs to resolve.
-	 *	@param string $url URL of the page from which URLs were extracted.
+	 *	@param string $base URL of the page from which URLs were extracted.
 	 *	@return array Resolved URLs.
 	 */
 	public static function resolveAll(array $urls, $base) {
@@ -90,7 +90,7 @@ class Url {
 	/**
 	 *	Resolves relative paths.
 	 *
-	 *	@param array $urlPath URLs to resolve.
+	 *	@param string $urlPath URLs to resolve.
 	 *	@param string $basePath URL of the page from which URLs were extracted.
 	 *	@return array Resolved path.
 	 */

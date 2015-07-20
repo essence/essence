@@ -80,7 +80,7 @@ class Collection {
 	 *
 	 *	@param string|callable $filter Regex or callback to filter URL.
 	 *	@param string $url URL to filter.
-	 *	@return Whether the URL matches the filter or not.
+	 *	@return boolean Whether the URL matches the filter or not.
 	 */
 	protected function _matches($filter, $url) {
 		if (is_string($filter)) {

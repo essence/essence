@@ -58,7 +58,7 @@ class Container {
 	 *	Sets the value of the given property.
 	 *
 	 *	@param string $property Property name.
-	 *	@param string $value New value.
+	 *	@param mixed $value New value.
 	 */
 	public function set($property, $value) {
 		$this->_properties[$property] = $value;

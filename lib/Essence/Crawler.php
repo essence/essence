@@ -64,7 +64,6 @@ class Crawler {
 	 *	Extracts embeddable URLs from an HTML source.
 	 *
 	 *	@param string $html The HTML source to be extracted.
-	 *	@param string $base URL of the HTML source.
 	 *	@return array An array of extracted URLs.
 	 */
 	public function crawl($html) {
