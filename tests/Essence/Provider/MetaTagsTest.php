@@ -49,4 +49,18 @@ class MetaTagsTest extends TestCase {
 		$this->assertEquals('YouTube', $Media->get('og:site_name'));
 		$this->assertFalse($Media->has('twitter:site'));
 	}
+
+
+
+	/**
+	 *
+	 */
+	public function testExtractNothing() {
+		$this->setExpectedException('Exception');
+
+		$this->MetaTags->setMetaPattern('~nothing~');
+		$this->MetaTags->extract(
+			'file://' . ESSENCE_HTTP . 'valid.html'
+		);
+	}
 }
