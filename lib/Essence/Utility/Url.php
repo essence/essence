@@ -35,8 +35,8 @@ class Url {
 	 *	@return string Resolved URL.
 	 */
 	public static function resolve($url, $base) {
-		$urlParts = parse_url($url);
-		$baseParts = parse_url($base);
+		$urlParts = parse_url($url) ?: [];
+		$baseParts = parse_url($base) ?: [];
 
 		if (strpos($url, '//') === 0 && isset($baseParts[self::scheme])) {
 			return $baseParts[self::scheme] . ':' . $url;
@@ -48,9 +48,7 @@ class Url {
 		}
 
 		// the URL is absolute
-		$host = $baseParts
-			? self::host($baseParts)
-			: '';
+		$host = self::host($baseParts);
 
 		if (strpos($url, '/') === 0) {
 			return $host . $url;
@@ -61,7 +59,7 @@ class Url {
 			? $baseParts[self::path]
 			: '';
 
-		$parts = $urlParts ?: [];
+		$parts = $urlParts;
 		$parts[self::path] = self::resolvePath($url, $basePath);
 
 		return $host . self::path($parts);
@@ -135,6 +133,10 @@ class Url {
 	 *	@return string URL.
 	 */
 	public static function host(array $parts) {
+		if (!isset($parts[self::host])) {
+			return '';
+		}
+
 		$url = isset($parts[self::scheme])
 			? $parts[self::scheme]
 			: 'http';
