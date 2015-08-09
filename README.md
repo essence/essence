@@ -4,7 +4,7 @@ Essence
 [![Build status](http://img.shields.io/travis/essence/essence.svg?style=flat-square)](http://travis-ci.org/essence/essence)
 [![Scrutinizer Code Quality](http://img.shields.io/scrutinizer/g/essence/essence.svg?style=flat-square)](https://scrutinizer-ci.com/g/essence/essence)
 [![Code Coverage](http://img.shields.io/scrutinizer/coverage/g/essence/essence.svg?style=flat-square)](https://scrutinizer-ci.com/g/essence/essence)
-[![Total downloads](http://img.shields.io/packagist/dt/fg/essence.svg?style=flat-square)](https://packagist.org/packages/fg/essence)
+[![Total downloads](http://img.shields.io/packagist/dt/essence/essence.svg?style=flat-square)](https://packagist.org/packages/essence/essence)
 
 Essence is a simple PHP library to extract media information from websites, like youtube videos, twitter statuses or blog articles.
 
