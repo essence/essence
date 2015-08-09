@@ -84,7 +84,7 @@ class Collection {
 	 */
 	protected function _matches($filter, $url) {
 		if (is_string($filter)) {
-			return preg_match($filter, $url);
+			return (bool)preg_match($filter, $url);
 		}
 
 		if (is_callable($filter)) {
