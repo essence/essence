@@ -68,8 +68,6 @@ class OEmbed extends Provider {
 	 *	@param Dom $Dom DOM parser.
 	 */
 	public function __construct(Http $Http, Dom $Dom) {
-		parent::__construct();
-
 		$this->_Http = $Http;
 		$this->_Dom = $Dom;
 	}

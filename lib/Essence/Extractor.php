@@ -7,7 +7,7 @@
 namespace Essence;
 
 use Essence\Provider\Collection;
-use Essence\Utility\Hash;
+use Parkour\Transform;
 use Exception;
 
 
@@ -69,7 +69,7 @@ class Extractor {
 	 *	@return array An array of informations, indexed by URL.
 	 */
 	public function extractAll(array $urls, array $options = []) {
-		return Hash::combine($urls, function($url) use ($options) {
+		return Transform::combine($urls, function($url) use ($options) {
 			yield $url => $this->extract($url, $options);
 		});
 	}

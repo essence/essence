@@ -7,7 +7,8 @@
 namespace Essence;
 
 use Essence\Media;
-use Cascade\Cascade;
+use Parkour\Traverse;
+use Parkour\Functor\Execute;
 
 
 
@@ -19,18 +20,18 @@ abstract class Provider {
 	/**
 	 *	Preparators.
 	 *
-	 *	@var Cascade
+	 *	@var array
 	 */
-	protected $_Preparators = null;
+	protected $_preparators = [];
 
 
 
 	/**
 	 *	Presenters.
 	 *
-	 *	@var Cascade
+	 *	@var array
 	 */
-	protected $_Presenters = null;
+	protected $_presenters = [];
 
 
 
@@ -44,33 +45,23 @@ abstract class Provider {
 
 
 	/**
-	 *	Constructor.
-	 */
-	public function __construct() {
-		$this->_Preparators = new Cascade();
-		$this->_Presenters = new Cascade();
-	}
-
-
-
-	/**
-	 *
+	 *	Sets preparators.
 	 *
 	 *	@param array $preparators Preparators.
 	 */
 	public function setPreparators(array $preparators) {
-		$this->_Preparators->setFilters($preparators);
+		$this->_preparators = $preparators;
 	}
 
 
 
 	/**
-	 *
+	 *	Sets presenters.
 	 *
 	 *	@param array $presenters Presenters.
 	 */
 	public function setPresenters(array $presenters) {
-		$this->_Presenters->setFilters($presenters);
+		$this->_presenters = $presenters;
 	}
 
 
@@ -82,13 +73,26 @@ abstract class Provider {
 	 *	@param array $options Custom options to be interpreted by the provider.
 	 *	@return Media Embed informations.
 	 */
-	public final function extract($url, array $options = []) {
-		$url = $this->_Preparators->filter($url);
+	final public function extract($url, array $options = []) {
+		$url = $this->filter($url, $this->_preparators);
 
 		$Media = $this->_extract($url, $options);
 		$Media->setDefault('url', $url);
 
-		return $this->_Presenters->filter($Media);
+		return $this->filter($Media, $this->_presenters);
+	}
+
+
+
+	/**
+	 *	Filters a value through a set of functions.
+	 *
+	 *	@param mixed $value Value.
+	 *	@param array $filters Filters.
+	 *	@return mixed Filtered value.
+	 */
+	private function filter($value, array $filters) {
+		return Traverse::reduce($filters, new Execute(), $value);
 	}
 
 

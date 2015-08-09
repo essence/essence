@@ -11,7 +11,7 @@ use Essence\Media;
 use Essence\Provider;
 use Essence\Dom\Document\Factory\Native as Dom;
 use Essence\Http\Client as Http;
-use Essence\Utility\Hash;
+use Parkour\Transform;
 use Exception;
 
 
@@ -55,8 +55,6 @@ class MetaTags extends Provider {
 	 *	@param Dom $Dom DOM parser.
 	 */
 	public function __construct(Http $Http, Dom $Dom) {
-		parent::__construct();
-
 		$this->_Http = $Http;
 		$this->_Dom = $Dom;
 	}
@@ -115,7 +113,7 @@ class MetaTags extends Provider {
 	 *	@return Media Media.
 	 */
 	protected function _media(array $metas) {
-		$metas = Hash::combine($metas, function($Meta) {
+		$metas = Transform::combine($metas, function($Meta) {
 			yield $Meta->get('property') => $Meta->get('content');
 		});
 

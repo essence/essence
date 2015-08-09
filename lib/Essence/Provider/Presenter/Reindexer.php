@@ -8,7 +8,7 @@ namespace Essence\Provider\Presenter;
 
 use Essence\Provider\Presenter;
 use Essence\Media;
-use Essence\Utility\Hash;
+use Parkour\Transform;
 
 
 
@@ -42,7 +42,7 @@ class Reindexer extends Presenter {
 	 */
 	public function present(Media $Media) {
 		return $Media->setProperties(
-			Hash::reindex(
+			Transform::reindex(
 				$Media->properties(),
 				$this->_mapping
 			)
