@@ -46,14 +46,34 @@ class ProviderTest extends TestCase {
 	 *
 	 */
 	public function testExtract() {
+		$url = 'http://foo.bar';
+		$options = [
+			'foo' => 'bar'
+		];
+
+		$prepare = function($url) {
+			return 'prepared' . $url;
+		};
+
+		$present = function($Media) {
+			return $Media->set('foo', 'bar');
+		};
+
+		$this->Provider->setPreparators([$prepare]);
+		$this->Provider->setPresenters([$present]);
+
 		$this->Provider
-			->expects($this->any())
+			->expects($this->once())
 			->method('_extract')
+			->with(
+				$this->equalTo($prepare($url)),
+				$this->equalTo($options)
+			)
 			->will($this->returnValue($this->Media));
 
 		$this->assertEquals(
-			$this->Media,
-			$this->Provider->extract('  http://foo.bar  ')
+			$present($this->Media),
+			$this->Provider->extract($url, $options)
 		);
 	}
 }
