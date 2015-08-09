@@ -232,7 +232,7 @@ class ProvidersTest extends TestCase {
 				'HowCast',
 				'http://www.howcast.com/videos/512882-How-to-Make-an-Alabama-Slammer-Shots-Recipes',
 				'title',
-				'How to Make an Alabama Slammer | Shots Recipes | Howcast'
+				'How to Make an Alabama Slammer | Howcast'
 			],
 			[
 				'Huffduffer',
@@ -261,14 +261,14 @@ class ProvidersTest extends TestCase {
 			[
 				'Imgur',
 				'http://imgur.com/gallery/FEiFVeO',
-				'title',
-				'The regal ring-neck snake.'
+				'providerName',
+				'Imgur'
 			],
 			[
 				'Instagram',
 				'http://instagram.com/p/pyHv4yvack/',
-				'description',
-				'“An 2061”'
+				'authorName',
+				'lekemar'
 			],
 			/*[
 				'Jest',
