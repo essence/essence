@@ -5,7 +5,7 @@
     <title>Essence by essence</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
     <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
   </head>
@@ -105,7 +105,7 @@ Based on such standards, these properties should be a solid starting point.</p>
 <h3>
 <a id="extracting-urls" class="anchor" href="#extracting-urls" aria-hidden="true"><span class="octicon octicon-link"></span></a>Extracting URLs</h3>
 
-<p>The <code>crawl()</code> method lets you extract embeddable URLs from a web page.</p>
+<p>The <code>crawl()</code> method lets you crawl extractable URLs from a web page.</p>
 
 <p>For example, here is how you could get the URL of all videos in a blog post:</p>
 
@@ -130,7 +130,7 @@ Based on such standards, these properties should be a solid starting point.</p>
 <h3>
 <a id="replacing-urls-in-text" class="anchor" href="#replacing-urls-in-text" aria-hidden="true"><span class="octicon octicon-link"></span></a>Replacing URLs in text</h3>
 
-<p>Essence can replace any embeddable URL in a text by information about it.
+<p>Essence can replace any extractable URL in a text by information about it.
 By default, any URL will be replaced by the <code>html</code> property of the found Media.</p>
 
 <div class="highlight highlight-php"><pre><span class="pl-s1"><span class="pl-c1">echo</span> <span class="pl-smi">$Essence</span><span class="pl-k">-&gt;</span>replace(<span class="pl-s"><span class="pl-pds">'</span>Look at this: http://www.youtube.com/watch?v=123456<span class="pl-pds">'</span></span>);</span></pre></div>
@@ -201,36 +201,32 @@ Dailymotion         Justin.tv           Shoudio             Youtube</pre></div>
 
 <p>Plus the <code>OEmbed</code> and <code>OpenGraph</code> providers, which can be used to extract any URL.</p>
 
-<p>You can configure these providers by passing a configuration array:</p>
+<p>You can configure these providers on instanciation:</p>
 
 <div class="highlight highlight-php"><pre><span class="pl-s1"><span class="pl-smi">$Essence</span> <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-c1">Essence\</span><span class="pl-c1">Essence</span>([</span>
-<span class="pl-s1">    <span class="pl-s"><span class="pl-pds">'</span>providers<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> [</span>
-<span class="pl-s1">        <span class="pl-c">// the OpenGraph provider will try to extract any URL that matches</span></span>
-<span class="pl-s1">        <span class="pl-c">// the filter</span></span>
-<span class="pl-s1">        <span class="pl-s"><span class="pl-pds">'</span>Ted<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> [</span>
-<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">'</span>class<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>OpenGraph<span class="pl-pds">'</span></span>,</span>
-<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">'</span>filter<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>#ted\.com/talks/.*#i<span class="pl-pds">'</span></span></span>
-<span class="pl-s1">        ],</span>
+<span class="pl-s1">    <span class="pl-c">// the SoundCloud provider is an OEmbed provider with a specific endpoint</span></span>
+<span class="pl-s1">    <span class="pl-s"><span class="pl-pds">'</span>SoundCloud<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-c1">Container</span><span class="pl-k">::</span>unique(<span class="pl-k">function</span>(<span class="pl-smi">$C</span>) {</span>
+<span class="pl-s1">        <span class="pl-k">return</span> <span class="pl-smi">$C</span><span class="pl-k">-&gt;</span>get(<span class="pl-s"><span class="pl-pds">'</span>OEmbedProvider<span class="pl-pds">'</span></span>)<span class="pl-k">-&gt;</span>setEndpoint(</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">'</span>http://soundcloud.com/oembed?format=json&amp;url=:url<span class="pl-pds">'</span></span></span>
+<span class="pl-s1">        );</span>
+<span class="pl-s1">    }),</span>
 <span class="pl-s1"></span>
-<span class="pl-s1">        <span class="pl-c">// the OEmbed provider will query the endpoint, :url beeing replaced</span></span>
-<span class="pl-s1">        <span class="pl-c">// by the requested URL.</span></span>
-<span class="pl-s1">        <span class="pl-s"><span class="pl-pds">'</span>Youtube<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> [</span>
-<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">'</span>class<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>OEmbed<span class="pl-pds">'</span></span>,</span>
-<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">'</span>filter<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>#youtube\.com/.*#<span class="pl-pds">'</span></span>,</span>
-<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">'</span>endpoint<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>http://www.youtube.com/oembed?format=json&amp;url=:url<span class="pl-pds">'</span></span></span>
-<span class="pl-s1">        ]</span>
+<span class="pl-s1">    <span class="pl-s"><span class="pl-pds">'</span>filters<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> [</span>
+<span class="pl-s1">        <span class="pl-c">// the SoundCloud provider will be used for URLs that matches this pattern</span></span>
+<span class="pl-s1">        <span class="pl-s"><span class="pl-pds">'</span>SoundCloud<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>~soundcloud\.com/[a-zA-Z0-9-_]+/[a-zA-Z0-9-]+~i<span class="pl-pds">'</span></span></span>
 <span class="pl-s1">    ]</span>
 <span class="pl-s1">]);</span></pre></div>
 
-<p>You can also load a configuration array from a file:</p>
+<p>You can also disable the default ones:</p>
 
 <div class="highlight highlight-php"><pre><span class="pl-s1"><span class="pl-smi">$Essence</span> <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-c1">Essence\</span><span class="pl-c1">Essence</span>([</span>
-<span class="pl-s1">    <span class="pl-s"><span class="pl-pds">'</span>providers<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>path/to/config/file.php<span class="pl-pds">'</span></span></span>
+<span class="pl-s1">    <span class="pl-s"><span class="pl-pds">'</span>filters<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> [</span>
+<span class="pl-s1">        <span class="pl-s"><span class="pl-pds">'</span>SoundCloud<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-c1">false</span></span>
+<span class="pl-s1">    ]</span>
 <span class="pl-s1">]);</span></pre></div>
 
-<p>You can use custom providers by specifying a fully-qualified class name in the 'class' option.</p>
-
-<p>If no configuration is provided, the default configuration will be loaded from the <code>config/providers.json</code> file.</p>
+<p>You will find the default configuration in the standard DI container of Essence
+(see the following part).</p>
 
 <h2>
 <a id="customization" class="anchor" href="#customization" aria-hidden="true"><span class="octicon octicon-link"></span></a>Customization</h2>
@@ -259,7 +255,7 @@ This script allows you to test Essence quickly:</p>
 <pre><code># will fetch and print information about the video
 ./cli/essence.php extract http://www.youtube.com/watch?v=4S_NHY9c8uM
 
-# will fetch and print all embeddable URLs found at the given HTML page
+# will fetch and print all extractable URLs found at the given HTML page
 ./cli/essence.php crawl http://www.youtube.com/watch?v=4S_NHY9c8uM
 </code></pre>
 
@@ -299,4 +295,3 @@ It allows you to build customizable embed codes painlessly:</p>
 
   </body>
 </html>
-
