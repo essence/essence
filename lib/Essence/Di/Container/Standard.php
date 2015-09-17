@@ -703,7 +703,7 @@ class Standard extends Container {
 			'Coub' => '~coub\.com/(view|embed)/.+~i',
 			'CrowdRanking' => '~crowdranking\.com/.+/.+~i',
 			'DailyMile' => '~dailymile\.com/people/.+/entries/.+~i',
-			'Dailymotion' => '~dailymotion\.com~i',
+			'Dailymotion' => '~(dailymotion\.com\/video|dai\.ly)\/[a-z0-9]~i',
 			'Deviantart' => '~deviantart\.com/.+~i',
 			'Dipity' => '~dipity\.com/.+~i',
 			'Dotsub' => '~dotsub\.com/view/.+~i',

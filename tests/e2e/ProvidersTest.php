@@ -181,6 +181,12 @@ class ProvidersTest extends TestCase {
 				'Golden Moustache'
 			],
 			[
+				'Dai.ly',
+				'http://dai.ly/x2091k1',
+				'authorName',
+				'Golden Moustache'
+			],
+			[
 				'Deviantart',
 				'http://pachunka.deviantart.com/art/Cope-145564099',
 				'authorName',
