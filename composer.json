@@ -2,7 +2,7 @@
 	"name": "essence/essence",
 	"type": "library",
 	"description": "Extracts information about medias on the web, like youtube videos, twitter statuses or blog articles.",
-	"version": "3.0.0",
+	"version": "3.1.0",
 	"authors": [{
 		"name": "Félix Girault",
 		"email": "felix.girault@gmail.com",
