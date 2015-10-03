@@ -38,25 +38,28 @@ class ProvidersTest extends TestCase {
 	 *	@param $name Provider name.
 	 *	@param $url URL to extract.
 	 *	@param $property Name of the property to test.
-	 *	@param $value Property value.
+	 *	@param $expected Property expected.
 	 */
-	public function testExtract($name, $url, $property, $value) {
+	public function testExtract($name, $url, $property, $expected) {
 		$Media = $this->Essence->extract($url);
 
 		if (!$Media) {
-			$this->markTestSkipped("Unable to extract '$url'");
-			return;
+			return $this->markTestSkipped(
+				"Unable to extract info from '$url'"
+			);
 		}
 
-		if (!$Media->has($property)) {
-			$this->markTestSkipped("Unable to find '$property'");
-			return;
+		$value = $Media->get($property);
+
+		if ($value != $expected) {
+			return $this->markTestSkipped(
+				"The value of '$property' ('$value') "
+				. "is not as expected ('$expected') "
+				. "when trying to extract info from '$url'"
+			);
 		}
 
-		$this->assertEquals(
-			$value,
-			$Media->get($property, $value)
-		);
+		$this->assertEquals($expected, $value);
 	}
 
 
@@ -101,12 +104,6 @@ class ProvidersTest extends TestCase {
 				'http://jeanjean.bandcamp.com/track/coquin-l-l-phant',
 				'providerName',
 				'bandcamp'
-			],
-			[
-				'Blip.tv',
-				'http://blip.tv/nostalgiacritic/nostalgia-critic-blues-brothers-2000-6908864',
-				'authorName',
-				'nostalgiacritic'
 			],
 			/*[
 				'Cacoo',
@@ -219,8 +216,8 @@ class ProvidersTest extends TestCase {
 			[
 				'FunnyOrDie',
 				'http://www.funnyordie.com/videos/75d77b0795/hey-you',
-				'duration',
-				'199.867'
+				'title',
+				'Hey You'
 			],
 			/*[
 				'Gist',
@@ -394,7 +391,7 @@ class ProvidersTest extends TestCase {
 				'Sketchfab',
 				'https://sketchfab.com/models/qsRPEw7hTKC4E02XMop9DUpu2wb',
 				'authorName',
-				'Mestaty'
+				'Virtual Studio'
 			],
 			[
 				'SlideShare',
