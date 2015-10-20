@@ -12,7 +12,8 @@ use Essence\Media;
 
 
 /**
- *
+ *	Replaces the default thumbnail image URL to allow for
+ *	other dimensions.
  */
 class Youtube extends Presenter {
 

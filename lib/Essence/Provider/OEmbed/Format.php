@@ -9,7 +9,7 @@ namespace Essence\Provider\OEmbed;
 
 
 /**
- *
+ *	Enumeration of the different oEmbed response formats.
  */
 class Format {
 

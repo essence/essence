@@ -13,7 +13,7 @@ use Essence\Utility\Template;
 
 
 /**
- *	Reindexes media properties.
+ *	Compiles templates to fill media properties.
  */
 class Templater extends Presenter {
 

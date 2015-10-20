@@ -9,7 +9,7 @@ namespace Essence\Utility;
 
 
 /**
- *
+ *	Utilities to build and resolve URLs.
  */
 class Url {
 

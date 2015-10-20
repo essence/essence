@@ -37,7 +37,9 @@ class Crawler {
 
 
 	/**
+	 *	Attributes to crawl for URLs.
 	 *
+	 *	@var array
 	 */
 	protected $_attributes = [
 		'a' => 'href',
