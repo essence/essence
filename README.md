@@ -215,7 +215,7 @@ You can configure these providers on instanciation:
 ```php
 $Essence = new Essence\Essence([
 	// the SoundCloud provider is an OEmbed provider with a specific endpoint
-	'SoundCloud' => Container::unique(function($C) {
+	'SoundCloud' => Essence\Di\Container::unique(function($C) {
 		return $C->get('OEmbedProvider')->setEndpoint(
 			'http://soundcloud.com/oembed?format=json&url=:url'
 		);
