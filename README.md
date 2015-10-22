@@ -1,5 +1,4 @@
-Essence
-=======
+![Essence](http://www.felix-girault.fr/wp-content/uploads/2015/10/essence31.png)
 
 [![Build status](http://img.shields.io/travis/essence/essence.svg?style=flat-square)](http://travis-ci.org/essence/essence)
 [![Scrutinizer Code Quality](http://img.shields.io/scrutinizer/g/essence/essence.svg?style=flat-square)](https://scrutinizer-ci.com/g/essence/essence)
