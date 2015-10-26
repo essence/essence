@@ -339,6 +339,9 @@ class Standard extends Container {
 					'http://www.23hq.com/23/oembed?format=json&url=:url'
 				);
 			}),
+			'500px' => Container::unique(function($C) {
+				return $C->get('OpenGraphProvider');
+			}),
 			'Animoto' => Container::unique(function($C) {
 				return $C->get('OEmbedProvider')->setEndpoint(
 					'http://animoto.com/oembeds/create?format=json&url=:url'
@@ -687,6 +690,7 @@ class Standard extends Container {
 	protected function _setupFilters() {
 		$this->set('filters', [
 			'23hq' => '~23hq\.com/.+/photo/.+~i',
+			'500px' => '~500px\.com/photo/.+~i',
 			'Animoto' => '~animoto\.com/play/.+~i',
 			'Aol' => '~on\.aol\.com/video/.+~i',
 			'App.net' => '~(alpha|photo)\.app\.net/.+(/post)?/.+~i',

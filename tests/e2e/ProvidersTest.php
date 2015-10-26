@@ -75,6 +75,12 @@ class ProvidersTest extends TestCase {
 				'authorName',
 				'Zzleeper'
 			],
+			[
+				'500px',
+				'https://500px.com/photo/388736/oo-by-besim-mazhiqi',
+				'title',
+				'oo'
+			],
 			/*[
 				'Animoto',
 				'',
