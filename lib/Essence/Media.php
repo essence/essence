@@ -196,7 +196,7 @@ class Media implements IteratorAggregate, JsonSerializable {
 	 *	@param array $properties Default properties.
 	 */
 	public function setDefaults(array $properties) {
-		$this->_properties += $properties;
+		$this->_properties = $properties + $this->_properties;
 		return $this;
 	}
 
