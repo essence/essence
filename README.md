@@ -104,7 +104,7 @@ The `crawl()` method lets you crawl extractable URLs from a web page.
 For example, here is how you could get the URL of all videos in a blog post:
 
 ```php
-$urls = $Essence->crawl('http://www.blog.com/article');
+$urls = $Essence->crawlUrl('http://www.blog.com/article');
 ```
 ```
 array(2) {
