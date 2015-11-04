@@ -418,7 +418,7 @@ class Standard extends Container {
 			}),
 			'Dailymotion' => Container::unique(function($C) {
 				return $C->get('OEmbedProvider')->setEndpoint(
-					'http://www.dailymotion.com/services/oembed?format=json&url=:url'
+					'https://www.dailymotion.com/services/oembed?format=json&url=:url'
 				);
 			}),
 			'Deviantart' => Container::unique(function($C) {
