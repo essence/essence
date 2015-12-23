@@ -728,7 +728,7 @@ class Standard extends Container {
 			'Ifttt' => '~ifttt\.com/recipes/.+~i',
 			'Imgur' => '~(imgur\.com/(gallery|a)/.+|imgur\.com/.+)~i',
 			'InstagramOEmbed' => '~instagr(\.am|am\.com)/p/.+~i',
-			'InstagramOpenGraph' => '~instagr(\.am|am\.com)/p/.+~i',
+			'InstagramOpenGraph' => '~instagr(\.am|am\.com)/.+~i',
 			'Jest' => '~jest\.com/(video|embed)/.+~i',
 			'Justin' => '~justin\.tv/.+~i',
 			'Kickstarter' => '~kickstarter\.com/projects/.+~i',
