@@ -444,10 +444,13 @@ class Standard extends Container {
 			'EdocrTwitterCards' => Container::unique(function($C) {
 				return $C->get('TwitterCardsProvider');
 			}),
-			'Flickr' => Container::unique(function($C) {
+			'FlickrOEmbed' => Container::unique(function($C) {
 				return $C->get('OEmbedProvider')->setEndpoint(
 					'http://flickr.com/services/oembed?format=json&url=:url'
 				);
+			}),
+			'FlickrOpenGraph' => Container::unique(function($C) {
+				return $C->get('OpenGraphProvider');
 			}),
 			'FunnyOrDie' => Container::unique(function($C) {
 				return $C->get('OEmbedProvider')->setEndpoint(
@@ -713,7 +716,8 @@ class Standard extends Container {
 			'Dotsub' => '~dotsub\.com/view/.+~i',
 			'EdocrOEmbed' => '~edocr\.com/doc/[0-9]+/.+~i',
 			'EdocrTwitterCards' => '~edocr\.com/doc/[0-9]+/.+~i',
-			'Flickr' => '~flickr\.com/photos/[a-zA-Z0-9@\._]+/[0-9]+~i',
+			'FlickrOEmbed' => '~flickr\.com/photos/[a-zA-Z0-9@\._]+/[0-9]+~i',
+			'FlickrOpenGraph' => '~flickr\.com/photos/[a-zA-Z0-9@\._]+/[0-9]+~i',
 			'FunnyOrDie' => '~funnyordie\.com/videos/.+~i',
 			'Gist' => '~gist\.github\.com/.+/[0-9]+~i',
 			'Gmep' => '~gmep\.org/media/.+~i',
