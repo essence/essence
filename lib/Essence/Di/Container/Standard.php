@@ -59,12 +59,15 @@ class Standard extends Container {
 	protected function _setupHelpers() {
 		$this->configure([
 			'httpUserAgent' => 'Essence',
-			'Http' => Container::unique(function() {
+			'Http' => Container::unique(function($C) {
 				$Http = function_exists('curl_init')
 					? new CurlHttpClient()
 					: new NativeHttpClient();
 
-				$Http->setUserAgent('httpUserAgent');
+				$Http->setUserAgent(
+					$C->get('httpUserAgent')
+				);
+
 				return $Http;
 			}),
 			'Dom' => Container::unique(function() {
