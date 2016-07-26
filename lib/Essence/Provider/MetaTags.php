@@ -46,6 +46,12 @@ class MetaTags extends Provider {
 	 */
 	protected $_metaPattern = '~.+~';
 
+	/**
+	 *	Use meta name instead of property
+	 *
+	 *	@var string
+	 */
+	protected $_metaAttribute = 'property';
 
 
 	/**
@@ -70,7 +76,19 @@ class MetaTags extends Provider {
 		$this->_metaPattern = $pattern;
 	}
 
+	/**
+	 * Set meta attribute to name
+	 */
+	public function useMetaName() {
+		$this->_metaAttribute = 'name';
+	}
 
+	/**
+	 * Set meta attribute to name
+	 */
+	public function useMetaProperty() {
+		$this->_metaAttribute = 'property';
+	}
 
 	/**
 	 *	{@inheritDoc}
@@ -100,7 +118,7 @@ class MetaTags extends Provider {
 		$Document = $this->_Dom->document($html);
 
 		return $Document->tags('meta', function($Tag) {
-			return $Tag->matches('property', $this->_metaPattern);
+			return $Tag->matches($this->_metaAttribute, $this->_metaPattern);
 		});
 	}
 
@@ -114,7 +132,7 @@ class MetaTags extends Provider {
 	 */
 	protected function _media(array $metas) {
 		$metas = Transform::combine($metas, function($Meta) {
-			yield $Meta->get('property') => $Meta->get('content');
+			yield $Meta->get($this->_metaAttribute) => $Meta->get('content');
 		});
 
 		return new Media($metas);
