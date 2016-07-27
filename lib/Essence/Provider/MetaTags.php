@@ -47,7 +47,7 @@ class MetaTags extends Provider {
 	protected $_metaPattern = '~.+~';
 
 	/**
-	 *	Use meta name instead of property
+	 *	Meta naming attribute.
 	 *
 	 *	@var string
 	 */
@@ -77,17 +77,12 @@ class MetaTags extends Provider {
 	}
 
 	/**
-	 * Set meta attribute to name
+	 * Sets the meta attribute
+	 *
+	 * @param $attribute
 	 */
-	public function useMetaName() {
-		$this->_metaAttribute = 'name';
-	}
-
-	/**
-	 * Set meta attribute to name
-	 */
-	public function useMetaProperty() {
-		$this->_metaAttribute = 'property';
+	public function setMetaAttribute($attribute) {
+		$this->_metaAttribute = $attribute;
 	}
 
 	/**
