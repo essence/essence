@@ -17,7 +17,7 @@ use Essence\Log\Logger;
  *	@package Essence.Log.Logger
  */
 
-class Null implements Logger {
+class NullClass implements Logger {
 
 	/**
 	 *	{@inheritDoc}
