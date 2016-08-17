@@ -8,7 +8,7 @@
 namespace Essence;
 
 use PHPUnit_Framework_TestCase;
-use Essence\Log\Logger\Null as NullLogger;
+use Essence\Log\Logger\NullClass as NullLogger;
 
 
 

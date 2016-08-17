@@ -13,7 +13,7 @@ use Essence\Cache\Engine\Volatile as VolatileCacheEngine;
 use Essence\Dom\Parser\Native as NativeDomParser;
 use Essence\Http\Client\Curl as CurlHttpClient;
 use Essence\Http\Client\Native as NativeHttpClient;
-use Essence\Log\Logger\Null as NullLogger;
+use Essence\Log\Logger\NullClass as NullLogger;
 use Essence\Provider\Collection;
 use Essence\Provider\OEmbed;
 use Essence\Provider\OEmbed\Vimeo;

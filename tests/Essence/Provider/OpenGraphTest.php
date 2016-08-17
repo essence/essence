@@ -10,7 +10,7 @@ namespace Essence\Provider;
 use PHPUnit_Framework_TestCase;
 use Essence\Dom\Parser\Native as NativeDomParser;
 use Essence\Http\Client\Native as NativeHttpClient;
-use Essence\Log\Logger\Null as NullLogger;
+use Essence\Log\Logger\NullClass as NullLogger;
 
 
 
