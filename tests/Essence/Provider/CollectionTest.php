@@ -11,7 +11,7 @@ use PHPUnit_Framework_TestCase;
 use Essence\Provider;
 use Essence\Provider\OEmbed;
 use Essence\Di\Container;
-use Essence\Log\Logger\Null as NullLogger;
+use Essence\Log\Logger\NullClass as NullLogger;
 
 
 
