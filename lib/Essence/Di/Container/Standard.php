@@ -435,10 +435,10 @@ class Standard extends Container {
 				);
 			}),
 			'Documentcloud' => Container::unique(function($C) {
-                                return $C->get('OEmbedProvider')->setEndpoint(
-                                        'http://www.documentcloud.org/api/oembed.json?responsive=true&url=:url'
-                                );
-                        }),
+				return $C->get('OEmbedProvider')->setEndpoint(
+					'http://www.documentcloud.org/api/oembed.json?responsive=true&url=:url'
+				);
+			}),
 			'Dotsub' => Container::unique(function($C) {
 				return $C->get('OEmbedProvider')->setEndpoint(
 					'https://dotsub.com/services/oembed?format=json&url=:url'
