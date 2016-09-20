@@ -202,6 +202,12 @@ class ProvidersTest extends TestCase {
 				'multimediajournalism'
 			],
 			[
+				'DocumentCloud',
+				'https://www.documentcloud.org/documents/3108580-Department-of-Education-and-Skills-Strategy.html',
+				'provider_name',
+				'DocumentCloud'
+			],
+			[
 				'Dotsub',
 				'http://dotsub.com/view/9c63db2a-fa95-4838-8e6e-13deafe47f09',
 				'authorName',

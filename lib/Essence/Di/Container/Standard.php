@@ -434,6 +434,11 @@ class Standard extends Container {
 					'http://www.dipity.com/oembed/timeline?format=json&url=:url'
 				);
 			}),
+			'Documentcloud' => Container::unique(function($C) {
+				return $C->get('OEmbedProvider')->setEndpoint(
+					'http://www.documentcloud.org/api/oembed.json?responsive=true&url=:url'
+				);
+			}),
 			'Dotsub' => Container::unique(function($C) {
 				return $C->get('OEmbedProvider')->setEndpoint(
 					'https://dotsub.com/services/oembed?format=json&url=:url'
@@ -716,6 +721,7 @@ class Standard extends Container {
 			'Dailymotion' => '~(dailymotion\.com\/video|dai\.ly)\/[a-z0-9]~i',
 			'Deviantart' => '~deviantart\.com/.+~i',
 			'Dipity' => '~dipity\.com/.+~i',
+			'Documentcloud' => '~documentcloud\.org.+~i',
 			'Dotsub' => '~dotsub\.com/view/.+~i',
 			'EdocrOEmbed' => '~edocr\.com/doc/[0-9]+/.+~i',
 			'EdocrTwitterCards' => '~edocr\.com/doc/[0-9]+/.+~i',
