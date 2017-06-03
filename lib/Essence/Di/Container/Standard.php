@@ -689,6 +689,11 @@ class Standard extends Container {
 				return $C->get('YoutubeProvider')->setEndpoint(
 					'http://www.youtube.com/oembed?format=json&url=:url'
 				);
+			}),
+			'FacebookVideo' => Container::unique(function($C) {
+				return $C->get('OEmbedProvider')->setEndpoint(
+					'https://www.facebook.com/plugins/video/oembed.json/?url=:url'
+				);
 			})
 		]);
 	}
@@ -774,7 +779,8 @@ class Standard extends Container {
 			'Wistia' => '~https?://(.+)?(wistia.com|wi.st)/.*~i',
 			'WordPress' => '~wordpress\.com/.+~i',
 			'Yfrog' => '~yfrog\.(com|ru|com\.tr|it|fr|co\.il|co\.uk|com\.pl|pl|eu|us)/.+~i',
-			'Youtube' => '~youtube\.com|youtu\.be~i'
+			'Youtube' => '~youtube\.com|youtu\.be~i',
+			'FacebookVideo' => '~facebook\.com/.+/videos/.*~i'
 		]);
 	}
 }
