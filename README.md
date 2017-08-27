@@ -99,7 +99,7 @@ The Essence class provides some useful utility functions to ensure you will get 
 
 ### Extracting URLs
 
-The `crawlUrl()` method lets you crawl extractable URLs from a web page.
+The `crawl()` and `crawlUrl()` methods let you crawl extractable URLs from a web page, either directly from its source, or from its URL (in which case Essence will take care of fetching the source).
 
 For example, here is how you could get the URL of all videos in a blog post:
 
