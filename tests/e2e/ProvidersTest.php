@@ -220,6 +220,12 @@ class ProvidersTest extends TestCase {
 				'info_769'
 			],
 			[
+				'FacebookPost',
+				'https://www.facebook.com/OfficialFireflySeries/posts/1525367254209816',
+				'provider_name',
+				'Facebook'
+			],
+			[
 				'Flickr',
 				'https://www.flickr.com/photos/loubella/14540822193/in/explore-2014-06-27',
 				'authorName',
