@@ -281,7 +281,7 @@ class ProvidersTest extends TestCase {
 			],
 			[
 				'Imgur',
-				'http://imgur.com/gallery/FEiFVeO',
+				'https://imgur.com/gallery/FEiFVeO',
 				'providerName',
 				'Imgur'
 			],
