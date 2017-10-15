@@ -505,7 +505,7 @@ class Standard extends Container {
 			}),
 			'Imgur' => Container::unique(function($C) {
 				return $C->get('OEmbedProvider')->setEndpoint(
-					'http://api.imgur.com/oembed?format=json&url=:url'
+					'https://api.imgur.com/oembed?format=json&url=:url'
 				);
 			}),
 			'InstagramOEmbed' => Container::unique(function($C) {
