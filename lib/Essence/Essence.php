@@ -38,7 +38,7 @@ class Essence {
 	/**
 	 *	URL crawler.
 	 *
-	 *	@var Essence\Crawler
+	 *	@var Crawler
 	 */
 	protected $_Crawler = null;
 
@@ -47,7 +47,7 @@ class Essence {
 	/**
 	 *	Information extractor.
 	 *
-	 *	@var Essence\Extractor
+	 *	@var Extractor
 	 */
 	protected $_Extractor = null;
 
@@ -56,7 +56,7 @@ class Essence {
 	/**
 	 *	URL replacer.
 	 *
-	 *	@var Essence\Replacer
+	 *	@var Replacer
 	 */
 	protected $_Replacer = null;
 
@@ -95,8 +95,8 @@ class Essence {
 	 *	Crawls the given source for extractable URLs, optionnaly
 	 *	resolving them relatively to a base one.
 	 *
-	 *	@see Essence\Crawler::crawl()
-	 *	@see Essence\Utility\Url::resolve()
+	 *	@see Crawler::crawl()
+	 *	@see Utility\Url::resolve()
 	 *	@param string $source HTML source.
 	 *	@param string $base Base URL.
 	 *	@return array URLs.
@@ -124,7 +124,7 @@ class Essence {
 
 
 	/**
-	 *	@see Essence\Extractor::extract()
+	 *	@see Extractor::extract()
 	 */
 	public function extract($url, array $options = []) {
 		return $this->_Extractor->extract($url, $options);
@@ -133,7 +133,7 @@ class Essence {
 
 
 	/**
-	 *	@see Essence\Extractor::extractAll()
+	 *	@see Extractor::extractAll()
 	 */
 	public function extractAll(array $urls, array $options = []) {
 		return $this->_Extractor->extractAll($urls, $options);
@@ -142,7 +142,7 @@ class Essence {
 
 
 	/**
-	 *	@see Essence\Replacer::replace()
+	 *	@see Replacer::replace()
 	 */
 	public function replace($text, $template = null, array $options = []) {
 		return $this->_Replacer->replace($text, $template, $options);
