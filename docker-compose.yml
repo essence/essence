@@ -1,0 +1,22 @@
+version: '3.7'
+
+x-cli-defaults: &cli
+  tty: true
+  init: true
+  image: essence-local:latest
+  build:
+    context: .
+    dockerfile: Dockerfile
+  working_dir: /app
+  volumes:
+    - ./cli:/app/cli:cached
+    - ./lib:/app/cli:cached
+    - ./tests:/app/cli:cached
+
+services:
+  test:
+    <<: *cli
+    entrypoint: composer exec phpunit -- -c phpunit.xml -v
+  e2e:
+    <<: *cli
+    entrypoint: composer exec phpunit -- -c phpunit.e2e.xml -v
