@@ -172,7 +172,7 @@ class Standard extends Container {
 	protected function _setupYoutube() {
 		$this->configure([
 			'youtubeIdPattern' => '~(?:v=|v/|embed/|youtu\.be/)(?<id>[a-z0-9_-]+)~i',
-			'youtubeUrlTemplate' => 'http://www.youtube.com/watch?v=:id',
+			'youtubeUrlTemplate' => 'https://www.youtube.com/watch?v=:id',
 			'youtubeThumbnailFormat' => Youtube::large,
 			'youtubePreparators' => Container::unique(function($C) {
 				$preparators = $C->get('oEmbedPreparators');
@@ -692,7 +692,7 @@ class Standard extends Container {
 			}),
 			'Youtube' => Container::unique(function($C) {
 				return $C->get('YoutubeProvider')->setEndpoint(
-					'http://www.youtube.com/oembed?format=json&url=:url'
+					'https://www.youtube.com/oembed?format=json&url=:url'
 				);
 			}),
 			'FacebookVideo' => Container::unique(function($C) {
