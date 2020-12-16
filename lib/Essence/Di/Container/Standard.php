@@ -692,7 +692,7 @@ class Standard extends Container {
 			}),
 			'Youtube' => Container::unique(function($C) {
 				return $C->get('YoutubeProvider')->setEndpoint(
-					'http://www.youtube.com/oembed?format=json&url=:url'
+					'https://www.youtube.com/oembed?format=json&url=:url'
 				);
 			}),
 			'FacebookVideo' => Container::unique(function($C) {
