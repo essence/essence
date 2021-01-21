@@ -669,7 +669,7 @@ class Standard extends Container {
 			}),
 			'Vimeo' => Container::unique(function($C) {
 				return $C->get('VimeoProvider')->setEndpoint(
-					'http://vimeo.com/api/oembed.json?url=:url'
+					'https://vimeo.com/api/oembed.json?url=:url'
 				);
 			}),
 			'Vine' => Container::unique(function($C) {
