@@ -531,6 +531,11 @@ class Standard extends Container {
 					'http://www.kickstarter.com/services/oembed?format=json&url=:url'
 				);
 			}),
+			'Libsyn' => Container::unique(function($C) {
+				return $C->get('OEmbedProvider')->setEndpoint(
+					'https://oembed.libsyn.com/?url=:url&format=json'
+				);
+			}),
 			'Meetup' => Container::unique(function($C) {
 				return $C->get('OEmbedProvider')->setEndpoint(
 					'https://api.meetup.com/oembed?format=json&url=:url'
@@ -752,6 +757,7 @@ class Standard extends Container {
 			'Jest' => '~jest\.com/(video|embed)/.+~i',
 			'Justin' => '~justin\.tv/.+~i',
 			'Kickstarter' => '~kickstarter\.com/projects/.+~i',
+			'Libsyn' => '~libsyn\.com~i',
 			'Meetup' => '~meetup\.(com|ps)/.+~i',
 			'Mixcloud' => '~mixcloud\.com/.+/.+~i',
 			'Mobypicture' => '~(moby.to|mobypicture\.com/user/.+/view)/.+~i',
