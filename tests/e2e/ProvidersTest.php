@@ -304,6 +304,12 @@ class ProvidersTest extends TestCase {
 				''
 			],*/
 			[
+				'JWPlayer',
+				'https://cdn.jwplayer.com/players/nPripu9l-ALJ3XQCI.js',
+				'title',
+				'Big Buck Bunny Trailer'
+			],
+			[
 				'Kickstarter',
 				'https://www.kickstarter.com/projects/1452363698/good-seed-craft-veggie-burgers',
 				'authorName',

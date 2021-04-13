@@ -17,6 +17,7 @@ use Essence\Http\Client\Native as NativeHttpClient;
 use Essence\Provider\Collection;
 use Essence\Provider\MetaTags;
 use Essence\Provider\OEmbed;
+use Essence\Provider\OEmbed\JWPlayer;
 use Essence\Provider\OpenGraph;
 use Essence\Provider\Preparator\Refactorer;
 use Essence\Provider\Presenter\Completer;
@@ -526,6 +527,9 @@ class Standard extends Container {
 					'http://api.justin.tv/api/embed/from_url.json?url=:url'
 				);
 			}),
+			'JWPlayer' => Container::unique(function($C) {
+				return new JWPlayer($C->get('Http'), $C->get('Dom'));
+			}),
 			'Kickstarter' => Container::unique(function($C) {
 				return $C->get('OEmbedProvider')->setEndpoint(
 					'http://www.kickstarter.com/services/oembed?format=json&url=:url'
@@ -751,6 +755,7 @@ class Standard extends Container {
 			'InstagramOpenGraph' => '~instagr(\.am|am\.com)/.+~i',
 			'Jest' => '~jest\.com/(video|embed)/.+~i',
 			'Justin' => '~justin\.tv/.+~i',
+			'JWPlayer' => '~\.jwplayer.com/.+?/([a-z0-9]+)-([a-z0-9]+)\.~i',
 			'Kickstarter' => '~kickstarter\.com/projects/.+~i',
 			'Meetup' => '~meetup\.(com|ps)/.+~i',
 			'Mixcloud' => '~mixcloud\.com/.+/.+~i',
