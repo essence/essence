@@ -521,7 +521,7 @@ class Standard extends Container {
 					'http://www.jest.com/oembed.json?url=:url'
 				);
 			}),
-			'Justin.tv' => Container::unique(function($C) {
+			'Justin' => Container::unique(function($C) {
 				return $C->get('OEmbedProvider')->setEndpoint(
 					'http://api.justin.tv/api/embed/from_url.json?url=:url'
 				);
