@@ -298,7 +298,7 @@ class ProvidersTest extends TestCase {
 				''
 			],*/
 			/*[
-				'Justin.tv',
+				'Justin',
 				'http://www.justin.tv/deepellumonair',
 				'',
 				''
