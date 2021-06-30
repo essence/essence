@@ -735,7 +735,7 @@ class Standard extends Container {
 			'Dotsub' => '~dotsub\.com/view/.+~i',
 			'EdocrOEmbed' => '~edocr\.com/doc/[0-9]+/.+~i',
 			'EdocrTwitterCards' => '~edocr\.com/doc/[0-9]+/.+~i',
-			'FacebookPost' => '~facebook\.com\/[\S]+\/(photos|posts).+~i',
+			'FacebookPost' => '~facebook\.com\/([\S]+\/)?(photos|posts|photo\.php|permalink\.php).+~i',
 			'FlickrOEmbed' => '~flickr\.com/photos/[a-zA-Z0-9@\._]+/[0-9]+~i',
 			'FlickrOpenGraph' => '~flickr\.com/photos/[a-zA-Z0-9@\._]+/[0-9]+~i',
 			'FunnyOrDie' => '~funnyordie\.com/videos/.+~i',
