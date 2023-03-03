@@ -256,6 +256,7 @@ class Media implements IteratorAggregate, JsonSerializable {
 	 *
 	 *	@return ArrayIterator Iterator.
 	 */
+	#[\ReturnTypeWillChange]
 	public function getIterator() {
 		return new ArrayIterator($this->_properties);
 	}
