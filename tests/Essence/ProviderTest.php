@@ -6,7 +6,7 @@
  */
 namespace Essence;
 
-use PHPUnit_Framework_TestCase as TestCase;
+use PHPUnit\Framework\TestCase as TestCase;
 
 
 
@@ -26,7 +26,7 @@ class ProviderTest extends TestCase {
 	/**
 	 *
 	 */
-	public function setup() {
+	public function setUp(): void {
 		$this->Media = new Media([
 			'url' => 'http://foo.bar.com/resource',
 			'title' => 'Title',

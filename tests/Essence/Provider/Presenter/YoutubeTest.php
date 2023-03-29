@@ -6,7 +6,7 @@
  */
 namespace Essence\Provider\Presenter;
 
-use PHPUnit_Framework_TestCase as TestCase;
+use PHPUnit\Framework\TestCase as TestCase;
 use Essence\Media;
 
 
@@ -26,7 +26,7 @@ class YoutubeTest extends TestCase {
 	/**
 	 *
 	 */
-	public function setup() {
+	public function setUp(): void {
 		$this->Media = new Media([
 			'thumbnailUrl' => 'http://i1.ytimg.com/vi/5jmjBXoyugM/hqdefault.jpg'
 		]);

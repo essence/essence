@@ -6,7 +6,7 @@
  */
 namespace Essence\Provider;
 
-use PHPUnit_Framework_TestCase as TestCase;
+use PHPUnit\Framework\TestCase as TestCase;
 use Essence\Di\Container;
 use StdClass;
 
@@ -34,7 +34,7 @@ class CollectionTest extends TestCase {
 	/**
 	 *
 	 */
-	public function setUp() {
+	public function setUp(): void {
 		$this->Provider = new StdClass();
 
 		$Container = new Container();

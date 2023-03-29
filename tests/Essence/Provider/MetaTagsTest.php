@@ -6,7 +6,7 @@
  */
 namespace Essence\Provider;
 
-use PHPUnit_Framework_TestCase as TestCase;
+use PHPUnit\Framework\TestCase as TestCase;
 use Essence\Dom\Document\Factory\Native as NativeDomDocument;
 use Essence\Http\Client\Native as NativeHttpClient;
 
@@ -27,7 +27,7 @@ class MetaTagsTest extends TestCase {
 	/**
 	 *
 	 */
-	public function setUp() {
+	public function setUp(): void {
 		$this->MetaTags = new MetaTags(
 			new NativeHttpClient(),
 			new NativeDomDocument()
@@ -56,7 +56,7 @@ class MetaTagsTest extends TestCase {
 	 *
 	 */
 	public function testExtractNothing() {
-		$this->setExpectedException('Exception');
+		$this->expectException('Exception');
 
 		$this->MetaTags->setMetaPattern('~nothing~');
 		$this->MetaTags->extract(

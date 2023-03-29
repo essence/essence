@@ -6,7 +6,7 @@
  */
 namespace Essence\Provider\Preparator;
 
-use PHPUnit_Framework_TestCase as TestCase;
+use PHPUnit\Framework\TestCase as TestCase;
 
 
 
@@ -25,7 +25,7 @@ class RefactorerTest extends TestCase {
 	/**
 	 *
 	 */
-	public function setUp() {
+	public function setUp(): void {
 		$this->Refactorer = new Refactorer(
 			'#player\.vimeo\.com/video/(?<id>[0-9]+)#i',
 			'http://www.vimeo.com/:id'

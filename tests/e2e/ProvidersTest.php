@@ -4,7 +4,7 @@
  *	@author Félix Girault <felix.girault@gmail.com>
  *	@license FreeBSD License (http://opensource.org/licenses/BSD-2-Clause)
  */
-use PHPUnit_Framework_TestCase as TestCase;
+use PHPUnit\Framework\TestCase as TestCase;
 use Essence\Essence;
 
 
@@ -24,7 +24,7 @@ class ProvidersTest extends TestCase {
 	/**
 	 *
 	 */
-	public function setUp() {
+	public function setUp(): void {
 		$this->Essence = new Essence();
 	}
 
