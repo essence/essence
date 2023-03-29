@@ -6,7 +6,7 @@
  */
 namespace Essence\Provider\Presenter;
 
-use PHPUnit_Framework_TestCase as TestCase;
+use PHPUnit\Framework\TestCase as TestCase;
 use Essence\Media;
 
 
@@ -26,7 +26,7 @@ class CompleterTest extends TestCase {
 	/**
 	 *
 	 */
-	public function setUp() {
+	public function setUp(): void {
 		$this->Completer = new Completer([
 			'foo' => 'bar'
 		]);

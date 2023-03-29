@@ -6,7 +6,7 @@
  */
 namespace Essence;
 
-use PHPUnit_Framework_TestCase as TestCase;
+use PHPUnit\Framework\TestCase as TestCase;
 use Essence\Di\Container\Standard as StandardContainer;
 
 
@@ -26,7 +26,7 @@ class ExtractorTest extends TestCase {
 	/**
 	 *
 	 */
-	public function setUp() {
+	public function setUp(): void {
 		$Media = new Media();
 		$Provider = $this->getMockForAbstractClass('\\Essence\\Provider');
 

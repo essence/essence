@@ -6,7 +6,7 @@
  */
 namespace Essence;
 
-use PHPUnit_Framework_TestCase as TestCase;
+use PHPUnit\Framework\TestCase as TestCase;
 use Essence\Di\Container\Standard as StandardContainer;
 use Essence\Dom\Document\Factory\Native as NativeDomDocument;
 use Essence\Http\Client\Native as NativeHttpClient;
@@ -29,7 +29,7 @@ class CrawlerTest extends TestCase {
 	/**
 	 *
 	 */
-	public function setUp() {
+	public function setUp(): void {
 		$Container = new StandardContainer();
 		$Container->set('filters', [
 			'Provider' => '~pass~i'

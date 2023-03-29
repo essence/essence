@@ -6,7 +6,7 @@
  */
 namespace Essence;
 
-use PHPUnit_Framework_TestCase as TestCase;
+use PHPUnit\Framework\TestCase as TestCase;
 
 
 
@@ -35,7 +35,7 @@ class MediaTest extends TestCase {
 	/**
 	 *
 	 */
-	public function setUp() {
+	public function setUp(): void {
 		$this->Media = new Media($this->properties);
 	}
 

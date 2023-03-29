@@ -6,7 +6,7 @@
  */
 namespace Essence\Utility;
 
-use PHPUnit_Framework_TestCase as TestCase;
+use PHPUnit\Framework\TestCase as TestCase;
 
 
 

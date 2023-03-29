@@ -6,7 +6,7 @@
  */
 namespace Essence\Provider\OEmbed;
 
-use PHPUnit_Framework_TestCase as TestCase;
+use PHPUnit\Framework\TestCase as TestCase;
 
 
 
@@ -25,7 +25,7 @@ class ConfigTest extends TestCase {
 	/**
 	 *
 	 */
-	public function setUp() {
+	public function setUp(): void {
 		$this->Config = new Config();
 	}
 

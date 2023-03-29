@@ -6,7 +6,7 @@
  */
 namespace Essence\Provider;
 
-use PHPUnit_Framework_TestCase as TestCase;
+use PHPUnit\Framework\TestCase as TestCase;
 use Essence\Provider\OEmbed\Format;
 use Essence\Dom\Document\Factory\Native as NativeDomDocument;
 use Essence\Http\Client\Native as NativeHttpClient;
@@ -28,7 +28,7 @@ class OEmbedTest extends TestCase {
 	/**
 	 *
 	 */
-	public function setup() {
+	public function setUp(): void {
 		$this->OEmbed = new OEmbed(
 			new NativeHttpClient(),
 			new NativeDomDocument()
@@ -52,7 +52,7 @@ class OEmbedTest extends TestCase {
 	 *
 	 */
 	public function testExtractInvalidJson() {
-		$this->setExpectedException('Exception');
+		$this->expectException('Exception');
 		$this->OEmbed->extract('invalid');
 	}
 
@@ -77,7 +77,7 @@ class OEmbedTest extends TestCase {
 		$this->OEmbed->setEndpoint('file://' . ESSENCE_HTTP . ':url.xml');
 		$this->OEmbed->setFormat(Format::xml);
 
-		$this->setExpectedException('Exception');
+		$this->expectException('Exception');
 		$this->OEmbed->extract('invalid');
 	}
 
@@ -89,7 +89,7 @@ class OEmbedTest extends TestCase {
 	public function testExtractUnsupportedFormat() {
 		$this->OEmbed->setFormat('unsupported');
 
-		$this->setExpectedException('Exception');
+		$this->expectException('Exception');
 		$this->OEmbed->extract('valid');
 	}
 

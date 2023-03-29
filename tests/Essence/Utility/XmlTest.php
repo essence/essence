@@ -6,7 +6,7 @@
  */
 namespace Essence\Utility;
 
-use PHPUnit_Framework_TestCase as TestCase;
+use PHPUnit\Framework\TestCase as TestCase;
 
 
 
@@ -53,7 +53,7 @@ class XmlTest extends TestCase {
 	 *
 	 */
 	public function testParseInvalid() {
-		$this->setExpectedException('Exception');
+		$this->expectException('Exception');
 		Xml::parse($this->invalid);
 	}
 }

@@ -6,8 +6,8 @@
  */
 namespace Essence;
 
-use PHPUnit_Framework_TestCase as TestCase;
-use PHPUnit_Framework_Constraint_IsEqual as IsEqual;
+use PHPUnit\Framework\TestCase as TestCase;
+use PHPUnit\Framework\Constraint\IsEqual as IsEqual;
 use Essence\Media;
 use Essence\Http\Client\Native as NativeHttpClient;
 use Essence\Utility\Url;
@@ -88,7 +88,7 @@ class EssenceTest extends TestCase {
 			'/index.php'
 		];
 
-		$Http = $this->getMock('\\Essence\\Http\\Client');
+		$Http = $this->createMock('\\Essence\\Http\\Client');
 
 		$Http
 			->expects($this->once())
